@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" 
+					  xmlns:ns1="*" skinClass="spark.skins.spark.SkinnableContainerSkin"
+					  xmlns:timeline="com.ithaca.visu.controls.timeline.*"
+					  creationComplete="skinnablecontainer1_creationCompleteHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import com.ithaca.traces.view.IObselComponenet;
+			import com.ithaca.visu.events.MessageEvent;
+			
+			import mx.controls.Alert;
+			import mx.core.ILayoutElement;
+			import mx.events.FlexEvent;
+			
+			public var showButtonNavigation:Boolean = false;
+			
+			public function setShowButtonNavigation(value:Boolean):void
+			{
+				this.buttonPause.visible = this.buttonPlay.visible = value;
+			}
+			public function setStatusPlay(value:Boolean):void
+			{
+				this.buttonPlay.enabled = !value;
+				this.buttonPause.enabled = value;
+			}
+			
+			protected function sessionTimeLineLoggedUser_clickHandler(event:MouseEvent):void
+			{
+			//	Alert.show((event.currentTarget as Group).width.toString(),"");
+				var nbrChild:int = sessionTimeLineLoggedUser.numElements;
+				for(var i:int = 0; i < nbrChild; i++){
+					
+					// get the current layout element
+					var layoutElement:ILayoutElement = sessionTimeLineLoggedUser.getElementAt(i);
+					
+					var elementObsel:IObselComponenet = layoutElement as IObselComponenet;
+					var timeBegin:Number = elementObsel.getBegin();
+					var timeEnd:Number   = elementObsel.getEnd();
+					
+				}
+			}
+
+			protected function skinnablecontainer1_creationCompleteHandler(event:FlexEvent):void
+			{
+				this.buttonPause.visible = this.buttonPlay.visible = this.showButtonNavigation;
+				this.buttonPlay.enabled = false;
+			}
+
+			protected function buttonPlay_clickHandler(event:MouseEvent):void
+			{
+				this.buttonPlay.enabled = false;
+				this.buttonPause.enabled = true;
+				var eventPlay:MessageEvent = new MessageEvent(MessageEvent.CHECK_SEEK_STREAM);
+				eventPlay.message = "play";
+				this.dispatchEvent(eventPlay);
+			}
+
+
+			protected function buttonPause_clickHandler(event:MouseEvent):void
+			{
+				this.buttonPlay.enabled = true;
+				this.buttonPause.enabled = false;
+				var eventPause:MessageEvent = new MessageEvent(MessageEvent.CHECK_SEEK_STREAM);
+				eventPause.message = "pause";
+				this.dispatchEvent(eventPause);
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:Button id="buttonPlay" left="5" label="play" width="60" top="7" click="buttonPlay_clickHandler(event)"/>
+	<s:Button id="buttonPause" left="70" label="pause" width="60" top="7" click="buttonPause_clickHandler(event)"/>
+	
+	<s:Label text="" left="135" top="15"  id="labelCurrentTimeSession" fontWeight="bold"/>
+
+	<s:Group top="3" right="0" height="35" id="sessionTimeLineLoggedUser" click="sessionTimeLineLoggedUser_clickHandler(event)" useHandCursor="true" buttonMode="true">
+		<s:layout>
+			<timeline:TimeLayout id="sessionTimeLineLayout"/>
+		</s:layout>
+	</s:Group>
+</s:SkinnableContainer>

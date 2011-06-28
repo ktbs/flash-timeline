@@ -1,0 +1,264 @@
+/* CSS file */
+@namespace s 		"library://ns.adobe.com/flex/spark";
+@namespace mx 		"library://ns.adobe.com/flex/mx";
+@namespace 			"com.ithaca.visu.controls.*"; 
+@namespace nav 		"com.ithaca.visu.controls.globalNavigation.*"; 
+@namespace core 	"com.ithaca.visu.core.*"; 
+@namespace login	"com.ithaca.visu.controls.login.*";
+@namespace sessions	"com.ithaca.visu.controls.sessions.*";
+@namespace trace	"com.ithaca.visu.controls.timeline.*";
+@namespace obsel	"com.ithaca.traces.view.*";
+@namespace plan 	"com.ithaca.visu.view.session.controls.*";
+@namespace sessionView 	"com.ithaca.visu.view.session.*";
+@namespace user 	"com.ithaca.visu.view.user.*";
+@namespace ws 		"ws.tink.spark.containers.*";
+@namespace documentarisation 		"com.ithaca.documentarisation.*";
+@namespace utils 		"com.ithaca.utils.*";
+@namespace video 		"com.ithaca.visu.view.video.*";
+@namespace components 		"com.ithaca.utils.components.*";
+/*
+components|IconButton
+{
+	skin-class:ClassReference("com.ithaca.utils.components.skins.IconButtonSkin");	
+}
+video|ImageVolume
+{
+	skin-class:ClassReference("com.ithaca.visu.view.video.skins.ImageVolumeSkin");	
+}
+video|VisuVisioAdvanced
+{
+	skin-class:ClassReference("com.ithaca.visu.view.video.skins.VisuVisioAdvancedSkin");	
+}
+video|VideoScreen
+{
+	skin-class:ClassReference("com.ithaca.visu.view.video.skins.VideoScreenSkin");	
+}
+video|VideoItem
+{
+	skin-class:ClassReference("com.ithaca.visu.view.video.skins.VideoItemSkin");	
+}
+video|VideoPanel
+{
+	skin-class:ClassReference("com.ithaca.visu.view.video.skins.VideoPanelSkin");	
+}
+
+sessions|SessionBilanFormView
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SessionBilanFormViewSkin");	
+}
+sessions|SessionEditFormView
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SessionEditFormViewSkin");	
+}
+sessions|SessionSummaryView
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SessionSummaryViewSkin");	
+}
+sessions|SessionDetailView
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SessionDetailViewSkin");	
+}
+sessions|SessionListView
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SessionListViewSkin");	
+}
+sessions|SessionManagerView
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SessionManagerViewSkin");	
+}
+
+utils|VisuToolTip
+{
+	skin-class: ClassReference("com.ithaca.utils.skins.VisuToolTipSkin");
+}
+user|ShareUser
+{
+	skin-class: ClassReference("com.ithaca.visu.view.user.skins.ShareUserSkin");
+}
+*/
+obsel|ObselStich
+{
+	skin-class: ClassReference("com.ithaca.traces.view.skins.ObselStichSkin");
+}
+/*
+documentarisation|RetroDocumentTreeToolTip
+{
+	skinClass: ClassReference("com.ithaca.documentarisation.skins.RetroDocumentTreeToolTipSkin");
+}
+
+documentarisation|RetroDocumentView
+{
+	skinClass: ClassReference("com.ithaca.documentarisation.skins.RetroDocumentViewSkin");
+}
+
+documentarisation|RetroDocumentSegment
+{
+	skinClass: ClassReference("com.ithaca.documentarisation.skins.RetroDocumentSegmentSkin");
+}
+
+documentarisation|SegmentVideo
+{
+	skinClass: ClassReference("com.ithaca.documentarisation.skins.SegmentVideoSkin");
+}
+
+ConnectionLight
+{
+	skinClass: ClassReference("com.ithaca.visu.skins.ConnectionLightSkin");
+}
+
+ConnectedUser
+{
+	skin-class:ClassReference("com.ithaca.visu.skins.ConnectedUserSkin");
+	corner-radius:10px;
+}
+
+SessionHomeElement
+{
+	skin-class:ClassReference("com.ithaca.visu.skins.SessionHomeElementSkin");
+}
+
+AdvancedTextInput
+{
+	skin-class : ClassReference( "com.ithaca.visu.controls.skins.AdvancedTextInputSkin" );
+}
+
+nav|ApplicationMenu
+{
+	skin-class:ClassReference("com.ithaca.visu.skins.ApplicationMenuSkin");	
+}
+core|VisuApplication
+{
+	skin-class:ClassReference("com.ithaca.visu.skins.VisuAppSkin");	
+}
+login|LoginForm
+{
+	skin-class:ClassReference("com.ithaca.visu.skins.LoginFormSkin");	
+}
+sessions|ActivityDetail
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.ActivityDetailSkin");	
+}
+sessions|ActivityDetailB
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.ActivityDetailBSkin");	
+}
+sessions|SessionPlan
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SessionPlanSkin");	
+}
+sessions|SessionPlanB
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SessionPlanBSkin");	
+}
+sessions|ActivityElementDetail
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.StatementSkin");	
+}
+sessions|SharedElementChat
+{
+	skin-class:ClassReference("com.ithaca.visu.controls.sessions.skins.SharedElementChatSkin");	
+}
+
+trace|TraceLine
+{
+	skin-class: ClassReference("com.ithaca.visu.controls.timeline.skins.TraceLineSkin");
+}
+
+trace|TraceLineComment
+{
+	skin-class: ClassReference("com.ithaca.visu.controls.timeline.skins.TraceLineCommentSkin");
+}
+*/
+trace|TraceLineB
+{
+	skin-class: ClassReference("com.ithaca.visu.controls.timeline.skins.TraceLineSkinB");
+}
+/*
+trace|TraceLineElement
+{
+	skin-class: ClassReference("com.ithaca.visu.controls.timeline.skins.TraceLineElementSkin");
+}
+*/
+obsel|ObselLine
+{
+	skin-class: ClassReference("com.ithaca.traces.view.skins.ObselLineSkin");
+}
+
+obsel|ObselMarker
+{
+	skin-class: ClassReference("com.ithaca.traces.view.skins.ObselMarkerSkin");
+}
+
+obsel|ObselComment
+{
+	skin-class: ClassReference("com.ithaca.traces.view.skins.ObselCommentSkin");
+}
+/*
+obsel|ObselSessionOut
+{
+	skin-class: ClassReference("com.ithaca.traces.view.skins.ObselSessionOutSkin");
+}
+
+plan|SessionDetail
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.controls.skins.SessionDetailSkin");
+}
+
+plan|SessionPlanEdit
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.controls.skins.SessionPlanEditSkin");
+}
+
+plan|ActivityDetailEdit
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.controls.skins.ActivityDetailEditSkin");
+}
+
+plan|StatementEdit
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.controls.skins.StatementEditSkin");
+}
+
+plan|KeywordEdit
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.controls.skins.KeywordEditSkin");
+}
+
+plan|DocumentEdit
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.controls.skins.DocumentEditSkin");
+}
+
+plan|UserEdit
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.controls.skins.UserEditSkin");
+}
+
+user|MessageUser
+{
+	skin-class: ClassReference("com.ithaca.visu.view.user.skins.MessageUserSkin");
+}
+
+sessionView|SessionManagement
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.skin.SessionManagementSkin");
+}
+sessionView|SessionViewSalonRetro
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.skin.SessionViewSalonRetroSkin");
+}
+
+sessionView|SessionViewSalonSession
+{
+	skin-class: ClassReference("com.ithaca.visu.view.session.skin.SessionViewSalonSessionSkin");
+}
+
+ws|Form
+{
+	skin-class : ClassReference( "ws.tink.spark.skins.containers.FormSkin" );
+}
+
+ws|FormItem
+{
+	skin-class : ClassReference( "ws.tink.spark.skins.containers.FormItemSkin" );
+}*/

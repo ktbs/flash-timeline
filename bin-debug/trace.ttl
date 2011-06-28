@@ -1,0 +1,72 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ktbs: <http://liris.cnrs.fr/silex/2009/ktbs#> .
+@prefix : <../modelLDT/> .
+
+<obsel-20110426094050808-1-262> a :repositionnementPlayer ;
+  ktbs:hasTrace <trace-20110426094048-1> ;
+  ktbs:hasBegin 1303803650808 ;
+  ktbs:hasEnd 1303803650808 ;
+  ktbs:hasSubject \"1\" ;
+  :hasIdPlayer \"Player1\" ;
+.
+
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ktbs: <http://liris.cnrs.fr/silex/2009/ktbs#> .
+@prefix : <../modelLDT/> .
+
+<obsel-20110426094050999-1-402> a :changementPositionPlayer ;
+  ktbs:hasTrace <trace-20110426094048-1> ;
+  ktbs:hasBegin 1303803650999 ;
+  ktbs:hasEnd 1303803650999 ;
+  ktbs:hasSubject \"1\" ;
+  :hasObselCause \"obsel-20110426094050808-1-262\" ;
+  :hasNewWidth 300 ;
+  :hasIdPlayer \"Player1\" ;
+  :hasNewHeight 286 ;
+  :hasNewY 0 ;
+  :hasNewX 590 ;
+.
+
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ktbs: <http://liris.cnrs.fr/silex/2009/ktbs#> .
+@prefix : <../modelLDT/> .
+
+<obsel-2011042609405101-1-700> a :repositionnementPlayer ;
+  ktbs:hasTrace <trace-20110426094048-1> ;
+  ktbs:hasBegin 1303803651001 ;
+  ktbs:hasEnd 1303803651001 ;
+  ktbs:hasSubject \"1\" ;
+  :hasIdPlayer \"Player2\" ;
+.
+
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ktbs: <http://liris.cnrs.fr/silex/2009/ktbs#> .
+@prefix : <../modelLDT/> .
+
+<obsel-2011042609405101-1-616> a :changementPositionPlayer ;
+  ktbs:hasTrace <trace-20110426094048-1> ;
+  ktbs:hasBegin 1303803651001 ;
+  ktbs:hasEnd 1303803651001 ;
+  ktbs:hasSubject \"1\" ;
+  :hasObselCause \"obsel-2011042609405101-1-700\" ;
+  :hasNewWidth 300 ;
+  :hasIdPlayer \"Player2\" ;
+  :hasNewHeight 286 ;
+  :hasNewY 0 ;
+  :hasNewX 150 ;
+.
+
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ktbs: <http://liris.cnrs.fr/silex/2009/ktbs#> .
+@prefix : <../modelLDT/> .
+
+<obsel-20110426094051611-1-156> a :ouvertureProjet ;
+  ktbs:hasTrace <trace-20110426094048-1> ;
+  ktbs:hasBegin 1303803651611 ;
+  ktbs:hasEnd 1303803651611 ;
+  ktbs:hasSubject \"1\" ;
+  :hasIdProjet \"\" ;
+  :hasDescription \"Résumé du projet de Thibaut. Cool.\" ;
+  :hasTitre \"Le projet de Thibaut\" ;
+  :hasNomUtilisateur \"Amaury\" ;
+.

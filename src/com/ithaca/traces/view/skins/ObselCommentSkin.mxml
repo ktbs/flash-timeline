@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" currentState="normal"
+		currentStateChange="skin1_currentStateChangeHandler(event)"
+		creationComplete="skin1_creationCompleteHandler(event)">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("com.ithaca.traces.view.ObselComment")]
+	</fx:Metadata>
+
+	<fx:Script>
+		<![CDATA[
+			import com.ithaca.traces.model.TraceModel;
+			import com.ithaca.visu.ui.utils.IconEnum;
+			
+			import mx.events.FlexEvent;
+			import mx.events.StateChangeEvent;
+
+ 			protected function skin1_currentStateChangeHandler(event:StateChangeEvent):void
+			{
+				if(this.currentState == "editabled")
+				{
+					if(this.stage != null)
+					{
+						this.stage.focus = textEdit;
+						textEdit.selectAll();						
+					}
+				}else
+				{
+					this.textContent.setStyle("backgroundColor", this.hostComponent.backGroundColor );
+				}
+			} 
+
+
+			protected function skin1_creationCompleteHandler(event:FlexEvent):void
+			{
+				if(this.currentState == "editabled")
+				{
+					this.stage.focus = textEdit;
+					textEdit.selectAll();
+				}else
+				{
+					this.textContent.setStyle("backgroundColor", this.hostComponent.backGroundColor );
+				}
+			}
+
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+		<s:State name="editabled"/>
+	</s:states>
+	<!-- SkinParts
+	name=buttonOk, type=spark.components.Button, required=false
+	name=imageObsel, type=mx.controls.Image, required=false
+	name=buttonDelete, type=spark.components.Button, required=false
+	name=textEdit, type=spark.components.TextArea, required=false
+	name=buttonCancel, type=spark.components.Button, required=false
+	name=textContent, type=spark.components.Label, required=false
+	-->
+	<!--- Defines the appearance of the SkinnableContainer class's background. -->
+	<s:Group width="60" height="20" minHeight="0" minWidth="0" includeIn="normal">
+		<s:Rect id="background" left="0" right="0" top="0" bottom="0" alpha="0.0">
+			<s:fill>
+				<!--- @private -->
+				<s:SolidColor id="bgFill"  color="0xFFFF11"/>
+			</s:fill>
+		</s:Rect>
+		<s:Group left="0" right="0" top="0" bottom="0" minWidth="0" minHeight="0">
+			<mx:Image id="imageObsel" left="0" source="{IconEnum.getIconByTypeObsel(TraceModel.SET_TEXT_COMMENT)}" width="17" height="20"/>
+			<s:Label  id="textContent" text="" maxDisplayedLines="1" lineBreak="toFit" backgroundColor="0xFFFF99" bottom="0" left="18" right="0"/>
+		</s:Group>
+	</s:Group>
+
+	<s:Group width="250" top="-20" height="100" includeIn="editabled" left="-220"> 
+		<s:layout>
+			<s:VerticalLayout gap="4"/>
+		</s:layout>
+		<s:Group width="100%" height="100%">
+			<s:Rect id="fill" radiusX="10"
+					left="2" right="2" top="1" bottom="1">
+				<s:fill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="0xFFFFFF" />
+						<s:GradientEntry color="0xD8D8D8" />
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			<s:Rect id="border" radiusX="10"
+					left="2" right="2" top="0" bottom="0">
+				<s:stroke>
+					<s:LinearGradientStroke rotation="90" weight="1">
+						<s:GradientEntry color="0x000000" 
+										 alpha="0.5625"/>
+						<s:GradientEntry color="0x000000" 
+										 alpha="0.75" />
+					</s:LinearGradientStroke>
+				</s:stroke>
+			</s:Rect>
+			<s:TextArea id="textEdit" bottom="30" left="10" right="10" top="10" />
+			<s:HGroup width="100%" horizontalAlign="center" paddingRight="0" bottom="5" horizontalCenter="0" paddingLeft="0" verticalAlign="middle">
+				<s:Button  label="Supprimer" id="buttonDelete"/>
+				<s:Button  id="buttonOk">
+					<s:label>Valider</s:label>
+				</s:Button>
+				<s:Button id="buttonCancel">
+					<s:label>Annuler</s:label>
+				</s:Button>
+			</s:HGroup>
+		</s:Group>
+<!-- BUTTONS -->
+	</s:Group>
+</s:Skin>
