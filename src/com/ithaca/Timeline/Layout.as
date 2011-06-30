@@ -16,7 +16,7 @@ package com.ithaca.Timeline
 		
 		public var layoutTree : XML = <tlg> 	
 											<tl> 
-												<tl selector="selectorRegexp" field="type" regexp="Message" >
+		 										<tl selector="selectorRegexp" field="type" regexp="Message" >
 													<tl selector="selectorRegexp" field="type" regexp="Send" />
 													<tl selector="selectorRegexp" field="type" regexp="Receive" />
 												</tl>
