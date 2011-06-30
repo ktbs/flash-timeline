@@ -1,4 +1,4 @@
-package Timeline.Skins
+package com.ithaca.Timeline.Skins
 {
 	import spark.components.supportClasses.Skin;
 	
@@ -10,6 +10,6 @@ package Timeline.Skins
 		}
 		
 		// Update the obsel values in the trace
-		protected function UpdateObsel () ;
+		protected function UpdateObsel () {};
 	}
 }

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   creationComplete="init()"
+			   minWidth="955" minHeight="600" xmlns:Timeline="com.ithaca.Timeline.*">
+	<fx:Declarations>
+		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
+	</fx:Declarations>
+	
+	
+	<fx:Script> <![CDATA[
+		import com.ithaca.Timeline.ISelector;
+		import com.ithaca.Timeline.Timeline;
+		import com.ithaca.Timeline.TraceLine;
+		import com.ithaca.Timeline.TraceLineGroup;
+		import com.ithaca.Timeline.selectorRegexp;
+		import com.ithaca.traces.Obsel;
+		import com.ithaca.traces.Trace;
+		
+		import flash.events.*;
+		import flash.net.FileReference;
+		
+		import mx.collections.ArrayCollection;
+		import mx.collections.XMLListCollection;
+		import mx.controls.*;
+		import mx.events.*;
+		
+		private var _xmlLayout			: XMLList =  new XMLList();
+		private var _xmlLayoutDP:XMLListCollection = new XMLListCollection( _xmlLayout );
+		
+		private var timeline:Timeline = new Timeline( );
+		
+		
+		protected function init() : void
+		{
+			urlTTL_ti.text="trace.ttl";
+		}
+		
+		protected function browse(event:MouseEvent):void
+		{
+			
+			var myFileReference :FileReference = new FileReference( ); 
+			
+			myFileReference.addEventListener(Event.SELECT, selectHandler);
+			myFileReference.browse();
+			
+		}
+		private function selectHandler(event:Event):void {
+			var file:FileReference = FileReference(event.target);
+			
+			urlTTL_ti.text = "trace/" + file.name;
+		}
+		
+		
+		protected function loadTTL(event:MouseEvent):void
+		{
+			var loader:URLLoader=new URLLoader();
+			
+			loader.dataFormat=URLLoaderDataFormat.BINARY;
+			loader.addEventListener(Event.COMPLETE, onCallComplete);
+			loader.load(new URLRequest(urlTTL_ti.text));
+			
+			loading_lbl.visible = true;
+		}
+		
+		
+		public function ttlToTrace(ttl:String, theTrace:Trace):void
+		{
+			//we split the ttl on each "." line (kind of an "end of instruction" in ttl (?))
+			var ar:Array = ttl.split("\n.\n");
+			
+			for each (var l: String in ar)
+			{
+				//if(l.substr(0,7) != "@prefix")
+				//{
+				l = l + "\n.\n"; //we (re)add the "." line at the end of instruction (because the "split function" has not include it)
+				
+				//for each "ttl instruction", we create a new obsel and initialize it with the "ttl insctruction" content
+				var obs:Obsel = new Obsel("temp");
+				obs.updateFromRDF(l);
+				
+				//if the initialization from the ttl chunk is ok, we add the obsel to the trace
+				if(obs.type != "temp")
+					theTrace.addObsel(obs);
+				//}
+			}
+		}
+		
+		private function onCallComplete(event:Event):void 
+		{
+			//we init the trace object
+			var loader:URLLoader=event.target as URLLoader;
+			var trace_ttl:String = loader.data;
+			
+			var theTrace:Trace = new Trace(421,urlTTL_ti.text); //Dirty
+			theTrace.autosync = false;
+			
+			ttlToTrace(trace_ttl, theTrace);
+			loading_lbl.visible = false;
+						
+			
+			for each ( var obsel : Obsel in theTrace.obsels )
+			{
+				var traceLines : ArrayCollection = timeline._Timelinelayout.obselLocations( obsel );
+				
+				if ( traceLines )
+					for each (var traceLine : TraceLine in traceLines)
+						traceLine.addObsel( obsel );
+			}
+			
+			updateDisplay();
+		}
+		
+		
+		
+		
+		private function changeEvt(event:Event):void {
+			var theData:String = ""
+			if (event.currentTarget.selectedItem.@data) {
+				theData = " Data: " + event.currentTarget.selectedItem.@data;
+			}
+			if ( event.currentTarget.selectedItem.@type == "traceline" )
+				obselList_dg.dataProvider = TraceLine.traceLineTmp[ event.currentTarget.selectedItem.@uid ]._obsels; 
+			else 
+				obselList_dg.dataProvider = null;
+		}
+		
+		private function itemOpenEvt(event:TreeEvent):void {
+		}
+		
+
+		//temp debug
+		public function updateDisplay () : void
+		{
+			_xmlLayout = new XMLList(<timeline type="timeline" label="Timeline" />);
+			
+			for each ( var tlg : TraceLineGroup in timeline.children )
+			{
+				var newNode:XML = <TraceLineGroup />;
+				newNode.@label = tlg._trace.uri;
+				newNode.@type = "tracelinegroup";
+				for each ( var tl : TraceLine in tlg.children )
+				updateTraceLine( newNode, tl );  
+				_xmlLayout.appendChild( newNode );	
+			}
+			
+			_xmlLayoutDP = new XMLListCollection( _xmlLayout );
+			timeLineTree.dataProvider = _xmlLayoutDP ;
+			
+			function updateTraceLine( currentNode : XML, traceline : TraceLine) : void
+			{
+				var node:XML = <TraceLine />;
+				node.@label = "traceLine " + traceline.title + ", size : " + traceline._obsels.length ;
+				node.@uid = traceline.uid;
+				node.@type = "traceline";
+				for each ( var tl : TraceLine in traceline.children )
+					updateTraceLine( node, tl );
+				currentNode.appendChild( node );
+			}
+			
+		}
+		
+			
+	]]> </fx:Script>
+	
+	
+	<!-- Loading --> 
+	
+	<s:Group x="6" y="10" >
+		<mx:Label y="2" text="TTL :"/>
+		<mx:TextInput id="urlTTL_ti" x="40"  width="194" text="{urlTTL_ti.text}" enabled="true"/>
+		<mx:Button label="Load" id="loadTTL_btn"  click="loadTTL(event)" top="1" left="324"/>
+		<mx:Label x="40" y="30" text="Loading..." id="loading_lbl" visible="false" />	
+		<s:Button x="250" y="1" label="Browse" click="browse(event)"/>
+	</s:Group>
+	
+	
+	<!-- Obsels DataGrid -->
+	<mx:DataGrid id="obselList_dg" x="449" y="10" width="604" height="588" fontFamily="Arial" fontSize="10">
+		<mx:columns>
+			<mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
+			<mx:DataGridColumn dataField="uid" headerText="Uid" width="60"/>
+			<mx:DataGridColumn dataField="type" headerText="Type" width="160"/>
+			<mx:DataGridColumn dataField="begin" headerText="Begin"/>
+			<mx:DataGridColumn dataField="end" headerText="End"/>
+		</mx:columns>
+	</mx:DataGrid>
+	
+	
+	<!-- Tree / Layout -->
+	<mx:Tree id="timeLineTree" x="20" y="90" width="400" height="400" labelField="@label" itemOpen="itemOpenEvt(event);" change="changeEvt(event);" />
+		
+</s:Application>

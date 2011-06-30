@@ -12,7 +12,9 @@
 		<![CDATA[
 			import com.ithaca.traces.Obsel;
 			import com.ithaca.traces.Trace;
+			import com.ithaca.traces.view.ObselComment;
 			import com.ithaca.traces.view.ObselLine;
+			import com.ithaca.traces.view.ObselMarker;
 			import com.ithaca.traces.view.ObselStich;
 			import com.ithaca.visu.controls.timeline.TraceLineB;
 			import com.ithaca.visu.ui.utils.ColorEnum;
@@ -20,6 +22,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.collections.ArrayList;
 			import mx.collections.SortField;
+			import mx.events.FlexEvent;
 		
 			[Bindable]
 			public var startTime:Number;
@@ -45,7 +48,7 @@
 			
 			private var pickCheryClick:Number = 0;
 		//	private var commentTimeLine:TraceLineComment;
-			private var currentSessionDateRecording:Date = null;
+			private var currentSessionDateRecording:Number = 0;
 			private var currentSessionDuration:Number;
 			private var currentSessionId:int;
 			private var DELTA_STICH:int = 20;
@@ -97,6 +100,7 @@
 			
 				loading_lbl.visible = true;
 			}
+			
 				
 			public function ttlToTrace(ttl:String, theTrace:Trace):void
 			{
@@ -135,66 +139,10 @@
 				
 				loading_lbl.visible = false;
 					
-				createSessionTimeLine(100000000,0);
-				//addTraceLineOnViewTraceLineGroup({userId: 1, show: "true", userName:"userName", userAvatar: null, userColor: "red", theTrace.g, listElementTraceLine : listElementsTraceLine },10000,0);
+				createSessionTimeLine(10,0);
+				currentSessionDateRecording = theTrace.obsels[0].begin;
 				addTraceLine( 1, "userName", null, ColorEnum.getColorByCode("0") , theTrace);
-				
-		/* 		//we store the trace object along with some metada that we have to construct		
-				var subTraces:ArrayCollection = ttl_list.selectedItem.subTraces;
-				subTraces.removeAll();
-			
-				//we calculate the gbegin and end of each trace contained in the TTL
-				for each(var obs:Obsel in theTrace.obsels)
-				{
-					if(obs.traceUriFromRdf)
-					{
-						var alreadyExist:Boolean = false;
-						var size:uint = 0;
-						for each(var tr:Object in subTraces)
-							if(tr.hasOwnProperty("uri") && tr.uri == obs.traceUriFromRdf)
-							{
-								tr["begin"] = Math.min(obs.begin, tr["begin"]);
-								tr["end"] = Math.max(obs.end, tr["end"]);
-								tr["size"] = (tr["size"] as uint) + 1; 
-								alreadyExist = true;
-								break;
-							}
-			
-						if(alreadyExist == false)
-						{
-							subTraces.addItem({"uri":obs.traceUriFromRdf, "activated":true, "begin":obs.begin, "end":obs.end, "size":1});
-						}
-					}
-				}
-			
-				//we create a new subtrace that will contain LDTSession Obsel, this obsel correspond to the different trace we have in the TTL
-				var globalBegin:Number = subTraces[0]["begin"];
-				var globalEnd:Number = subTraces[0]["end"];
-				var sessionSubTraceUri:String = encodeURI("Sessions");
-				for each(var subTrace:Object in subTraces)
-				{
-					var subTraceUri:String = (subTrace["uri"] as String);
-					var theObsel:Obsel = new Obsel("sessionLDT",0,"",{"traceUid":subTraceUri.substr(1,subTraceUri.length-2)}, subTrace["begin"], subTrace["end"]);
-					theObsel.traceUriFromRdf = sessionSubTraceUri;
-			
-					theTrace.addObsel(theObsel);
-				}
-			
-				subTraces.addItem({"uri":sessionSubTraceUri, "activated":true, "begin":globalBegin, "end":globalEnd});
-			
-				for each(var ttl:Object in arTTL)
-					if(ttl.hasOwnProperty("title") && ttl.title == titleTTL_ti.text) //Dirty
-					{
-						ttl["trace"] = theTrace;
-						ttl["subTraces"] = subTraces;
-						break;
-					} */
-	
-				//UI Update
-				
 			}
-			
-		
 				
 			private function createSessionTimeLine(durationSession:Number,startSession:Number):void
 			{
@@ -243,14 +191,21 @@
 				
 				public function addTraceLine(userId:int, userName:String, userAvatar:String, userColor:String, thetrace:Trace):void
 				{
+					var markersArray : ArrayCollection = new ArrayCollection();
+					for each (var o:Obsel in thetrace.obsels) {
+						var tmpObselMarker : ObselComment = new ObselComment();
+						tmpObselMarker.setBegin( o.begin  );
+						tmpObselMarker.setEnd( o.end );
+						markersArray.addItem( tmpObselMarker );
+					}
 					
 					var listElementsTraceLine:ArrayList = new ArrayList();
-					listElementsTraceLine.addItem({id: 0, titleTraceLine: "Instructions", colorTraceLine : 454545, visible : false, listObsel:thetrace.obsels, added : false});
+					listElementsTraceLine.addItem({id: 0, titleTraceLine: "Instructions", colorTraceLine : 454545, visible : false, listObsel:markersArray, added : false});
 					listElementsTraceLine.addItem({id: 1, titleTraceLine: "Mots-Clés", colorTraceLine : 454545, visible : false, listObsel: new ArrayCollection(), added : false});
 					listElementsTraceLine.addItem({id: 2, titleTraceLine: "Documents", colorTraceLine : 454545, visible : false, listObsel: new ArrayCollection(), added : false});
 					listElementsTraceLine.addItem({id: 3, titleTraceLine: "Messages", colorTraceLine : 454545, visible : false, listObsel: new ArrayCollection(), added : false});
 					listElementsTraceLine.addItem({id: 4, titleTraceLine: "Marqueurs", colorTraceLine : 454545, visible : false, listObsel: new ArrayCollection(), added : true});
-					addTraceLineOnViewTraceLineGroup({userId: userId, show: false, userName:userName, userAvatar: userAvatar, userColor: userColor, listTitleObsels: new ArrayCollection(), listElementTraceLine : listElementsTraceLine },1000,0);	
+					addTraceLineOnViewTraceLineGroup({userId: userId, show: false, userName:userName, userAvatar: userAvatar, userColor: userColor, listTitleObsels: new ArrayCollection(), listElementTraceLine : listElementsTraceLine },10,thetrace.obsels[0].begin);	
 					
 				}
 				
@@ -294,6 +249,39 @@
 					traceLineObj.show = true;
 				}
 			
+			
+			protected function durationSessionSlider_valueCommitHandler(event:FlexEvent):void
+			{
+				var hSlider:HSlider = event.currentTarget as HSlider;
+				var duration:int = hSlider.value;
+				// TODO gestion time the session
+				this.sessionTimeLine.sessionTimeLineLayout.durationSession = duration;
+				var nbrTraceLine:int = this.traceLineGroup.numElements;
+				for(var nTraceLine:int = 0; nTraceLine < nbrTraceLine; nTraceLine++)
+				{
+					var traceLine:TraceLineB = this.traceLineGroup.getElementAt(nTraceLine) as TraceLineB;
+					traceLine.durationSession = duration;
+				}	
+			//	this.commentTimeLine.durationSession = duration;
+			}
+			
+			
+			protected function startTimeSessionSlider_valueCommitHandler(event:FlexEvent):void
+			{
+				var hSlider:HSlider = event.currentTarget as HSlider;
+				var startTime:Number = hSlider.value;
+				// TODO gestion time the session`
+				var startTimeSessionTimeLayout:Number = startTime -  this.currentSessionDateRecording;
+				this.sessionTimeLine.sessionTimeLineLayout.startTime = startTimeSessionTimeLayout;
+				var nbrTraceLine:int = this.traceLineGroup.numElements;
+				for(var nTraceLine:int = 0; nTraceLine < nbrTraceLine; nTraceLine++)
+				{
+					var traceLine:TraceLineB = this.traceLineGroup.getElementAt(nTraceLine) as TraceLineB;
+					traceLine.startTimeSession = startTime;
+				}
+			//	this.commentTimeLine.startTimeSession = startTime;
+			}
+			
 		
 		]]>
 	</fx:Script>
@@ -327,11 +315,11 @@
 			 <s:HGroup>
 				 <s:Label text="Zoom: " />
 				 <s:HSlider id="durationSessionSlider" 						   
-							liveDragging="true" width="15%" enabled="false"  />
+							liveDragging="true" width="15%" valueCommit="durationSessionSlider_valueCommitHandler(event)" enabled="true"/>
 				 
 				 <s:Label text="Position: "/>
 				 <s:HSlider id="startTimeSessionSlider" 
-							liveDragging="true" width="70%" enabled="false" />
+							liveDragging="true" width="70%" valueCommit="startTimeSessionSlider_valueCommitHandler(event)" enabled="true"/>
 			 </s:HGroup>
 		 </s:VGroup>
 	 </s:Panel>
