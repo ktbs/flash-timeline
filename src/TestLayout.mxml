@@ -102,7 +102,7 @@
 			
 			for each ( var obsel : Obsel in theTrace.obsels )
 			{
-				var traceLines : ArrayCollection = timeline._Timelinelayout.obselLocations( obsel );
+				var traceLines : ArrayCollection = timeline._Timelinelayout.findLocations( obsel );
 				
 				if ( traceLines )
 					for each (var traceLine : TraceLine in traceLines)
