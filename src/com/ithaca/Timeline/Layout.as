@@ -66,6 +66,7 @@ package com.ithaca.Timeline
 						if ( newNode is TraceLine )
 						{
 							(newNode as TraceLine)._splitter = "";
+							(newNode as TraceLine).title  =  "regexp : " + "^"+ obsel[node.splitBy()] +"$";
 							(newNode as TraceLine)._selector =  new selectorRegexp( "^"+ obsel[node.splitBy()] +"$" , node.splitBy() );
 						} 						
 						
