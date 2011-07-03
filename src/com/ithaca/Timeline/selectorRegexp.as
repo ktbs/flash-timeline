@@ -19,12 +19,12 @@ package com.ithaca.Timeline
 			_regexp = new RegExp( value );
 		}
 
-		public function getValidObsels(obselsArray:Array):Array
+		public function getMatchingObsels(obselsArray:Array):Array
 		{
 			return null;
 		}
 		
-		public function isObselValid(obsel:Obsel):Boolean
+		public function isObselMatching(obsel:Obsel):Boolean
 		{
 			return _regexp.test( obsel[field] );
 		}

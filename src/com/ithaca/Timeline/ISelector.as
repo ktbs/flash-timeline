@@ -4,7 +4,7 @@ package com.ithaca.Timeline
 
 	public interface ISelector
 	{
-		function isObselValid( obsel : Obsel ) : Boolean ;
-		function getValidObsels ( obselsArray : Array ) : Array ; 
+		function isObselMatching( obsel : Obsel ) : Boolean ;
+		function getMatchingObsels ( obselsArray : Array ) : Array ; 
 	}
 }

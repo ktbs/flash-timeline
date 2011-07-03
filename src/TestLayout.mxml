@@ -11,6 +11,7 @@
 	
 	<fx:Script> <![CDATA[
 		import com.ithaca.Timeline.ISelector;
+		import com.ithaca.Timeline.LayoutNode;
 		import com.ithaca.Timeline.Timeline;
 		import com.ithaca.Timeline.TraceLine;
 		import com.ithaca.Timeline.TraceLineGroup;
@@ -135,32 +136,31 @@
 		{
 			_xmlLayout = new XMLList(<timeline type="timeline" label="Timeline" />);
 			
-			for each ( var tlg : TraceLineGroup in timeline.children )
+			for each ( var tlg : LayoutNode in timeline._Root.children )
 			{
 				var newNode:XML = <TraceLineGroup />;
-				newNode.@label = tlg._trace.uri;
+				newNode.@label = (tlg.value as TraceLineGroup)._trace.uri;
 				newNode.@type = "tracelinegroup";
-				for each ( var tl : TraceLine in tlg.children )
-				updateTraceLine( newNode, tl );  
+				for each ( var tl : LayoutNode in tlg.children )
+					updateTraceLine( newNode, tl );  
 				_xmlLayout.appendChild( newNode );	
 			}
 			
 			_xmlLayoutDP = new XMLListCollection( _xmlLayout );
 			timeLineTree.dataProvider = _xmlLayoutDP ;
 			
-			function updateTraceLine( currentNode : XML, traceline : TraceLine) : void
+			function updateTraceLine( currentNode : XML, node : LayoutNode) : void
 			{
-				var node:XML = <TraceLine />;
-				node.@label = "traceLine " + traceline.title + ", size : " + traceline._obsels.length ;
-				node.@uid = traceline.uid;
-				node.@type = "traceline";
-				for each ( var tl : TraceLine in traceline.children )
-					updateTraceLine( node, tl );
-				currentNode.appendChild( node );
-			}
-			
-		}
-		
+				var nodeXml:XML = <TraceLine />;
+				var traceline : TraceLine = node.value as TraceLine;
+				nodeXml.@label = "traceLine " + traceline.title + ", size : " + traceline._obsels.length ;
+				nodeXml.@uid = traceline.uid;
+				nodeXml.@type = "traceline";
+				for each ( var child : LayoutNode in node.children )
+					updateTraceLine( nodeXml, child );
+				currentNode.appendChild( nodeXml );
+			}			
+		}		
 			
 	]]> </fx:Script>
 	
