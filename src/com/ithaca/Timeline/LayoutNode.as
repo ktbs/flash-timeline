@@ -6,7 +6,8 @@ package com.ithaca.Timeline
 	import mx.collections.ArrayCollection;
 	
 	public class LayoutNode
-	{		
+	{
+		public var _splitter 	: String = null ;
 		private var _parent		: LayoutNode ;
 		private var _children 	: ArrayCollection = new ArrayCollection() ;
 		private var _layout 	: XML ;
@@ -25,5 +26,6 @@ package com.ithaca.Timeline
 		public function get layout ( ) : XML	{ return _layout;	} 
 
 		public function addChild ( child : LayoutNode ) : void { child.parent = this; _children.addItem( child ); }
+		public function splitBy ( ) : String 	{ return _splitter; }
 	}
 }
