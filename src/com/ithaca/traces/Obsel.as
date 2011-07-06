@@ -62,7 +62,7 @@
  */
 package com.ithaca.traces
 {
-	import com.ithaca.visu.model.vo.ObselVO;
+	//import com.ithaca.visu.model.vo.ObselVO;
 	
 	import com.ithaca.traces.model.vo.SGBDObsel;
 	

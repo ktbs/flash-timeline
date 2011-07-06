@@ -10,16 +10,15 @@
 	
 	
 	<fx:Script> <![CDATA[
-		import com.ithaca.Timeline.ISelector;
-		import com.ithaca.Timeline.LayoutModifier;
-		import com.ithaca.Timeline.LayoutNode;
-		import com.ithaca.Timeline.Timeline;
-		import com.ithaca.Timeline.TraceLine;
-		import com.ithaca.Timeline.TraceLineGroup;
-		import com.ithaca.Timeline.selectorRegexp;
+		import com.ithaca.timeline.ISelector;
+		import com.ithaca.timeline.LayoutModifier;
+		import com.ithaca.timeline.LayoutNode;
+		import com.ithaca.timeline.Timeline;
+		import com.ithaca.timeline.TraceLine;
+		import com.ithaca.timeline.TraceLineGroup;
+		import com.ithaca.timeline.SelectorRegexp;
 		import com.ithaca.traces.Obsel;
 		import com.ithaca.traces.Trace;
-		import com.ithaca.visu.controls.timeline.TraceLineB;
 		
 		import flash.events.*;
 		import flash.net.FileReference;
@@ -35,15 +34,15 @@
 		public var layoutTree : XML = <root>
 										<tlg> 	
 											<tl> 
-		 										<tl selector="selectorRegexp" field="type" regexp="Message" filter="false">
-													<tl selector="selectorRegexp" field="type" regexp="Send" />
-													<tl selector="selectorRegexp" field="type" regexp="Receive" />
-													<tl selector="selectorRegexp" field="type" regexp="Document" />
+		 										<tl selector="SelectorRegexp" field="type" regexp="Message" filter="false">
+													<tl selector="SelectorRegexp" field="type" regexp="Send" />
+													<tl selector="SelectorRegexp" field="type" regexp="Receive" />
+													<tl selector="SelectorRegexp" field="type" regexp="Document" />
 												</tl>
-												<tl selector="selectorRegexp" field="type" regexp="Document" />
-												<tl selector="selectorRegexp" field="type" regexp="Marker" />
-												<tl selector="selectorRegexp" field="type" regexp="Instructions" />
-												<tl selector="selectorRegexp" field="type" regexp="Keyword" />
+												<tl selector="SelectorRegexp" field="type" regexp="Document" />
+												<tl selector="SelectorRegexp" field="type" regexp="Marker" />
+												<tl selector="SelectorRegexp" field="type" regexp="Instructions" />
+												<tl selector="SelectorRegexp" field="type" regexp="Keyword" />
 											</tl>
 											<modifier splitter="type" />
 										</tlg>
