@@ -11,6 +11,7 @@
 	
 	<fx:Script> <![CDATA[
 		import com.ithaca.Timeline.ISelector;
+		import com.ithaca.Timeline.LayoutModifier;
 		import com.ithaca.Timeline.LayoutNode;
 		import com.ithaca.Timeline.Timeline;
 		import com.ithaca.Timeline.TraceLine;
@@ -18,6 +19,7 @@
 		import com.ithaca.Timeline.selectorRegexp;
 		import com.ithaca.traces.Obsel;
 		import com.ithaca.traces.Trace;
+		import com.ithaca.visu.controls.timeline.TraceLineB;
 		
 		import flash.events.*;
 		import flash.net.FileReference;
@@ -30,9 +32,25 @@
 		private var _xmlLayout			: XMLList =  new XMLList();
 		private var _xmlLayoutDP:XMLListCollection = new XMLListCollection( _xmlLayout );
 		
-		private var timeline:Timeline = new Timeline( );
+		public var layoutTree : XML = <root>
+										<tlg> 	
+											<tl> 
+		 										<tl selector="selectorRegexp" field="type" regexp="Message" filter="false">
+													<tl selector="selectorRegexp" field="type" regexp="Send" />
+													<tl selector="selectorRegexp" field="type" regexp="Receive" />
+													<tl selector="selectorRegexp" field="type" regexp="Document" />
+												</tl>
+												<tl selector="selectorRegexp" field="type" regexp="Document" />
+												<tl selector="selectorRegexp" field="type" regexp="Marker" />
+												<tl selector="selectorRegexp" field="type" regexp="Instructions" />
+												<tl selector="selectorRegexp" field="type" regexp="Keyword" />
+											</tl>
+											<modifier splitter="type" />
+										</tlg>
+									</root>;
 		
-		
+		private var timeline:Timeline = new Timeline( layoutTree );
+				
 		protected function init() : void
 		{
 			urlTTL_ti.text="trace.ttl";
@@ -63,6 +81,11 @@
 			loader.load(new URLRequest(urlTTL_ti.text));
 			
 			loading_lbl.visible = true;
+		}
+		
+		protected function testLayout(event:MouseEvent):void
+		{
+			Trace.trace(urlTTL_ti.text, { email: "mail", surname: "firstname", name: "lastName" });
 		}
 		
 		
@@ -98,23 +121,12 @@
 			theTrace.autosync = false;
 			
 			ttlToTrace(trace_ttl, theTrace);
-			loading_lbl.visible = false;
-						
+			loading_lbl.visible = false;		
 			
-			for each ( var obsel : Obsel in theTrace.obsels )
-			{
-				var traceLines : ArrayCollection = timeline._Timelinelayout.findLocations( obsel );
-				
-				if ( traceLines )
-					for each (var traceLine : TraceLine in traceLines)
-						traceLine.addObsel( obsel );
-			}
+			timeline.addTrace(theTrace);
 			
 			updateDisplay();
 		}
-		
-		
-		
 		
 		private function changeEvt(event:Event):void {
 			var theData:String = ""
@@ -136,7 +148,7 @@
 		{
 			_xmlLayout = new XMLList(<timeline type="timeline" label="Timeline" />);
 			
-			for each ( var tlg : LayoutNode in timeline._Root.children )
+			for each ( var tlg : LayoutNode in timeline.tracelineGroups)
 			{
 				var newNode:XML = <TraceLineGroup />;
 				newNode.@label = (tlg.value as TraceLineGroup)._trace.uri;
@@ -152,10 +164,21 @@
 			function updateTraceLine( currentNode : XML, node : LayoutNode) : void
 			{
 				var nodeXml:XML = <TraceLine />;
-				var traceline : TraceLine = node.value as TraceLine;
-				nodeXml.@label = "traceLine " + traceline.title + ", size : " + traceline._obsels.length ;
-				nodeXml.@uid = traceline.uid;
-				nodeXml.@type = "traceline";
+				
+				if (node.value is TraceLine)
+				{
+					var traceline : TraceLine = node.value as TraceLine;
+					nodeXml.@label = "traceLine " + traceline.title + ", size : " + traceline._obsels.length ;
+					nodeXml.@uid = traceline.uid;
+					nodeXml.@type = "traceline";
+				}
+				else
+				{
+					var modifier : LayoutModifier = node.value as LayoutModifier;
+					nodeXml.@label = "modifier " + modifier._splitter  ;				
+					nodeXml.@type = "modifier";
+				}
+				
 				for each ( var child : LayoutNode in node.children )
 					updateTraceLine( nodeXml, child );
 				currentNode.appendChild( nodeXml );
@@ -173,6 +196,7 @@
 		<mx:Button label="Load" id="loadTTL_btn"  click="loadTTL(event)" top="1" left="324"/>
 		<mx:Label x="40" y="30" text="Loading..." id="loading_lbl" visible="false" />	
 		<s:Button x="250" y="1" label="Browse" click="browse(event)"/>
+		<s:Button x="400" y="1" label="test" click="testLayout(event)"/>
 	</s:Group>
 	
 	

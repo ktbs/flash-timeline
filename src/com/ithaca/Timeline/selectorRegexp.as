@@ -29,5 +29,14 @@ package com.ithaca.Timeline
 			return _regexp.test( obsel[field] );
 		}
 		
+		public function isEqual( selector : ISelector) : Boolean
+		{
+			if (selector is selectorRegexp)
+			{
+				return ( (selector as selectorRegexp).field == field) 
+						&& ( (selector as selectorRegexp)._regexp.source == _regexp.source );
+			}
+			return false
+		}
 	}
 }

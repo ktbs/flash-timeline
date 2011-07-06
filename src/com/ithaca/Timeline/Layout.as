@@ -2,7 +2,10 @@ package com.ithaca.Timeline
 {
 	import com.ithaca.traces.Obsel;
 	import com.ithaca.traces.Trace;
+	import com.ithaca.visu.controls.timeline.TraceLineB;
+	import mx.core.LayoutElementUIComponentUtils;
 	
+	import mx.events.CollectionEvent;
 	import flash.utils.getDefinitionByName;
 	
 	import mx.collections.ArrayCollection;
@@ -11,150 +14,175 @@ package com.ithaca.Timeline
 	{
 		public static const TRACELINEGROUP: String = "tlg";
 		public static const TRACELINE: String = "tl";
+		public static const MODIFIER: String = "modifier";
+		public static const ROOT: String = "root";
+
+		private var 	_Root 		: LayoutNode = null; 
 		
-		public var layoutTree : XML = <tlg> 	
-											<tl> 
-		 										<tl selector="selectorRegexp" field="type" regexp="Message" filter="false">
-													<tl selector="selectorRegexp" field="type" regexp="Send" />
-													<tl selector="selectorRegexp" field="type" regexp="Receive" />
-													<tl selector="selectorRegexp" field="type" regexp="Document" />
-												</tl>
-												<tl selector="selectorRegexp" field="type" regexp="Document" />
-												<tl selector="selectorRegexp" field="type" regexp="Marker" />
-												<tl selector="selectorRegexp" field="type" regexp="Instructions" />
-												<tl selector="selectorRegexp" field="type" regexp="Keyword" />
-												<tl splitter="type" />																							
-											</tl>
-									 </tlg>;
-		
-		public var layoutTree1 : XML = <root>
-											<spliter class="ByField" param="traceUri" >
-												<tl > 
-													<tl selector="selectorRegexp" field="type" regexp="Message" >
-														<tl selector="selectorRegexp" field="type" regexp="Send" />
-														<tl selector="selectorRegexp" field="type" regexp="Receive" />
-														<tl selector="selectorRegexp" field="type" regexp="Document" />
-													</tl>
-													<tl selector="selectorRegexp" field="type" regexp="Document" />
-													<tl selector="selectorRegexp" field="type" regexp="Marker" />
-													<tl selector="selectorRegexp" field="type" regexp="Instructions" />
-													<tl selector="selectorRegexp" field="type" regexp="Keyword" />	
-													<tl>
-														<spliter class="ByField" param="type" />
-													</tl>
-												</tl>
-											</spliter>
-										 </root>;
-		
-		private var timeline : Timeline; 
-		
-		public function Layout( tl : Timeline )
-		{
-			timeline = tl;
+		public function Layout( xmlLayout : XML = null)
+		{			
+			_Root = new LayoutNode();
+			_Root.layout = xmlLayout;
+			
 		}
 		
-		public function findLocations( obsel : Obsel  ) : ArrayCollection 
-		{
-			var locations : ArrayCollection = new ArrayCollection();
-			
-			if ( findObselLocations(obsel, timeline._Root ) )
-				return locations;
 		
-			return null;
+		public function get tracelineGroups() : ArrayCollection { return _Root.children; }
+		
+		public function addTracelineGroupTree (  node : LayoutNode,  index : int = -1) : void
+		{
+			if ( node )
+				_Root.addChild(  node , index );	
+		}
+		
+		public function removeTracelineGroup ( index : int )  : Boolean  
+		{		
+			return ( tracelineGroups.removeItemAt( index ) != null);	
+		}
+		
+		public function moveTracelineGroup ( fromIndex : int, toIndex : int )  :void 
+		{
+			var temp : TraceLineGroup = tracelineGroups.removeItemAt( fromIndex ) as TraceLineGroup;
+			tracelineGroups.addItemAt( temp, toIndex );
+		}
+		
+		public function addTraceline(  traceline : TraceLine , parent : LayoutNode, xmlLayout : XML = null ) :  LayoutNode
+		{
+			var newNode : LayoutNode = new LayoutNode();				
+			newNode.layout = null;	
+			newNode.value = traceline
 			
-			function findObselLocations( obsel : Obsel, node : LayoutNode  ) : Boolean
+			parent.addChild( newNode );
+			
+			return newNode;
+		}
+		
+		public function removeTraceline( ): Boolean 
+		{ 
+			return true; 
+		}
+		
+		public function moveTraceline( destination : Object ):void {}
+	
+		public function createTracelineGroupTree ( trac : Trace ) : LayoutNode 
+		{	
+			var treeLayout : XML = new XML( TRACELINEGROUP );
+			
+			for each (var child : XML in _Root.layout.children() )
 			{
-				var obselMatches : Boolean = false ;
-				var childAccept : Boolean = false;
-				
-				if ( node.value is TraceLineGroup && (node.value as TraceLineGroup).traceUri != obsel.traceUri )
-					return false;
-								
-				if ( node.value is TraceLine && (node.value as TraceLine).acceptObsel( obsel ) ) 
+				if ( child.hasOwnProperty('@source') )
 				{
-					obselMatches = true;
-					locations.addItem( node.value );
-				}
-				
-				if ( !node.filter || obselMatches == true ) 
-					{
-					for each ( var child : LayoutNode in node.children )
-						if (findObselLocations(obsel, child ) )
-						{						
-							childAccept = true;
-						//	break;	
+					if ( child.@source == trac.uri )
+						{
+							treeLayout = child;
+							break;
 						}
-					}
-				
-				if ( !childAccept && node.splitBy() )
-				{
-					var  newNode : LayoutNode = createTree(  obsel, node.layout );
-					node.addChild( newNode );
-					if ( newNode.value is TraceLine )
-					{			
-					//	newNode._splitter = null;
-						(newNode.value as TraceLine).title  =  "regexp : " + "^"+ obsel[node.splitBy()] +"$";
-						(newNode.value as TraceLine)._selector =  new selectorRegexp( "^"+ obsel[node.splitBy()] +"$" , node.splitBy() );
-					} 						
-					
-					childAccept = true;
-					findObselLocations(obsel, newNode );						
 				}
-				
-				return obselMatches || childAccept;
+				else
+					treeLayout = child;
 			}
+			
+			return  createTree(treeLayout, trac );			
 		}
 		
-		
-		private function createTree ( obsel : Obsel, xmlLayout : XML ) : LayoutNode 
+		static public function getTrace (node : LayoutNode ) : Trace
 		{
-			var newNode : LayoutNode;
+			while (node && !(node.value is TraceLineGroup))
+				node = node.parent;
+			
+			if (node)
+				return ((node.value) as TraceLineGroup)._trace;
+				
+			return null;
+		}
+		
+		static public function createTree ( xmlLayout : XML , trac : Trace) : LayoutNode 
+		{
+			var newNode : LayoutNode = null ;
 			
 			switch( xmlLayout.localName() )
-			{
+			{				
 				case TRACELINEGROUP :
+				{
+					newNode = new LayoutNode();
+					newNode.layout = xmlLayout;			
+					newNode.value =  new TraceLineGroup ( trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri );									
+					
+					break;
+				}
+				
+				case MODIFIER :
 				{
 					newNode = new LayoutNode();
 					newNode.layout = xmlLayout;
 					
-					newNode.value =  new TraceLineGroup ();
-					(newNode.value  as TraceLineGroup)._trace = obsel.trace;
+					newNode.value =  new LayoutModifier ( );
+					if ( xmlLayout.hasOwnProperty('@splitter') )									
+						(newNode.value  as LayoutModifier)._splitter =  xmlLayout.@splitter ;	
+							
 					
-					break;
-				}
+					return newNode;
+				}				
+				
 				case TRACELINE :	
 				{
-					newNode = new LayoutNode();				
-					newNode.layout = xmlLayout;
-					newNode.value = new TraceLine();
+					var tlTitle : String;
+					var tlSelector : ISelector;
+					var tlSource : String;
 					
 					if ( xmlLayout.hasOwnProperty('@selector') )
 					{
 						if  ( xmlLayout.@selector == "selectorRegexp")
 						{
-							(newNode.value as TraceLine).title = "regexp : " + xmlLayout.@regexp;
-							(newNode.value as TraceLine)._selector = new selectorRegexp(xmlLayout.@regexp, xmlLayout.@field);
+							tlTitle = "regexp : " + xmlLayout.@regexp;
+							tlSelector = new selectorRegexp(xmlLayout.@regexp, xmlLayout.@field);
 						}
 						else
 						{
 							var selectorClass:Class = getDefinitionByName( xmlLayout.@selector ) as Class;
-							(newNode.value as TraceLine).title = xmlLayout.@selector;							
-							(newNode.value as TraceLine)._selector = new selectorClass();
+							tlTitle = xmlLayout.@selector;							
+							tlSelector = new selectorClass();
 						}
 					}
 					
-					if ( xmlLayout.hasOwnProperty('@filter') )					
-						newNode.filter =  ( xmlLayout.@filter == "true") ;					
-					
-					if ( xmlLayout.hasOwnProperty('@splitter') )									
-						newNode._splitter =  xmlLayout.@splitter ;
+					newNode = new LayoutNode();				
+					newNode.layout = xmlLayout;
+					newNode.value = new TraceLine( tlTitle, tlSelector, tlSource );				
+
 					break;
 				}			
-			}
+			}			
 			
 			for each ( var child : XML in xmlLayout.children() )
-				newNode.addChild( createTree( obsel, child ) )
-			
+			{
+					var newTree : LayoutNode = createTree( child, trac );
+					newNode.addChild( newTree );	
+					
+					var collec : ArrayCollection;
+					
+						if (child.hasOwnProperty('@source') && child.@source == "parent" )
+						{
+							(newNode.value as TraceLine).source = xmlLayout.@source;						
+							if (newNode.value is TraceLine)
+								collec = (newNode.value as TraceLine)._obsels;
+							else if (newNode.value is TraceLineGroup)
+								collec = (newNode.value as TraceLineGroup)._trace.obsels;							
+						}
+						else						
+							collec  = trac.obsels;		
+							
+					if ( newTree.value is TraceLine )
+					{	
+						collec.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree.value as TraceLine).onSourceChange );
+						(newTree.value as TraceLine).resetObselCollection( collec );
+					} 
+					else if ( newTree.value is LayoutModifier )
+					{
+						collec.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree.value as LayoutModifier).onSourceChange );
+						(newTree.value as LayoutModifier).resetObselCollection( collec );
+					}				
+			}
+						
 			return newNode;
 		}		
 	}

@@ -12,7 +12,5 @@ package com.ithaca.Timeline
 		
 		// Display
 		public function getParameteredSkin( obsel : Obsel, traceline : TraceLine ) :  ObselSkin {return null;};
-		
-		
 	}
 }

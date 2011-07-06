@@ -6,5 +6,6 @@ package com.ithaca.Timeline
 	{
 		function isObselMatching( obsel : Obsel ) : Boolean ;
 		function getMatchingObsels ( obselsArray : Array ) : Array ; 
+		function isEqual (selector : ISelector  ) : Boolean ;
 	}
 }

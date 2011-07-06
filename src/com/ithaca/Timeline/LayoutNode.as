@@ -1,22 +1,26 @@
 package com.ithaca.Timeline
 {
-	
-	import com.ithaca.traces.Obsel;
-	
 	import mx.collections.ArrayCollection;
 	
 	public class LayoutNode
 	{
-		public var _splitter 	: String = null ;
+		private var _value		: Object ; 
+		
 		private var _parent		: LayoutNode ;
 		private var _children 	: ArrayCollection = new ArrayCollection() ;
-		private var _layout 	: XML ;
-		public var value		: Object ; 
-		public var filter		: Boolean = false;
+		private var _layout 	: XML ;		
 		
 		public function LayoutNode( p : LayoutNode = null)
 		{
 			parent = p ;
+		}
+		
+		public function get value() : Object { return _value; }
+		public function set value(val:Object): void 
+		{ 
+			_value = val; 
+			if (_value.hasOwnProperty("node") )
+				_value.node = this;			
 		}
 		
 		public function get parent() : LayoutNode { return _parent; }
@@ -25,7 +29,27 @@ package com.ithaca.Timeline
 		public function set layout ( layoutXML : XML ) : void { _layout = layoutXML; }
 		public function get layout ( ) : XML	{ return _layout;	} 
 
-		public function addChild ( child : LayoutNode ) : void { child.parent = this; _children.addItem( child ); }
-		public function splitBy ( ) : String 	{ return _splitter; }
+		public function addChild ( child : LayoutNode, index : int = -1 ) : void 
+		{ 
+			child.parent = this; 
+			if (index < 0 ) 
+				_children.addItem( child ); 
+			else  
+				_children.addItemAt( child , index );
+		}
+		
+		
+		public function getTraceLineGroup() : TraceLineGroup
+		{
+			var nodeCursor : LayoutNode = this;
+			
+			while ( nodeCursor && !(nodeCursor.value is TraceLineGroup) )
+				nodeCursor = nodeCursor.parent;
+			
+			if (nodeCursor)			
+				return (nodeCursor.value as TraceLineGroup);
+			else
+				return null;
+		}
 	}
 }
