@@ -4,7 +4,6 @@ package  com.ithaca.timeline
 	{
 		import com.ithaca.traces.Obsel;
 		import com.ithaca.traces.Trace;
-		import com.ithaca.visu.controls.timeline.TraceLineB;
 		import mx.collections.ArrayCollection;
 		import mx.collections.errors.CollectionViewError;
 		import mx.events.CollectionEvent;

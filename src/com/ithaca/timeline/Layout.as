@@ -1,14 +1,9 @@
 package com.ithaca.timeline
 {
-	import com.ithaca.traces.Obsel;
 	import com.ithaca.traces.Trace;
-	import com.ithaca.visu.controls.timeline.TraceLineB;
-	import mx.core.LayoutElementUIComponentUtils;
-	
-	import mx.events.CollectionEvent;
 	import flash.utils.getDefinitionByName;
-	
 	import mx.collections.ArrayCollection;
+	import mx.events.CollectionEvent;	
 
 	public class Layout
 	{
