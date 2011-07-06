@@ -1,11 +1,9 @@
 package com.ithaca.timeline
 {
 	import com.ithaca.traces.Trace;
-	import com.ithaca.traces.Obsel;
+	import spark.components.SkinnableContainer;
 	
-	import mx.collections.ArrayCollection;
-
-	public class TraceLineGroup
+	public class TraceLineGroup  extends SkinnableContainer
 	{
 		public var title : String;
 		public var _trace : Trace;

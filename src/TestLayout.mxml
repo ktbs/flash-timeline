@@ -3,13 +3,15 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   creationComplete="init()"
-			   minWidth="955" minHeight="600" xmlns:Timeline="com.ithaca.Timeline.*">
+			   minWidth="1280" minHeight="800" xmlns:Timeline="com.ithaca.Timeline.*">
 	<fx:Declarations>
 		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
 	</fx:Declarations>
 	
 	
 	<fx:Script> <![CDATA[
+		import com.ithaca.timeline.skins.TimelineSkin;
+		import com.ithaca.timeline.skins.TraceLineGroupSkin;
 		import com.ithaca.timeline.ISelector;
 		import com.ithaca.timeline.LayoutModifier;
 		import com.ithaca.timeline.LayoutNode;
@@ -133,7 +135,7 @@
 				theData = " Data: " + event.currentTarget.selectedItem.@data;
 			}
 			if ( event.currentTarget.selectedItem.@type == "traceline" )
-				obselList_dg.dataProvider = TraceLine.traceLineTmp[ event.currentTarget.selectedItem.@uid ]._obsels; 
+				obselList_dg.dataProvider = TraceLine.traceLineTmp[ event.currentTarget.selectedItem.@tracelineUid ]._obsels; 
 			else 
 				obselList_dg.dataProvider = null;
 		}
@@ -168,7 +170,7 @@
 				{
 					var traceline : TraceLine = node.value as TraceLine;
 					nodeXml.@label = "traceLine " + traceline.title + ", size : " + traceline._obsels.length ;
-					nodeXml.@uid = traceline.uid;
+					nodeXml.@tracelineUid = traceline.tracelineUid;
 					nodeXml.@type = "traceline";
 				}
 				else
@@ -186,6 +188,7 @@
 			
 	]]> </fx:Script>
 	
+	<fx:Style source="defaults.css" />
 	
 	<!-- Loading --> 
 	

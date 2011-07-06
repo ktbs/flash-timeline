@@ -1,10 +1,10 @@
 package com.ithaca.timeline
 {
-	import com.ithaca.traces.Obsel;
 	import com.ithaca.traces.Trace;
 	import mx.collections.ArrayCollection;
+	import spark.components.SkinnableContainer;
 	
-	public class Timeline
+	public class Timeline  extends SkinnableContainer
 	{
 		private var _styleSheet 	: Stylesheet;
 		private var _layout			: Layout;
@@ -18,7 +18,7 @@ package com.ithaca.timeline
 		
 		public function addTrace (  pTrace : Trace, index : int = -1 )  :void 
 		{
-			layout.addTracelineGroupTree( layout.createTracelineGroupTree( pTrace ) );
+			timelieneLayout.addTracelineGroupTree( timelieneLayout.createTracelineGroupTree( pTrace ) );
 			
 			pTrace.addObsel( pTrace.obsels[12] )
 		}
@@ -34,10 +34,10 @@ package com.ithaca.timeline
 			return false;
 		}
 		
-		public function get layout() : Layout { return _layout; }
-		public function set layout( value:Layout ):void { _layout = value; }
+		public function get timelieneLayout() : Layout { return _layout; }
+		public function set timelieneLayout( value:Layout ):void { _layout = value; }
 		
-		public function get tracelineGroups() : ArrayCollection { return layout.tracelineGroups; }
+		public function get tracelineGroups() : ArrayCollection { return timelieneLayout.tracelineGroups; }
 		
 		public function get styleSheet() : Stylesheet { return _styleSheet; }
 		public function set styleSheet( value:Stylesheet ):void { _styleSheet = value; }

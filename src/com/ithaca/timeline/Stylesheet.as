@@ -1,6 +1,6 @@
 package com.ithaca.timeline
 {
-	import com.ithaca.timeline.Skins.ObselSkin;
+	import com.ithaca.timeline.skins.ObselSkin;
 	
 	import com.ithaca.traces.Obsel;
 

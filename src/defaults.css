@@ -1,0 +1,19 @@
+/* CSS file */
+@namespace s 			"library://ns.adobe.com/flex/spark";
+@namespace mx 			"library://ns.adobe.com/flex/mx";
+@namespace timeline		"com.ithaca.timeline.*"; 
+
+timeline|Timeline
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.TimelineSkin");
+}
+
+timeline|TracelineGroup
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
+}
+
+timeline|Traceline
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
+}

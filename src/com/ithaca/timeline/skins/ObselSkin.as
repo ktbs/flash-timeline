@@ -1,4 +1,4 @@
-package com.ithaca.timeline.Skins
+package com.ithaca.timeline.skins
 {
 	import spark.components.supportClasses.Skin;
 	

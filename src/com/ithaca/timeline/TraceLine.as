@@ -2,16 +2,16 @@ package com.ithaca.timeline
 {
 	import com.ithaca.traces.Obsel;
 	import mx.collections.ArrayCollection;
-	import flash.events.Event;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
+	import spark.components.SkinnableContainer;
 
-	public class TraceLine
+	public class TraceLine  extends SkinnableContainer
 	{
 		// tmp Debug
 		static public var 	traceLineTmp : ArrayCollection = new ArrayCollection(); //temporaire pour debug
 		public static var index : Number = 0;
-		public var uid : Number;
+		public var tracelineUid : Number;
 		
 		public var title 		: String;
 		public var sourceStr 	: String;
@@ -22,7 +22,7 @@ package com.ithaca.timeline
 		
 		public function TraceLine( tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null )
 		{
-			uid = index;
+			tracelineUid = index;
 			traceLineTmp.addItemAt( this , index++ );
 			
 			title = tlTitle;

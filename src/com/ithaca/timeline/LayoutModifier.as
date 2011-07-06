@@ -86,8 +86,11 @@ package  com.ithaca.timeline
 				}
 				case CollectionEventKind.REPLACE :
 				break;
+				
 				case CollectionEventKind.RESET :					
 				break;				
+				
+				default:
 			}
 		}
 	}
