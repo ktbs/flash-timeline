@@ -92,7 +92,7 @@ package com.ithaca.timeline
 			return null;
 		}
 		
-		static public function createTree ( xmlLayout : XML , trac : Trace) : LayoutNode 
+		public function createTree ( xmlLayout : XML , trac : Trace) : LayoutNode 
 		{
 			var newNode : LayoutNode = null ;
 			
@@ -112,7 +112,7 @@ package com.ithaca.timeline
 					newNode = new LayoutNode();
 					newNode.layout = xmlLayout;
 					
-					newNode.value =  new LayoutModifier ( );
+					newNode.value =  new LayoutModifier ( _Root.value as Timeline );
 					if ( xmlLayout.hasOwnProperty('@splitter') )									
 						(newNode.value  as LayoutModifier)._splitter =  xmlLayout.@splitter ;	
 							
@@ -143,7 +143,7 @@ package com.ithaca.timeline
 					
 					newNode = new LayoutNode();				
 					newNode.layout = xmlLayout;
-					newNode.value = new TraceLine( tlTitle, tlSelector, tlSource );				
+					newNode.value = new TraceLine( _Root.value as Timeline, tlTitle, tlSelector, tlSource );				
 
 					break;
 				}			

@@ -28,19 +28,21 @@
             </s:LinearGradient>
         </s:fill>     
     </s:Rect>
-	
+	 
 	<s:Group left="10" right="4" top="6" bottom="2">
 		<s:layout>
 			<s:VerticalLayout/>
         </s:layout>
 		
 		<s:Label text="Timeline" fontSize="16" fontWeight="bold" />
-		
-		<s:Group id="contentGroup" >
+	
+		 <s:Scroller width="100%" height="300">			 
+			<s:Group id="contentGroup" >
 			<s:layout>
 				<s:VerticalLayout/>
 			</s:layout>
 		</s:Group>
+		</s:Scroller>
 	</s:Group>
 	
 </s:Skin>

@@ -12,10 +12,11 @@ package  com.ithaca.timeline
 		public var _splitter 	: String = null ;		
 		public var node 		: LayoutNode = null;
 		public var source		: String;
+		public var _timeline 	: Timeline;
 		
-		public function LayoutModifier( ) 
+		public function LayoutModifier( tl : Timeline ) 
 		{
-			
+			_timeline = tl;
 		}
 		
 		public function splitBy ( ) : String 	{ return _splitter; }
@@ -55,8 +56,8 @@ package  com.ithaca.timeline
 			if ( selector )
 			{											
 				var trac : Trace = obsel.trace ;
-				var newTree : LayoutNode = Layout.createTree( node.layout, trac );
-				newTree.value = new TraceLine( obsel[_splitter], selector , source );
+				var newTree : LayoutNode = _timeline.timelineLayout.createTree( node.layout, trac );
+				newTree.value = new TraceLine( _timeline, obsel[_splitter], selector , source );
 				if (  source == "parent" )
 					node.parent.value;
 				else

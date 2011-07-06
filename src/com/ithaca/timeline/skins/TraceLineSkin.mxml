@@ -14,11 +14,26 @@
 	 
 	  <fx:Script>
         <![CDATA[         
+			import com.ithaca.timeline.SimpleObselsRenderer;
+			import com.ithaca.traces.Obsel;
 			import mx.events.FlexEvent;
-						
+			import flash.display.DisplayObject;
+			import flash.display.Graphics;
+			import flash.display.Shape;
+			import flash.display.Sprite;
+			import mx.core.UIComponent; 
+
+			[Bindable]
+			public var forme:Shape = new Shape();			
+			private var couleurFond:uint = 0xff0000; // Rouge
+			private var couleurBordure:uint = 0x000000; // Noir
+
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				this.traceLineTitle.text = hostComponent.title;
+				var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer(  700, 15, hostComponent._timeline.startTime,  hostComponent._timeline.duration );
+				simpleObselsRenderer.obselsCollection = hostComponent._obsels;
+				obselRenderer.addElement( simpleObselsRenderer );								
 			}
 
         ]]>        
@@ -32,7 +47,8 @@
 	
 	<s:Group left="20" right="0" bottom="0">
 		<s:Label id="traceLineTitle" height="20"  width="150" y="4" />
-		<s:Rect  radiusX="1" radiusY="1" x="{traceLineTitle.width}" height="15" width="100%" minWidth="700">
+		
+		<s:Rect  radiusX="1" radiusY="1" x="{traceLineTitle.width}" height="15" width="700">
 			<s:stroke>
 				<s:LinearGradientStroke weight="1"/>
 			</s:stroke>
@@ -45,6 +61,8 @@
 			</s:fill>            
 		</s:Rect>
 		
+		<s:Group id="obselRenderer" x="{traceLineTitle.width}"/>
+
 		<s:Group id="contentGroup" top="20" >
 			<s:layout> <s:VerticalLayout gap="1" />	</s:layout>
 		</s:Group>			

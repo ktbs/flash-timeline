@@ -19,12 +19,13 @@ package com.ithaca.timeline
 		public var _obsels 		: ArrayCollection = new ArrayCollection();
 		public var node 		: LayoutNode = null;
 		public var source		: String;
+		public var _timeline	: Timeline;
 		
-		public function TraceLine( tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null )
+		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null )
 		{
 			tracelineUid = index;
 			traceLineTmp.addItemAt( this , index++ );
-			
+			_timeline = tl;
 			title = tlTitle;
 			_selector = tlSelector;
 			sourceStr = tlSource;			
