@@ -4,7 +4,8 @@ package com.ithaca.timeline
 	import flash.utils.getDefinitionByName;
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;	
-
+	import spark.components.Button;
+	
 	public class Layout
 	{
 		public static const TRACELINEGROUP: String = "tlg";
@@ -12,13 +13,13 @@ package com.ithaca.timeline
 		public static const MODIFIER: String = "modifier";
 		public static const ROOT: String = "root";
 
-		private var 	_Root 		: LayoutNode = null; 
+		private var 	_Root 		: LayoutNode = null; 	
 		
-		public function Layout( xmlLayout : XML = null)
+		public function Layout( tl : Timeline, xmlLayout : XML = null )
 		{			
 			_Root = new LayoutNode();
 			_Root.layout = xmlLayout;
-			
+			_Root.value = tl;			
 		}
 		
 		
@@ -26,8 +27,8 @@ package com.ithaca.timeline
 		
 		public function addTracelineGroupTree (  node : LayoutNode,  index : int = -1) : void
 		{
-			if ( node )
-				_Root.addChild(  node , index );	
+			if ( node )		
+				_Root.addChild(  node , index );			
 		}
 		
 		public function removeTracelineGroup ( index : int )  : Boolean  

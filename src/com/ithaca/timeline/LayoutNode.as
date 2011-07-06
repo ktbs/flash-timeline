@@ -1,6 +1,7 @@
 package com.ithaca.timeline
 {
 	import mx.collections.ArrayCollection;
+	import spark.components.SkinnableContainer;
 	
 	public class LayoutNode
 	{
@@ -32,10 +33,13 @@ package com.ithaca.timeline
 		public function addChild ( child : LayoutNode, index : int = -1 ) : void 
 		{ 
 			child.parent = this; 
-			if (index < 0 ) 
-				_children.addItem( child ); 
-			else  
-				_children.addItemAt( child , index );
+			if (index < 0 )			
+				_children.addItem( child ); 			
+			else 			
+				_children.addItemAt( child , index );			
+				
+			if ( child.value && ( child.value is TraceLine || child.value is TraceLineGroup) )
+				(value as SkinnableContainer).addElement( child.value as SkinnableContainer);
 		}
 		
 		

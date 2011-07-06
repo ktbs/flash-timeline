@@ -45,21 +45,38 @@
 												<tl selector="SelectorRegexp" field="type" regexp="Marker" />
 												<tl selector="SelectorRegexp" field="type" regexp="Instructions" />
 												<tl selector="SelectorRegexp" field="type" regexp="Keyword" />
+											</tl>											
+										</tlg>
+									</root>;
+									
+	public var layoutTreeOld : XML = <root>
+										<tlg> 	
+											<tl> 
+		 										<tl selector="SelectorRegexp" field="type" regexp="Message" filter="false">
+													<tl selector="SelectorRegexp" field="type" regexp="Send" />
+													<tl selector="SelectorRegexp" field="type" regexp="Receive" />
+													<tl selector="SelectorRegexp" field="type" regexp="Document" />
+												</tl>
+												<tl selector="SelectorRegexp" field="type" regexp="Document" />
+												<tl selector="SelectorRegexp" field="type" regexp="Marker" />
+												<tl selector="SelectorRegexp" field="type" regexp="Instructions" />
+												<tl selector="SelectorRegexp" field="type" regexp="Keyword" />
 											</tl>
 											<modifier splitter="type" />
 										</tlg>
-									</root>;
+									</root>;									
 		
 		private var timeline:Timeline = new Timeline( layoutTree );
+		private var tlg:TraceLineGroup = new TraceLineGroup( null );
 				
 		protected function init() : void
 		{
-			urlTTL_ti.text="trace.ttl";
+			urlTTL_ti.text = "trace.ttl";
+			testTL.addElement ( timeline );
 		}
 		
 		protected function browse(event:MouseEvent):void
-		{
-			
+		{			
 			var myFileReference :FileReference = new FileReference( ); 
 			
 			myFileReference.addEventListener(Event.SELECT, selectHandler);
@@ -197,13 +214,12 @@
 		<mx:TextInput id="urlTTL_ti" x="40"  width="194" text="{urlTTL_ti.text}" enabled="true"/>
 		<mx:Button label="Load" id="loadTTL_btn"  click="loadTTL(event)" top="1" left="324"/>
 		<mx:Label x="40" y="30" text="Loading..." id="loading_lbl" visible="false" />	
-		<s:Button x="250" y="1" label="Browse" click="browse(event)"/>
-		<s:Button x="400" y="1" label="test" click="testLayout(event)"/>
+		<s:Button x="250" y="1" label="Browse" click="browse(event)"/>		
 	</s:Group>
 	
 	
 	<!-- Obsels DataGrid -->
-	<mx:DataGrid id="obselList_dg" x="449" y="10" width="604" height="588" fontFamily="Arial" fontSize="10">
+	<mx:DataGrid id="obselList_dg" x="450" y="10" width="600" height="500" fontFamily="Arial" fontSize="10">
 		<mx:columns>
 			<mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
 			<mx:DataGridColumn dataField="uid" headerText="Uid" width="60"/>
@@ -214,7 +230,11 @@
 	</mx:DataGrid>
 	
 	
+	<s:Rect height="100" width="100" />
+	
 	<!-- Tree / Layout -->
 	<mx:Tree id="timeLineTree" x="20" y="90" width="400" height="400" labelField="@label" itemOpen="itemOpenEvt(event);" change="changeEvt(event);" />
+	
+	<s:Group id="testTL" y="550" x="20" />
 		
 </s:Application>

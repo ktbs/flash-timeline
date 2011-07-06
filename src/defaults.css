@@ -8,12 +8,12 @@ timeline|Timeline
 	skin-class: ClassReference("com.ithaca.timeline.skins.TimelineSkin");
 }
 
-timeline|TracelineGroup
+timeline|TraceLineGroup
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
 }
 
-timeline|Traceline
+timeline|TraceLine
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
 }

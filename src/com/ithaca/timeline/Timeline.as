@@ -3,24 +3,25 @@ package com.ithaca.timeline
 	import com.ithaca.traces.Trace;
 	import mx.collections.ArrayCollection;
 	import spark.components.SkinnableContainer;
+	import spark.components.Group;
 	
 	public class Timeline  extends SkinnableContainer
 	{
+		[SkinPart("true")] 
+		public var contentGroupTimeline:Group;
+		
 		private var _styleSheet 	: Stylesheet;
 		private var _layout			: Layout;
 		
 		public function Timeline( xmlLayout : XML = null )
 		{
-			super(); 
-			
-			_layout = new Layout( xmlLayout ) ;	
+			super(); 			
+			_layout = new Layout( this, xmlLayout ) ;	
 		}
 		
 		public function addTrace (  pTrace : Trace, index : int = -1 )  :void 
 		{
 			timelieneLayout.addTracelineGroupTree( timelieneLayout.createTracelineGroupTree( pTrace ) );
-			
-			pTrace.addObsel( pTrace.obsels[12] )
 		}
 		
 		public function removeTrace ( tr : Trace ) : Boolean 
