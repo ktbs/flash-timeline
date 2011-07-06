@@ -27,7 +27,7 @@ package  com.ithaca.timeline
 		{
 			var selector : ISelector;
 			
-			selector = new selectorRegexp( "^" + obsel[_splitter] +"$" , _splitter );
+			selector = new SelectorRegexp( "^" + obsel[_splitter] +"$" , _splitter );
 			
 			return selector;
 		}

@@ -132,10 +132,10 @@ package com.ithaca.timeline
 					
 					if ( xmlLayout.hasOwnProperty('@selector') )
 					{
-						if  ( xmlLayout.@selector == "selectorRegexp")
+						if  ( xmlLayout.@selector == "SelectorRegexp")
 						{
 							tlTitle = "regexp : " + xmlLayout.@regexp;
-							tlSelector = new selectorRegexp(xmlLayout.@regexp, xmlLayout.@field);
+							tlSelector = new SelectorRegexp(xmlLayout.@regexp, xmlLayout.@field);
 						}
 						else
 						{
