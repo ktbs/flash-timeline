@@ -33,7 +33,7 @@
 		private var _xmlLayout			: XMLList =  new XMLList();
 		private var _xmlLayoutDP:XMLListCollection = new XMLListCollection( _xmlLayout );
 		
-		public var layoutTree : XML = <root>
+		public var layoutTree1 : XML = <root>
 										<tlg> 	
 											<tl> 
 		 										<tl selector="SelectorRegexp" field="type" regexp="Message" filter="false">
@@ -49,20 +49,22 @@
 										</tlg>
 									</root>;
 									
-	public var layoutTreeOld : XML = <root>
+	public var layoutTree : XML = <root>
 										<tlg> 	
-											<tl> 
-		 										<tl selector="SelectorRegexp" field="type" regexp="Message" filter="false">
-													<tl selector="SelectorRegexp" field="type" regexp="Send" />
-													<tl selector="SelectorRegexp" field="type" regexp="Receive" />
-													<tl selector="SelectorRegexp" field="type" regexp="Document" />
+											<tl title="Traceline1"> 
+		 										<tl selector="SelectorRegexp"   	field="type" regexp="Message" filter="false">
+													<tl selector="SelectorRegexp" 	field="type" regexp="Send" />
+													<tl selector="SelectorRegexp" 	field="type" regexp="Receive" />
+													<tl selector="SelectorRegexp" 	field="type" regexp="Document" />
 												</tl>
 												<tl selector="SelectorRegexp" field="type" regexp="Document" />
 												<tl selector="SelectorRegexp" field="type" regexp="Marker" />
 												<tl selector="SelectorRegexp" field="type" regexp="Instructions" />
 												<tl selector="SelectorRegexp" field="type" regexp="Keyword" />
 											</tl>
-											<modifier splitter="type" />
+											<tl title="Split by type">
+												<modifier splitter="type" />
+											</tl>
 										</tlg>
 									</root>;									
 		
@@ -217,20 +219,22 @@
 		<s:Button x="250" y="1" label="Browse" click="browse(event)"/>		
 	</s:Group>
 	
-	
 	<!-- Obsels DataGrid -->
-	<mx:DataGrid id="obselList_dg" x="450" y="10" width="600" height="400" fontFamily="Arial" fontSize="10">
-		<mx:columns>
-			<mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
-			<mx:DataGridColumn dataField="uid" headerText="Uid" width="60"/>
-			<mx:DataGridColumn dataField="type" headerText="Type" width="160"/>
-			<mx:DataGridColumn dataField="begin" headerText="Begin"/>
-			<mx:DataGridColumn dataField="end" headerText="End"/>
-		</mx:columns>
-	</mx:DataGrid>
+	<s:Group x="450" y="10" >
+		<s:Label id="dg_label" />
+		<mx:DataGrid id="obselList_dg" y="16" width="600" height="380" fontFamily="Arial" fontSize="10">
+			<mx:columns>
+				<mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
+				<mx:DataGridColumn dataField="uid" headerText="Uid" width="60"/>
+				<mx:DataGridColumn dataField="type" headerText="Type" width="160"/>
+				<mx:DataGridColumn dataField="begin" headerText="Begin"/>
+				<mx:DataGridColumn dataField="end" headerText="End"/>
+			</mx:columns>
+		</mx:DataGrid>
+	</s:Group>
 	
 	<!-- Tree / Layout -->
-	<mx:Tree id="timeLineTree" x="20" y="90" width="400" height="320" labelField="@label" itemOpen="itemOpenEvt(event);" change="changeEvt(event);" />
+	<mx:Tree id="timeLineTree" x="20" y="90" width="400" height="320" labelField="@label" itemOpen="itemOpenEvt(event);" change="changeEvt(event);" />  
 	
 	<s:Group id="testTL" y="420" x="20" />
 		

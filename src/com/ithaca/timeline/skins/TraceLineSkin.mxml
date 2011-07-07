@@ -14,7 +14,9 @@
 	 
 	  <fx:Script>
         <![CDATA[         
+			import com.ithaca.timeline.LayoutNode;
 			import com.ithaca.timeline.SimpleObselsRenderer;
+			import com.ithaca.timeline.TraceLineGroup;
 			import com.ithaca.traces.Obsel;
 			import mx.events.FlexEvent;
 			import flash.display.DisplayObject;
@@ -22,9 +24,17 @@
 			import flash.display.Shape;
 			import flash.display.Sprite;
 			import mx.core.UIComponent; 
+			import flash.events.Event;
+			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
 
 			[Bindable]
-			public var forme:Shape = new Shape();			
+			public var forme:Shape = new Shape();	
+			
+			[Bindable]
+			public var displayLevel:Number = 0;
+		
+			
 			private var couleurFond:uint = 0xff0000; // Rouge
 			private var couleurBordure:uint = 0x000000; // Noir
 
@@ -33,7 +43,43 @@
 				this.traceLineTitle.text = hostComponent.title;
 				var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer(  700, 15, hostComponent._timeline.startTime,  hostComponent._timeline.duration );
 				simpleObselsRenderer.obselsCollection = hostComponent._obsels;
-				obselRenderer.addElement( simpleObselsRenderer );								
+				obselRenderer.addElement( simpleObselsRenderer );	
+				onChildrenChange(null);			
+				updateDisplayLevel( );				
+			}
+			
+			protected function updateDisplayLevel(  ) : void
+			{	
+				var node :LayoutNode = hostComponent.node;
+				displayLevel = -1;
+				while (node && !(node.value is TraceLineGroup))
+				{
+					node = node.parent;				
+					displayLevel++;
+				}							
+				if (!node)
+					displayLevel = 0;
+			}
+			
+			protected function onSelect() : void
+			{					
+				parentApplication.dg_label.text = hostComponent.title + " : " + hostComponent._obsels.length + " obsels";
+				parentApplication.obselList_dg.dataProvider = hostComponent._obsels;
+				
+				
+			}
+			
+			protected function onChildrenChange( event : Event ) : void
+			{								
+				OpenButton.visible =  (hostComponent.node.children.length > 0 );
+			}
+			
+			protected function onOpenButtonClick():void
+			{				
+				if (currentState == "normal")
+					setCurrentState("open");
+				else 
+					setCurrentState("normal");
 			}
 
         ]]>        
@@ -45,26 +91,31 @@
 		<s:State name="disabled" />
     </s:states>
 	
-	<s:Group left="20" right="0" bottom="0">
-		<s:Label id="traceLineTitle" height="20"  width="150" y="4" />
+	<s:Group left="0" right="0" bottom="0">
+				
+		<mx:Image id="OpenButton" source="@Embed(source='../images/iconPlus.png')"  source.open="@Embed(source='../images/iconMinus.png')" y="0" click="onOpenButtonClick()" /> 
 		
-		<s:Rect  radiusX="1" radiusY="1" x="{traceLineTitle.width}" height="15" width="700">
-			<s:stroke>
-				<s:LinearGradientStroke weight="1"/>
-			</s:stroke>
-			<s:fill>
-				<s:LinearGradient>
-					<s:entries>
-						<mx:GradientEntry color="0xcec3f6" />
-					</s:entries>
-				</s:LinearGradient>
-			</s:fill>            
-		</s:Rect>
+		<s:Label id="traceLineTitle" height="20"  width="150" y="4" x="{20 + displayLevel*15 }" />
 		
-		<s:Group id="obselRenderer" x="{traceLineTitle.width}"/>
+		<s:Group  x="{60+traceLineTitle.width}" click="onSelect()">
+			<s:Rect  radiusX="1" radiusY="1"  height="15" width="700">
+				<s:stroke>
+					<s:LinearGradientStroke weight="1"/>
+				</s:stroke>
+				<s:fill>
+					<s:LinearGradient>
+						<s:entries>
+							<mx:GradientEntry color="0xcec3f6" />
+						</s:entries>
+					</s:LinearGradient>
+				</s:fill>            
+			</s:Rect>
+				
+			<s:Group id="obselRenderer"  />
+		</s:Group>
 
-		<s:Group id="contentGroup" top="20" >
-			<s:layout> <s:VerticalLayout gap="1" />	</s:layout>
+		<s:Group id="contentGroup" top="30" includeIn="open"  >
+			<s:layout> <s:VerticalLayout gap="6" />	</s:layout>
 		</s:Group>			
 	</s:Group>	
 	

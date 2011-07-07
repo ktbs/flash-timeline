@@ -22,6 +22,8 @@ package com.ithaca.timeline
 		
 		public function addTrace (  pTrace : Trace, index : int = -1 )  :void 
 		{
+			startTime = 0;
+			duration = 0;
 			startTime = ((pTrace.obsels[0] as Obsel).begin > startTime)?(pTrace.obsels[0] as Obsel).begin : startTime;
 			duration = ((pTrace.obsels[pTrace.obsels.length -1] as Obsel).begin > startTime + duration)?(pTrace.obsels[pTrace.obsels.length -1] as Obsel).begin -  startTime : duration;
 			timelineLayout.addTracelineGroupTree( timelineLayout.createTracelineGroupTree( pTrace ) );

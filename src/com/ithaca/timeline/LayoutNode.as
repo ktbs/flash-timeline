@@ -38,8 +38,8 @@ package com.ithaca.timeline
 			else 			
 				_children.addItemAt( child , index );			
 				
-			if ( child.value && ( child.value is TraceLine || child.value is TraceLineGroup) )
-				(value as SkinnableContainer).addElement( child.value as SkinnableContainer);
+			if ( child.value && ( child.value is TraceLine || child.value is TraceLineGroup) )			
+				(value as SkinnableContainer).addElement( child.value as SkinnableContainer);							
 		}
 		
 		

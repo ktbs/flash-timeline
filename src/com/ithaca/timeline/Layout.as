@@ -140,6 +140,8 @@ package com.ithaca.timeline
 							tlSelector = new selectorClass();
 						}
 					}
+					if ( xmlLayout.hasOwnProperty('@title') )
+						tlTitle = xmlLayout.@title; 
 					
 					newNode = new LayoutNode();				
 					newNode.layout = xmlLayout;
