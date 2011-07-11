@@ -7,31 +7,31 @@ package com.ithaca.timeline
 	import mx.collections.ArrayCollection;
 	import mx.core.UIComponent;
 	import mx.events.CollectionEvent;
+	import mx.events.ResizeEvent;
 	
 	public class SimpleObselsRenderer extends UIComponent 
 	{
 		public	var _colorMarker : uint = 0;
 		
-		private var _sprite 	: Sprite = null;
-		private var _obsels 	: ArrayCollection = null;		
+		private var _sprite 	: Sprite = new Sprite();;
+		private var _obsels 	: ArrayCollection = null;
+		[Bindable]
 		private var _startTime 	: Number = 0;
-		private var _duration 	: Number = 0;
-		private var _shape 		: Shape = null;
+		[Bindable]
+		private var _duration 	: Number = 1;
+		private var _shape 		: Shape = new Shape();
+		private var _timeline	: Timeline;		
 		
-		public function SimpleObselsRenderer( w : Number, h : Number, startTime : Number, duration : Number ) 
+		public function SimpleObselsRenderer( ) 
 		{
-			super();			
-			width  = w;
-			height = h;
-			_startTime = startTime;
-			_duration = duration;
-			_sprite = new Sprite();			
-			_shape = new Shape();
-			_sprite.addChild(_shape)
+			super();						
+			_sprite.addChild( _shape )
 			addChild( _sprite );
+			addEventListener(ResizeEvent.RESIZE, onObselsChange );
 		}
 		
-		
+		public function set startTime ( value : Number ) : void { _startTime = value; }
+		public function set duration ( value : Number )  : void { _duration = value; }
 		public function set obselsCollection( obsels : ArrayCollection ) : void
 		{			
 			if ( _obsels)

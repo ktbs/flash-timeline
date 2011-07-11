@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skins:DividerSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx = "library://ns.adobe.com/flex/halo"
+			   xmlns:skins="com.ithaca.timeline.skins.*"
+			   width="5" >
+
+	<s:Group   x="{-dividerWidth}"  height="100%" mouseDown="dividerStartDrag(event)">			   
+	<s:Rect height="100%" width="{dividerWidth}"  >
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000" weight="1"/>
+		</s:stroke>
+		<s:fill>
+			<s:RadialGradient>
+				<s:entries>
+					<s:GradientEntry color="0xFFFFFF"/>                               
+				</s:entries>
+			</s:RadialGradient>
+		</s:fill>
+	</s:Rect>
+	</s:Group>
+	
+	<!--<s:Group mouseDown="dividerStartDrag(event)" >
+		<s:Rect radiusX="4" radiusY="4" height="{dividerWidth*2}" width="{dividerWidth*2}" x="{-3*dividerWidth/2}" y="{-dividerWidth}">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1"/>
+			</s:stroke>
+			<s:fill>
+				<s:RadialGradient>
+					<s:entries>
+						<s:GradientEntry color="0xBBBBBB"  />  					
+					</s:entries>
+				</s:RadialGradient>
+			</s:fill>
+		</s:Rect>
+	</s:Group>-->
+	
+</skins:DividerSkin>

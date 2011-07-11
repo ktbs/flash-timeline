@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:timeline="com.ithaca.timeline.*"
+				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:Skins="com.ithaca.timeline.Skins.*" 
+				 width="100%" height="100%"
+				 creationComplete="init()"				 >	
+	
+	<fx:Metadata>[HostComponent("com.ithaca.timeline.ZoomContext")]</fx:Metadata>
+	
+		<fx:Script>
+        <![CDATA[
+            //Import classes so you don't have to use full names.
+			import flash.geom.Rectangle;
+			import mx.events.ResizeEvent;
+            import mx.managers.DragManager;
+            import mx.core.DragSource;
+            import mx.events.DragEvent;
+            import flash.events.MouseEvent;
+			import mx.controls.Image;
+			import mx.containers.Canvas;
+			import spark.components.BorderContainer;
+			import spark.components.supportClasses.SkinnableComponent;
+            import mx.events.SliderEvent;
+            import mx.controls.sliderClasses.Slider;
+			
+			protected 	var currentCenterDragingPoint:Point;			
+			private 	var draggedPart : SkinnableComponent = null;
+			
+			[Bindable]
+			private var minX :Number;
+			[Bindable]
+			private var maxX :Number;
+			            
+			private function init():void 
+            { 	
+				minX = 0;
+				maxX = timelinePreview.width + minRange.width + maxRange.width-1;
+							
+				timelinePreview.addEventListener("resize", onResize);
+            }
+			
+			private function onResize(e:Event):void 
+            { 			
+				maxX = timelinePreview.width + minRange.width + maxRange.width-1;
+				hostComponent.updateSkinPositionFromValues();
+            }
+			
+			protected function zcStartDrag(e:MouseEvent):void
+			{
+				draggedPart = (e.currentTarget as SkinnableComponent);
+				stage.addEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
+				stage.addEventListener(MouseEvent.MOUSE_UP,zcStopDrag);
+					
+				currentCenterDragingPoint = new Point(e.localX, e.localY);
+			}
+			
+			protected function zcDragging(e:MouseEvent):void
+			{				
+				var parentMouse:Point = this.parent.globalToLocal(new Point(e.stageX, e.stageY));
+				var newPos : Number = parentMouse.x - currentCenterDragingPoint.x;
+				
+				switch ( draggedPart.id )
+				{
+					case "minRange":
+						if ( newPos < minX )						
+							minRange.x  = minX;						
+						else if ( newPos + minRange.width > maxRange.x )
+							minRange.x =  maxRange.x - minRange.width;
+						else
+							minRange.x = newPos;
+							
+						cursor.width 	= maxRange.x - (minRange.x + minRange.width);
+						cursor.x 		= minRange.x + minRange.width;
+					break;
+					case "cursor":					
+						if ( newPos < minX + minRange.width)						
+							cursor.x  = minX + minRange.width;						
+						else if ( newPos + cursor.width + maxRange.width > maxX )
+							cursor.x = maxX - ( cursor.width + maxRange.width );
+						else
+							cursor.x = newPos;
+							
+							minRange.x = cursor.x - minRange.width;
+							maxRange.x = cursor.x + cursor.width;
+					break;
+					case "maxRange":
+						if ( newPos < cursor.x )
+							maxRange.x = cursor.x;
+						else if (newPos + maxRange.width > maxX )
+							maxRange.x = maxX - maxRange.width;
+						else
+							maxRange.x = newPos ;
+						cursor.width = maxRange.x - (minRange.x + minRange.width);
+					break;
+				}
+				hostComponent.updateValuesFromSkinPosition();
+			}
+			
+			protected function zcStopDrag(e:MouseEvent):void
+			{
+				draggedPart = null;
+				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
+				stage.removeEventListener(MouseEvent.MOUSE_UP,zcStopDrag);		
+			}
+        ]]>
+    </fx:Script>
+     
+	<s:states>
+        <s:State name="normal" />
+		<s:State name="disabled" />
+    </s:states>
+	<!--<s:BorderContainer     backgroundAlpha="0.5" backgroundColor="0x0A0000" height="100%" width ="100%" />-->
+	<s:Group id="zoomContextGroup" width="100%" height="80" >	
+			<s:BorderContainer id="timelinePreview"  backgroundColor="0xCCCCCC" top="30"  right="25" left="20" width="100%"  height="40" />
+			<s:BorderContainer id="minRange" backgroundAlpha="0.5" 	backgroundColor="0xFFCCFF"  width="20"  height="100%"  						mouseDown="zcStartDrag(event);"	/>
+			<s:BorderContainer id="cursor"    backgroundAlpha="0.5" backgroundColor="0xCCFFFF" 	height="25" width ="120" minWidth="1" x="20"  	mouseDown="zcStartDrag(event);"	/>
+			<s:BorderContainer id="maxRange" backgroundAlpha="0.5" 	backgroundColor="0xCCFFCC"  width="20"  height="100%" x="140" 				mouseDown="zcStartDrag(event);"	/>				
+	</s:Group>
+</s:Skin>

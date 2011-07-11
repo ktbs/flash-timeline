@@ -5,6 +5,7 @@ package com.ithaca.timeline
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 	import spark.components.SkinnableContainer;
+	import com.ithaca.timeline.Divider;
 
 	public class TraceLine  extends SkinnableContainer
 	{
@@ -26,6 +27,7 @@ package com.ithaca.timeline
 			tracelineUid = index;
 			traceLineTmp.addItemAt( this , index++ );
 			_timeline = tl;
+			
 			title = tlTitle;
 			_selector = tlSelector;
 			sourceStr = tlSource;			

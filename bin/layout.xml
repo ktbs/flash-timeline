@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<tlg> 	
+		<tl title="Traceline1"> 
+			<tl selector="SelectorRegexp"   	field="type" regexp="Message" filter="false">
+				<tl selector="SelectorRegexp" 	field="type" regexp="Send" />
+				<tl selector="SelectorRegexp" 	field="type" regexp="Receive" source="parent" title="Receive source parent"/>
+				<tl selector="SelectorRegexp" 	field="type" regexp="Receive" title="Receive source trace"/>
+				<tl selector="SelectorRegexp" 	field="type" regexp="Document" />
+			</tl>
+			<tl selector="SelectorRegexp" field="type" regexp="Document" />
+			<tl selector="SelectorRegexp" field="type" regexp="Marker" />
+			<tl selector="SelectorRegexp" field="type" regexp="Instructions" />
+			<tl selector="SelectorRegexp" field="type" regexp="Keyword" />
+		</tl>
+		<tl title="Split by type">
+			<modifier splitter="type" />
+		</tl>
+	</tlg>
+</root>			

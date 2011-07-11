@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				 xmlns:s="library://ns.adobe.com/flex/spark" 
-				 xmlns:timeline="com.ithaca.timeline.*"
+				 xmlns:tl="com.ithaca.timeline.*"
 				 xmlns:mx="library://ns.adobe.com/flex/mx" 
 				 xmlns:Skins="com.ithaca.timeline.Skins.*" 
 				 creationComplete="creationCompleteHandler(event)"
@@ -17,6 +17,8 @@
 			import com.ithaca.timeline.LayoutNode;
 			import com.ithaca.timeline.SimpleObselsRenderer;
 			import com.ithaca.timeline.TraceLineGroup;
+			import com.ithaca.timeline.Divider;
+			import com.ithaca.timeline.Timeline;
 			import com.ithaca.traces.Obsel;
 			import mx.events.FlexEvent;
 			import flash.display.DisplayObject;
@@ -32,18 +34,23 @@
 			public var forme:Shape = new Shape();	
 			
 			[Bindable]
-			public var displayLevel:Number = 0;
-		
+			public var displayLevel:Number = 0;	
 			
-			private var couleurFond:uint = 0xff0000; // Rouge
-			private var couleurBordure:uint = 0x000000; // Noir
-
+			[Bindable]
+			public var dividerX:Divider;	
+			
+			[Bindable]
+			public var timeline:Timeline;
+						
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				this.traceLineTitle.text = hostComponent.title;
-				var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer(  700, 15, hostComponent._timeline.startTime,  hostComponent._timeline.duration );
+				traceLineTitle.text 				  = hostComponent.title;		
+						
+				simpleObselsRenderer.startTime		  = hostComponent._timeline.startTime;
+				simpleObselsRenderer.duration	      = hostComponent._timeline.duration; 
 				simpleObselsRenderer.obselsCollection = hostComponent._obsels;
-				obselRenderer.addElement( simpleObselsRenderer );	
+				dividerX 							  = hostComponent._timeline.divider;
+				timeline							  = hostComponent._timeline;
 				onChildrenChange(null);			
 				updateDisplayLevel( );				
 			}
@@ -64,9 +71,7 @@
 			protected function onSelect() : void
 			{					
 				parentApplication.dg_label.text = hostComponent.title + " : " + hostComponent._obsels.length + " obsels";
-				parentApplication.obselList_dg.dataProvider = hostComponent._obsels;
-				
-				
+				parentApplication.obselList_dg.dataProvider = hostComponent._obsels;								
 			}
 			
 			protected function onChildrenChange( event : Event ) : void
@@ -81,7 +86,6 @@
 				else 
 					setCurrentState("normal");
 			}
-
         ]]>        
     </fx:Script>
 	
@@ -91,32 +95,17 @@
 		<s:State name="disabled" />
     </s:states>
 	
-	<s:Group left="0" right="0" bottom="0">
-				
-		<mx:Image id="OpenButton" source="@Embed(source='../images/iconPlus.png')"  source.open="@Embed(source='../images/iconMinus.png')" y="0" click="onOpenButtonClick()" /> 
-		
-		<s:Label id="traceLineTitle" height="20"  width="150" y="4" x="{20 + displayLevel*15 }" />
-		
-		<s:Group  x="{60+traceLineTitle.width}" click="onSelect()">
-			<s:Rect  radiusX="1" radiusY="1"  height="15" width="700">
-				<s:stroke>
-					<s:LinearGradientStroke weight="1"/>
-				</s:stroke>
-				<s:fill>
-					<s:LinearGradient>
-						<s:entries>
-							<mx:GradientEntry color="0xcec3f6" />
-						</s:entries>
-					</s:LinearGradient>
-				</s:fill>            
-			</s:Rect>
-				
-			<s:Group id="obselRenderer"  />
+	<s:VGroup width="100%" height="100%" gap="5">
+		<s:Group width="100%" height="20"> 				
+			<s:Group id="titleGroup"   height="100%">
+				<mx:Image id="OpenButton" source="@Embed(source='../images/iconPlus.png')"  height="100%" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" /> 		
+				<s:Label id="traceLineTitle"  y="4" x="{20 + displayLevel*15 }" height="100%" />
+			</s:Group>	
+			<s:BorderContainer id="rendererGroup" click="onSelect()" x="{timeline.titleGroupWidth+ dividerX.skin.x}" width="100%" height="100%" backgroundColor="0xFFFFFF" minHeight="1" >
+				<tl:SimpleObselsRenderer id="simpleObselsRenderer" height="100%" width="100%"  />
+			</s:BorderContainer>	
 		</s:Group>
-
-		<s:Group id="contentGroup" top="30" includeIn="open"  >
-			<s:layout> <s:VerticalLayout gap="6" />	</s:layout>
-		</s:Group>			
-	</s:Group>	
+		<s:VGroup id="contentGroup" includeIn="open" width="100%" gap="5" />
+	</s:VGroup>
 	
 </s:Skin>
