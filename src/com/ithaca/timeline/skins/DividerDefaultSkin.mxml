@@ -11,11 +11,10 @@
 			<s:SolidColorStroke color="0x000000" weight="1"/>
 		</s:stroke>
 		<s:fill>
-			<s:RadialGradient>
-				<s:entries>
-					<s:GradientEntry color="0xFFFFFF"/>                               
-				</s:entries>
-			</s:RadialGradient>
+			<s:LinearGradient rotation="90" >
+					<s:GradientEntry color="#FAFAFA" ratio=".4" />
+					<s:GradientEntry color="#DDDDDD" ratio=".8"/>
+			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
 	</s:Group>

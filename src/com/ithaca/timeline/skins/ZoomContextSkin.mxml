@@ -25,7 +25,7 @@
             import mx.controls.sliderClasses.Slider;
 			
 			protected 	var currentCenterDragingPoint:Point;			
-			private 	var draggedPart : SkinnableComponent = null;
+			private 	var draggedPart : Group = null;
 			
 			[Bindable]
 			private var minX :Number;
@@ -34,21 +34,22 @@
 			            
 			private function init():void 
             { 	
-				minX = 0;
-				maxX = timelinePreview.width + minRange.width + maxRange.width-1;
+				minX = timelinePreview.x - minRange.width;
+				maxX = timelinePreview.x + timelinePreview.width + maxRange.width;
 							
 				timelinePreview.addEventListener("resize", onResize);
             }
 			
 			private function onResize(e:Event):void 
             { 			
-				maxX = timelinePreview.width + minRange.width + maxRange.width-1;
+				minX = timelinePreview.x - minRange.width;
+				maxX = timelinePreview.x + timelinePreview.width + maxRange.width;
 				hostComponent.updateSkinPositionFromValues();
             }
 			
 			protected function zcStartDrag(e:MouseEvent):void
 			{
-				draggedPart = (e.currentTarget as SkinnableComponent);
+				draggedPart = (e.currentTarget as Group);
 				stage.addEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
 				stage.addEventListener(MouseEvent.MOUSE_UP,zcStopDrag);
 					
@@ -112,9 +113,32 @@
     </s:states>
 	<!--<s:BorderContainer     backgroundAlpha="0.5" backgroundColor="0x0A0000" height="100%" width ="100%" />-->
 	<s:Group id="zoomContextGroup" width="100%" height="80" >	
-			<s:BorderContainer id="timelinePreview"  backgroundColor="0xCCCCCC" top="30"  right="25" left="20" width="100%"  height="40" />
-			<s:BorderContainer id="minRange" backgroundAlpha="0.5" 	backgroundColor="0xFFCCFF"  width="20"  height="100%"  						mouseDown="zcStartDrag(event);"	/>
-			<s:BorderContainer id="cursor"    backgroundAlpha="0.5" backgroundColor="0xCCFFFF" 	height="25" width ="120" minWidth="1" x="20"  	mouseDown="zcStartDrag(event);"	/>
-			<s:BorderContainer id="maxRange" backgroundAlpha="0.5" 	backgroundColor="0xCCFFCC"  width="20"  height="100%" x="140" 				mouseDown="zcStartDrag(event);"	/>				
+			<s:BorderContainer id="timelinePreview"  backgroundColor="0xFFFFFF" top="35"  right="25" left="20" width="100%"  height="40">
+				<s:layout><s:VerticalLayout gap="1" ></s:VerticalLayout></s:layout>
+			</s:BorderContainer>
+			<s:Group id="minRange"  mouseDown="zcStartDrag(event);" >
+					<s:Graphic> <s:BitmapImage 	 source="@Embed('../images/zcLeftRange.png')" 	height="100%" /> </s:Graphic>
+				</s:Group>
+			<s:Group id="cursor" mouseDown="zcStartDrag(event);" height="28" >				
+				<s:Rect width="100%" height="100%" y="1">					
+					<s:fill>
+						<s:LinearGradient rotation="90" >
+							<s:GradientEntry color="#FAFAFA" ratio=".4" />
+							<s:GradientEntry color="#DDDDDD" ratio=".8"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				<s:Line y="1"  width="100%">
+					<s:stroke> <s:SolidColorStroke color="black"/></s:stroke>
+				</s:Line>
+				<s:Line y="{cursor.height}"  width="100%">
+					<s:stroke> <s:SolidColorStroke color="black"/></s:stroke>
+				</s:Line>
+				
+			<!--	<s:Graphic width="100%">  <s:BitmapImage source="@Embed('../images/zcCursor1.png')"  minWidth="1"  /></s:Graphic>				-->
+			</s:Group>
+			<s:Group id="maxRange"  mouseDown="zcStartDrag(event);">
+				<s:Graphic x="-1">  <s:BitmapImage 	  source="@Embed('../images/zcRightRange.png')" 	height="100%" /> </s:Graphic>
+			</s:Group>
 	</s:Group>
 </s:Skin>

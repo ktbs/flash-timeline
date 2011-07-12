@@ -203,8 +203,9 @@
 	<s:Group id="allTestLayout" width="100%" height="100%" left="10" right="10" top="10" bottom="10">		
 		<s:layout> <s:VerticalLayout gap="20" />	</s:layout>
 		
+		
 		<s:HGroup width="100%"  height="50%" gap="10">			
-			<s:VGroup  height="100%" left="10" gap="5">				
+			<s:VGroup  height="100%" left="10" gap="5">					
 				<!-- Loading --> 		
 				<s:Group y="10" width="100%" >
 					<mx:Label y="2" text="TTL :"/>
@@ -235,6 +236,8 @@
 			
 		<tl:Timeline id="timeline" width="100%" height="50%" />
 	</s:Group>
+	
+	
 	
 	<mx:Box id="loadingSpinner" horizontalAlign="center" verticalAlign="middle" width="100%" height="100%" visible="{timeline != null}" >
 		<mx:ProgressBar  label="Loading..."   labelPlacement="center" indeterminate="true" />

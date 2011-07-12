@@ -20,7 +20,7 @@ package com.ithaca.timeline
 		[Bindable]
 		private var _duration 	: Number = 1;
 		private var _shape 		: Shape = new Shape();
-		private var _timeline	: Timeline;		
+		public var _timeline	: Timeline;		
 		
 		public function SimpleObselsRenderer( ) 
 		{
@@ -42,6 +42,22 @@ package com.ithaca.timeline
 			_obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE, onObselsChange);
 		}
 		
+		
+		public function  onTimelineChange( event : Event ) : void
+		{
+			_startTime = _timeline.startTime;
+			_duration  = _timeline.duration;
+			
+			onObselsChange( null );
+		}
+		
+		public function  onZoomContextChange( event : Event ) : void
+		{
+			_startTime = _timeline.zoomContext.startTime;
+			_duration  = _timeline.zoomContext.duration;
+			
+			onObselsChange( null );
+		}
 		
 		public function  onObselsChange( event : Event ) : void
 		{

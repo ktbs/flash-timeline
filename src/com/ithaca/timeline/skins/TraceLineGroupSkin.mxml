@@ -18,7 +18,7 @@
 						
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-	//			traceLineGroupTitle.text = "Trace : " + hostComponent.title;
+				traceLineGroupTitle.text = "Trace : " + hostComponent.title;
 			}
         ]]>        
     </fx:Script>
