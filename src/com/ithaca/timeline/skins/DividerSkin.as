@@ -23,7 +23,7 @@ package com.ithaca.timeline.skins
 			public function DividerSkin()
 			{
 				super();
-				addEventListener("creationComplete", onCreationComplete);		
+				addEventListener( FlexEvent.CREATION_COMPLETE, onCreationComplete);		
 			}
 		
 			protected function onCreationComplete(e:Event):void

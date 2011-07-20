@@ -16,18 +16,12 @@ timeline|Timeline
 
 timeline|TraceLineGroup
 {
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
-	fillColors : #FF777A, #95FF9A, #95CAFF, #F8FF95, #FFD595;
-}
-
-timeline|TraceLineGroup#tracettl
-{
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
-	fillColors : #AAAAAA;
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
 }
 
 timeline|TraceLine
 {
+	huhu : 1337;
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
 }
 

@@ -13,8 +13,5 @@
 			<tl selector="SelectorRegexp" field="type" regexp="Instructions" />
 			<tl selector="SelectorRegexp" field="type" regexp="Keyword" />
 		</tl>
-		<tl title="Split by type">
-			<modifier splitter="type" />
-		</tl>
 	</tlg>
 </root>			

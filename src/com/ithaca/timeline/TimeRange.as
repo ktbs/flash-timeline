@@ -1,0 +1,175 @@
+package com.ithaca.timeline 
+{	
+	import flash.display.JointStyle;
+	import flash.sampler.NewObjectSample;
+	import mx.collections.ArrayCollection;
+	public class TimeRange 
+	{		
+		public  var _ranges 	: ArrayCollection;
+		private var _start		: Number;
+		private var _end		: Number;
+		private var _duration 	: Number;
+		private var _zoom		: Boolean  = false;
+		
+		public function TimeRange( startValue : Number = 0 , durationValue : Number = 1 ) : void 
+		{
+			_ranges = new ArrayCollection();	
+			trace(" new timerange "+  startValue + "  " + durationValue);
+			addTime(startValue, startValue + durationValue);
+		}
+		
+		public function get numIntervals() 			: Number { return _ranges.length/2; }
+		public function get begin() 				: Number { return _start; }
+		public function set begin( value :Number ) 	: void 	 { _ranges[0] = value;  }
+		public function get end() 					: Number { return _end; }
+		public function set end( value : Number ) 	: void 	 { _ranges[_ranges.length -1] = value; }
+		public function get totalDuration() 		: Number { return end - begin; }	
+		public function get duration() 				: Number { return _duration; }	
+		
+		private function addItem( value : Number, pos : Number = Infinity ) : void
+		{
+			if ( pos > _ranges.length - 1)
+				_ranges.addItem( value );
+			else
+				_ranges.addItemAt( value, pos );
+		}
+		
+		public function updateDuration ( ) : void
+		{
+			_duration = 0;
+			for ( var i : int = 0; i < _ranges.length; i += 2 )
+				if ( _start <= _ranges[i + 1] && _end >= _ranges[i] )
+					_duration += Math.min(_ranges[i + 1], _end) - Math.max( _ranges[i], _start);	
+		}		
+		
+		public function addTime ( beginValue : Number , endValue : Number,  fillHole : Boolean = true ) : void
+		{				
+			var beginIndex 	: Number  	= _ranges.length;;
+			var endIndex 	: Number 	= _ranges.length;;
+			
+			for ( var i : int = 0; i < _ranges.length; i++ )
+				if ( beginValue <= _ranges[i] )
+				{	
+					beginIndex = i;
+					break;
+				}
+				
+			for ( var j : int  = i; j < _ranges.length; j++ )
+				if ( endValue <= _ranges[j] )
+				{
+					endIndex = j;
+					break;
+				}
+				
+			if ( beginIndex == endIndex ) 
+			{
+				if ( beginIndex % 2 == 0 )  
+				{
+					if ( !fillHole || _ranges.length == 0)
+					{
+						addItem(endValue, endIndex);
+						addItem(beginValue, beginIndex);
+					}				
+					else
+					{
+						if ( beginIndex == _ranges.length )
+							_ranges[ _ranges.length - 1 ] = endValue;
+						else								
+							_ranges[ beginIndex ] = beginValue;
+					}
+				}
+				else 	
+					return; // the new interval is in another interval
+			} 
+			else
+			{				
+				if ( beginIndex % 2 == 0)	
+					_ranges[ beginIndex++ ] = beginValue;						
+
+				if ( endIndex % 2 == 0)					
+					_ranges[ --endIndex ] = endValue;						
+					
+				for ( var toRemove : int = beginIndex; toRemove < endIndex; toRemove++ )
+					_ranges.removeItemAt(  beginIndex );
+			}		
+			
+			if ( !_zoom)
+				resetLimits();
+				
+			updateDuration();			
+		}
+		
+		public function cloneMe( ) : TimeRange
+		{
+			var newTimeRange : TimeRange = new TimeRange( 0, 1);			
+			newTimeRange._ranges.removeAll();
+			newTimeRange._ranges.source = _ranges.source;
+			newTimeRange._start = newTimeRange._ranges[0];
+			newTimeRange._end 	= newTimeRange._ranges[newTimeRange._ranges.length-1];
+			return newTimeRange;
+		}
+		
+		public function makeTimeHole (beginValue : Number , endValue : Number ) : void
+		{
+			var beginIndex 	: Number  	= _ranges.length;;
+			var endIndex 	: Number 	= _ranges.length;;
+			
+			for ( var i : int = 0; i < _ranges.length; i++ )
+				if ( beginValue <= _ranges[i] )
+				{	
+					beginIndex = i;
+					break;
+				}
+				
+			for ( var j : int  = i; j < _ranges.length; j++ )
+				if ( endValue <= _ranges[j] )
+				{
+					endIndex = j;
+					break;
+				}
+				
+			if ( beginIndex == endIndex ) 
+			{
+				if ( beginIndex % 2 != 0 && beginIndex <  _ranges.length)  
+				{
+					addItem(endValue, endIndex);
+					addItem(beginValue, beginIndex);
+				}
+				else 	
+					return; // the new interval is in another interval
+			} 
+			else
+			{				
+				if ( beginIndex % 2 != 0)	
+					_ranges[ beginIndex++ ] = beginValue;						
+
+				if ( endIndex % 2 != 0)					
+					_ranges[ --endIndex ] = endValue;						
+					
+				for ( var toRemove : int = beginIndex; toRemove < endIndex; toRemove++ )
+					_ranges.removeItemAt(  beginIndex );
+			}		
+			
+			if ( !_zoom)
+				resetLimits();
+				
+			updateDuration();			
+		}
+		
+		public function changeLimits ( begin : Number , end : Number ) : void
+		{
+			_start = begin;
+			_end = end;
+			_zoom = true ;
+			updateDuration();	
+		}		
+		
+		public function resetLimits ( ) : void
+		{
+			_start 	= _ranges[ 0 ];
+			_end 	= _ranges[ _ranges.length -1 ];
+			_zoom	= false;
+			updateDuration();	
+		}		
+	}
+}

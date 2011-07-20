@@ -19,7 +19,6 @@ package com.ithaca.timeline
 		public var _selector 	: ISelector;
 		public var _obsels 		: ArrayCollection = new ArrayCollection();
 		public var node 		: LayoutNode = null;
-		public var source		: String;
 		public var _timeline	: Timeline;
 		
 		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null )
@@ -30,7 +29,8 @@ package com.ithaca.timeline
 			
 			title = tlTitle;
 			_selector = tlSelector;
-			sourceStr = tlSource;			
+			sourceStr = tlSource;		
+			_obsels.filterFunction = acceptObsel;
 		}
 		
 		public function getCollectionSource() : ArrayCollection
@@ -61,7 +61,7 @@ package com.ithaca.timeline
 		
 		public function acceptObsel ( obsel : Obsel ) : Boolean
 		{
-			return ( !_selector || _selector.isObselMatching( obsel ) ); 
+			return ( !_selector || _selector.isObselMatching( obsel as Obsel ) ); 
 		}
 		
 		public function addObsel ( obsel : Obsel ) : void 
@@ -77,18 +77,21 @@ package com.ithaca.timeline
 		public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
 		{
 			_obsels.removeAll();
-			if (obselsCollection == null)
-				obselsCollection = getCollectionSource();
-				
-			if (obselsCollection)
+			if ( obselsCollection == null )
+				obselsCollection = getCollectionSource();				
+			if (obselsCollection != null)
+				_obsels.source = obselsCollection.source;
+			_obsels.refresh();
+		/*	if (obselsCollection)				
 				for each (var item  : Obsel in obselsCollection)
-					if (acceptObsel( item ) )
-						addObsel (item );					
+					if (acceptObsel( item ) ) 						
+						addObsel (item );*/					
 		}		
 		
 		public function onSourceChange( event : CollectionEvent ) : void
 		{
-			var item : Obsel;
+			_obsels.refresh();
+			/*var item : Obsel;
 			switch (event.kind)
 			{
 				case CollectionEventKind.ADD :
@@ -108,8 +111,10 @@ package com.ithaca.timeline
 				break;
 				case CollectionEventKind.RESET :
 					resetObselCollection();
-				break;				
-			}
+				break;			
+				default:
+					
+			}*/
 		}
 	}
 }

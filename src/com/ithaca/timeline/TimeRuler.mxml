@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/halo"
+			   creationComplete="creationCompleteHandler()">
+			   	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>	<![CDATA[
+		import flash.globalization.DateTimeStyle;
+		import spark.components.Label;
+		import mx.formatters.DateFormatter;		
+		import spark.primitives.Line;
+		import flash.events.Event;
+		import mx.events.ResizeEvent;
+	
+		public var beginDate : Date;
+		public var endDate : Date;
+		public var dateFormater : DateFormatter = new DateFormatter();
+	
+		[Bindable]
+		public var xBegin : Number = 0;
+		[Bindable]
+		public var xEnd  : Number = 100;
+		public var minLabelsGap : Number = 110;
+		public var maxLabelsGap	 :Number = 30;
+		public var minMarksGap	 :Number = 4;
+		public var maxMarksGap	 : Number = 20;
+		public var validIntervals 	: Array = [1,10,100,1000,10*1000,60*1000, 5*60*1000, 10*60*1000, 60*60*1000 ];
+		public var labelsIntervals 	: Array = [5,50,500,5000,60*1000,5*60*1000, 20*60*1000, 60*60*1000,5*60*60*1000 ];
+		
+		protected function creationCompleteHandler() : void
+		{
+			dateFormater.formatString = "JJ:NN:SS" ;
+			ruler.addChild(new Shape);
+		}
+		
+		private function getBestMarkerInterval( value : Number ) : Object
+		{
+			for ( var  i : int = 0; i < validIntervals.length; i++ )
+				if ( value < validIntervals[i] )
+					break;
+				
+			if ( i < validIntervals.length)
+				return { mark : validIntervals[i], label : labelsIntervals[i] };
+			else
+				return { mark : 0, label : 0 };
+		}
+		
+		private function drawRuler () : Shape
+		{
+			var shape			: Shape  = new Shape();
+			var rulerDuration   : Number = endDate.time - beginDate.time;
+			var rulerWidth 		: Number = xEnd - xBegin;
+			var nbMaxMarks		: Number = Math.floor( rulerWidth / minMarksGap );
+			var interval        : Object = getBestMarkerInterval( rulerDuration / nbMaxMarks);
+						
+			shape.graphics.lineStyle( 0 );
+			shape.graphics.beginFill( 0x000000 );
+		
+			for(var t : Number  = Math.ceil( beginDate.time /interval.mark)*interval.mark; t < endDate.time; t += interval.mark )
+			{
+				var x 	: Number = xBegin + ( t - beginDate.time ) * rulerWidth / rulerDuration;
+				var kl  : Number = t % interval.label;
+				if ( kl )				
+					shape.graphics.drawRect( x , 0, 0, 5);				
+				else
+				{
+					addLabel( t, x );
+					shape.graphics.drawRect( x , 0, 0, 12);
+				}
+			}		
+			shape.graphics.endFill();
+
+			return shape;
+		}
+		
+		private function addLabel( time : Number , position : Number) : void
+		{
+			if ( timeLabels.numElements > 0)
+			{
+				var lastLabel : Label = timeLabels.getElementAt( timeLabels.numChildren -1 ) as Label;
+				
+				if ( position - lastLabel.x -100 < minLabelsGap )
+					return;
+			}
+			
+			var label : Label = new Label();
+			var date  : Date  = new Date( time );
+			
+			label.text 	= dateFormater.format( date );
+			label.x 	= position -100;
+			label.width = 200 ;
+			label.setStyle('textAlign', 'center');
+			label.setStyle('fontSize', '11');		
+			timeLabels.addElement( label );
+			
+		}
+		
+		public function redraw(  event : ResizeEvent=null ) : void
+		{
+			if (beginDate && endDate)
+			{
+				if (event)
+				{
+					xBegin = event.currentTarget.x;
+					xEnd  = event.currentTarget.x + event.currentTarget.width;
+				}
+				
+				if ( 	timeLabels.numElements > 0)
+					timeLabels.removeAllElements();
+				if (ruler.numChildren > 0 )
+					ruler.removeChildAt(0);
+				ruler.addChildAt(drawRuler(), 0);
+			}
+		}
+		
+		public function changeValues( beginValue : Number, endValue : Number ):void
+		{
+			beginDate 	= new Date( beginValue );
+			endDate   	= new Date( endValue );	
+			trace("TR :" + beginDate.time + " -> " + endDate.time );
+			redraw();
+		}
+		
+	]]> </fx:Script>
+			 
+	<s:BorderContainer id="time" backgroundColor="#F5F5F5" width="100%" minHeight="10"  horizontalCenter="true">	
+			<s:layout> <s:VerticalLayout gap="6" /> </s:layout>
+			<s:SpriteVisualElement  id="ruler" width="100%" height="15"/>
+			<s:Group id="timeLabels" />									
+	</s:BorderContainer>
+	
+</s:SkinnableContainer>

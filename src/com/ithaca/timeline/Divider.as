@@ -1,7 +1,7 @@
 package com.ithaca.timeline 
 {
 	import spark.components.supportClasses.SkinnableComponent;
-	
+		
 	public class Divider extends SkinnableComponent
 	{
 		[Bindable]
@@ -10,8 +10,8 @@ package com.ithaca.timeline
 		public var rightMinSize : Number = 0;
 		
 		public function Divider() 
-		{
-		}
+		{			
+		}		
 	}
 
 }

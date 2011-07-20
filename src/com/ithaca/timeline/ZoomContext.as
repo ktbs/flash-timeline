@@ -1,19 +1,18 @@
 package com.ithaca.timeline
 {
-	import flash.display.Graphics;
+	import com.ithaca.timeline.events.TimelineEvent;
+	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
+	import flash.ui.ContextMenu;
+	import flash.ui.ContextMenuItem;
 	import mx.collections.ArrayCollection;
-	import mx.events.FlexEvent;
-	import spark.components.Group;
-	import spark.components.SkinnableContainer;
-	import spark.components.supportClasses.SkinnableComponent;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
+	import spark.components.Group;
+	import spark.components.SkinnableContainer;
 
 	public class ZoomContext  extends SkinnableContainer
-	{
-		static public const  TIMES_CHANGE : String = "ZoomContext_times_change";
-		
+	{		
 		[SkinPart(required="true")]
 		public var maxRange	 		: Group;
 		[SkinPart(required="true")]
@@ -21,19 +20,22 @@ package com.ithaca.timeline
 		[SkinPart(required="true")]
 		public var cursor	 		: Group;
 		[SkinPart(required="true")]
-		public var timelinePreview	: SkinnableContainer;
+		public var timelinePreview	: Group;
+		[SkinPart(required="true")]
+		public var timeRuler		: TimeRuler;
+
+		public var _timeline	    : Timeline;
+		public var _timelineRange	: TimeRange;
+		public var cursorRange		: TimeRange;
 		
-		private var _timeline	    : Timeline;
-		
-		public var startTime		: Number = 0;
-		public var duration			: Number = 1000;
-		public var firstInit		: Boolean = true;
-		
+		public var zoomStart		: Number;
+		public var zoomEnd			: Number;		
 		
 		public function ZoomContext() : void 
-		{
-			super();
-		}
+		{				
+			super();	
+			enabled = false;
+		}	
 		
 		public function set timeline( value : Timeline ) : void 
 		{
@@ -46,30 +48,30 @@ package com.ithaca.timeline
 			}
 			
 			_timeline = value; 
-			_timeline.addEventListener( Timeline.TIMES_CHANGE, onTimelineTimesChange );
-			_timeline.addEventListener( Timeline.LAYOUT_CHANGE, onTimelineLayoutChange );			
+			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
+			_timeline.addEventListener( TimelineEvent.LAYOUT_CHANGE, onTimelineLayoutChange );						
 		}
 		public function get timeline( ) : Timeline  { return  _timeline; }
 				
-		public function updateSkinPositionFromValues() : void
+		public function updateSkinPositionFromValues( e: Event = null) : void
 		{
-			if ( cursor && _timeline && timelinePreview)
+			if ( cursor && _timeline && timelinePreview && cursorRange)
 			{		
-				cursor.width 	= duration * timelinePreview.width / _timeline.duration;
-				cursor.x 		= timelinePreview.x +  (startTime - _timeline.startTime ) * timelinePreview.width / _timeline.duration;
-				minRange.x 		=  cursor.x -minRange.width;
-				maxRange.x 		=  Math.min(cursor.x + cursor.width, timelinePreview.width+timelinePreview.x -1);
+				cursor.width 	= cursorRange.duration * timelinePreview.width / _timeline.duration + (minRange.width+ maxRange.width);
+				cursor.x 		= timelinePreview.x +  (cursorRange.begin - _timeline.begin ) * timelinePreview.width / _timeline.duration - minRange.width ;
+				minRange.x 		= cursor.x;
+				maxRange.x 		= cursor.x + cursor.width - maxRange.width;
 			}
 		}
 		
 		public function updateValuesFromSkinPosition() : void
-		{
-			//trace("ZC :: starttime : " + startTime + ", duration " + duration );
+		{	
+			var begin 	: Number =  _timeline.begin + (cursor.x + minRange.width -timelinePreview.x)* _timeline.duration / timelinePreview.width;
+			var duration : Number = (cursor.width - minRange.width -  maxRange.width)* _timeline.duration / timelinePreview.width;			
 			
-			startTime 	=  _timeline.startTime + (cursor.x -timelinePreview.x)* _timeline.duration / timelinePreview.width;
-			duration 	=  cursor.width * _timeline.duration / timelinePreview.width;
+			cursorRange = new TimeRange( begin, duration);	
 			
-			dispatchEvent( new Event( TIMES_CHANGE ) );
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 	
 		}	
 		
 		public function onTracelineGroupsChange( event: CollectionEvent ) : void
@@ -80,14 +82,12 @@ package com.ithaca.timeline
 				{				
 					for each ( var tlg : LayoutNode in event.items )
 					{
-						var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer();
-						simpleObselsRenderer.startTime			= _timeline.startTime;
-						simpleObselsRenderer.duration	    	= _timeline.duration; 
-						simpleObselsRenderer._timeline		 	= _timeline;
+						var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange );											
 						simpleObselsRenderer.obselsCollection 	= (tlg.value as TraceLineGroup)._trace.obsels;
-						_timeline.addEventListener( Timeline.TIMES_CHANGE, simpleObselsRenderer.onTimelineChange );
-						simpleObselsRenderer.percentWidth = 100;
-						simpleObselsRenderer.percentHeight = 100;
+						_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
+						simpleObselsRenderer.percentWidth 	= 100;
+						simpleObselsRenderer.percentHeight 	= 100;
+						
 						timelinePreview.addElement(simpleObselsRenderer);
 					}
 					break;
@@ -111,21 +111,30 @@ package com.ithaca.timeline
 			_timeline.timelineLayout.tracelineGroups.addEventListener(CollectionEvent.COLLECTION_CHANGE, onTracelineGroupsChange);				 
 		}
 		
-		private function onTimelineTimesChange( e : Event ) : void
-		{
-			startTime = Math.max( startTime, _timeline.startTime );
-			
-			if ( firstInit )
+		private function onTimelineTimesChange( e : TimelineEvent ) : void
+		{			
+			_timelineRange = e.value as TimeRange;
+			trace("TL :" + _timelineRange.begin + " -> " + _timelineRange.end );
+			var begin : Number;
+			var duration : Number;
+			if ( cursorRange == null)
 			{
-				duration =  _timeline.duration * 0.3;
-				firstInit = false;
-			}
+				begin 		= _timelineRange.begin;
+				duration 	= ( _timelineRange.end - _timelineRange.begin )*Stylesheet.ZoomContextInitPercentWidth / 100;
+				enabled  = true;
+			}		
 			else
-				duration  = Math.min( duration , _timeline.endTime - startTime );
-						 
-		//	 trace("ZC :: starttime : " + startTime + ", duration " + duration );
-			 
-			 updateSkinPositionFromValues();			 
+			{
+				begin 		= Math.max( cursorRange.begin, _timelineRange.begin );
+				duration  	= Math.min( cursorRange.end, _timelineRange.end ) - begin;
+			}
+						
+			cursorRange = _timelineRange.cloneMe();
+			cursorRange.changeLimits(begin, begin + duration);
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 
+			
+			timeRuler.changeValues( _timelineRange.begin, _timelineRange.end );
+			updateSkinPositionFromValues();		
 		}
 	}
 }

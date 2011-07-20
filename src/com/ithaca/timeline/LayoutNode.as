@@ -5,7 +5,7 @@ package com.ithaca.timeline
 	
 	public class LayoutNode
 	{
-		private var _value		: Object ; 
+		private var _value		: Object ;		
 		
 		private var _parent		: LayoutNode ;
 		private var _children 	: ArrayCollection = new ArrayCollection() ;

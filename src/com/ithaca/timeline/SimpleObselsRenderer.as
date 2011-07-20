@@ -1,6 +1,8 @@
 package com.ithaca.timeline 
 {
+	import com.ithaca.timeline.events.TimelineEvent;
 	import com.ithaca.traces.Obsel;
+	import flash.display.ShaderParameter;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -8,78 +10,97 @@ package com.ithaca.timeline
 	import mx.core.UIComponent;
 	import mx.events.CollectionEvent;
 	import mx.events.ResizeEvent;
+	import mx.formatters.NumberBaseRoundType;
 	
 	public class SimpleObselsRenderer extends UIComponent 
 	{
-		public	var _colorMarker : uint = 0;
+		public	var _markerColor 		: uint = 0x000000;
+		public	var _durativeColor 		: uint = 0xC9C9C9;
+		public	var _backgroundColor	: uint = 0xFFFFFF;
 		
-		private var _sprite 	: Sprite = new Sprite();;
-		private var _obsels 	: ArrayCollection = null;
-		[Bindable]
-		private var _startTime 	: Number = 0;
-		[Bindable]
-		private var _duration 	: Number = 1;
-		private var _shape 		: Shape = new Shape();
-		public var _timeline	: Timeline;		
+		private var _sprite 			: Sprite = new Sprite();
+		private	var _timeRange			: TimeRange = null;
+		private var _obsels 			: ArrayCollection = null;	
 		
-		public function SimpleObselsRenderer( ) 
+		public function SimpleObselsRenderer( tr : TimeRange ) 
 		{
 			super();						
-			_sprite.addChild( _shape )
 			addChild( _sprite );
-			addEventListener(ResizeEvent.RESIZE, onObselsChange );
+			_timeRange = tr;
+			addEventListener( ResizeEvent.RESIZE, redraw );
 		}
 		
-		public function set startTime ( value : Number ) : void { _startTime = value; }
-		public function set duration ( value : Number )  : void { _duration = value; }
 		public function set obselsCollection( obsels : ArrayCollection ) : void
 		{			
 			if ( _obsels)
-				_obsels.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onObselsChange);
+				_obsels.removeEventListener(CollectionEvent.COLLECTION_CHANGE, redraw);
 			_obsels = obsels;
 			
-			onObselsChange(null);
-			_obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE, onObselsChange);
+			redraw();
+			_obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE, redraw);
 		}
-		
-		
-		public function  onTimelineChange( event : Event ) : void
+				
+		public function  onTimerangeChange( event : TimelineEvent ) : void
 		{
-			_startTime = _timeline.startTime;
-			_duration  = _timeline.duration;
+			_timeRange = event.value as TimeRange;
+			redraw();
+		}
+	
+		
+		public function  redraw( event : Event = null) : void
+		{						
+			var i : int;		
+			for (i = 0; i < _sprite.numChildren; i++)
+				_sprite.removeChildAt(0);		
 			
-			onObselsChange( null );
-		}
-		
-		public function  onZoomContextChange( event : Event ) : void
-		{
-			_startTime = _timeline.zoomContext.startTime;
-			_duration  = _timeline.zoomContext.duration;
-			
-			onObselsChange( null );
-		}
-		
-		public function  onObselsChange( event : Event ) : void
-		{
-			var shape : Shape = new Shape();
-					
-			shape.graphics.beginFill(_colorMarker);
-			shape.graphics.lineStyle(0, _colorMarker);
-		
-			for each (var obsel :Obsel in _obsels)
-			{
-				if (obsel.begin >= _startTime )
-				{
-					if (obsel.end <= _startTime + _duration)
-						shape.graphics.drawRect( (obsel.begin - _startTime)*width/_duration , 0, 0, height);
-				}
+			var lastShapeInterval : Shape = null;
+	 
+			for (i = 0; i < _timeRange._ranges.length; i+=2)
+			{				
+				var intervalStart 		: Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);
+				var intervalEnd 		: Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
+				var intervalDuration 	: Number = intervalEnd - intervalStart;
+				var shapeWidth			: Number = intervalDuration * width / _timeRange.duration;
+				
+				var shape : Shape = new Shape();
+				// drawing interval background
+				shape.graphics.beginFill(_backgroundColor);
+				shape.graphics.lineStyle(0, 0x00FF00);
+				shape.graphics.drawRect( 0, 0, shapeWidth, height);
+				shape.graphics.endFill();
+				
+				//drawing obsels
+				for each (var durativeObsel :Obsel in _obsels)
+				{	
+					if ( durativeObsel.end >= intervalStart  && durativeObsel.begin <= intervalEnd )
+					{
+						// durative
+						if (durativeObsel.begin < durativeObsel.end ) 
+						{
+							shape.graphics.beginFill(_durativeColor, 0.5);
+							shape.graphics.lineStyle();
+							var beginDurative : Number = Math.max( durativeObsel.begin, intervalStart );
+							var widthDurative : Number = Math.min( durativeObsel.end,   intervalEnd ) - beginDurative;
+							shape.graphics.drawRect( (beginDurative - intervalStart ) * shapeWidth / intervalDuration , 0, widthDurative * shapeWidth / intervalDuration, height);
+							shape.graphics.endFill();
+						} 
+						// non durative
+						else if (durativeObsel.begin == durativeObsel.end )
+						{
+							shape.graphics.lineStyle(0, _markerColor);	
+							var x : Number = (durativeObsel.begin - intervalStart) * shapeWidth / intervalDuration;
+							shape.graphics.moveTo( x, 0 );
+							shape.graphics.lineTo( x, height );
+						}
+					}
+				}	
+				
+				if (lastShapeInterval)
+					shape.x = lastShapeInterval.x + lastShapeInterval.width + 10;
+				_sprite.addChild( shape );
+				lastShapeInterval = shape;
 			}
-			
-			shape.graphics.endFill();	
-		
-			_sprite.removeChild( _shape );		
-			_sprite.addChild( shape );
-			_shape = shape;
+				
 		}
 	}
 

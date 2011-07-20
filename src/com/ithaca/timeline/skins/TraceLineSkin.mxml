@@ -20,6 +20,7 @@
 			import com.ithaca.timeline.Divider;
 			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.ZoomContext;
+			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.traces.Obsel;
 			import mx.events.FlexEvent;
 			import flash.display.DisplayObject;
@@ -42,22 +43,25 @@
 			
 			[Bindable]
 			public var timeline:Timeline;
+			
+			[Bindable]
+			public var simpleObselsRenderer : SimpleObselsRenderer;
 						
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				traceLineTitle.text 				  = hostComponent.title;		
-						
-				simpleObselsRenderer.startTime		  = hostComponent._timeline.startTime;
-				simpleObselsRenderer.duration	      = hostComponent._timeline.duration; 
-				simpleObselsRenderer._timeline		  = hostComponent._timeline;
-				simpleObselsRenderer.obselsCollection = hostComponent._obsels;
-				hostComponent._timeline.zoomContext.addEventListener( ZoomContext.TIMES_CHANGE, simpleObselsRenderer.onZoomContextChange );
-				simpleObselsRenderer.onZoomContextChange(null);
+			
+				simpleObselsRenderer = new SimpleObselsRenderer( hostComponent._timeline.zoomContext.cursorRange );
+				simpleObselsRenderer.percentHeight 		= 100;
+				simpleObselsRenderer.percentWidth  		= 100;			
+				simpleObselsRenderer.obselsCollection 	= hostComponent._obsels;
+				rendererGroup.addElement( simpleObselsRenderer );
+				hostComponent._timeline.zoomContext.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
 				
 				dividerX 							  = hostComponent._timeline.divider;
 				timeline							  = hostComponent._timeline;
 				onChildrenChange(null);			
-				updateDisplayLevel( );				
+				updateDisplayLevel( );					
 			}
 			
 			protected function updateDisplayLevel(  ) : void
@@ -102,13 +106,12 @@
 	
 	<s:VGroup width="100%" height="100%" gap="5">
 		<s:Group width="100%" height="20"> 				
-			<s:Group id="titleGroup"   height="100%">
+			<s:HGroup id="titleGroup"   height="100%" gap="6">
+				<mx:Spacer width="{displayLevel*15}" />
 				<mx:Image id="OpenButton" source="@Embed(source='../images/iconPlus.png')"  height="100%" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" /> 		
-				<s:Label id="traceLineTitle"  y="4" x="{20 + displayLevel*15 }" height="100%" />
-			</s:Group>	
-			<s:BorderContainer id="rendererGroup" click="onSelect()" x="{timeline.titleGroupWidth+ dividerX.skin.x}" width="100%" height="100%" backgroundColor="0xFFFFFF" minHeight="1" >
-				<tl:SimpleObselsRenderer id="simpleObselsRenderer" height="100%" width="100%"  />
-			</s:BorderContainer>	
+				<s:Label id="traceLineTitle" baselineShift="-4" height="100%" fontSize="11" />
+			</s:HGroup>	
+			<s:Group id="rendererGroup" click="onSelect()" x="{timeline.titleGroupWidth+ dividerX.skin.x}" width="100%" height="100%"  minHeight="1"/>				
 		</s:Group>
 		<s:VGroup id="contentGroup" includeIn="open" width="100%" gap="5" />
 	</s:VGroup>

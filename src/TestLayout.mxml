@@ -34,14 +34,14 @@
 		
 		private var _xmlLayout		: XMLList =  new XMLList();
 		private var _xmlLayoutDP	: XMLListCollection = new XMLListCollection( _xmlLayout );
-		private var tlg				: TraceLineGroup = new TraceLineGroup( null );
 		private var layoutTree 		: XML;				
 		
 		protected function init() : void
 		{
 			allTestLayout.enabled = false;			
 			urlTTL_ti.text = "trace.ttl";
-			loadLayout( "layout.xml");		
+			layout_ti.text = "layout.xml";
+			loadLayout( layout_ti.text );	
 		}		
 		
 		protected function browse(event:MouseEvent):void
@@ -61,26 +61,22 @@
 		{
 			var loader:URLLoader=new URLLoader();
 			
-			//loader.dataFormat=URLLoaderDataFormat..;
 			loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
 			loader.load(new URLRequest(layoutFilename));
 			
-			loadingSpinner.visible = true;
-			loadingSpinner.enabled = true;
+			loading.visible = true;
+			loading.label = "Loading Layout...";
 		}
 		
 		
 		private function onLoadLayoutComplete(event:Event):void 
 		{
+			loading.visible = false;	
+			
 			//we init the trace object
 			var loader:URLLoader=event.target as URLLoader;
-			
-			layoutTree = new XML(loader.data);
-			
-			timeline.timelineLayout = new Layout( timeline, layoutTree );
-			
-			loadingSpinner.visible = false;
-			loadingSpinner.enabled = false;			
+
+			timeline.timelineLayout = new Layout( timeline, new XML(loader.data) );
 			
 			allTestLayout.enabled = true;
 		}
@@ -94,20 +90,18 @@
 			loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
 			loader.load(new URLRequest(urlTTL_ti.text));
 			
-			loadingSpinner.visible = true;
-			loadingSpinner.enabled = true;
+			loading.visible = true;		
+			loading.label = "Loading TTL...";
 		}	
 		
 		
 		public function ttlToTrace(ttl:String, theTrace:Trace):void
-		{
+		{	
 			//we split the ttl on each "." line (kind of an "end of instruction" in ttl (?))
 			var ar:Array = ttl.split("\n.\n");
 			
 			for each (var l: String in ar)
 			{
-				//if(l.substr(0,7) != "@prefix")
-				//{
 				l = l + "\n.\n"; //we (re)add the "." line at the end of instruction (because the "split function" has not include it)
 				
 				//for each "ttl instruction", we create a new obsel and initialize it with the "ttl insctruction" content
@@ -117,12 +111,14 @@
 				//if the initialization from the ttl chunk is ok, we add the obsel to the trace
 				if(obs.type != "temp")
 					theTrace.addObsel(obs);
-				//}
 			}
+						
 		}
 		
 		private function onLoadTTLComplete(event:Event):void 
-		{
+		{	
+			loading.visible = false;
+			
 			//we init the trace object
 			var loader:URLLoader=event.target as URLLoader;
 			var trace_ttl:String = loader.data;
@@ -130,13 +126,13 @@
 			var theTrace:Trace = new Trace(421,urlTTL_ti.text); //Dirty
 			theTrace.autosync = false;
 			
+			loading.visible = true;
+			loading.label = "TTL to trace...";
 			ttlToTrace(trace_ttl, theTrace);
-			
-			loadingSpinner.visible = false;
-			loadingSpinner.enabled = false;		
-			
-			timeline.addTrace(theTrace);
-			
+			loading.label = "Adding Trace...";
+			timeline.addTrace(theTrace);	
+			loading.visible = false;
+		
 			updateDisplay();
 		}
 		
@@ -200,19 +196,23 @@
 	
 	<fx:Style source="defaults.css" />
 	
-	<s:Group id="allTestLayout" width="100%" height="100%" left="10" right="10" top="10" bottom="10">		
-		<s:layout> <s:VerticalLayout gap="20" />	</s:layout>
-		
+	<s:VGroup id="allTestLayout" width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">		
 		
 		<s:HGroup width="100%"  height="50%" gap="10">			
 			<s:VGroup  height="100%" left="10" gap="5">					
-				<!-- Loading --> 		
-				<s:Group y="10" width="100%" >
+				<!-- Loading  Trace--> 		
+				<s:Group width="100%" >
 					<mx:Label y="2" text="TTL :"/>
-					<mx:TextInput id="urlTTL_ti" x="40"  width="194" text="{urlTTL_ti.text}" enabled="true"/>
+					<mx:TextInput id="urlTTL_ti" x="50"  width="194" text="{urlTTL_ti.text}" enabled="true"/>
 					<mx:Button label="Load" id="loadTTL_btn"  click="loadTTL()" top="1" left="324"/>
-					<mx:Label x="40" y="30" text="Loading..." id="loading_lbl" visible="false" />	
 					<s:Button x="250" y="1" label="Browse" click="browse(event)"/>		
+				</s:Group>
+				
+				<!-- Loading Layout-->
+				<s:Group width="100%" >
+					<mx:Label y="2" text="Layout :"/>
+					<mx:TextInput id="layout_ti" x="50"  width="194"  enabled="true"/>
+					<mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" top="1" left="324"/>
 				</s:Group>
 				
 				<!-- Tree / Layout -->
@@ -235,12 +235,11 @@
 		</s:HGroup>
 			
 		<tl:Timeline id="timeline" width="100%" height="50%" />
-	</s:Group>
+	</s:VGroup>
+
 	
-	
-	
-	<mx:Box id="loadingSpinner" horizontalAlign="center" verticalAlign="middle" width="100%" height="100%" visible="{timeline != null}" >
-		<mx:ProgressBar  label="Loading..."   labelPlacement="center" indeterminate="true" />
+	<mx:Box width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<mx:ProgressBar id="loading"  horizontalCenter="true" verticalCenter="true" label="Loading..."  labelPlacement="center" indeterminate="true" visible="true" />
 	</mx:Box>
 	
 </s:Application>

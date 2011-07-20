@@ -40,25 +40,14 @@ package com.ithaca.timeline
 		{
 			var temp : TraceLineGroup = tracelineGroups.removeItemAt( fromIndex ) as TraceLineGroup;
 			tracelineGroups.addItemAt( temp, toIndex );
-		}
-		
-		public function addTraceline(  traceline : TraceLine , parent : LayoutNode, xmlLayout : XML = null ) :  LayoutNode
-		{
-			var newNode : LayoutNode = new LayoutNode();				
-			newNode.layout = null;	
-			newNode.value = traceline
-			
-			parent.addChild( newNode );
-			
-			return newNode;
-		}
+		}	
 		
 		public function removeTraceline( ): Boolean 
 		{ 
 			return true; 
 		}
 		
-		public function moveTraceline( destination : Object ):void {}
+		public function moveTraceline(  ):void {}
 	
 		public function createTracelineGroupTree ( trac : Trace ) : LayoutNode 
 		{	
@@ -92,63 +81,89 @@ package com.ithaca.timeline
 			return null;
 		}
 		
-		public function createTree ( xmlLayout : XML , trac : Trace) : LayoutNode 
+		public function createTraceLineGroupNode(  xmlLayout : XML , trac : Trace ) : LayoutNode
 		{
-			var newNode : LayoutNode = null ;
+			var newNode : LayoutNode = new LayoutNode();
+			
+			newNode.layout = xmlLayout;			
+			newNode.value =  new TraceLineGroup ( trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri );	
+			
+			return newNode;
+		}
+		
+		public function addTraceline(  traceline : TraceLine , parent : LayoutNode , xmlLayout : XML = null ) :  LayoutNode
+		{
+			var newNode : LayoutNode = new LayoutNode();				
+			newNode.layout = null;	
+			newNode.value = traceline
+			
+			parent.addChild( newNode );
+			
+			return newNode;
+		}
+		
+		public function createTraceLineNode(  xmlLayout : XML  ) : LayoutNode
+		{
+			var newNode : LayoutNode = new LayoutNode();
+			var tlTitle : String;
+			var tlSelector : ISelector;
+			var tlSource : String;
+					
+			if ( xmlLayout.hasOwnProperty('@selector') )
+			{
+				if  ( xmlLayout.@selector == "SelectorRegexp")
+				{
+					tlTitle = "regexp : " + xmlLayout.@regexp;
+					tlSelector = new SelectorRegexp(xmlLayout.@regexp, xmlLayout.@field);
+				}
+				else
+				{
+					var selectorClass:Class = getDefinitionByName( xmlLayout.@selector ) as Class;
+					tlTitle = xmlLayout.@selector;							
+					tlSelector = new selectorClass();
+				}
+			}
+			if ( xmlLayout.hasOwnProperty('@title') )
+				tlTitle = xmlLayout.@title; 
+			
+			newNode.layout = xmlLayout;
+			newNode.value = new TraceLine( _Root.value as Timeline, tlTitle, tlSelector, tlSource );
+			
+			return newNode;
+		}
+		
+		public function createModifierNode(  xmlLayout : XML  ) : LayoutNode
+		{
+			var newNode : LayoutNode = new LayoutNode();
+			
+			newNode.layout = xmlLayout;
+			
+			newNode.value =  new LayoutModifier ( _Root.value as Timeline );
+			if ( xmlLayout.hasOwnProperty('@splitter') )									
+					(newNode.value  as LayoutModifier)._splitter =  xmlLayout.@splitter ;	
+
+			return newNode;
+		}
+		
+		public function createTree ( xmlLayout : XML , trac : Trace) : LayoutNode 
+		{		
+			var newNode : LayoutNode = null;
 			
 			switch( xmlLayout.localName() )
 			{				
 				case TRACELINEGROUP :
-				{
-					newNode = new LayoutNode();
-					newNode.layout = xmlLayout;			
-					newNode.value =  new TraceLineGroup ( trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri );									
-					
+					newNode = createTraceLineGroupNode( xmlLayout, trac );							
 					break;
-				}
 				
 				case MODIFIER :
-				{
-					newNode = new LayoutNode();
-					newNode.layout = xmlLayout;
-					
-					newNode.value =  new LayoutModifier ( _Root.value as Timeline );
-					if ( xmlLayout.hasOwnProperty('@splitter') )									
-						(newNode.value  as LayoutModifier)._splitter =  xmlLayout.@splitter ;	
-							
-					
-					return newNode;
-				}				
+					return createModifierNode( xmlLayout );						
 				
 				case TRACELINE :	
-				{
-					var tlTitle : String;
-					var tlSelector : ISelector;
-					var tlSource : String;
+					newNode = createTraceLineNode( xmlLayout );
+					break;	
 					
-					if ( xmlLayout.hasOwnProperty('@selector') )
-					{
-						if  ( xmlLayout.@selector == "SelectorRegexp")
-						{
-							tlTitle = "regexp : " + xmlLayout.@regexp;
-							tlSelector = new SelectorRegexp(xmlLayout.@regexp, xmlLayout.@field);
-						}
-						else
-						{
-							var selectorClass:Class = getDefinitionByName( xmlLayout.@selector ) as Class;
-							tlTitle = xmlLayout.@selector;							
-							tlSelector = new selectorClass();
-						}
-					}
-					if ( xmlLayout.hasOwnProperty('@title') )
-						tlTitle = xmlLayout.@title; 
-					
-					newNode = new LayoutNode();				
-					newNode.layout = xmlLayout;
-					newNode.value = new TraceLine( _Root.value as Timeline, tlTitle, tlSelector, tlSource );				
-
-					break;
-				}			
+				default:
+					return null;
 			}			
 			
 			for each ( var child : XML in xmlLayout.children() )
@@ -158,16 +173,16 @@ package com.ithaca.timeline
 					
 					var collec : ArrayCollection;
 					
-						if (child.hasOwnProperty('@source') && child.@source == "parent" )
-						{
-							(newNode.value as TraceLine).source = xmlLayout.@source;						
-							if (newNode.value is TraceLine)
-								collec = (newNode.value as TraceLine)._obsels;
-							else if (newNode.value is TraceLineGroup)
-								collec = (newNode.value as TraceLineGroup)._trace.obsels;							
-						}
-						else						
-							collec  = trac.obsels;		
+					if (child.hasOwnProperty('@source') && child.@source == "parent" )
+					{
+						(newNode.value as TraceLine).sourceStr = xmlLayout.@source;						
+						if (newNode.value is TraceLine)
+							collec = (newNode.value as TraceLine)._obsels;
+						else if (newNode.value is TraceLineGroup)
+							collec = (newNode.value as TraceLineGroup)._trace.obsels;							
+					}
+					else						
+						collec  = trac.obsels;		
 							
 					if ( newTree.value is TraceLine )
 					{	
