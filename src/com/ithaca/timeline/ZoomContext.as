@@ -49,6 +49,7 @@ package com.ithaca.timeline
 			
 			_timeline = value; 
 			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
+			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);
 			_timeline.addEventListener( TimelineEvent.LAYOUT_CHANGE, onTimelineLayoutChange );						
 		}
 		public function get timeline( ) : Timeline  { return  _timeline; }
@@ -132,8 +133,6 @@ package com.ithaca.timeline
 			cursorRange = _timelineRange.cloneMe();
 			cursorRange.changeLimits(begin, begin + duration);
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 
-			
-			timeRuler.changeValues( _timelineRange.begin, _timelineRange.end );
 			updateSkinPositionFromValues();		
 		}
 	}

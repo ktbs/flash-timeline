@@ -9,6 +9,7 @@
 	</fx:Declarations>
 	
 	<fx:Script>	<![CDATA[
+		import com.ithaca.timeline.events.TimelineEvent;
 		import flash.globalization.DateTimeStyle;
 		import spark.components.Label;
 		import mx.formatters.DateFormatter;		
@@ -115,6 +116,11 @@
 					ruler.removeChildAt(0);
 				ruler.addChildAt(drawRuler(), 0);
 			}
+		}
+		
+		public function onTimeRangeChange( e : TimelineEvent) :void
+		{
+			changeValues( (e.value as TimeRange).begin, (e.value as TimeRange).end);
 		}
 		
 		public function changeValues( beginValue : Number, endValue : Number ):void
