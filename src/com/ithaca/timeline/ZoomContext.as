@@ -48,6 +48,7 @@ package com.ithaca.timeline
 			}
 			
 			_timeline = value; 
+			timelinePreview.addEventListener( Event.RESIZE, updateSkinPositionFromValues );
 			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
 			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);
 			_timeline.addEventListener( TimelineEvent.LAYOUT_CHANGE, onTimelineLayoutChange );						
@@ -57,9 +58,9 @@ package com.ithaca.timeline
 		public function updateSkinPositionFromValues( e: Event = null) : void
 		{
 			if ( cursor && _timeline && timelinePreview && cursorRange)
-			{		
-				cursor.width 	= cursorRange.duration * timelinePreview.width / _timeline.duration + (minRange.width+ maxRange.width);
-				cursor.x 		= timelinePreview.x +  (cursorRange.begin - _timeline.begin ) * timelinePreview.width / _timeline.duration - minRange.width ;
+			{						
+				cursor.x 		= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.begin, timelinePreview.width ) - minRange.width;
+				cursor.width 	= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.end, timelinePreview.width ) + maxRange.width - cursor.x ;
 				minRange.x 		= cursor.x;
 				maxRange.x 		= cursor.x + cursor.width - maxRange.width;
 			}
@@ -67,11 +68,10 @@ package com.ithaca.timeline
 		
 		public function updateValuesFromSkinPosition() : void
 		{	
-			var begin 	: Number =  _timeline.begin + (cursor.x + minRange.width -timelinePreview.x)* _timeline.duration / timelinePreview.width;
-			var duration : Number = (cursor.width - minRange.width -  maxRange.width)* _timeline.duration / timelinePreview.width;			
+			var begin 	: Number 	= _timelineRange.postionToTime( cursor.x + minRange.width - timelinePreview.x, timelinePreview.width );
+			var end 	: Number 	= _timelineRange.postionToTime( cursor.x  + cursor.width - maxRange.width - timelinePreview.x, timelinePreview.width );	
 			
-			cursorRange = new TimeRange( begin, duration);	
-			
+			cursorRange.changeLimits(begin, end);
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 	
 		}	
 		
@@ -115,7 +115,7 @@ package com.ithaca.timeline
 		private function onTimelineTimesChange( e : TimelineEvent ) : void
 		{			
 			_timelineRange = e.value as TimeRange;
-			trace("TL :" + _timelineRange.begin + " -> " + _timelineRange.end );
+			
 			var begin : Number;
 			var duration : Number;
 			if ( cursorRange == null)
@@ -134,6 +134,13 @@ package com.ithaca.timeline
 			cursorRange.changeLimits(begin, begin + duration);
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 
 			updateSkinPositionFromValues();		
+		}
+		
+		public function setRange( beginValue : Number, endValue : Number ) : void
+		{
+			cursorRange.changeLimits(beginValue, endValue);
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 
+			updateSkinPositionFromValues();			
 		}
 	}
 }

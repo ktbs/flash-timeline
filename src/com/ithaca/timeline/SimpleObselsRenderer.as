@@ -57,6 +57,9 @@ package com.ithaca.timeline
 	 
 			for (i = 0; i < _timeRange._ranges.length; i+=2)
 			{				
+				if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
+					continue;
+				
 				var intervalStart 		: Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);
 				var intervalEnd 		: Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
 				var intervalDuration 	: Number = intervalEnd - intervalStart;
@@ -96,7 +99,7 @@ package com.ithaca.timeline
 				}	
 				
 				if (lastShapeInterval)
-					shape.x = lastShapeInterval.x + lastShapeInterval.width + 10;
+					shape.x = lastShapeInterval.x + lastShapeInterval.width + _timeRange.timeHoleWidth;
 				_sprite.addChild( shape );
 				lastShapeInterval = shape;
 			}

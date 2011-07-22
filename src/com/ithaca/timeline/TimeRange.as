@@ -10,11 +10,11 @@ package com.ithaca.timeline
 		private var _end		: Number;
 		private var _duration 	: Number;
 		private var _zoom		: Boolean  = false;
+		public  var	timeHoleWidth : Number = 10;
 		
 		public function TimeRange( startValue : Number = 0 , durationValue : Number = 1 ) : void 
 		{
 			_ranges = new ArrayCollection();	
-			trace(" new timerange "+  startValue + "  " + durationValue);
 			addTime(startValue, startValue + durationValue);
 		}
 		
@@ -32,6 +32,65 @@ package com.ithaca.timeline
 				_ranges.addItem( value );
 			else
 				_ranges.addItemAt( value, pos );
+		}
+		
+		public function timeToPosition( timeValue : Number, width : Number ) : Number
+		{
+			var position : Number = 0;
+			
+			if ( timeValue <= begin )
+				position = 0;		
+			else if ( timeValue >= end )
+				position = width;
+			else for ( var i : int = 1; i < _ranges.length; i ++ )
+				if ( begin <= _ranges[i]  )
+				{
+					var rangeStart : Number = Math.max( begin, _ranges[i - 1] );
+										
+					if ( timeValue <= _ranges[i]  )
+					{
+						if ( i % 2 == 0)
+							position += timeHoleWidth;
+						else
+							position += ( timeValue - rangeStart ) * width / duration;
+						break;
+					}
+					else				
+					{
+						var intervalWidth : Number = (i % 2 == 0) ? timeHoleWidth : ( _ranges[i] - rangeStart) * width / duration;
+						position +=  intervalWidth ;				
+					}
+				}
+				
+			
+			trace( "timeToPosition : " + new Date(timeValue).toString() + " / " + width + " => " + position );
+			return position;
+		}
+		
+		public function postionToTime( positionValue : Number, width : Number ) : Number
+		{
+			var time : Number = 0;	
+			var currentPostion: Number = 0;	;
+			if ( positionValue <= 0 )
+				time = begin;		
+			else if ( positionValue >= width )
+				time = end;
+			else for ( var i : int = 1; i < _ranges.length; i ++ )
+				if ( begin <= _ranges[i]  )
+				{
+					var rangeStart : Number = Math.max( begin, _ranges[i - 1] );
+					var intervalWidth : Number = (i % 2 == 0) ? timeHoleWidth : ( _ranges[i] - rangeStart) * width / duration;
+					if ( positionValue < currentPostion + intervalWidth )
+					{						
+						time = rangeStart + ( positionValue - currentPostion )  * duration / width;
+						break;
+					}
+					else
+						currentPostion += intervalWidth;
+				}
+			
+			trace( "postionToTime : " + positionValue + " / " + width + " => " + new Date(time).toString() );
+			return time;
 		}
 		
 		public function updateDuration ( ) : void
@@ -157,7 +216,7 @@ package com.ithaca.timeline
 		}
 		
 		public function changeLimits ( begin : Number , end : Number ) : void
-		{
+		{			
 			_start = begin;
 			_end = end;
 			_zoom = true ;

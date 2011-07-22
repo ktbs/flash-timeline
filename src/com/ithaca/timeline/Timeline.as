@@ -117,11 +117,8 @@ package com.ithaca.timeline
 		public function makeTimeHole( startValue : Number, endValue : Number ) : void
 		{
 			range.makeTimeHole( startValue, endValue);
+			zoomContext.setRange( range.begin, range.end );
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE ,range)); 		
 		}		
-		
-		//		public function set begin( value : Number ) : void 		{ range.begin 	= value; 	dispatchEvent(new TimelineEvent( TimelineEvent.TIMES_CHANGE) ); }
-		//		public function set end( value : Number ) 	: void 		{ range.end 	= value; 	dispatchEvent(new TimelineEvent( TimelineEvent.TIMES_CHANGE) ); }
-		//		public function set duration(value :Number) : void 		{ range.duration = value; 	dispatchEvent(new TimelineEvent( TimelineEvent.TIMES_CHANGE) ); }		
 	}
 }
