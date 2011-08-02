@@ -22,7 +22,8 @@
 			protected function creationCompleteHandler(event:Event):void
 			{
 				titleGroupWidth = hostComponent.titleGroupWidth;	
-				zoomContext.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);				
+				zoomContext.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);		
+				zoomContext.addEventListener( Event.RESIZE, timeRuler.redraw);		
 			}
 			 ]]>
 	</fx:Script>
@@ -35,7 +36,7 @@
 	<s:Group id="tlGroup" width="100%" height="100%">		
 		<tl:ZoomContext id="zoomContext" x="{titleGroupWidth + divider.skin.x}" width="100%" minWidth="200"  />				
 		<s:BorderContainer y="{zoomContext.height}" width="100%" height="100%">	
-			<tl:TimeRuler id="timeRuler" x="{titleGroupWidth + divider.skin.x}"  width="100%" xBegin="10" xEnd="{timeRuler.width}" />
+			<tl:TimeRuler id="timeRuler"  width="100%" startPosition="{titleGroupWidth+ divider.skin.x}" rulerWidth="{zoomContext.width}"  />
 			<s:Scroller width="100%" height="100%" y="{timeRuler.height}">			
 				<s:VGroup id="contentGroup"  gap="0" width="100%" />				
 			</s:Scroller>

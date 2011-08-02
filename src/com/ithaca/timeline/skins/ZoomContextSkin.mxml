@@ -101,7 +101,7 @@
 				<s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
 			</s:Group>
 			
-			<timeline:TimeRuler id="timeRuler" y="{timelinePreview.y+timelinePreview.height}" width="100%" xBegin="{timelinePreview.x}" xEnd="{timelinePreview.x+timelinePreview.width}" />
+			<timeline:TimeRuler id="timeRuler" y="{timelinePreview.y+timelinePreview.height}" width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />
 			
 			<s:Group id="cursor" mouseDown="zcStartDrag(event);" x="40" width="30" y="10" height="20" >				
 				<s:Rect width="100%" height="100%" y="1">

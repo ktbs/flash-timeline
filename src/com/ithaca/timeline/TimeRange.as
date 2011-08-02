@@ -63,14 +63,14 @@ package com.ithaca.timeline
 				}
 				
 			
-			trace( "timeToPosition : " + new Date(timeValue).toString() + " / " + width + " => " + position );
+//			trace( "timeToPosition : " + new Date(timeValue).toString() + " / " + width + " => " + position );
 			return position;
 		}
 		
 		public function postionToTime( positionValue : Number, width : Number ) : Number
 		{
 			var time : Number = 0;	
-			var currentPostion: Number = 0;	;
+			var currentPostion: Number = 0;
 			if ( positionValue <= 0 )
 				time = begin;		
 			else if ( positionValue >= width )
@@ -89,7 +89,7 @@ package com.ithaca.timeline
 						currentPostion += intervalWidth;
 				}
 			
-			trace( "postionToTime : " + positionValue + " / " + width + " => " + new Date(time).toString() );
+			//trace( "postionToTime : " + positionValue + " / " + width + " => " + new Date(time).toString() );
 			return time;
 		}
 		

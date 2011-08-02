@@ -63,7 +63,7 @@ package com.ithaca.timeline
 				var intervalStart 		: Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);
 				var intervalEnd 		: Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
 				var intervalDuration 	: Number = intervalEnd - intervalStart;
-				var shapeWidth			: Number = intervalDuration * width / _timeRange.duration;
+				var shapeWidth			: Number = intervalDuration * (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
 				
 				var shape : Shape = new Shape();
 				// drawing interval background
