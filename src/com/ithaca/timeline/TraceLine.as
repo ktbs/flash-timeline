@@ -75,46 +75,23 @@ package com.ithaca.timeline
 		};
 		
 		public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
-		{
+		{			
 			_obsels.removeAll();
+		
 			if ( obselsCollection == null )
 				obselsCollection = getCollectionSource();				
-			if (obselsCollection != null)
-				_obsels.source = obselsCollection.source;
+			if (obselsCollection != null && obselsCollection.length >0)
+			{				
+				for each( var obsel :  Obsel in obselsCollection)
+					_obsels.addItem( obsel );			
+			}
 			_obsels.refresh();
-		/*	if (obselsCollection)				
-				for each (var item  : Obsel in obselsCollection)
-					if (acceptObsel( item ) ) 						
-						addObsel (item );*/					
 		}		
 		
 		public function onSourceChange( event : CollectionEvent ) : void
 		{
-			_obsels.refresh();
-			/*var item : Obsel;
-			switch (event.kind)
-			{
-				case CollectionEventKind.ADD :
-				{
-					for each (  item  in event.items)				
-						if (acceptObsel( item ) )
-							addObsel (item );
-					break;
-				}				
-				case CollectionEventKind.REMOVE :
-				{
-					for each ( item  in event.items)
-						removeObsel (item );
-					break;
-				}
-				case CollectionEventKind.REPLACE :
-				break;
-				case CollectionEventKind.RESET :
-					resetObselCollection();
-				break;			
-				default:
-					
-			}*/
+			if (_obsels.length >0)
+				_obsels.refresh();
 		}
 	}
 }

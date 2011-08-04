@@ -3,25 +3,36 @@
 				 xmlns:s="library://ns.adobe.com/flex/spark" 
 				 xmlns:tl="com.ithaca.timeline.*"
 				 xmlns:mx="library://ns.adobe.com/flex/mx" 
-				 xmlns:Skins="com.ithaca.timeline.Skins.*" 
+				 xmlns:Skins="com.ithaca.timeline.skins.*" 
 				 creationComplete="creationCompleteHandler(event)"
-				 width="100%" height="100%">
-	<fx:Declarations>
-		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
-	</fx:Declarations>
+				 width="100%" height="100%">	
 	
 	 <fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLine")]</fx:Metadata>
 	 
+	  <fx:Declarations>
+        <fx:XML id="menuContent">
+            <root>
+                <menuitem label="Ajouter une traceline" 	eventName="newTraceLine"/>
+				<menuitem type="separator"/> 
+				<menuitem label="Modifier cette traceline" 	eventName="editTraceLine"/>
+                <menuitem label="Supprimer cette traceline" eventName="removeTraceLine"/>				
+            </root>
+        </fx:XML>
+    </fx:Declarations>	
+	
 	  <fx:Script>
         <![CDATA[         
 			import com.ithaca.timeline.LayoutNode;
+			import com.ithaca.timeline.SelectorRegexp;
 			import com.ithaca.timeline.SimpleObselsRenderer;
+			import com.ithaca.timeline.TraceLine;
 			import com.ithaca.timeline.TraceLineGroup;
-			import com.ithaca.timeline.Divider;
+			import com.ithaca.timeline.Divider;			
 			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.ZoomContext;
 			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.traces.Obsel;
+			import flash.geom.Point;
 			import mx.events.FlexEvent;
 			import flash.display.DisplayObject;
 			import flash.display.Graphics;
@@ -29,8 +40,12 @@
 			import flash.display.Sprite;
 			import mx.core.UIComponent; 
 			import flash.events.Event;
+			import mx.controls.Alert;
+            import mx.controls.Menu;
+            import mx.events.MenuEvent;
 			import mx.collections.ArrayCollection;
 			import mx.events.CollectionEvent;
+			import mx.managers.PopUpManager;
 
 			[Bindable]
 			public var forme:Shape = new Shape();	
@@ -46,6 +61,8 @@
 			
 			[Bindable]
 			public var simpleObselsRenderer : SimpleObselsRenderer;
+			
+			private var editMenu:Menu;
 						
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -77,6 +94,83 @@
 					displayLevel = 0;
 			}
 			
+			protected function showMenu() : void
+			{
+				var position : Point =  menuButton.localToGlobal( new Point( menuButton.x, menuButton.y ) );
+				
+				editMenu = Menu.createMenu( tracelineGroup, menuContent, false);
+                editMenu.labelField = "@label";
+                editMenu.addEventListener(MenuEvent.ITEM_CLICK, menuHandler);           
+                
+                editMenu.show( position.x - 50, position.y );
+            }            
+			
+			private function removeAddTraceLine(evt:Event):void 			
+			{
+				if ( evt.currentTarget.confirm )				
+				{		
+					var parent : LayoutNode = hostComponent.node.parent;
+					if ( parent )
+					{
+						for each( var child : LayoutNode  in hostComponent.node.children)
+						{
+							parent.addChild(child);
+							if (child.value is TraceLine )
+								(child.value as TraceLine ).resetObselCollection();
+						}
+					parent.removeChild( hostComponent.node );
+					}
+				}
+			}
+			
+			private function onAddTraceLine(evt:Event):void 			
+			{
+				timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.node);
+			}
+			
+            private function menuHandler(evt:MenuEvent):void  
+			{								
+				
+				var str : String = evt.item.@eventName;
+                switch( str  )
+				{
+					case "newTraceLine":										
+					{	
+						var newDialog : TraceLineEditDialog = new TraceLineEditDialog();
+						newDialog.traceline = new TraceLine( timeline );
+						PopUpManager.addPopUp(newDialog,parentApplication.timeline, true);	
+						PopUpManager.centerPopUp(newDialog);
+						newDialog.addEventListener( Event.REMOVED, onAddTraceLine);
+					}
+					break;
+					case "editTraceLine":
+					{	
+						var editDialog : TraceLineEditDialog = new TraceLineEditDialog();
+						editDialog.tracelineTitle 	= hostComponent.title;
+						editDialog.tracelineSource 	= (hostComponent.sourceStr == "parent")?1:0; 
+						if ( hostComponent._selector is SelectorRegexp)
+						{
+							editDialog.selectorField 			= (hostComponent._selector as SelectorRegexp).field;
+							editDialog.selectorRegexp			= (hostComponent._selector as SelectorRegexp).regexp;
+						}
+						editDialog.traceline = hostComponent;
+						PopUpManager.addPopUp(editDialog,parentApplication.timeline, true);	
+						PopUpManager.centerPopUp(editDialog);							
+					}
+					break;
+					case "removeTraceLine":
+					{
+						var removeDialog : ConfirmationDialog = new ConfirmationDialog();
+						removeDialog.title="Do you really want to delete this traceline ?"
+						PopUpManager.addPopUp(removeDialog,this, true);	
+						PopUpManager.centerPopUp(removeDialog);	
+						removeDialog.addEventListener( Event.REMOVED, removeAddTraceLine);
+					}
+					break;
+					default:									
+				}			
+            }
+			
 			protected function onSelect() : void
 			{					
 				parentApplication.dg_label.text = hostComponent.title + " : " + hostComponent._obsels.length + " obsels";
@@ -103,13 +197,14 @@
         <s:State name="open" />
 		<s:State name="disabled" />
     </s:states>
-	
-	<s:VGroup width="100%" height="100%" gap="5">
+
+	<s:VGroup id="tracelineGroup" width="100%" height="100%" gap="5">
 		<s:Group width="100%" height="20"> 				
 			<s:HGroup id="titleGroup"   height="100%" gap="6">
 				<mx:Spacer width="{displayLevel*15}" />
 				<mx:Image id="OpenButton" source="@Embed(source='../images/iconPlus.png')"  height="100%" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" /> 		
 				<s:Label id="traceLineTitle" baselineShift="-4" height="100%" fontSize="11" />
+				<mx:Image id="menuButton"  width="12" height="12" source="@Embed(source='../images/iconMinus.png')" click="showMenu()" /> 		
 			</s:HGroup>	
 			<s:Group id="rendererGroup" click="onSelect()" x="{timeline.titleGroupWidth+ dividerX.skin.x}" width="100%" height="100%"  minHeight="1"/>				
 		</s:Group>

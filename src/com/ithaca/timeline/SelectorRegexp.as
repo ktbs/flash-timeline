@@ -18,6 +18,11 @@ package com.ithaca.timeline
 		{
 			_regexp = new RegExp( value );
 		}
+		
+		public function get regexp( ):String
+		{
+			return _regexp.source;
+		}
 
 		public function getMatchingObsels(obselsArray:Array):Array
 		{
@@ -25,7 +30,7 @@ package com.ithaca.timeline
 		}
 		
 		public function isObselMatching(obsel:Obsel):Boolean
-		{
+		{		
 			return _regexp.test( obsel[field] );
 		}
 		

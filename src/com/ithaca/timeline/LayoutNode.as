@@ -58,5 +58,11 @@ package com.ithaca.timeline
 			else
 				return null;
 		}
+		
+		public function removeChild( child : LayoutNode ) : void
+		{
+			children.removeItemAt( children.getItemIndex( child ) );
+			(value as SkinnableContainer).removeElement(child.value as SkinnableContainer );
+		}	
 	}
 }

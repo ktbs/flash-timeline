@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:tl="com.ithaca.timeline.*"
+			   title="Create / Edit TraceLine"
+			   close="onCancel(event)" >
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ithaca.timeline.SelectorRegexp;
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			import com.ithaca.timeline.TraceLine;
+			
+			[Bindable]
+			public var tracelineTitle : String;			
+			[Bindable]
+			public var tracelineSource : Number = 0;
+			[Bindable]
+			public var selectorField : String = "type";
+			[Bindable]
+			public var selectorRegexp : String;
+			
+			public var traceline : TraceLine;
+						
+			private function onCancel(event:Event):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function onValid(event:Event):void
+			{
+				traceline.title = titleIT.text;
+				if (traceline.sourceStr != sourceDDL.selectedItem)						
+					traceline.sourceStr = sourceDDL.selectedItem;								
+				if ( regexpIT.text != "" && fieldIT.text != "" )
+					traceline._selector = new SelectorRegexp( regexpIT.text, fieldIT.text );
+				traceline.resetObselCollection();
+				
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:VBox paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
+		<s:HGroup verticalAlign="bottom" >  <s:Label text="Title :"/> <s:TextInput id="titleIT" text="{tracelineTitle}"/> </s:HGroup>
+		
+		<mx:Spacer height="10"/>
+		<s:HGroup verticalAlign="bottom"> 
+			<s:Label text="Source :" />
+			<s:DropDownList id="sourceDDL" selectedIndex="{tracelineSource}" width="90"> 
+				<mx:ArrayCollection>
+					<fx:String>trace</fx:String>
+					<fx:String>parent</fx:String>            
+				</mx:ArrayCollection>
+			</s:DropDownList>
+		</s:HGroup>
+		
+		<mx:Spacer height="10"/>
+		<s:Label text="Field / Regexp :" />
+		<s:HGroup > <s:TextInput text="{selectorField}" width="60" id="fieldIT"/> <s:TextInput text="{selectorRegexp}"  id="regexpIT"/> </s:HGroup>
+		
+		<mx:Spacer height="10"/>
+		<s:HGroup > <mx:Spacer width="80"/> <s:Button label="OK" width="38" click="onValid(event)" /> <s:Button label="Cancel" width="70" click="onCancel(event)" /> </s:HGroup>		
+	</mx:VBox>
+</s:TitleWindow>

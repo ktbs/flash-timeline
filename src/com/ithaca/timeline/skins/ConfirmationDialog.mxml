@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:tl="com.ithaca.timeline.*"			   
+			   close="onCancel(event)" >
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[		
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			public var confirm : Boolean = false;			
+						
+			private function onCancel(event:Event):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function onValid(event:Event):void
+			{
+				confirm = true;
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:VBox paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">	
+		<mx:Spacer height="10"/>
+		<s:HGroup > <mx:Spacer width="80"/> <s:Button label="OK" width="38" click="onValid(event)" /> <s:Button label="Cancel" width="70" click="onCancel(event)" /> </s:HGroup>		
+	</mx:VBox>
+</s:TitleWindow>
