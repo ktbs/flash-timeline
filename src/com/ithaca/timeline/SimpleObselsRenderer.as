@@ -18,15 +18,15 @@ package com.ithaca.timeline
 		public	var _durativeColor 		: uint = 0xC9C9C9;
 		public	var _backgroundColor	: uint = 0xFFFFFF;
 		
-		private var _sprite 			: Sprite = new Sprite();
 		private	var _timeRange			: TimeRange = null;
 		private var _obsels 			: ArrayCollection = null;	
+		private var _timeline			: Timeline;
 		
-		public function SimpleObselsRenderer( tr : TimeRange ) 
+		public function SimpleObselsRenderer( tr : TimeRange , tl : Timeline ) 
 		{
 			super();						
-			addChild( _sprite );
 			_timeRange = tr;
+			_timeline  = tl;
 			addEventListener( ResizeEvent.RESIZE, redraw );
 		}
 		
@@ -45,17 +45,15 @@ package com.ithaca.timeline
 			_timeRange = event.value as TimeRange;
 			redraw();
 		}
-	
 		
 		public function  redraw( event : Event = null) : void
-		{						
-			var i : int;		
-			for (i = 0; i < _sprite.numChildren; i++)
-				_sprite.removeChildAt(0);		
+		{							
+			while(numChildren > 0 )
+				removeChildAt(0);			
 			
 			var lastShapeInterval : Shape = null;
 	 
-			for (i = 0; i < _timeRange._ranges.length; i+=2)
+			for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
 			{				
 				if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
 					continue;
@@ -100,7 +98,7 @@ package com.ithaca.timeline
 				
 				if (lastShapeInterval)
 					shape.x = lastShapeInterval.x + lastShapeInterval.width + _timeRange.timeHoleWidth;
-				_sprite.addChild( shape );
+				addChild( shape );
 				lastShapeInterval = shape;
 			}
 				

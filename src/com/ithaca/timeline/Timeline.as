@@ -28,6 +28,7 @@ package com.ithaca.timeline
 			super(); 					
 			if (xmlLayout)
 				timelineLayout = new Layout( this, xmlLayout ) ;				
+			_styleSheet = new Stylesheet();
 		}
 		
 		override protected function partAdded(partName:String, instance:Object):void 

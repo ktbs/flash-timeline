@@ -18,7 +18,7 @@ package com.ithaca.timeline
 		
 		public function get value() : Object { return _value; }
 		public function set value(val:Object): void 
-		{ 
+		{ 			
 			_value = val; 
 			if (_value.hasOwnProperty("node") )
 				_value.node = this;			

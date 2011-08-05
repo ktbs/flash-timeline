@@ -24,7 +24,7 @@
         <![CDATA[         
 			import com.ithaca.timeline.LayoutNode;
 			import com.ithaca.timeline.SelectorRegexp;
-			import com.ithaca.timeline.SimpleObselsRenderer;
+			import com.ithaca.timeline.ObselsRenderer;
 			import com.ithaca.timeline.TraceLine;
 			import com.ithaca.timeline.TraceLineGroup;
 			import com.ithaca.timeline.Divider;			
@@ -60,7 +60,7 @@
 			public var timeline:Timeline;
 			
 			[Bindable]
-			public var simpleObselsRenderer : SimpleObselsRenderer;
+			public var simpleObselsRenderer : ObselsRenderer;
 			
 			private var editMenu:Menu;
 						
@@ -68,7 +68,7 @@
 			{
 				traceLineTitle.text 				  = hostComponent.title;		
 			
-				simpleObselsRenderer = new SimpleObselsRenderer( hostComponent._timeline.zoomContext.cursorRange );
+				simpleObselsRenderer = new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent._timeline );
 				simpleObselsRenderer.percentHeight 		= 100;
 				simpleObselsRenderer.percentWidth  		= 100;			
 				simpleObselsRenderer.obselsCollection 	= hostComponent._obsels;
@@ -199,7 +199,7 @@
     </s:states>
 
 	<s:VGroup id="tracelineGroup" width="100%" height="100%" gap="5">
-		<s:Group width="100%" height="20"> 				
+		<s:Group width="100%" height="40"> 				
 			<s:HGroup id="titleGroup"   height="100%" gap="6">
 				<mx:Spacer width="{displayLevel*15}" />
 				<mx:Image id="OpenButton" source="@Embed(source='../images/iconPlus.png')"  height="100%" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" /> 		

@@ -83,7 +83,7 @@ package com.ithaca.timeline
 				{				
 					for each ( var tlg : LayoutNode in event.items )
 					{
-						var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange );											
+						var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );											
 						simpleObselsRenderer.obselsCollection 	= (tlg.value as TraceLineGroup)._trace.obsels;
 						_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
 						simpleObselsRenderer.percentWidth 	= 100;
