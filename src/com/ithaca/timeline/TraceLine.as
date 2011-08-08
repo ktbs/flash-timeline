@@ -5,8 +5,8 @@ package com.ithaca.timeline
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 	import spark.components.SkinnableContainer;
-	import com.ithaca.timeline.Divider;
 
+	[Style(name="rendererHeight",type="Number",inherit="no")]	
 	public class TraceLine  extends SkinnableContainer
 	{
 		// tmp Debug
@@ -14,20 +14,22 @@ package com.ithaca.timeline
 		public static var index : Number = 0;
 		public var tracelineUid : Number;
 		
-		public var title 		: String;
-		public var sourceStr 	: String;
-		public var _selector 	: ISelector;
-		public var _obsels 		: ArrayCollection = new ArrayCollection();
-		public var node 		: LayoutNode = null;
-		public var _timeline	: Timeline;
+		public var titleComponent 	: TraceLineTitle;	
+		public var title 			: String;
+		public var sourceStr 		: String;
+		public var _selector 		: ISelector;
+		public var _obsels 			: ArrayCollection = new ArrayCollection();
+		public var node 			: LayoutNode = null;
+		public var _timeline		: Timeline;
+		public var rendererHeight	: Number;
 		
 		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null )
 		{
 			tracelineUid = index;
 			traceLineTmp.addItemAt( this , index++ );
 			_timeline = tl;
-			
-			title = tlTitle;
+			titleComponent = new TraceLineTitle( this );
+			title 	= tlTitle;
 			_selector = tlSelector;
 			sourceStr = tlSource;		
 			_obsels.filterFunction = acceptObsel;

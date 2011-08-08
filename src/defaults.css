@@ -3,12 +3,6 @@
 @namespace mx 			"library://ns.adobe.com/flex/mx";
 @namespace timeline		"com.ithaca.timeline.*"; 
 
-
-timeline|Divider
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.DividerDefaultSkin");
-}
-
 timeline|Timeline
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.TimelineSkin");
@@ -20,15 +14,20 @@ timeline|TraceLineGroup
 	fillColors : #FF777A, #95FF9A, #95CAFF, #F8FF95, #FFD595;
 }
 
-timeline|TraceLineGroup#tracettl
+timeline|TraceLineGroupTitle
 {
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
-	fillColors : #AAAAAA;
+	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleSkin");
 }
 
 timeline|TraceLine
 {
+	rendererHeight : 30;
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
+}
+
+timeline|TraceLineTitle
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineTitleSkin");
 }
 
 timeline|ZoomContext

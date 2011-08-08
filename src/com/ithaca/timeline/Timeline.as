@@ -3,6 +3,7 @@ package com.ithaca.timeline
 	import com.ithaca.timeline.events.TimelineEvent;
 	import com.ithaca.traces.Obsel;
 	import com.ithaca.traces.Trace;
+	import spark.components.Group;
 	import spark.components.supportClasses.SkinnableComponent;
 	
 	import flash.events.Event;
@@ -17,12 +18,10 @@ package com.ithaca.timeline
 		private var _layout			: Layout;
 		private var range			: TimeRange;
 		
-		[Bindable]
-		public  var _titleGroupWidth : Number = 200;
-		[SkinPart(required="true")]
-		public  var divider 		: Divider;
 		[SkinPart(required="true")]
 		public  var zoomContext		: ZoomContext;
+		[SkinPart(required="true")]
+		public  var titleGroup		: Group;
 		
 		public function Timeline( xmlLayout : XML = null )
 		{
@@ -72,6 +71,7 @@ package com.ithaca.timeline
 			if ( tlg.node )
 			{
 				tracelineGroups.removeItemAt( tracelineGroups.getItemIndex( tlg.node ) );
+				titleGroup.removeElement( tlg.titleComponent as SkinnableComponent );
 				removeElement( tlg as SkinnableComponent );
 			}
 		}
@@ -103,10 +103,7 @@ package com.ithaca.timeline
 		public function get tracelineGroups() : ArrayCollection { return timelineLayout.tracelineGroups; }
 		public function get styleSheet() : Stylesheet 			{ return _styleSheet; }
 		public function set styleSheet( value:Stylesheet ):void { _styleSheet = value; }
-		[Bindable]
-		public function get titleGroupWidth() : Number 			{ return _titleGroupWidth ; }
-		public function set titleGroupWidth( value:Number):void { _titleGroupWidth = value; }
-		
+
 		public function setTimeRangeLimits( startValue : Number, endValue : Number ) : void
 		{
 			range.changeLimits( startValue, endValue );

@@ -42,9 +42,25 @@ package com.ithaca.timeline
 			{
 				( child.value as SkinnableContainer).percentWidth = 100;
 				(value as SkinnableContainer).addElement( child.value as SkinnableContainer );
+				if ( child.value is TraceLineGroup )
+				{
+					( child.value as TraceLineGroup).titleComponent.percentWidth = 100;
+					( value as Timeline).titleGroup.addElement( (child.value as TraceLineGroup).titleComponent );
+				} 
+				else if ( child.value is TraceLine )
+				{
+					( child.value as TraceLine).titleComponent.percentWidth = 100;
+					if (value is TraceLineGroup)
+					{
+						(value as TraceLineGroup).titleComponent.addElement( (child.value as TraceLine).titleComponent );
+					}
+					else
+					{				
+						(value as TraceLine).titleComponent.addElement( (child.value as TraceLine).titleComponent );
+					}
+				}
 			}
 		}
-		
 		
 		public function getTraceLineGroup() : TraceLineGroup
 		{
@@ -63,6 +79,10 @@ package com.ithaca.timeline
 		{
 			children.removeItemAt( children.getItemIndex( child ) );
 			(value as SkinnableContainer).removeElement(child.value as SkinnableContainer );
+			if (value is TraceLineGroup)
+				(value as TraceLineGroup).titleComponent.removeElement( (child.value as TraceLine).titleComponent );
+			else
+				(value as TraceLine).titleComponent.removeElement( (child.value as TraceLine).titleComponent );		
 		}	
 	}
 }

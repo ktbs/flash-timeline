@@ -8,16 +8,20 @@ package com.ithaca.timeline
 	[Style(name = "fillColors", type = "Array", format = "Color", inherit = "no")]
 	public class TraceLineGroup  extends SkinnableContainer
 	{
-		public var title : String;
-		public var _trace : Trace;
-		public var  node : LayoutNode;
-		public var traceBegin 	: Number = 0;
-		public var traceEnd  	: Number = 0;
+		public var titleComponent 	: TraceLineGroupTitle;		
+		public var title 			: String;
+		public var _trace 			: Trace;
+		public var  node 			: LayoutNode;
+		public var traceBegin 		: Number = 0;
+		public var traceEnd  		: Number = 0;
 		
-		
+		[SkinPart(required="true")]
+		public var backgroundColor : uint;
+				
 		public function TraceLineGroup( trac : Trace, title : String = null)
 		{
 			this.title = title;
+			titleComponent = new TraceLineGroupTitle( this );
 			this.id = title;
 			trace = trac;
 		}

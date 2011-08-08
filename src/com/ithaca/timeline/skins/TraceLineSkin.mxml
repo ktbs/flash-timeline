@@ -1,214 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				 xmlns:s="library://ns.adobe.com/flex/spark" 
-				 xmlns:tl="com.ithaca.timeline.*"
-				 xmlns:mx="library://ns.adobe.com/flex/mx" 
-				 xmlns:Skins="com.ithaca.timeline.skins.*" 
-				 creationComplete="creationCompleteHandler(event)"
-				 width="100%" height="100%">	
-	
-	 <fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLine")]</fx:Metadata>
-	 
-	  <fx:Declarations>
-        <fx:XML id="menuContent">
-            <root>
-                <menuitem label="Ajouter une traceline" 	eventName="newTraceLine"/>
-				<menuitem type="separator"/> 
-				<menuitem label="Modifier cette traceline" 	eventName="editTraceLine"/>
-                <menuitem label="Supprimer cette traceline" eventName="removeTraceLine"/>				
-            </root>
-        </fx:XML>
-    </fx:Declarations>	
-	
-	  <fx:Script>
-        <![CDATA[         
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:tl="com.ithaca.timeline.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:Skins="com.ithaca.timeline.skins.*"
+		creationComplete="creationCompleteHandler(event)"
+		width="100%"
+		height="100%">
+
+	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLine")]</fx:Metadata>
+
+	<fx:Declarations>
+		<fx:XML id="menuContent">
+			<root>
+				<menuitem label="Ajouter une traceline"
+						  eventName="newTraceLine" />
+				<menuitem type="separator" />
+				<menuitem label="Modifier cette traceline"
+						  eventName="editTraceLine" />
+				<menuitem label="Supprimer cette traceline"
+						  eventName="removeTraceLine" />
+			</root>
+		</fx:XML>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.timeline.LayoutNode;
-			import com.ithaca.timeline.SelectorRegexp;
 			import com.ithaca.timeline.ObselsRenderer;
+			import com.ithaca.timeline.SelectorRegexp;
+			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.TraceLine;
 			import com.ithaca.timeline.TraceLineGroup;
-			import com.ithaca.timeline.Divider;			
-			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.ZoomContext;
-			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.traces.Obsel;
-			import flash.geom.Point;
-			import mx.events.FlexEvent;
 			import flash.display.DisplayObject;
 			import flash.display.Graphics;
 			import flash.display.Shape;
 			import flash.display.Sprite;
-			import mx.core.UIComponent; 
 			import flash.events.Event;
-			import mx.controls.Alert;
-            import mx.controls.Menu;
-            import mx.events.MenuEvent;
+			import flash.events.MouseEvent;
+			import flash.geom.Point;
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.controls.Menu;
+			import mx.core.UIComponent;
 			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.events.MenuEvent;
 			import mx.managers.PopUpManager;
-
-			[Bindable]
-			public var forme:Shape = new Shape();	
 			
 			[Bindable]
-			public var displayLevel:Number = 0;	
+			public var forme:Shape = new Shape();
 			
 			[Bindable]
-			public var dividerX:Divider;	
-			
+			public var displayLevel:Number = 0;
 			[Bindable]
 			public var timeline:Timeline;
 			
 			[Bindable]
-			public var simpleObselsRenderer : ObselsRenderer;
+			public var simpleObselsRenderer:ObselsRenderer;
 			
 			private var editMenu:Menu;
-						
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				traceLineTitle.text 				  = hostComponent.title;		
-			
-				simpleObselsRenderer = new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent._timeline );
-				simpleObselsRenderer.percentHeight 		= 100;
-				simpleObselsRenderer.percentWidth  		= 100;			
-				simpleObselsRenderer.obselsCollection 	= hostComponent._obsels;
-				rendererGroup.addElement( simpleObselsRenderer );
-				hostComponent._timeline.zoomContext.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
-				
-				dividerX 							  = hostComponent._timeline.divider;
-				timeline							  = hostComponent._timeline;
-				onChildrenChange(null);			
-				updateDisplayLevel( );					
+				simpleObselsRenderer = new ObselsRenderer(hostComponent._timeline.zoomContext.cursorRange, hostComponent._timeline);
+				simpleObselsRenderer.height = hostComponent.getStyle("rendererHeight") as Number;
+				simpleObselsRenderer.percentWidth = 100;
+				simpleObselsRenderer.obselsCollection = hostComponent._obsels;
+				simpleObselsRenderer.addEventListener(MouseEvent.CLICK, onSelect);
+				hostComponent._timeline.zoomContext.addEventListener(TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange);
+				rendererGroup.addElement(simpleObselsRenderer);
+				timeline = hostComponent._timeline;
 			}
 			
-			protected function updateDisplayLevel(  ) : void
-			{	
-				var node :LayoutNode = hostComponent.node;
-				displayLevel = -1;
-				while (node && !(node.value is TraceLineGroup))
-				{
-					node = node.parent;				
-					displayLevel++;
-				}							
-				if (!node)
-					displayLevel = 0;
-			}
-			
-			protected function showMenu() : void
+			protected function onSelect(event:Event):void
 			{
-				var position : Point =  menuButton.localToGlobal( new Point( menuButton.x, menuButton.y ) );
-				
-				editMenu = Menu.createMenu( tracelineGroup, menuContent, false);
-                editMenu.labelField = "@label";
-                editMenu.addEventListener(MenuEvent.ITEM_CLICK, menuHandler);           
-                
-                editMenu.show( position.x - 50, position.y );
-            }            
-			
-			private function removeAddTraceLine(evt:Event):void 			
-			{
-				if ( evt.currentTarget.confirm )				
-				{		
-					var parent : LayoutNode = hostComponent.node.parent;
-					if ( parent )
-					{
-						for each( var child : LayoutNode  in hostComponent.node.children)
-						{
-							parent.addChild(child);
-							if (child.value is TraceLine )
-								(child.value as TraceLine ).resetObselCollection();
-						}
-					parent.removeChild( hostComponent.node );
-					}
-				}
-			}
-			
-			private function onAddTraceLine(evt:Event):void 			
-			{
-				timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.node);
-			}
-			
-            private function menuHandler(evt:MenuEvent):void  
-			{								
-				
-				var str : String = evt.item.@eventName;
-                switch( str  )
-				{
-					case "newTraceLine":										
-					{	
-						var newDialog : TraceLineEditDialog = new TraceLineEditDialog();
-						newDialog.traceline = new TraceLine( timeline );
-						PopUpManager.addPopUp(newDialog,parentApplication.timeline, true);	
-						PopUpManager.centerPopUp(newDialog);
-						newDialog.addEventListener( Event.REMOVED, onAddTraceLine);
-					}
-					break;
-					case "editTraceLine":
-					{	
-						var editDialog : TraceLineEditDialog = new TraceLineEditDialog();
-						editDialog.tracelineTitle 	= hostComponent.title;
-						editDialog.tracelineSource 	= (hostComponent.sourceStr == "parent")?1:0; 
-						if ( hostComponent._selector is SelectorRegexp)
-						{
-							editDialog.selectorField 			= (hostComponent._selector as SelectorRegexp).field;
-							editDialog.selectorRegexp			= (hostComponent._selector as SelectorRegexp).regexp;
-						}
-						editDialog.traceline = hostComponent;
-						PopUpManager.addPopUp(editDialog,parentApplication.timeline, true);	
-						PopUpManager.centerPopUp(editDialog);							
-					}
-					break;
-					case "removeTraceLine":
-					{
-						var removeDialog : ConfirmationDialog = new ConfirmationDialog();
-						removeDialog.title="Do you really want to delete this traceline ?"
-						PopUpManager.addPopUp(removeDialog,this, true);	
-						PopUpManager.centerPopUp(removeDialog);	
-						removeDialog.addEventListener( Event.REMOVED, removeAddTraceLine);
-					}
-					break;
-					default:									
-				}			
-            }
-			
-			protected function onSelect() : void
-			{					
 				parentApplication.dg_label.text = hostComponent.title + " : " + hostComponent._obsels.length + " obsels";
-				parentApplication.obselList_dg.dataProvider = hostComponent._obsels;								
+				parentApplication.obselList_dg.dataProvider = hostComponent._obsels;
 			}
-			
-			protected function onChildrenChange( event : Event ) : void
-			{								
-				OpenButton.visible =  (hostComponent.node.children.length > 0 );
-			}
-			
-			protected function onOpenButtonClick():void
-			{				
-				if (currentState == "normal")
-					setCurrentState("open");
-				else 
-					setCurrentState("normal");
-			}
-        ]]>        
-    </fx:Script>
-	
-	<s:states>
-        <s:State name="normal" />
-        <s:State name="open" />
-		<s:State name="disabled" />
-    </s:states>
+		]]>
+	</fx:Script>
 
-	<s:VGroup id="tracelineGroup" width="100%" height="100%" gap="5">
-		<s:Group width="100%" height="40"> 				
-			<s:HGroup id="titleGroup"   height="100%" gap="6">
-				<mx:Spacer width="{displayLevel*15}" />
-				<mx:Image id="OpenButton" source="@Embed(source='../images/iconPlus.png')"  height="100%" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" /> 		
-				<s:Label id="traceLineTitle" baselineShift="-4" height="100%" fontSize="11" />
-				<mx:Image id="menuButton"  width="12" height="12" source="@Embed(source='../images/iconMinus.png')" click="showMenu()" /> 		
-			</s:HGroup>	
-			<s:Group id="rendererGroup" click="onSelect()" x="{timeline.titleGroupWidth+ dividerX.skin.x}" width="100%" height="100%"  minHeight="1"/>				
-		</s:Group>
-		<s:VGroup id="contentGroup" includeIn="open" width="100%" gap="5" />
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="open" />
+		<s:State name="disabled" />
+	</s:states>
+
+	<s:VGroup width="100%" gap="5">
+		<s:Group id="rendererGroup"  width="100%" height="100%" />
+		<s:VGroup id="contentGroup"  includeIn="open"   width="100%" gap="5" />
 	</s:VGroup>
-	
 </s:Skin>

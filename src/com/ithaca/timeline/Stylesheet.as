@@ -11,7 +11,6 @@ package com.ithaca.timeline
 	public class Stylesheet
 	{		
 		static public var ZoomContextInitPercentWidth : Number = 30;
-		static public var TlgDefaultFillColors : Array = [ 0xFFFFFF ];
 		
 		static public var obselsSkinsSelectors : Array = [  { id : 'Message' , 		selector : new SelectorRegexp('Message','type') },
 															{ id : 'Document' ,  	selector : new SelectorRegexp('Document','type')},
@@ -39,9 +38,6 @@ package com.ithaca.timeline
 		static public function getTracelineGroupColor( tlg : TraceLineGroup ) : uint
 		{
 			var fillColors : Array = tlg.getStyle( "fillColors" ) as Array;	
-			if (!fillColors)
-				fillColors = TlgDefaultFillColors;
-				
 			return fillColors[ Math.floor( Math.random() * fillColors.length ) ] ;
 		}
 		
