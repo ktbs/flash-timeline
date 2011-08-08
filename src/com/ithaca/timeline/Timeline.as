@@ -3,6 +3,7 @@ package com.ithaca.timeline
 	import com.ithaca.timeline.events.TimelineEvent;
 	import com.ithaca.traces.Obsel;
 	import com.ithaca.traces.Trace;
+	import spark.components.supportClasses.SkinnableComponent;
 	
 	import flash.events.Event;
 	
@@ -60,10 +61,19 @@ package com.ithaca.timeline
 			for (var i : int = 0; i < tracelineGroups.length; i++)
 				if ( ((( tracelineGroups[i] as LayoutNode ).value) as TraceLineGroup)._trace == tr )
 					{
-						tracelineGroups.removeItemAt(i);
+						removeTraceLineGroup ( ( tracelineGroups[i] as LayoutNode ).value as TraceLineGroup );
 						return true;
 					}
 			return false;
+		}
+		
+		public function removeTraceLineGroup ( tlg : TraceLineGroup ) : void
+		{
+			if ( tlg.node )
+			{
+				tracelineGroups.removeItemAt( tracelineGroups.getItemIndex( tlg.node ) );
+				removeElement( tlg as SkinnableComponent );
+			}
 		}
 		
 		public function get timelineLayout() : Layout 			{ return _layout; }
