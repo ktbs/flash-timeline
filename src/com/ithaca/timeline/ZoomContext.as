@@ -95,6 +95,7 @@ package com.ithaca.timeline
 				}				
 				case CollectionEventKind.REMOVE :
 				{
+					timelinePreview.removeElementAt( event.location );
 					break;
 				}
 				case CollectionEventKind.REPLACE :
