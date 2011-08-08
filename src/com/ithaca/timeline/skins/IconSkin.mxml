@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				 xmlns:s="library://ns.adobe.com/flex/spark" 
-				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*">
+				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
+				 creationComplete="creationCompleteHandler(event)">
 	<fx:Declarations>
 		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
 	</fx:Declarations>
+	
+	<fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
+	
+	<fx:Script>
+        <![CDATA[       
+			protected function creationCompleteHandler(event:Event):void
+			{
+				icon.source = hostComponent.getStyle( "icon" );
+			}
+		]]>        
+    </fx:Script>
 
 	<mx:Image id="icon" />
 

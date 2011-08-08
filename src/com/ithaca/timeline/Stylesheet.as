@@ -13,49 +13,28 @@ package com.ithaca.timeline
 		static public var ZoomContextInitPercentWidth : Number = 30;
 		static public var TlgDefaultFillColors : Array = [ 0xFFFFFF ];
 		
-		[Embed("images/motCleVisu1.png")]
-		private var keywordIconVisu1:Class;
-			
-		[Embed("images/chatMessageVisu1.png")]
-		private var messageChatIconVisu1:Class;
-
-		[Embed("images/consigneVisu1.png")]
-		private var consigneIconVisu1:Class;
-
-		[Embed("images/fichierVisu1.png")]
-		private var fichierIconVisu1:Class;
+		static public var obselsSkinsSelectors : Array = [  { id : 'Message' , 		selector : new SelectorRegexp('Message','type') },
+															{ id : 'Document' ,  	selector : new SelectorRegexp('Document','type')},
+															{ id : 'Instructions' ,	selector : new SelectorRegexp('Instructions','type')},
+															{ id : 'Keyword' , 		selector : new SelectorRegexp('Keyword','type')} ];
 		
 		public function Stylesheet()
 		{
 		}	
-		 
-		// Display
+		 		
 		public function getParameteredSkin( obsel : Obsel, traceline : TraceLine ) :  ObselSkin 
 		{ 	
-			var obselSkin : ObselSkin;
-			obselSkin = new ObselSkin();
+			var obselSkin : ObselSkin = new ObselSkin();
 			obselSkin.obsel = obsel;
-			obselSkin.setStyle("skinClass", Class(IconSkin));
-			obselSkin.addEventListener("creationComplete", initIconSkin );
+			for each ( var item : Object in obselsSkinsSelectors )
+				if ( (item.selector as ISelector).isObselMatching( obsel ) )
+					obselSkin.styleName = item.id;			
 			
-			return obselSkin;
+			if ( obselSkin.styleName )
+				return obselSkin;
+			else
+				return null;
 		}
-				
-		public function  initIconSkin( event : Event ) : void
-		{
-			var obsel 		: Obsel 	= (event.currentTarget as ObselSkin).obsel;
-			var obselSkin 	: IconSkin  = ((event.currentTarget as ObselSkin).skin as IconSkin);
-			
-			if ( new RegExp( "Message" ).test(obsel.type) )
-				obselSkin.icon.source	 	= messageChatIconVisu1;
-			else if ( new RegExp( "Document" ).test(obsel.type) )
-				obselSkin.icon.source 		= fichierIconVisu1;
-			else if ( new RegExp( "Instructions" ).test(obsel.type) )
-				obselSkin.icon.source 		= consigneIconVisu1;
-			else if ( new RegExp( "Keyword" ).test(obsel.type) )
-				obselSkin.icon.source 		= keywordIconVisu1;	
-			 
-		};
 		
 		static public function getTracelineGroupColor( tlg : TraceLineGroup ) : uint
 		{

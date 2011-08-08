@@ -103,8 +103,8 @@ package com.ithaca.timeline
 		
 		public function addTime ( beginValue : Number , endValue : Number,  fillHole : Boolean = true ) : void
 		{				
-			var beginIndex 	: Number  	= _ranges.length;;
-			var endIndex 	: Number 	= _ranges.length;;
+			var beginIndex 	: Number  	= _ranges.length;
+			var endIndex 	: Number 	= _ranges.length;
 			
 			for ( var i : int = 0; i < _ranges.length; i++ )
 				if ( beginValue <= _ranges[i] )
@@ -170,8 +170,8 @@ package com.ithaca.timeline
 		
 		public function makeTimeHole (beginValue : Number , endValue : Number ) : void
 		{
-			var beginIndex 	: Number  	= _ranges.length;;
-			var endIndex 	: Number 	= _ranges.length;;
+			var beginIndex 	: Number  	= _ranges.length;
+			var endIndex 	: Number 	= _ranges.length;
 			
 			for ( var i : int = 0; i < _ranges.length; i++ )
 				if ( beginValue <= _ranges[i] )

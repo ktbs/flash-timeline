@@ -36,3 +36,26 @@ timeline|ZoomContext
 	skin-class: ClassReference("com.ithaca.timeline.skins.ZoomContextSkin");
 }
 
+timeline|ObselSkin.Message
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
+	icon : Embed("images/chatMessageVisu1.png");
+}
+
+timeline|ObselSkin.Document
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
+	icon : Embed("images/fichierVisu1.png");
+}
+
+timeline|ObselSkin.Instructions
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
+	icon :Embed("images/consigneVisu1.png");
+}
+
+timeline|ObselSkin.Keyword
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
+	icon : Embed("images/motCleVisu1.png");
+}
