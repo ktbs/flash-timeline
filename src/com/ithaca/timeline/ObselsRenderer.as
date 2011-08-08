@@ -71,8 +71,7 @@ package com.ithaca.timeline
 						if ( obselSkin )
 						{
 							var x : Number = (obsel.begin - intervalStart) * shapeWidth / intervalDuration;
-							obselSkin.x = x;
-							obselSkin.y = 10;
+							obselSkin.x = x;					
 							intervalGroup.addElement( obselSkin ) ;
 						}
 					}
