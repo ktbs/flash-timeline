@@ -8,6 +8,18 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
+	<fx:Metadata>
+		[Style(name = "minLabelsGap", 	type = "Number", inherit = "no")]
+		[Style(name = "maxLabelsGap", 	type = "Array", inherit = "no")]
+		[Style(name = "minMarksGap", 	type = "Array", inherit = "no")]
+		[Style(name = "maxMarksGap", 	type = "Array", inherit = "no")]
+		[Style(name = "minorMarkHeight", type = "Array", inherit = "no")]
+		[Style(name = "majorMarkHeight", type = "Array", inherit = "no")]
+		[Style(name = "limitMarkHeight", type = "Array", inherit = "no")]
+		[Style(name = "validIntervals", type = "Array", inherit = "no")]
+		[Style(name = "labelsIntervals", type = "Array", inherit = "no")]
+	</fx:Metadata>
+	
 	<fx:Script>	<![CDATA[
 		import com.ithaca.timeline.events.TimelineEvent;
 		import flash.display.Shape;
@@ -26,21 +38,32 @@
 		[Bindable]
 		public var startPosition		: Number 	= 0;
 		[Bindable]
-		public var rulerWidth  			: Number 	= 100;
-		public var minLabelsGap 		: Number 	= 100;
-		public var maxLabelsGap	 		: Number 	= 30;
-		public var minMarksGap	 		: Number 	= 4;
-		public var maxMarksGap	 		: Number 	= 20;
-		public var minorMarkHeight		: Number	= 5;
-		public var majorMarkHeight		: Number	= 12;
-		public var limitMarkHeight		: Number	= 17;
-		public var validIntervals 		: Array 	= [1, 10, 100, 1000, 10 * 1000, 	60 * 1000, 5 * 60 * 1000, 10 * 60 * 1000, 60 * 60 * 1000 ];
-		public var majorIntervals 		: Array 	= [5, 50, 500, 5000, 60 * 1000, 5 * 60 * 1000, 20 * 60 * 1000, 60 * 60 * 1000, 5 * 60 * 60 * 1000 ];
-		public var labelsIntervals 		: Array 	= [5, 50, 500, 5000, 60 * 1000, 5 * 60 * 1000, 20 * 60 * 1000, 60 * 60 * 1000, 5 * 60 * 60 * 1000 ];
+		public var rulerWidth  			: Number = 100;
+		
+		public var minLabelsGap 		: Number ;
+		public var maxLabelsGap	 		: Number ;
+		public var minMarksGap	 		: Number ;
+		public var maxMarksGap	 		: Number ;
+		public var minorMarkHeight		: Number ;
+		public var majorMarkHeight		: Number ;
+		public var limitMarkHeight		: Number ;
+		public var validIntervals 		: Array ;
+		public var majorIntervals 		: Array ;
+		public var labelsIntervals 		: Array ;
 		
 		
 		protected function creationCompleteHandler() : void
-		{
+		{	
+			minLabelsGap 	= getStyle("minLabelsGap");
+			maxLabelsGap	= getStyle("maxLabelsGap");	 	
+			minMarksGap	 	= getStyle("minMarksGap");	 	
+			maxMarksGap	 	= getStyle("maxMarksGap");	
+			minorMarkHeight	= getStyle("minorMarkHeight");	
+			majorMarkHeight	= getStyle("majorMarkHeight");	
+			limitMarkHeight	= getStyle("limitMarkHeight");	
+			validIntervals 	= getStyle("validIntervals");	
+			majorIntervals 	= getStyle("majorIntervals"); 	
+			labelsIntervals = getStyle("labelsIntervals"); 	
 			dateFormater.formatString = "JJ:NN:SS" ;
 			ruler.addChild(new Shape);
 		}
