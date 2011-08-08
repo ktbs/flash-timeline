@@ -11,7 +11,7 @@ timeline|Timeline
 timeline|TraceLineGroup
 {
 	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
-	fillColors : #FF777A, #95FF9A, #95CAFF, #F8FF95, #FFD595;
+	fillColors : #FFA6A8, #C6FFC9, #AED7FF, #FAFFB7, #FFDFB0, #E1B7F9 ;
 }
 
 timeline|TraceLineGroupTitle

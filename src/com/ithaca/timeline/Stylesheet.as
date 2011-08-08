@@ -9,7 +9,8 @@ package com.ithaca.timeline
 	import com.ithaca.traces.Obsel;
 
 	public class Stylesheet
-	{		
+	{
+		static private var tracelineGroupColorIndex : uint = 0;
 		static public var ZoomContextInitPercentWidth : Number = 30;
 		
 		static public var obselsSkinsSelectors : Array = [  { id : 'Message' , 		selector : new SelectorRegexp('Message','type') },
@@ -38,7 +39,7 @@ package com.ithaca.timeline
 		static public function getTracelineGroupColor( tlg : TraceLineGroup ) : uint
 		{
 			var fillColors : Array = tlg.getStyle( "fillColors" ) as Array;	
-			return fillColors[ Math.floor( Math.random() * fillColors.length ) ] ;
+			return fillColors[ tracelineGroupColorIndex++ % fillColors.length ] ;
 		}
 		
 	}
