@@ -72,13 +72,13 @@
 					break;
 					default:
 						break;
-				}
-				hostComponent.updateValuesFromSkinPosition();
+				}			
 			}
 			
 			protected function zcStopDrag(e:MouseEvent):void
 			{
 				draggedPart = null;
+				hostComponent.updateValuesFromSkinPosition()
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
 				stage.removeEventListener(MouseEvent.MOUSE_UP,zcStopDrag);		
 			}
