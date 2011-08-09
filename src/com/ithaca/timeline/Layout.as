@@ -13,34 +13,20 @@ package com.ithaca.timeline
 		public static const MODIFIER: String = "modifier";
 		public static const ROOT: String = "root";
 
-		private var 	_Root 		: LayoutNode = null; 	
+		private var _timeline : Timeline;
 		
-		public function Layout( tl : Timeline, xmlLayout : XML = null )
+		public function Layout( tl : Timeline )
 		{			
-			_Root = new LayoutNode();
-			_Root.layout = xmlLayout;
-			_Root.value = tl;			
+			_timeline = tl;			
 		}
 		
-		
-		public function get tracelineGroups() : ArrayCollection { return _Root.children; }
+//		public function get tracelineGroups() : ArrayCollection { return _Root.getEchildren; }
 		
 		public function addTracelineGroupTree (  node : LayoutNode,  index : int = -1) : void
 		{
 			if ( node )		
-				_Root.addChild(  node , index );			
+				_timeline.addChildAndTitle(  node , index );			
 		}
-		
-		public function removeTracelineGroup ( index : int )  : Boolean  
-		{		
-			return ( tracelineGroups.removeItemAt( index ) != null);	
-		}
-		
-		public function moveTracelineGroup ( fromIndex : int, toIndex : int )  :void 
-		{
-			var temp : TraceLineGroup = tracelineGroups.removeItemAt( fromIndex ) as TraceLineGroup;
-			tracelineGroups.addItemAt( temp, toIndex );
-		}	
 		
 		public function removeTraceline( ): Boolean 
 		{ 
@@ -49,11 +35,11 @@ package com.ithaca.timeline
 		
 		public function moveTraceline(  ):void {}
 	
-		public function createTracelineGroupTree ( trac : Trace ) : LayoutNode 
+		public function createTracelineGroupTree ( trac : Trace ) : TraceLineGroup 
 		{	
 			var treeLayout : XML = new XML( TRACELINEGROUP );
 			
-			for each (var child : XML in _Root.layout.children() )
+			for each (var child : XML in _timeline.layoutXML.children() )
 			{
 				if ( child.hasOwnProperty('@source') )
 				{
@@ -67,44 +53,37 @@ package com.ithaca.timeline
 					treeLayout = child;
 			}
 			
-			return  createTree(treeLayout, trac );			
+			return  createTree(treeLayout, trac ) as TraceLineGroup;			
 		}
 		
 		static public function getTrace (node : LayoutNode ) : Trace
 		{
-			while (node && !(node.value is TraceLineGroup))
-				node = node.parent;
+			while (node && !(node is TraceLineGroup))
+				node = node.parentNode;
 			
 			if (node)
-				return ((node.value) as TraceLineGroup)._trace;
+				return (node as TraceLineGroup)._trace;
 				
 			return null;
 		}
 		
-		public function createTraceLineGroupNode(  xmlLayout : XML , trac : Trace ) : LayoutNode
+		public function createTraceLineGroupNode(  xmlLayout : XML , trac : Trace ) : TraceLineGroup
 		{
-			var newNode : LayoutNode = new LayoutNode();
-			
-			newNode.layout = xmlLayout;			
-			newNode.value =  new TraceLineGroup ( trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri );	
-			
+			var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri );	
+			newNode.layoutXML = xmlLayout;			
+
 			return newNode;
 		}
 		
-		public function addTraceline(  traceline : TraceLine , parent : LayoutNode , xmlLayout : XML = null ) :  LayoutNode
+		public function addTraceline(  traceline : TraceLine , parentNode : LayoutNode , xmlLayout : XML = null ) :  LayoutNode
 		{
-			var newNode : LayoutNode = new LayoutNode();				
-			newNode.layout = null;	
-			newNode.value = traceline
-			
-			parent.addChild( newNode );
-			
-			return newNode;
+			parentNode.addChildAndTitle( traceline );
+			return traceline;
 		}
 		
-		public function createTraceLineNode(  xmlLayout : XML  ) : LayoutNode
+		public function createTraceLineNode(  xmlLayout : XML  ) : TraceLine
 		{
-			var newNode : LayoutNode = new LayoutNode();
+			var newNode : TraceLine;
 			var tlTitle : String;
 			var tlSelector : ISelector;
 			var tlSource : String;
@@ -126,21 +105,19 @@ package com.ithaca.timeline
 			if ( xmlLayout.hasOwnProperty('@title') )
 				tlTitle = xmlLayout.@title; 
 			
-			newNode.layout = xmlLayout;
-			newNode.value = new TraceLine( _Root.value as Timeline, tlTitle, tlSelector, tlSource );
+			newNode = new TraceLine( _timeline, tlTitle, tlSelector, tlSource );
+			newNode.layoutXML = xmlLayout;			
 			
 			return newNode;
 		}
 		
-		public function createModifierNode(  xmlLayout : XML  ) : LayoutNode
+		public function createModifierNode(  xmlLayout : XML  ) : LayoutModifier
 		{
-			var newNode : LayoutNode = new LayoutNode();
-			
-			newNode.layout = xmlLayout;
-			
-			newNode.value =  new LayoutModifier ( _Root.value as Timeline );
+			var newNode : LayoutModifier = new LayoutModifier ( _timeline );
+			newNode.layoutXML = xmlLayout;
+		
 			if ( xmlLayout.hasOwnProperty('@splitter') )									
-					(newNode.value  as LayoutModifier)._splitter =  xmlLayout.@splitter ;	
+					newNode._splitter =  xmlLayout.@splitter ;	
 
 			return newNode;
 		}
@@ -169,31 +146,23 @@ package com.ithaca.timeline
 			for each ( var child : XML in xmlLayout.children() )
 			{
 					var newTree : LayoutNode = createTree( child, trac );
-					newNode.addChild( newTree );	
+					newNode.addChildAndTitle( newTree );	
 					
 					var collec : ArrayCollection;
 					
 					if (child.hasOwnProperty('@source') && child.@source == "parent" )
 					{
-						(newNode.value as TraceLine).sourceStr = xmlLayout.@source;						
-						if (newNode.value is TraceLine)
-							collec = (newNode.value as TraceLine)._obsels;
-						else if (newNode.value is TraceLineGroup)
-							collec = (newNode.value as TraceLineGroup)._trace.obsels;							
+						(newNode as TraceLine).sourceStr = xmlLayout.@source;						
+						if (newNode is TraceLine)
+							collec = (newNode as TraceLine)._obsels;
+						else if (newNode is TraceLineGroup)
+							collec = (newNode as TraceLineGroup)._trace.obsels;							
 					}
 					else						
 						collec  = trac.obsels;		
 							
-					if ( newTree.value is TraceLine )
-					{	
-						collec.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree.value as TraceLine).onSourceChange );
-						(newTree.value as TraceLine).resetObselCollection( collec );
-					} 
-					else if ( newTree.value is LayoutModifier )
-					{
-						collec.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree.value as LayoutModifier).onSourceChange );
-						(newTree.value as LayoutModifier).resetObselCollection( collec );
-					}				
+					collec.addEventListener( CollectionEvent.COLLECTION_CHANGE , newTree.onSourceChange );
+					newTree.resetObselCollection( collec );			
 			}
 						
 			return newNode;

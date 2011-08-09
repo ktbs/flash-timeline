@@ -30,7 +30,7 @@
 			
 			protected function closeTracelineGroup( ) : void
 			{
-				(hostComponent.tlg.node.parent.value as Timeline).removeTraceLineGroup( hostComponent.tlg );
+				(hostComponent.tlg._timeline as Timeline).removeTraceLineGroup( hostComponent.tlg );
 			}
 	
 			private var rectangle:Rectangle = new Rectangle(0,0, 0, 100);

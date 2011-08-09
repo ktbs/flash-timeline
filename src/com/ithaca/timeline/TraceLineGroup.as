@@ -6,24 +6,23 @@ package com.ithaca.timeline
 	import spark.components.SkinnableContainer;
 	
 	[Style(name = "fillColors", type = "Array", format = "Color", inherit = "no")]
-	public class TraceLineGroup  extends SkinnableContainer
-	{
-		public var titleComponent 	: TraceLineGroupTitle;		
+	public class TraceLineGroup  extends LayoutNode
+	{	
 		public var title 			: String;
 		public var _trace 			: Trace;
-		public var  node 			: LayoutNode;
 		public var traceBegin 		: Number = 0;
 		public var traceEnd  		: Number = 0;
 		
 		[SkinPart(required="true")]
 		public var backgroundColor : uint;
 				
-		public function TraceLineGroup( trac : Trace, title : String = null)
+		public function TraceLineGroup( tl : Timeline, trac : Trace, title : String = null)
 		{
 			this.title = title;
 			titleComponent = new TraceLineGroupTitle( this );
 			this.id = title;
 			trace = trac;
+			_timeline = tl;
 		}
 		
 		public function set trace ( value : Trace ) : void

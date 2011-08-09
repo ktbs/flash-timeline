@@ -36,6 +36,7 @@
 			import com.ithaca.timeline.ZoomContext;
 			import com.ithaca.traces.Obsel;
 			import flash.display.DisplayObject;
+			import flash.display.DisplayObjectContainer;
 			import flash.display.Graphics;
 			import flash.display.Shape;
 			import flash.display.Sprite;
@@ -66,7 +67,8 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				titleGroup.height = hostComponent.tl.getStyle("rendererHeight") as Number;
+				timeline 			= hostComponent.tl._timeline;
+				titleGroup.height 	= hostComponent.tl.getStyle("rendererHeight") as Number;
 				traceLineTitle.text = hostComponent.tl.title;
 				onChildrenChange(null);
 				updateDisplayLevel();
@@ -74,11 +76,11 @@
 			
 			protected function updateDisplayLevel():void
 			{
-				var node:LayoutNode = hostComponent.tl.node;
+				var node:LayoutNode = hostComponent.tl;
 				displayLevel = -1;
-				while (node && !(node.value is TraceLineGroup))
+				while (node && !(node is TraceLineGroup))
 				{
-					node = node.parent;
+					node = node.parentNode;
 					displayLevel++;
 				}
 				if (!node)
@@ -100,23 +102,24 @@
 			{
 				if (evt.currentTarget.confirm)
 				{
-					var parent:LayoutNode = hostComponent.tl.node.parent;
-					if (parent)
+					var tlParent:LayoutNode = hostComponent.tl.parentNode as LayoutNode;
+					if (tlParent)
 					{
-						for each (var child:LayoutNode in hostComponent.tl.node.children)
+						for(var i :uint = 0; i < hostComponent.tl.numElements; i++)
 						{
-							parent.addChild(child);
-							if (child.value is TraceLine)
-								(child.value as TraceLine).resetObselCollection();
+							var child:LayoutNode = hostComponent.tl.getElementAt(i) as LayoutNode;
+							tlParent.addChildAndTitle(child);
+							if (child is TraceLine)
+								(child as TraceLine).resetObselCollection();
 						}
-						parent.removeChild(hostComponent.tl.node);
+						tlParent.removeChildAndTitle(hostComponent.tl);
 					}
 				}
 			}
 			
 			private function onAddTraceLine(evt:Event):void
 			{
-				timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.tl.node);
+				timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.tl);
 			}
 			
 			private function menuHandler(evt:MenuEvent):void
@@ -131,7 +134,7 @@
 						newDialog.traceline = new TraceLine(timeline);
 						PopUpManager.addPopUp(newDialog, parentApplication.timeline, true);
 						PopUpManager.centerPopUp(newDialog);
-						newDialog.addEventListener(Event.REMOVED, onAddTraceLine);
+						newDialog.addEventListener(Event.REMOVED_FROM_STAGE, onAddTraceLine );
 					}
 						break;
 					case "editTraceLine": 
@@ -155,7 +158,7 @@
 						removeDialog.title = "Do you really want to delete this traceline ?"
 						PopUpManager.addPopUp(removeDialog, this, true);
 						PopUpManager.centerPopUp(removeDialog);
-						removeDialog.addEventListener(Event.REMOVED, onRemoveTraceLine);
+						removeDialog.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveTraceLine);
 					}
 						break;
 					default: 
@@ -170,7 +173,7 @@
 			
 			protected function onChildrenChange(event:Event):void
 			{
-				OpenButton.visible = (hostComponent.tl.node.children.length > 0);
+				OpenButton.visible = (hostComponent.tl.numElements > 0);
 			}
 			
 			protected function onOpenButtonClick():void

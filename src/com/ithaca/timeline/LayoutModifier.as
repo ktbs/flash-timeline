@@ -1,6 +1,6 @@
 package  com.ithaca.timeline
 {
-	public class LayoutModifier  
+	public class LayoutModifier extends LayoutNode
 	{
 		import com.ithaca.traces.Obsel;
 		import com.ithaca.traces.Trace;
@@ -10,9 +10,7 @@ package  com.ithaca.timeline
 		import mx.events.CollectionEventKind;
 		
 		public var _splitter 	: String = null ;		
-		public var node 		: LayoutNode = null;
 		public var source		: String;
-		public var _timeline 	: Timeline;
 		
 		public function LayoutModifier( tl : Timeline ) 
 		{
@@ -36,15 +34,18 @@ package  com.ithaca.timeline
 		{
 			var selector : ISelector = createSelector ( obsel );
 			
-			if (selector && node.parent )
-				for each ( var brother : LayoutNode in node.parent.children )				
-					if ( brother.value is TraceLine  && (brother.value as TraceLine)._selector && (brother.value as TraceLine)._selector.isEqual( selector) )
+			if (selector && parentNode )
+				for ( var brotherIndex : uint = 0; brotherIndex < parentNode.numElements; brotherIndex++ )		
+				{
+					var brother : LayoutNode = parentNode.getElementAt( brotherIndex ) as LayoutNode;
+					if ( brother is TraceLine  && (brother as TraceLine)._selector && (brother as TraceLine)._selector.isEqual( selector) )
 						return null;
+				}
 			
 			return selector;
 		}
 		
-		public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
+		override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
 		{			
 			for each ( var item : Obsel in obselsCollection)
 				newObsel( item );
@@ -56,21 +57,21 @@ package  com.ithaca.timeline
 			if ( selector )
 			{											
 				var trac : Trace = obsel.trace ;
-				var newTree : LayoutNode = _timeline.timelineLayout.createTree( node.layout, trac );
-				newTree.value = new TraceLine( _timeline, obsel[_splitter], selector , source );
+				var newTree : LayoutNode = _timeline.timelineLayout.createTree( layoutXML, trac );
+				newTree = new TraceLine( _timeline, obsel[_splitter], selector , source );
 				if (  source == "parent" )
-					node.parent.value;
+					parentNode;
 				else
 				{
-					trac.obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree.value as TraceLine).onSourceChange );
-					(newTree.value as TraceLine ).resetObselCollection( trac.obsels );
+					trac.obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree as TraceLine).onSourceChange );
+					(newTree as TraceLine ).resetObselCollection( trac.obsels );
 				}
 				
-				node.parent.addChild(newTree);
+				parentNode.addChildAndTitle(newTree);
 			}
 		}
 		
-		public function onSourceChange( event : CollectionEvent ) : void
+		override public function onSourceChange( event : CollectionEvent ) : void
 		{
 			switch (event.kind)
 			{

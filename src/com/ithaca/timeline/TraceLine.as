@@ -7,15 +7,12 @@ package com.ithaca.timeline
 	import spark.components.SkinnableContainer;
 
 	[Style(name="rendererHeight",type="Number",inherit="no")]	
-	public class TraceLine  extends SkinnableContainer
+	public class TraceLine  extends LayoutNode
 	{	
-		public var titleComponent 	: TraceLineTitle;	
 		public var title 			: String;
 		public var sourceStr 		: String;
 		public var _selector 		: ISelector;
 		public var _obsels 			: ArrayCollection = new ArrayCollection();
-		public var node 			: LayoutNode = null;
-		public var _timeline		: Timeline;
 		public var rendererHeight	: Number;
 		
 		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null )
@@ -34,18 +31,18 @@ package com.ithaca.timeline
 			{
 				case "parent" :
 				{
-					if ( node.parent )
+					if ( parentNode )
 					{
-						if (node.parent.value is TraceLine)
-							return ( node.parent.value as TraceLine )._obsels;					
-						if ( node.parent.value is TraceLineGroup )
-							return ( node.parent.value as TraceLineGroup )._trace.obsels;				
+						if ( parentNode is TraceLine)
+							return ( parentNode as TraceLine )._obsels;					
+						if ( parentNode is TraceLineGroup )
+							return ( parentNode as TraceLineGroup )._trace.obsels;				
 					}
 					return null;			
 				}
 				default:
 				{
-					var tlg : TraceLineGroup = node.getTraceLineGroup();
+					var tlg : TraceLineGroup = getTraceLineGroup();
 					if (tlg && tlg._trace)
 						return tlg._trace.obsels;
 					else 
@@ -69,7 +66,7 @@ package com.ithaca.timeline
 			
 		};
 		
-		public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
+		override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
 		{			
 			_obsels.removeAll();
 		
@@ -83,7 +80,7 @@ package com.ithaca.timeline
 			_obsels.refresh();
 		}		
 		
-		public function onSourceChange( event : CollectionEvent ) : void
+		override public function onSourceChange( event : CollectionEvent ) : void
 		{
 			if (_obsels.length >0)
 				_obsels.refresh();

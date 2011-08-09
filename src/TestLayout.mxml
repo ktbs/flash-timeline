@@ -75,8 +75,8 @@
 			
 			//we init the trace object
 			var loader:URLLoader=event.target as URLLoader;
-
-			timeline.timelineLayout = new Layout( timeline, new XML(loader.data) );
+			timeline.layoutXML 		= new XML( loader.data );
+			timeline.timelineLayout = new Layout( timeline );
 			
 			allTestLayout.enabled = true;
 		}

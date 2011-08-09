@@ -75,27 +75,35 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 	
 		}	
 		
+		public function addTraceLineGroupPreview( tlg : TraceLineGroup ) : void 
+		{
+			var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );											
+			simpleObselsRenderer.obselsCollection 	= tlg._trace.obsels;
+			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
+			simpleObselsRenderer.percentWidth 	= 100;
+			simpleObselsRenderer.percentHeight 	= 100;
+			
+			timelinePreview.addElement(simpleObselsRenderer);
+		}
+		
+		public function removeTraceLineGroupPreviewAt( i : uint ) : void 
+		{
+			timelinePreview.removeElementAt( i ) ;
+		}
+		
 		public function onTracelineGroupsChange( event: CollectionEvent ) : void
 		{
 			switch (event.kind)
 			{
 				case CollectionEventKind.ADD :
 				{				
-					for each ( var tlg : LayoutNode in event.items )
-					{
-						var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );											
-						simpleObselsRenderer.obselsCollection 	= (tlg.value as TraceLineGroup)._trace.obsels;
-						_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
-						simpleObselsRenderer.percentWidth 	= 100;
-						simpleObselsRenderer.percentHeight 	= 100;
-						
-						timelinePreview.addElement(simpleObselsRenderer);
-					}
+					for each ( var tlg : TraceLineGroup in event.items )
+						addTraceLineGroupPreview( tlg );
 					break;
 				}				
 				case CollectionEventKind.REMOVE :
 				{
-					timelinePreview.removeElementAt( event.location );
+					removeTraceLineGroupPreviewAt( event.location );
 					break;
 				}
 				case CollectionEventKind.REPLACE :
@@ -110,7 +118,7 @@ package com.ithaca.timeline
 		
 		private function onTimelineLayoutChange( e : Event ) : void
 		{
-			_timeline.timelineLayout.tracelineGroups.addEventListener(CollectionEvent.COLLECTION_CHANGE, onTracelineGroupsChange);				 
+		//	_timeline.timelineLayout.tracelineGroups.addEventListener(CollectionEvent.COLLECTION_CHANGE, onTracelineGroupsChange);				 
 		}
 		
 		private function onTimelineTimesChange( e : TimelineEvent ) : void
