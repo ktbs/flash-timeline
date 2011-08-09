@@ -132,65 +132,8 @@
 			loading.label = "Adding Trace...";
 			timeline.addTrace(theTrace);	
 			loading.visible = false;
-		
-			updateDisplay();
 		}
 		
-		private function changeEvt(event:Event):void {
-			var theData:String = ""
-			if (event.currentTarget.selectedItem.@data) {
-				theData = " Data: " + event.currentTarget.selectedItem.@data;
-			}
-			if ( event.currentTarget.selectedItem.@type == "traceline" )
-				obselList_dg.dataProvider = TraceLine.traceLineTmp[ event.currentTarget.selectedItem.@tracelineUid ]._obsels; 
-			else 
-				obselList_dg.dataProvider = null;
-		}
-		
-		private function itemOpenEvt(event:TreeEvent):void {
-		}
-		
-		//temp debug
-		public function updateDisplay () : void
-		{
-			_xmlLayout = new XMLList(<timeline type="timeline" label="Timeline" />);
-			
-			for each ( var tlg : LayoutNode in timeline.tracelineGroups)
-			{
-				var newNode:XML = <TraceLineGroup />;
-				newNode.@label = (tlg.value as TraceLineGroup)._trace.uri;
-				newNode.@type = "tracelinegroup";
-				for each ( var tl : LayoutNode in tlg.children )
-					updateTraceLine( newNode, tl );  
-				_xmlLayout.appendChild( newNode );	
-			}
-			
-			_xmlLayoutDP = new XMLListCollection( _xmlLayout );
-			timeLineTree.dataProvider = _xmlLayoutDP ;
-			
-			function updateTraceLine( currentNode : XML, node : LayoutNode) : void
-			{
-				var nodeXml:XML = <TraceLine />;
-				
-				if (node.value is TraceLine)
-				{
-					var traceline : TraceLine = node.value as TraceLine;
-					nodeXml.@label = "traceLine " + traceline.title + ", size : " + traceline._obsels.length ;
-					nodeXml.@tracelineUid = traceline.tracelineUid;
-					nodeXml.@type = "traceline";
-				}
-				else
-				{
-					var modifier : LayoutModifier = node.value as LayoutModifier;
-					nodeXml.@label = "modifier " + modifier._splitter  ;				
-					nodeXml.@type = "modifier";
-				}
-				
-				for each ( var child : LayoutNode in node.children )
-					updateTraceLine( nodeXml, child );
-				currentNode.appendChild( nodeXml );
-			}			
-		}		
 			
 	]]> </fx:Script>
 	
@@ -213,10 +156,7 @@
 					<mx:Label y="2" text="Layout :"/>
 					<mx:TextInput id="layout_ti" x="50"  width="194"  enabled="true"/>
 					<mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" top="1" left="324"/>
-				</s:Group>
-				
-				<!-- Tree / Layout -->
-				<mx:Tree id="timeLineTree" x="20" y="90"  width="400" height="100%" labelField="@label" itemOpen="itemOpenEvt(event);" change="changeEvt(event);" />
+				</s:Group>			
 			</s:VGroup>
 				
 			<!-- Obsels DataGrid -->

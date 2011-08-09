@@ -8,12 +8,7 @@ package com.ithaca.timeline
 
 	[Style(name="rendererHeight",type="Number",inherit="no")]	
 	public class TraceLine  extends SkinnableContainer
-	{
-		// tmp Debug
-		static public var 	traceLineTmp : ArrayCollection = new ArrayCollection(); //temporaire pour debug
-		public static var index : Number = 0;
-		public var tracelineUid : Number;
-		
+	{	
 		public var titleComponent 	: TraceLineTitle;	
 		public var title 			: String;
 		public var sourceStr 		: String;
@@ -25,8 +20,6 @@ package com.ithaca.timeline
 		
 		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null )
 		{
-			tracelineUid = index;
-			traceLineTmp.addItemAt( this , index++ );
 			_timeline = tl;
 			titleComponent = new TraceLineTitle( this );
 			title 	= tlTitle;
