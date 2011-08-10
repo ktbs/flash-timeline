@@ -6,7 +6,8 @@
 		xmlns:Skins="com.ithaca.timeline.skins.*"
 		creationComplete="creationCompleteHandler(event)"
 		width="100%"
-		height="100%">
+		height="100%"
+		dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" elementAdd="onChildrenChange(event)">
 
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLineTitle")]</fx:Metadata>
 
@@ -32,6 +33,7 @@
 			import com.ithaca.timeline.SelectorRegexp;
 			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.TraceLine;
+			import com.ithaca.timeline.TraceLineTitle;
 			import com.ithaca.timeline.TraceLineGroup;
 			import com.ithaca.timeline.ZoomContext;
 			import com.ithaca.traces.Obsel;
@@ -50,6 +52,11 @@
 			import mx.events.FlexEvent;
 			import mx.events.MenuEvent;
 			import mx.managers.PopUpManager;
+			import mx.managers.DragManager;
+            import mx.core.DragSource;
+            import mx.events.DragEvent;
+            import flash.events.MouseEvent;
+			import spark.events.ElementExistenceEvent;
 			
 			[Bindable]
 			public var forme:Shape = new Shape();
@@ -69,22 +76,11 @@
 			{
 				timeline 			= hostComponent.tl._timeline;
 				titleGroup.height 	= hostComponent.tl.getStyle("rendererHeight") as Number;
-				traceLineTitle.text = hostComponent.tl.title;
-				onChildrenChange(null);
-				updateDisplayLevel();
-			}
-			
-			protected function updateDisplayLevel():void
-			{
-				var node:LayoutNode = hostComponent.tl;
-				displayLevel = -1;
-				while (node && !(node is TraceLineGroup))
-				{
-					node = node.parentNode;
-					displayLevel++;
-				}
-				if (!node)
-					displayLevel = 0;
+				traceLineTitle.text = hostComponent.tl.title;			
+				hostComponent.updateDisplayLevel();
+				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_ADD , 		onChildrenChange);
+				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_REMOVE , 	onChildrenChange);
+				traceLineTitle.addEventListener	( MouseEvent.MOUSE_DOWN, 					mouseMoveHandler);
 			}
 			
 			protected function showMenu():void
@@ -119,7 +115,7 @@
 			
 			private function onAddTraceLine(evt:Event):void
 			{
-				timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.tl);
+				timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.tl);				
 			}
 			
 			private function menuHandler(evt:MenuEvent):void
@@ -189,6 +185,33 @@
 					setCurrentState("normal");
 				}
 			}
+			
+			private function mouseMoveHandler( event:MouseEvent ) : void 
+            {                
+                var dragInitiator:TraceLineTitle = hostComponent ;
+                var ds:DragSource = new DragSource();
+                ds.addData(dragInitiator, "traceLine");               
+                DragManager.doDrag(dragInitiator, ds, event);
+            }
+					
+            private function dragEnterHandler( event:DragEvent ) : void 
+			{			
+				if ( event.dragSource.hasFormat("traceLine") )
+                {
+                    DragManager.acceptDragDrop(TraceLineTitleSkin(event.currentTarget));
+                }
+            }
+
+            private function dragDropHandler( event:DragEvent ) : void
+			{		
+				var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;			
+				if ( traceline != hostComponent.tl )
+				{
+					timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);				
+					(traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
+				}				
+            }
+			
 		]]>
 	</fx:Script>
 
@@ -203,8 +226,8 @@
 		<s:HGroup id="titleGroup"
 				  height="100%"
 				  gap="5">
-			<mx:Spacer width="{displayLevel*15}" />
-			<mx:Image id="OpenButton"
+			<mx:Spacer id="hierarchicalSpacer" />
+			<mx:Image id="OpenButton" visible="false"
 					  source="@Embed(source='../images/iconPlus.png')"
 					  height="100%"
 					  source.open="@Embed(source='../images/iconMinus.png')"
@@ -219,9 +242,9 @@
 					  source="@Embed(source='../images/iconMinus.png')"
 					  click="showMenu()" />
 		</s:HGroup>
-		<s:VGroup id="contentGroup"
+		<s:VGroup id="contentGroup"				  
 				  includeIn="open"
 				  width="100%"
-				  gap="5" />
+				  gap="5"  />
 	</s:VGroup>
 </s:Skin>

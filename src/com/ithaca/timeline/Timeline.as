@@ -71,10 +71,25 @@ package com.ithaca.timeline
 			{
 				zoomContext.removeTraceLineGroupPreviewAt ( getElementIndex(tlg) );
 				titleGroup.removeElement( tlg.titleComponent );
-				removeElement( tlg  );
-				
+				removeElement( tlg  );				
 			}
 		}
+		
+		public function moveTraceLineGroup( fromIndex : uint, toIndex : uint) : void
+		{
+			var tlg : TraceLineGroup = getElementAt(fromIndex) as TraceLineGroup;
+			
+			addElementAt( tlg, toIndex );
+			titleGroup.addElementAt( tlg.titleComponent, toIndex );
+			zoomContext.addTraceLineGroupPreview( tlg, toIndex );
+			zoomContext.removeTraceLineGroupPreviewAt(fromIndex);
+		}
+		
+		public function moveTraceLine( from : TraceLine, to : TraceLine) : void
+		{
+			timelineLayout.addTraceline( from, to );
+		}
+		
 		
 		public function get timelineLayout() : Layout 			{ return _layout; }
 		public function set timelineLayout( value:Layout ):void 

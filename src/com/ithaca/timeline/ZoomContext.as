@@ -75,7 +75,7 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 	
 		}	
 		
-		public function addTraceLineGroupPreview( tlg : TraceLineGroup ) : void 
+		public function addTraceLineGroupPreview( tlg : TraceLineGroup, index : Number  = -1  ) : void 
 		{
 			var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );											
 			simpleObselsRenderer.obselsCollection 	= tlg._trace.obsels;
@@ -83,7 +83,10 @@ package com.ithaca.timeline
 			simpleObselsRenderer.percentWidth 	= 100;
 			simpleObselsRenderer.percentHeight 	= 100;
 			
-			timelinePreview.addElement(simpleObselsRenderer);
+			if (index < 0 )
+				timelinePreview.addElement(simpleObselsRenderer);
+			else
+				timelinePreview.addElementAt(simpleObselsRenderer, index );
 		}
 		
 		public function removeTraceLineGroupPreviewAt( i : uint ) : void 
