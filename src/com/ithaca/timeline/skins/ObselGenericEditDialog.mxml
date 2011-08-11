@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:tl="com.ithaca.timeline.*"
+			   title="Edit obsel"
+			   close="onCancel(event)" 
+			   creationComplete="onCreationComplete(event)">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ithaca.timeline.SelectorRegexp;
+			import com.ithaca.traces.Obsel;
+			import mx.controls.Label;
+			import mx.controls.TextInput;
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			import com.ithaca.timeline.TraceLine;
+			import spark.components.HGroup;
+			
+						
+			private var _obsel : Obsel;
+			
+			[Bindable]
+			public var tracelineTitle : String;			
+			[Bindable]
+			public var tracelineSource : Number = 0;
+			[Bindable]
+			public var selectorField : String = "type";
+			[Bindable]
+			public var selectorRegexp : String;
+			
+			public var traceline : TraceLine;
+			
+			private function onCreationComplete(event:Event):void
+			{
+				addEditProperty( "type", _obsel );
+				addEditProperty( "begin", _obsel);
+				addEditProperty( "end", _obsel);
+				addEditProperty( "uid", _obsel);	
+				for (var prop: String in _obsel.props)				
+					addEditProperty( prop, _obsel.props );	
+			}
+			
+			public function set obsel ( value : Obsel):void
+			{
+				_obsel = value;				
+			}
+			
+			private function addEditProperty( str : String, obj : Object ) : void
+			{
+				var hgroup 	: HGroup 	= new HGroup();
+				var label  	: Label		= new Label();
+				var ti 		: TextInput	= new TextInput();
+				label.text = str + " : ";
+				ti.id 	= str;
+				ti.text = obj[str];
+				label.height = ti.height =22;
+				labelPropGroup.addElement( label ) ;
+				tiPropGroup.addElement( ti );
+			}
+			
+			private function onCancel(event:Event):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function onValid(event:Event):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup horizontalAlign="right">
+		<s:HGroup paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" >
+			<s:VGroup id="labelPropGroup"/>
+			<s:VGroup id="tiPropGroup"/>
+		</s:HGroup>
+		<s:HGroup  paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">  <s:Button label="OK" width="38" click="onValid(event)" /> <s:Button label="Cancel" width="70" click="onCancel(event)" /> </s:HGroup>
+	</s:VGroup>
+</s:TitleWindow>
