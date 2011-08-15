@@ -10,6 +10,7 @@ package com.ithaca.timeline
 	import mx.events.CollectionEventKind;
 	import spark.components.Group;
 	import spark.components.SkinnableContainer;
+	import spark.events.ElementExistenceEvent;	
 
 	public class ZoomContext  extends SkinnableContainer
 	{		
@@ -40,12 +41,7 @@ package com.ithaca.timeline
 		public function set timeline( value : Timeline ) : void 
 		{
 			if ( _timeline == value) 
-				return;
-				
-			if ( _timeline )
-			{
-				//TODO Trying to bind ZoomContext to another timeline
-			}
+				return; 
 			
 			_timeline 		= value; 
 			_timelineRange 	= _timeline.range;
@@ -96,34 +92,18 @@ package com.ithaca.timeline
 			timelinePreview.removeElementAt( i ) ;
 		}
 		
-		public function onTracelineGroupsChange( event: CollectionEvent ) : void
+		public function onTracelineGroupsChange( event: ElementExistenceEvent ) : void
 		{
-			switch (event.kind)
-			{
-				case CollectionEventKind.ADD :
-				{				
-					for each ( var tlg : TraceLineGroup in event.items )
-						addTraceLineGroupPreview( tlg );
-					break;
-				}				
-				case CollectionEventKind.REMOVE :
-				{
-					removeTraceLineGroupPreviewAt( event.location );
-					break;
-				}
-				case CollectionEventKind.REPLACE :
-				break;
-				
-				case CollectionEventKind.RESET :					
-				break;				
-				
-				default:
-			}
+			if ( event.type == ElementExistenceEvent.ELEMENT_ADD )			
+				addTraceLineGroupPreview( event.element as TraceLineGroup, event.index );
+			else if ( event.type == ElementExistenceEvent.ELEMENT_REMOVE )
+				removeTraceLineGroupPreviewAt( event.index );
 		}	
 		
 		private function onTimelineLayoutChange( e : Event ) : void
 		{
-		//	_timeline.timelineLayout.tracelineGroups.addEventListener(CollectionEvent.COLLECTION_CHANGE, onTracelineGroupsChange);				 
+			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange);				 
+			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);				 
 		}
 		
 		private function onTimelineTimesChange( e : TimelineEvent ) : void

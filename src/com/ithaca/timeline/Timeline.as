@@ -5,12 +5,13 @@ package com.ithaca.timeline
 	import mx.collections.ArrayCollection;
 	import spark.components.Group;
 	import spark.components.supportClasses.SkinnableComponent;
+	import spark.events.ElementExistenceEvent;	
 
 	public class Timeline  extends LayoutNode
 	{
 		private var _styleSheet 	: Stylesheet;
 		private var _layout			: Layout;
-		public var range			: TimeRange;
+		public  var range			: TimeRange;
 		
 		[SkinPart(required="true")]
 		public  var titleGroup		: Group;
@@ -35,7 +36,20 @@ package com.ithaca.timeline
 			{
 				zoomContext.timeline = this;
 			}
-		}		
+			if ( partName == "titleGroup" )
+			{
+				addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange );				 
+				addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);		
+			}
+		}	
+		
+		public function onTracelineGroupsChange( event: ElementExistenceEvent ) : void
+		{
+			if ( event.type == ElementExistenceEvent.ELEMENT_ADD )		
+				titleGroup.addElementAt( (event.element as TraceLineGroup).titleComponent, event.index );
+			else if ( event.type == ElementExistenceEvent.ELEMENT_REMOVE )
+				titleGroup.removeElementAt( event.index );
+		}	
 
 		public function addTrace (  pTrace : Trace, index : int = -1 )  :void 
 		{
@@ -44,7 +58,6 @@ package com.ithaca.timeline
 			range.addTime( tlg.traceBegin, tlg.traceEnd);
 			
 			timelineLayout.addTracelineGroupTree( tlg );		
-			zoomContext.addTraceLineGroupPreview(tlg);			
 		}
 		
 		public function removeTrace ( tr : Trace ) : Boolean 
@@ -64,29 +77,14 @@ package com.ithaca.timeline
 		public function removeTraceLineGroup ( tlg : TraceLineGroup ) : void
 		{
 			if ( tlg )
-			{
-				zoomContext.removeTraceLineGroupPreviewAt ( getElementIndex(tlg) );
-				titleGroup.removeElement( tlg.titleComponent );
-				removeElement( tlg  );				
-			}
+				removeElement( tlg );				
 		}
 		
 		public function moveTraceLineGroup( fromIndex : uint, toIndex : uint) : void
-		{
-			var tlg : TraceLineGroup = getElementAt(fromIndex) as TraceLineGroup;
-			
-			addElementAt( tlg, toIndex );
-			titleGroup.addElementAt( tlg.titleComponent, toIndex );
-			zoomContext.addTraceLineGroupPreview( tlg, toIndex );
-			zoomContext.removeTraceLineGroupPreviewAt(fromIndex);
+		{	
+			addElementAt( getElementAt(fromIndex) as TraceLineGroup, toIndex );	
 		}
-		
-		public function moveTraceLine( from : TraceLine, to : TraceLine) : void
-		{
-			timelineLayout.addTraceline( from, to );
-		}
-		
-		
+
 		public function get timelineLayout() : Layout 			{ return _layout; }
 		public function set timelineLayout( value:Layout ):void 
 		{ 						
@@ -111,8 +109,7 @@ package com.ithaca.timeline
 		public function get begin() 				: Number 	{ return range.begin; }
 		public function get end() 					: Number 	{ return range.end; }
 		public function get duration() 				: Number 	{ return range.duration; }
-//		public function get tracelineGroups() : ArrayCollection { return timelineLayout.tracelineGroups; }
-		public function get styleSheet() : Stylesheet 			{ return _styleSheet; }
+		public function get styleSheet() 			: Stylesheet { return _styleSheet; }
 		public function set styleSheet( value:Stylesheet ):void { _styleSheet = value; }
 
 		public function setTimeRangeLimits( startValue : Number, endValue : Number ) : void
