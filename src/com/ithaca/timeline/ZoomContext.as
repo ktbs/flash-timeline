@@ -47,17 +47,20 @@ package com.ithaca.timeline
 				//TODO Trying to bind ZoomContext to another timeline
 			}
 			
-			_timeline = value; 
+			_timeline 		= value; 
+			_timelineRange 	= _timeline.range;
+			cursorRange 	= new TimeRange();
+			
 			timelinePreview.addEventListener( Event.RESIZE, updateSkinPositionFromValues );
-			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
-			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);
+			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
+			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);
 			_timeline.addEventListener( TimelineEvent.LAYOUT_CHANGE, onTimelineLayoutChange );						
 		}
 		public function get timeline( ) : Timeline  { return  _timeline; }
 				
 		public function updateSkinPositionFromValues( e: Event = null) : void
 		{
-			if ( cursor && _timeline && timelinePreview && cursorRange)
+			if ( cursor && _timeline && timelinePreview && !cursorRange.isEmpty())
 			{						
 				cursor.x 		= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.begin, timelinePreview.width ) - minRange.width;
 				cursor.width 	= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.end, timelinePreview.width ) + maxRange.width - cursor.x ;
@@ -72,7 +75,6 @@ package com.ithaca.timeline
 			var end 	: Number 	= _timelineRange.postionToTime( cursor.x  + cursor.width - maxRange.width - timelinePreview.x, timelinePreview.width );	
 			
 			cursorRange.changeLimits(begin, end);
-			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 	
 		}	
 		
 		public function addTraceLineGroupPreview( tlg : TraceLineGroup, index : Number  = -1  ) : void 
@@ -126,32 +128,31 @@ package com.ithaca.timeline
 		
 		private function onTimelineTimesChange( e : TimelineEvent ) : void
 		{			
-			_timelineRange = e.value as TimeRange;
+			_timelineRange = e.currentTarget as TimeRange;
 			
 			var begin : Number;
 			var duration : Number;
-			if ( cursorRange == null)
+			
+			if ( cursorRange.isEmpty() )
 			{
+				enabled  = true;
 				begin 		= _timelineRange.begin;
 				duration 	= ( _timelineRange.end - _timelineRange.begin )*Stylesheet.ZoomContextInitPercentWidth / 100;
-				enabled  = true;
 			}		
 			else
 			{
 				begin 		= Math.max( cursorRange.begin, _timelineRange.begin );
 				duration  	= Math.min( cursorRange.end, _timelineRange.end ) - begin;
 			}
-						
-			cursorRange = _timelineRange.cloneMe();
+			
+			cursorRange.clone( _timelineRange );
 			cursorRange.changeLimits(begin, begin + duration);
-			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 
 			updateSkinPositionFromValues();		
 		}
 		
 		public function setRange( beginValue : Number, endValue : Number ) : void
 		{
 			cursorRange.changeLimits(beginValue, endValue);
-			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , cursorRange )); 
 			updateSkinPositionFromValues();			
 		}
 	}

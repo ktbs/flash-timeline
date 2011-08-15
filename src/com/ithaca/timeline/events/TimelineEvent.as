@@ -11,17 +11,17 @@ package com.ithaca.timeline.events
 		static public const LAYOUT_CHANGE 		: String = "layout_change";	
 	
 		// properties
-		public var value : *;		
+	//	public var value : *;		
 		
-		public function TimelineEvent(type:String, value : TimeRange = null, bubbles:Boolean = false, cancelable:Boolean = false) 
+		public function TimelineEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) 
 		{
 			super(type, bubbles, cancelable);			
-			this.value = value;
+	//		this.value = value;
 		} 
 		
 		public override function clone():Event 
 		{ 
-			return new TimelineEvent(type, value , bubbles, cancelable);
+			return new TimelineEvent(type, bubbles, cancelable);
 		} 
 		
 		public override function toString():String 

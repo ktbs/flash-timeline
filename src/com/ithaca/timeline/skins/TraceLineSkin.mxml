@@ -60,19 +60,18 @@
 			public var timeline:Timeline;
 			
 			[Bindable]
-			public var simpleObselsRenderer:ObselsRenderer;
+			public var obselsRenderer:ObselsRenderer;
 			
 			private var editMenu:Menu;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				simpleObselsRenderer = new ObselsRenderer(hostComponent._timeline.zoomContext.cursorRange, hostComponent._timeline);
-				simpleObselsRenderer.height = hostComponent.getStyle("rendererHeight") as Number;
-				simpleObselsRenderer.percentWidth = 100;
-				simpleObselsRenderer.obselsCollection = hostComponent._obsels;
-				simpleObselsRenderer.addEventListener(MouseEvent.CLICK, onSelect);
-				hostComponent._timeline.zoomContext.addEventListener(TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange);
-				rendererGroup.addElement(simpleObselsRenderer);
+				obselsRenderer 					= new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
+				obselsRenderer.height 			= hostComponent.getStyle("rendererHeight") as Number;
+				obselsRenderer.percentWidth 	= 100;
+				obselsRenderer.obselsCollection = hostComponent._obsels;
+				obselsRenderer.addEventListener(MouseEvent.CLICK, onSelect);
+				rendererGroup.addElement( obselsRenderer );
 				timeline = hostComponent._timeline;
 			}
 			

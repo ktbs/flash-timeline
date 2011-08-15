@@ -1,58 +1,30 @@
 package com.ithaca.timeline 
 {
-	import com.ithaca.timeline.events.TimelineEvent;
 	import com.ithaca.traces.Obsel;
-	import flash.display.ShaderParameter;
 	import flash.display.Shape;
-	import flash.display.Sprite;
 	import flash.events.Event;
-	import mx.collections.ArrayCollection;
-	import mx.core.UIComponent;
-	import mx.events.CollectionEvent;
-	import mx.events.ResizeEvent;
-	import mx.formatters.NumberBaseRoundType;
 	
-	public class SimpleObselsRenderer extends UIComponent 
+	public class SimpleObselsRenderer extends BaseObselsRenderer 
 	{
 		public	var _markerColor 		: uint = 0x000000;
 		public	var _durativeColor 		: uint = 0xC9C9C9;
 		public	var _backgroundColor	: uint = 0xFFFFFF;
 		
-		private	var _timeRange			: TimeRange = null;
-		private var _obsels 			: ArrayCollection = null;	
-		private var _timeline			: Timeline;
-		
-		public function SimpleObselsRenderer( tr : TimeRange , tl : Timeline ) 
+		public function SimpleObselsRenderer( tr : TimeRange, tl : Timeline ) 
 		{
-			super();						
-			_timeRange = tr;
-			_timeline  = tl;
-			addEventListener( ResizeEvent.RESIZE, redraw );
+			super( tr, null, tl);						
 		}
-		
-		public function set obselsCollection( obsels : ArrayCollection ) : void
-		{			
-			if ( _obsels)
-				_obsels.removeEventListener(CollectionEvent.COLLECTION_CHANGE, redraw);
-			_obsels = obsels;
+	
+		override public function  redraw( event : Event = null) : void
+		{	
+			if ( !_timeRange) 
+				return;	
 			
-			redraw();
-			_obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE, redraw);
-		}
-				
-		public function  onTimerangeChange( event : TimelineEvent ) : void
-		{
-			_timeRange = event.value as TimeRange;
-			redraw();
-		}
-		
-		public function  redraw( event : Event = null) : void
-		{							
 			while(numChildren > 0 )
 				removeChildAt(0);			
 			
 			var lastShapeInterval : Shape = null;
-	 
+			
 			for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
 			{				
 				if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
@@ -71,7 +43,7 @@ package com.ithaca.timeline
 				shape.graphics.endFill();
 				
 				//drawing obsels
-				for each (var durativeObsel :Obsel in _obsels)
+				for each (var durativeObsel : Obsel in _obsels)
 				{	
 					if ( durativeObsel.end >= intervalStart  && durativeObsel.begin <= intervalEnd )
 					{
@@ -101,8 +73,6 @@ package com.ithaca.timeline
 				addChild( shape );
 				lastShapeInterval = shape;
 			}
-				
 		}
 	}
-
 }

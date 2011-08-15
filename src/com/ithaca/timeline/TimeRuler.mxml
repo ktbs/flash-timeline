@@ -118,7 +118,7 @@
 					lastLabel.setStyle('fontSize', '11');
 					
 					for(var t : Number  = Math.ceil( tBegin /interval.mark)*interval.mark; t < tEnd; t += interval.mark )
-					{										
+					{			
 						drawMark( shape, x,  ( t % interval.major)? minorMarkHeight : majorMarkHeight);
 						
 						if ( t % interval.label == 0 )
@@ -166,7 +166,7 @@
 		
 		public function redraw(  event : ResizeEvent=null ) : void
 		{
-			if ( timeRange )
+			if ( timeRange  && timeRange.duration >0)
 			{
 				if (event)
 				{
@@ -184,7 +184,7 @@
 		
 		public function onTimeRangeChange( e : TimelineEvent) :void
 		{
-			changeRange( e.value as TimeRange );
+			changeRange( e.currentTarget as TimeRange );
 		}
 		
 		public function changeRange( tr : TimeRange ):void

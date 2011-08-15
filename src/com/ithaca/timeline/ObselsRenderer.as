@@ -1,51 +1,33 @@
 package com.ithaca.timeline 
 {
-	import com.ithaca.timeline.events.TimelineEvent;
 	import com.ithaca.traces.Obsel;
 	import flash.events.Event;
 	import mx.collections.ArrayCollection;
-	import mx.core.UIComponent;
-	import mx.events.CollectionEvent;
-	import mx.events.ResizeEvent;
+	import mx.containers.Canvas;
 	import mx.graphics.Stroke;
 	import spark.components.BorderContainer;
+	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
 	
-	public class ObselsRenderer extends UIComponent 
+	public class ObselsRenderer extends BaseObselsRenderer 
 	{
-		private	var _timeRange			: TimeRange = null;
-		private var _obsels 			: ArrayCollection = null;
-		private var _timeline			: Timeline;
+		protected var  obselsSkinsCollection : ArrayCollection;
 		
-		public function ObselsRenderer( tr : TimeRange, tl : Timeline ) 
-		{
-			super();						
-			_timeRange = tr;
-			_timeline  = tl;
-			addEventListener( ResizeEvent.RESIZE, redraw );
-		}
-		
-		public function set obselsCollection( obsels : ArrayCollection ) : void
+		public function ObselsRenderer( tr : TimeRange, tl : TraceLine ) 
 		{			
-			if ( _obsels)
-				_obsels.removeEventListener(CollectionEvent.COLLECTION_CHANGE, redraw);
-			_obsels = obsels;
-			
-			redraw();
-			_obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE, redraw);
-		}
-				
-		public function  onTimerangeChange( event : TimelineEvent ) : void
-		{
-			_timeRange = event.value as TimeRange;
-			redraw();
+			super( tr, tl, tl._timeline);						
+			obselsSkinsCollection = new ArrayCollection();	
 		}
 		
-		public function  redraw( event : Event = null) : void
+		override public function  redraw( event : Event = null) : void
 		{						
+			if ( !_timeRange) 
+				return;	
+			
 			while(numChildren > 0 )
 				removeChildAt(0);		
 
-			var lastIntervalGroup : BorderContainer = null;
+			var lastIntervalGroup : Canvas = null;
 	 
 			for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
 			{				
@@ -57,23 +39,22 @@ package com.ithaca.timeline
 				var intervalDuration 	: Number = intervalEnd - intervalStart;
 				var shapeWidth			: Number = intervalDuration * (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
 				
-				var intervalGroup : BorderContainer = new BorderContainer();
+				var intervalGroup : Canvas 	= new Canvas();
 				intervalGroup.width 		= shapeWidth;
-				intervalGroup.height 		= height;
-				intervalGroup.borderStroke 	= new Stroke( 0xE296EB, 1);
+				intervalGroup.height 		= height;				
+				intervalGroup.clipContent 	= true;
+				intervalGroup.horizontalScrollPolicy = "off";
+				intervalGroup.opaqueBackground = 0xFFFFFF;
 				
 				//drawing obsels
-				for each (var obsel :Obsel in _obsels)
+				for each (var obselSkin :ObselSkin in obselsSkinsCollection)
 				{	
+					var obsel :Obsel =  obselSkin.obsel;
 					if ( obsel.end >= intervalStart  && obsel.begin <= intervalEnd )
 					{
-						var obselSkin : ObselSkin = _timeline.styleSheet.getParameteredSkin( obsel, null);
-						if ( obselSkin )
-						{
-							var x : Number = (obsel.begin - intervalStart) * shapeWidth / intervalDuration;
-							obselSkin.x = x;					
-							intervalGroup.addElement( obselSkin ) ;
-						}
+						var x : Number = Math.max(obsel.begin - intervalStart,0) * shapeWidth / intervalDuration;
+						obselSkin.x = x;		
+						intervalGroup.addElement( obselSkin ) ;
 					}
 				}	
 				
@@ -82,8 +63,54 @@ package com.ithaca.timeline
 				addChild( intervalGroup );
 				lastIntervalGroup = intervalGroup;
 			}
-				
+				trace ( toto++ );
 		}
+		
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void 
+		{
+			super.updateDisplayList(unscaledWidth, unscaledHeight);
+			
+		}
+		
+		override public function  onObselsCollectionChange( event : CollectionEvent ) : void
+		{
+			var obsel : Obsel;
+			var obselSkin : ObselSkin;
+			
+			switch (event.kind)
+			{
+				case CollectionEventKind.ADD :
+				{				
+					for each (  obsel  in event.items )
+					{
+						obselSkin = _timeline.styleSheet.getParameteredSkin( obsel, _traceline) ;
+						if (obselSkin)
+							obselsSkinsCollection.addItem( obselSkin);
+					}
+					break;
+				}				
+				case CollectionEventKind.REMOVE :
+				{
+				
+					break;
+				}
+				case CollectionEventKind.REPLACE :
+				break;
+				
+				case CollectionEventKind.RESET :
+				{
+					obselsSkinsCollection.removeAll();
+					for each (  obsel  in _obsels )
+					{
+						obselSkin = _timeline.styleSheet.getParameteredSkin( obsel, _traceline) ;
+						if (obselSkin)
+							obselsSkinsCollection.addItem( obselSkin);
+					}
+					break;
+				}				
+				default:
+			}
+		}	
 	}
 
 }

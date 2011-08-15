@@ -1,9 +1,12 @@
 package com.ithaca.timeline 
 {	
+	import com.ithaca.timeline.events.TimelineEvent;
 	import flash.display.JointStyle;
+	import flash.events.EventDispatcher;
 	import flash.sampler.NewObjectSample;
 	import mx.collections.ArrayCollection;
-	public class TimeRange 
+	
+	public class TimeRange extends EventDispatcher
 	{		
 		public  var _ranges 	: ArrayCollection;
 		private var _start		: Number;
@@ -15,14 +18,19 @@ package com.ithaca.timeline
 		public function TimeRange( startValue : Number = 0 , durationValue : Number = 1 ) : void 
 		{
 			_ranges = new ArrayCollection();	
-			addTime(startValue, startValue + durationValue);
+	//		addTime(startValue, startValue + durationValue);
+		}
+		
+		public function isEmpty () : Boolean
+		{
+			return _ranges.length == 0;
 		}
 		
 		public function get numIntervals() 			: Number { return _ranges.length/2; }
 		public function get begin() 				: Number { return _start; }
-		public function set begin( value :Number ) 	: void 	 { _ranges[0] = value;  }
+//		public function set begin( value :Number ) 	: void 	 { _ranges[0] = value;  }
 		public function get end() 					: Number { return _end; }
-		public function set end( value : Number ) 	: void 	 { _ranges[_ranges.length -1] = value; }
+//		public function set end( value : Number ) 	: void 	 { _ranges[_ranges.length -1] = value; }
 		public function get totalDuration() 		: Number { return end - begin; }	
 		public function get duration() 				: Number { return _duration; }	
 		
@@ -61,9 +69,6 @@ package com.ithaca.timeline
 						position +=  intervalWidth ;				
 					}
 				}
-				
-			
-//			trace( "timeToPosition : " + new Date(timeValue).toString() + " / " + width + " => " + position );
 			return position;
 		}
 		
@@ -88,8 +93,7 @@ package com.ithaca.timeline
 					else
 						currentPostion += intervalWidth;
 				}
-			
-			//trace( "postionToTime : " + positionValue + " / " + width + " => " + new Date(time).toString() );
+				
 			return time;
 		}
 		
@@ -99,6 +103,8 @@ package com.ithaca.timeline
 			for ( var i : int = 0; i < _ranges.length; i += 2 )
 				if ( _start <= _ranges[i + 1] && _end >= _ranges[i] )
 					_duration += Math.min(_ranges[i + 1], _end) - Math.max( _ranges[i], _start);	
+			if ( _duration == 0)
+				trace("duration 0");
 		}		
 		
 		public function addTime ( beginValue : Number , endValue : Number,  fillHole : Boolean = true ) : void
@@ -155,17 +161,19 @@ package com.ithaca.timeline
 			if ( !_zoom)
 				resetLimits();
 				
-			updateDuration();			
+			updateDuration();	
+			
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE, true )); 	
 		}
 		
-		public function cloneMe( ) : TimeRange
-		{
-			var newTimeRange : TimeRange = new TimeRange( 0, 1);			
-			newTimeRange._ranges.removeAll();
-			newTimeRange._ranges.source = _ranges.source;
-			newTimeRange._start = newTimeRange._ranges[0];
-			newTimeRange._end 	= newTimeRange._ranges[newTimeRange._ranges.length-1];
-			return newTimeRange;
+		public function clone( tr : TimeRange ) : void
+		{	
+			_ranges.removeAll();
+			for each( var value : Number in tr._ranges )
+				_ranges.addItem( value);			
+			_start 	= tr._start;
+			_end 	= tr.end;
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 
 		}
 		
 		public function makeTimeHole (beginValue : Number , endValue : Number ) : void
@@ -212,7 +220,9 @@ package com.ithaca.timeline
 			if ( !_zoom)
 				resetLimits();
 				
-			updateDuration();			
+			updateDuration();		
+			
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 	
 		}
 		
 		public function changeLimits ( begin : Number , end : Number ) : void
@@ -220,7 +230,9 @@ package com.ithaca.timeline
 			_start = begin;
 			_end = end;
 			_zoom = true ;
-			updateDuration();	
+			updateDuration();
+			
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 	
 		}		
 		
 		public function resetLimits ( ) : void
@@ -229,6 +241,8 @@ package com.ithaca.timeline
 			_end 	= _ranges[ _ranges.length -1 ];
 			_zoom	= false;
 			updateDuration();	
+			
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 	
 		}		
 	}
 }

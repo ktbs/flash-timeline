@@ -10,7 +10,7 @@ package com.ithaca.timeline
 	{
 		private var _styleSheet 	: Stylesheet;
 		private var _layout			: Layout;
-		private var range			: TimeRange;
+		public var range			: TimeRange;
 		
 		[SkinPart(required="true")]
 		public  var titleGroup		: Group;
@@ -25,6 +25,7 @@ package com.ithaca.timeline
 			if (xmlLayout)
 				timelineLayout = new Layout( this ) ;				
 			_styleSheet = new Stylesheet();
+			range = new TimeRange( );					
 		}
 		
 		override protected function partAdded(partName:String, instance:Object):void 
@@ -40,12 +41,7 @@ package com.ithaca.timeline
 		{
 			var tlg : TraceLineGroup  =  timelineLayout.createTracelineGroupTree( pTrace );
 						
-			if (range)
-				range.addTime( tlg.traceBegin, tlg.traceEnd);
-			else
-				range = new TimeRange( tlg.traceBegin, tlg.traceEnd - tlg.traceBegin );					
-			
-			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , range )); 	
+			range.addTime( tlg.traceBegin, tlg.traceEnd);
 			
 			timelineLayout.addTracelineGroupTree( tlg );		
 			zoomContext.addTraceLineGroupPreview(tlg);			
@@ -110,7 +106,7 @@ package com.ithaca.timeline
 			else
 				_layout = value;
 			
-			dispatchEvent( new TimelineEvent( TimelineEvent.LAYOUT_CHANGE , null ));
+			dispatchEvent( new TimelineEvent( TimelineEvent.LAYOUT_CHANGE  ));
 		}
 		public function get begin() 				: Number 	{ return range.begin; }
 		public function get end() 					: Number 	{ return range.end; }
@@ -121,9 +117,7 @@ package com.ithaca.timeline
 
 		public function setTimeRangeLimits( startValue : Number, endValue : Number ) : void
 		{
-			range.changeLimits( startValue, endValue );
-			
-			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE ,range )); 		
+			range.changeLimits( startValue, endValue );	
 		}
 		
 		public function resetTimeRangeLimits( ) : void
@@ -136,15 +130,12 @@ package com.ithaca.timeline
 			}
 				
 			range.resetLimits( );
-			
-			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE ,range)); 	
 		}
 		
 		public function makeTimeHole( startValue : Number, endValue : Number ) : void
 		{
 			range.makeTimeHole( startValue, endValue);
 			zoomContext.setRange( range.begin, range.end );
-			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE ,range)); 		
 		}		
 	}
 }

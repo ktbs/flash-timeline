@@ -19,8 +19,8 @@
 	
 			protected function creationCompleteHandler(event:Event):void
 			{
-				zoomContext.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);		
-				zoomContext.addEventListener( Event.RESIZE, timeRuler.redraw);		
+				zoomContext.cursorRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);		
+				zoomContext.addEventListener( Event.RESIZE, timeRuler.redraw );		
 			}
 			 ]]>
 	</fx:Script>
