@@ -71,6 +71,7 @@
 				obselsRenderer.percentWidth 	= 100;
 				obselsRenderer.obselsCollection = hostComponent._obsels;
 				obselsRenderer.addEventListener(MouseEvent.CLICK, onSelect);
+				obselsRenderer.styleName = hostComponent.styleName;
 				rendererGroup.addElement( obselsRenderer );
 				timeline = hostComponent._timeline;
 			}

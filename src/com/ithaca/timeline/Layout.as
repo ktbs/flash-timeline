@@ -85,6 +85,7 @@ package com.ithaca.timeline
 		{
 			var newNode : TraceLine;
 			var tlTitle : String;
+			var tlClass : String;
 			var tlSelector : ISelector;
 			var tlSource : String;
 					
@@ -104,8 +105,10 @@ package com.ithaca.timeline
 			}
 			if ( xmlLayout.hasOwnProperty('@title') )
 				tlTitle = xmlLayout.@title; 
+			if ( xmlLayout.hasOwnProperty('@skinClass') )
+				tlClass = xmlLayout.@skinClass; 
 			
-			newNode = new TraceLine( _timeline, tlTitle, tlSelector, tlSource );
+			newNode = new TraceLine( _timeline, tlTitle, tlSelector, tlSource, tlClass  );
 			newNode.layoutXML = xmlLayout;			
 			
 			return newNode;
@@ -145,24 +148,24 @@ package com.ithaca.timeline
 			
 			for each ( var child : XML in xmlLayout.children() )
 			{
-					var newTree : LayoutNode = createTree( child, trac );
-					newNode.addChildAndTitle( newTree );	
-					
-					var collec : ArrayCollection;
-					
-					if (child.hasOwnProperty('@source') && child.@source == "parent" )
-					{
-						(newNode as TraceLine).sourceStr = xmlLayout.@source;						
-						if (newNode is TraceLine)
-							collec = (newNode as TraceLine)._obsels;
-						else if (newNode is TraceLineGroup)
-							collec = (newNode as TraceLineGroup)._trace.obsels;							
-					}
-					else						
-						collec  = trac.obsels;		
-							
-					collec.addEventListener( CollectionEvent.COLLECTION_CHANGE , newTree.onSourceChange );
-					newTree.resetObselCollection( collec );			
+				var childTree : LayoutNode = createTree( child, trac );
+				newNode.addChildAndTitle( childTree );	
+				
+				var collec : ArrayCollection;
+				
+				if (child.hasOwnProperty('@source') && child.@source == "parent" )
+				{
+					(newNode as TraceLine).sourceStr = xmlLayout.@source;						
+					if (newNode is TraceLine)
+						collec = (newNode as TraceLine)._obsels;
+					else if (newNode is TraceLineGroup)
+						collec = (newNode as TraceLineGroup)._trace.obsels;							
+				}
+				else						
+					collec  = trac.obsels;		
+						
+				collec.addEventListener( CollectionEvent.COLLECTION_CHANGE , childTree.onSourceChange );
+				childTree.resetObselCollection( collec );			
 			}
 						
 			return newNode;

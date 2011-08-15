@@ -15,14 +15,15 @@ package com.ithaca.timeline
 		public var _obsels 			: ArrayCollection = new ArrayCollection();
 		public var rendererHeight	: Number;
 		
-		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null )
+		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null, tlSkinClass : String = null )
 		{
 			_timeline = tl;
 			titleComponent = new TraceLineTitle( this );
 			title 	= tlTitle;
+			this.id = title;
 			_selector = tlSelector;
 			sourceStr = tlSource;		
-			_obsels.filterFunction = acceptObsel;
+			styleName = tlSkinClass;
 		}
 		
 		public function getCollectionSource() : ArrayCollection
@@ -58,12 +59,15 @@ package com.ithaca.timeline
 		
 		public function addObsel ( obsel : Obsel ) : void 
 		{
-			_obsels.addItem( obsel );
+			if ( acceptObsel( obsel ) )
+				_obsels.addItem( obsel );
 		}
 		
 		public function removeObsel ( obsel : Obsel ) : void 
 		{
-			
+			var obselIndex : uint = _obsels.getItemIndex( obsel );
+			if ( obselIndex >= 0)
+				_obsels.removeItemAt( obselIndex );
 		};
 		
 		override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
@@ -75,15 +79,34 @@ package com.ithaca.timeline
 			if (obselsCollection != null && obselsCollection.length >0)
 			{				
 				for each( var obsel :  Obsel in obselsCollection)
-					_obsels.addItem( obsel );			
+					addObsel( obsel );			
 			}
-			_obsels.refresh();
 		}		
 		
 		override public function onSourceChange( event : CollectionEvent ) : void
 		{
-			if (_obsels.length >0)
-				_obsels.refresh();
+			switch (event.kind)
+			{
+				case CollectionEventKind.ADD :
+				{				
+					for each ( var obsel : Obsel in event.items )
+						addObsel( obsel );
+					break;
+				}				
+				case CollectionEventKind.REMOVE :
+				{					
+					for each ( var obsel : Obsel in event.items )
+						removeObsel( obsel );
+					break;
+				}
+				case CollectionEventKind.REPLACE :
+				break;
+				
+				case CollectionEventKind.RESET :					
+				break;				
+				
+				default:
+			}
 		}
 	}
 }
