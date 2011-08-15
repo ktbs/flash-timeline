@@ -4,7 +4,6 @@ package com.ithaca.timeline
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
-	import spark.components.SkinnableContainer;
 
 	[Style(name="rendererHeight",type="Number",inherit="no")]	
 	public class TraceLine  extends LayoutNode
@@ -65,7 +64,7 @@ package com.ithaca.timeline
 		
 		public function removeObsel ( obsel : Obsel ) : void 
 		{
-			var obselIndex : uint = _obsels.getItemIndex( obsel );
+			var obselIndex : int = _obsels.getItemIndex( obsel );
 			if ( obselIndex >= 0)
 				_obsels.removeItemAt( obselIndex );
 		};
@@ -85,17 +84,18 @@ package com.ithaca.timeline
 		
 		override public function onSourceChange( event : CollectionEvent ) : void
 		{
+			var obsel : Obsel;
 			switch (event.kind)
 			{
 				case CollectionEventKind.ADD :
 				{				
-					for each ( var obsel : Obsel in event.items )
+					for each ( obsel in event.items )
 						addObsel( obsel );
 					break;
 				}				
 				case CollectionEventKind.REMOVE :
 				{					
-					for each ( var obsel : Obsel in event.items )
+					for each ( obsel in event.items )
 						removeObsel( obsel );
 					break;
 				}
