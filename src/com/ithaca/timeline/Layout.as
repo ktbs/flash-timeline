@@ -3,8 +3,7 @@ package com.ithaca.timeline
 	import com.ithaca.traces.Trace;
 	import flash.utils.getDefinitionByName;
 	import mx.collections.ArrayCollection;
-	import mx.events.CollectionEvent;	
-	import spark.components.Button;
+	import mx.events.CollectionEvent;
 	
 	public class Layout
 	{
