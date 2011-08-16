@@ -13,8 +13,6 @@ package com.ithaca.timeline
 		protected var _timeline			: Timeline;
 		protected var _traceline		: TraceLine;
 		protected var _timeRange		: TimeRange = null;
-		public var toto : Number = 0;
-			
 		protected var _obsels 			: ArrayCollection = null;
 			
 		public function BaseObselsRenderer( tr : TimeRange, traceLine :  TraceLine, timeline : Timeline ) 

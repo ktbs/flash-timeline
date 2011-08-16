@@ -4,8 +4,6 @@ package com.ithaca.timeline
 	import flash.events.Event;
 	import mx.collections.ArrayCollection;
 	import mx.containers.Canvas;
-	import mx.graphics.Stroke;
-	import spark.components.BorderContainer;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 	
@@ -29,31 +27,33 @@ package com.ithaca.timeline
 
 			var lastIntervalGroup : Canvas = null;
 	 
+			var  timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
+			
 			for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
 			{				
 				if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
 					continue;
-				
+					
 				var intervalStart 		: Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);
 				var intervalEnd 		: Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
-				var intervalDuration 	: Number = intervalEnd - intervalStart;
-				var shapeWidth			: Number = intervalDuration * (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
+				var intervalDuration 	: Number = intervalEnd - intervalStart;		
 				
 				var intervalGroup : Canvas 	= new Canvas();
-				intervalGroup.width 		= shapeWidth;
+				intervalGroup.width 		= intervalDuration * timeToPositionRatio;
 				intervalGroup.height 		= height;				
 				intervalGroup.clipContent 	= true;
-				intervalGroup.horizontalScrollPolicy = "off";
-				intervalGroup.opaqueBackground = 0xFFFFFF;
+				intervalGroup.horizontalScrollPolicy = "off";					
+				
+				intervalGroup.graphics.lineStyle( 1 );
+				intervalGroup.graphics.drawRect( 0, 0, intervalGroup.width, height);
 				
 				//drawing obsels
-				for each (var obselSkin :ObselSkin in obselsSkinsCollection)
+				for each (var obselSkin : ObselSkin in obselsSkinsCollection)
 				{	
-					var obsel :Obsel =  obselSkin.obsel;
+					var obsel : Obsel =  obselSkin.obsel;
 					if ( obsel.end >= intervalStart  && obsel.begin <= intervalEnd )
 					{
-						var x : Number = Math.max(obsel.begin - intervalStart,0) * shapeWidth / intervalDuration;
-						obselSkin.x = x;		
+						obselSkin.x = Math.max( obsel.begin - intervalStart, 0 ) * timeToPositionRatio;
 						intervalGroup.addElement( obselSkin ) ;
 					}
 				}	
@@ -63,25 +63,27 @@ package com.ithaca.timeline
 				addChild( intervalGroup );
 				lastIntervalGroup = intervalGroup;
 			}
-				trace ( toto++ );
-		}
+		}		
 		
-		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void 
-		{
-			super.updateDisplayList(unscaledWidth, unscaledHeight);
+		public function getObselSkinIndex( obsel : Obsel ) : int
+		{			
+			for ( var i: uint = 0; i < obselsSkinsCollection.length; i++ )
+				if ((obselsSkinsCollection[i] as ObselSkin).obsel == obsel )
+					return i;
 			
+			return -1;
 		}
 		
 		override public function  onObselsCollectionChange( event : CollectionEvent ) : void
 		{
-			var obsel : Obsel;
-			var obselSkin : ObselSkin;
+			var obsel 		: Obsel;
+			var obselSkin 	: ObselSkin;
 			
 			switch (event.kind)
 			{
 				case CollectionEventKind.ADD :
 				{				
-					for each (  obsel  in event.items )
+					for each ( obsel in event.items )
 					{
 						obselSkin = _timeline.styleSheet.getParameteredSkin( obsel, _traceline) ;
 						if (obselSkin)
@@ -91,7 +93,12 @@ package com.ithaca.timeline
 				}				
 				case CollectionEventKind.REMOVE :
 				{
-				
+					for each ( obsel in event.items )
+					{					
+						var obselIndex : int = getObselSkinIndex( obsel );
+						if ( obselIndex >= 0)
+							obselsSkinsCollection.removeItemAt( obselIndex );
+					}				
 					break;
 				}
 				case CollectionEventKind.REPLACE :
@@ -100,7 +107,7 @@ package com.ithaca.timeline
 				case CollectionEventKind.RESET :
 				{
 					obselsSkinsCollection.removeAll();
-					for each (  obsel  in _obsels )
+					for each ( obsel in _obsels )
 					{
 						obselSkin = _timeline.styleSheet.getParameteredSkin( obsel, _traceline) ;
 						if (obselSkin)
@@ -112,5 +119,4 @@ package com.ithaca.timeline
 			}
 		}	
 	}
-
 }
