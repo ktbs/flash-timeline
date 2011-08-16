@@ -168,13 +168,7 @@
 		{
 			if ( timeRange  && timeRange.duration >0)
 			{
-				if (event)
-				{
-					startPosition = event.currentTarget.x;
-					rulerWidth 	  = event.currentTarget.width;
-				}
-				
-				if ( 	timeLabels.numElements > 0)
+				if ( timeLabels.numElements > 0)
 					timeLabels.removeAllElements();
 				if (ruler.numChildren > 0 )
 					ruler.removeChildAt(0);

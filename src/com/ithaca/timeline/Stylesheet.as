@@ -12,11 +12,13 @@ package com.ithaca.timeline
 	{
 		static private var tracelineGroupColorIndex : uint = 0;
 		static public var ZoomContextInitPercentWidth : Number = 30;
+		static public var renderersSidePadding : Number = 25;
 		
 		static public var obselsSkinsSelectors : Array = [  { id : 'Message' , 		selector : new SelectorRegexp('Message','type') },
 															{ id : 'Document' ,  	selector : new SelectorRegexp('Document','type')},
 															{ id : 'Instructions' ,	selector : new SelectorRegexp('Instructions','type')},
-															{ id : 'Keyword' , 		selector : new SelectorRegexp('Keyword','type')} ];
+															{ id : 'Keyword' , 		selector : new SelectorRegexp('Keyword', 'type') },
+															{ id : 'Activity' , 	selector : new SelectorRegexp('ActivityStart','type')} ];
 		
 		public function Stylesheet()
 		{
@@ -24,7 +26,7 @@ package com.ithaca.timeline
 		 		
 		public function getParameteredSkin( obsel : Obsel, traceline : TraceLine ) :  ObselSkin 
 		{ 	
-			var obselSkin : ObselSkin = new ObselSkin();
+			var obselSkin : ObselSkin = new ObselSkin( traceline );
 			obselSkin.obsel = obsel;
 			for each ( var item : Object in obselsSkinsSelectors )
 				if ( (item.selector as ISelector).isObselMatching( obsel ) )

@@ -30,6 +30,7 @@
 			import com.ithaca.timeline.LayoutNode;
 			import com.ithaca.timeline.ObselsRenderer;
 			import com.ithaca.timeline.SelectorRegexp;
+			import com.ithaca.timeline.Stylesheet;
 			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.TraceLine;
 			import com.ithaca.timeline.TraceLineGroup;
@@ -62,13 +63,19 @@
 			[Bindable]
 			public var obselsRenderer:ObselsRenderer;
 			
+			[Bindable]
+			public var renderersSidePadding:Number = 0;
+			
 			private var editMenu:Menu;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
-			{
+			{		
+				renderersSidePadding = Stylesheet.renderersSidePadding;
+				hostComponent.percentWidth 		= 100;
 				obselsRenderer 					= new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
 				obselsRenderer.height 			= hostComponent.getStyle("rendererHeight") as Number;
 				obselsRenderer.percentWidth 	= 100;
+				obselsRenderer.right			= obselsRenderer.left			= renderersSidePadding;
 				obselsRenderer.obselsCollection = hostComponent._obsels;
 				obselsRenderer.addEventListener(MouseEvent.CLICK, onSelect);
 				obselsRenderer.styleName = hostComponent.styleName;
@@ -91,7 +98,7 @@
 	</s:states>
 
 	<s:VGroup width="100%" gap="5">
-		<s:Group id="rendererGroup"  width="100%" height="100%" />
+		<s:Group id="rendererGroup"   width="100%" height="100%" />
 		<s:VGroup id="contentGroup"  includeIn="open"   width="100%" gap="5" />
 	</s:VGroup>
 </s:Skin>
