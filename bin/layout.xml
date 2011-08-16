@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
 	<tlg> 	
-		<tl title="Traceline1"> 
-			<tl selector="SelectorRegexp"   	field="type" regexp="Message" filter="false">
+		<tl title="bg" skinClass="background" selector="SelectorRegexp" field="type" regexp="Activity" />		
+		<tl title="Traceline1"  > 
+			<tl selector="SelectorRegexp"   skinClass="viewMsgText"	field="type" regexp="Message">
 				<tl selector="SelectorRegexp" 	field="type" regexp="Send" />
 				<tl selector="SelectorRegexp" 	field="type" regexp="Receive" source="parent" title="Receive source parent"/>
 				<tl selector="SelectorRegexp" 	field="type" regexp="Receive" title="Receive source trace"/>
