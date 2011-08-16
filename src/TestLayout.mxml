@@ -9,6 +9,7 @@
 	<fx:Script> 
 	<![CDATA[
 		import com.ithaca.timeline.Layout;
+		import com.ithaca.timeline.ObselSkin;
 		import com.ithaca.timeline.skins.TimelineSkin;
 		import com.ithaca.timeline.skins.TraceLineGroupSkin;
 		import com.ithaca.timeline.ISelector;
@@ -26,7 +27,7 @@
 		import flash.display.StageScaleMode;
 		import flash.display.StageAlign;
 		import flash.events.Event;
-		
+		import mx.formatters.DateFormatter;		
 		import mx.collections.ArrayCollection;
 		import mx.collections.XMLListCollection;
 		import mx.controls.*;
@@ -129,10 +130,40 @@
 			loading.visible = true;
 			loading.label = "TTL to trace...";
 			ttlToTrace(trace_ttl, theTrace);
+			
+			activityObselsToDurative( theTrace );
+			
 			loading.label = "Adding Trace...";
 			timeline.addTrace(theTrace);	
 			loading.visible = false;
 		}
+		
+		private function activityObselsToDurative( theTrace : Trace ) : void
+		{
+			var activityStart : Obsel = null;
+			for each (var obsel : Obsel in theTrace.obsels)
+			{
+				if (obsel.type == "ActivityStart" || obsel.type == "ActivityStop"  )
+				{
+					if (activityStart)
+						activityStart.end = obsel.begin;
+					
+					if (obsel.type == "ActivityStart" )	
+						activityStart = obsel;
+					else
+						activityStart = null;
+				}
+			}
+		}
+		private function toDate(item:Object, column:DataGridColumn):String
+		{	
+			var df : DateFormatter = new DateFormatter();
+			df.formatString = "JJ:NN:SS.QQ";
+			var n : Number = item[column.dataField]
+			var string : String = df.format( new Date (n) );
+			return string;
+		}
+		
 		
 			
 	]]> </fx:Script>
@@ -167,8 +198,8 @@
 						<mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
 						<mx:DataGridColumn dataField="uid" headerText="Uid" width="60"/>
 						<mx:DataGridColumn dataField="type" headerText="Type" width="160"/>
-						<mx:DataGridColumn dataField="begin" headerText="Begin"/>
-						<mx:DataGridColumn dataField="end" headerText="End"/>
+						<mx:DataGridColumn dataField="begin" headerText="Begin" labelFunction="{toDate}" />
+						<mx:DataGridColumn dataField="end" headerText="End" labelFunction="{toDate}"/>
 					</mx:columns>
 				</mx:DataGrid>
 			</s:Group>						 
