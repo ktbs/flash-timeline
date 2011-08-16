@@ -7,7 +7,8 @@
 		creationComplete="creationCompleteHandler(event)"
 		width="100%"
 		height="100%"
-		dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" elementAdd="onChildrenChange(event)">
+		elementAdd="onChildrenChange(event)" 
+		dragDrop="dragDropHandler(event);">
 
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLineTitle")]</fx:Metadata>
 
@@ -33,8 +34,8 @@
 			import com.ithaca.timeline.SelectorRegexp;
 			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.TraceLine;
-			import com.ithaca.timeline.TraceLineTitle;
 			import com.ithaca.timeline.TraceLineGroup;
+			import com.ithaca.timeline.TraceLineTitle;
 			import com.ithaca.timeline.ZoomContext;
 			import com.ithaca.traces.Obsel;
 			import flash.display.DisplayObject;
@@ -43,19 +44,20 @@
 			import flash.display.Shape;
 			import flash.display.Sprite;
 			import flash.events.Event;
+			import flash.events.MouseEvent;
 			import flash.geom.Point;
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.controls.Label;
 			import mx.controls.Menu;
+			import mx.core.DragSource;
 			import mx.core.UIComponent;
 			import mx.events.CollectionEvent;
+			import mx.events.DragEvent;
 			import mx.events.FlexEvent;
 			import mx.events.MenuEvent;
-			import mx.managers.PopUpManager;
 			import mx.managers.DragManager;
-            import mx.core.DragSource;
-            import mx.events.DragEvent;
-            import flash.events.MouseEvent;
+			import mx.managers.PopUpManager;
 			import spark.events.ElementExistenceEvent;
 			
 			[Bindable]
@@ -74,8 +76,9 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				timeline 			= hostComponent.tl._timeline;
-				titleGroup.height 	= hostComponent.tl.getStyle("rendererHeight") as Number;
+				timeline 			= hostComponent.tl._timeline;				
+				titleGroup.height 	=  (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
+				dragZone.height 	= titleGroup.height;
 				traceLineTitle.text = hostComponent.tl.title;			
 				hostComponent.updateDisplayLevel();
 				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_ADD , 		onChildrenChange);
@@ -198,18 +201,26 @@
 			{			
 				if ( event.dragSource.hasFormat("traceLine") )
                 {
-                    DragManager.acceptDragDrop(TraceLineTitleSkin(event.currentTarget));
+                    DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
                 }
             }
-
+			
             private function dragDropHandler( event:DragEvent ) : void
 			{		
 				var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;			
 				if ( traceline != hostComponent.tl )
 				{
-					timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);				
+					if ( event.ctrlKey )
+					{
+						timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);										
+					}
+					else
+					{
+						var toIndex : Number = hostComponent.tl.parentNode.getElementIndex( hostComponent.tl );
+						 hostComponent.tl.parentNode.addChildAndTitle( traceline, toIndex );					
+					}
 					(traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
-				}				
+				}	
             }
 			
 		]]>
@@ -220,31 +231,18 @@
 		<s:State name="open" />
 		<s:State name="disabled" />
 	</s:states>
-
-	<s:VGroup width="100%"
-			  gap="5">
-		<s:HGroup id="titleGroup"
-				  height="100%"
-				  gap="5">
+	
+	<s:BorderContainer id="dragZone" backgroundAlpha="0" borderAlpha="0" width="100%" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" />
+	
+	<s:VGroup width="100%" gap="0" >	
+		<s:HGroup id="titleGroup" gap="5" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);">
 			<mx:Spacer id="hierarchicalSpacer" />
-			<mx:Image id="OpenButton" visible="false"
-					  source="@Embed(source='../images/iconPlus.png')"
-					  height="100%"
-					  source.open="@Embed(source='../images/iconMinus.png')"
-					  click="onOpenButtonClick()" />
-			<s:Label id="traceLineTitle"
-					 baselineShift="-4"
-					 height="100%"
-					 fontSize="11" />
-			<mx:Image id="menuButton"
-					  width="12"
-					  height="12"
-					  source="@Embed(source='../images/iconMinus.png')"
-					  click="showMenu()" />
+			<mx:Image  id="OpenButton" visible="false" source="@Embed(source='../images/iconPlus.png')" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" />
+			<s:Label id="traceLineTitle" baselineShift="-4"  height="16" fontSize="11" />
+			<mx:Image id="menuButton" width="12" height="12" source="@Embed(source='../images/iconMinus.png')" click="showMenu()" />
 		</s:HGroup>
-		<s:VGroup id="contentGroup"				  
-				  includeIn="open"
-				  width="100%"
-				  gap="5"  />
+		
+		<s:VGroup id="contentGroup"  includeIn="open" width="100%" gap="0"  />
 	</s:VGroup>
+	
 </s:Skin>

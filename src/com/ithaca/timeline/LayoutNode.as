@@ -19,15 +19,18 @@ package com.ithaca.timeline
 			child.parentNode = this;
 			if ( !(child is LayoutModifier))
 			{
-				
-				child.percentWidth = 100;				
-				addElement( child );	
-				
-				child.titleComponent.percentWidth = 100;
-				if ( this is Timeline)
-					(this as Timeline).titleGroup.addElement( child.titleComponent );
+				if ( index < 0 || index >= numElements)
+					addElement( child );
 				else
-				titleComponent.addElement( child.titleComponent );
+					addElementAt( child, index );
+				
+				if ( titleComponent )
+				{
+					if ( index < 0 || index >= numElements)
+						titleComponent.addElement( child.titleComponent );
+					else					
+						titleComponent.addElementAt( child.titleComponent, index );				
+				}
 			}
 		}
 		

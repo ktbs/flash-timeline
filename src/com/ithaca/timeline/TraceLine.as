@@ -5,7 +5,8 @@ package com.ithaca.timeline
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 
-	[Style(name="rendererHeight",type="Number",inherit="no")]	
+	[Style(name = "rendererHeight", type = "Number", inherit = "no")]	
+	[Style(name = "rendererGap", type = "Number", inherit = "no")]	
 	public class TraceLine  extends LayoutNode
 	{	
 		public var title 			: String;

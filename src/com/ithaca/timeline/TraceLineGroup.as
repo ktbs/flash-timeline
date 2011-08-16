@@ -6,6 +6,7 @@ package com.ithaca.timeline
 	import spark.components.SkinnableContainer;
 	
 	[Style(name = "fillColors", type = "Array", format = "Color", inherit = "no")]
+	[Style(name = "headerHeight", type = "Number", inherit = "no")]	
 	public class TraceLineGroup  extends LayoutNode
 	{	
 		public var title 			: String;

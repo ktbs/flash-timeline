@@ -23,6 +23,9 @@
 						
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
+				hostComponent.percentWidth = 100;
+				contentGroup.top = hostComponent.getStyle("headerHeight");
+				contentGroup.bottom = hostComponent.getStyle("bottom");
 				backgroundColor = Stylesheet.getTracelineGroupColor( hostComponent );				
 			}
         ]]>        
@@ -33,7 +36,7 @@
 		<s:State name="disabled" />
     </s:states>
 	
-	<s:BorderContainer id="tlgContainer" height="100%" width="100%" minHeight="1" left="4" right="4" bottom="4" backgroundColor="{backgroundColor}" >
-		<s:VGroup id="contentGroup" left="10" right="4" top="30" bottom="2" width="100%" gap="5" />			
+	<s:BorderContainer id="tlgContainer" height="100%" width="100%" minHeight="1"  backgroundColor="{backgroundColor}" >
+		<s:VGroup id="contentGroup"  width="100%" gap="0" />			
 	</s:BorderContainer>
 </s:Skin>

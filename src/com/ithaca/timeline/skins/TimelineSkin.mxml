@@ -37,13 +37,13 @@
 	<mx:HDividedBox  width="100%" height="100%"> 
 		<s:VGroup gap="0" width="150">		
 				<mx:Spacer height="{zoomContext.height+timeRuler.height}"/>			
-				<s:VGroup id="titleGroup"  gap="0" width="100%" height="{contentGroup.height}" clipAndEnableScrolling="true" verticalScrollPosition="{contentGroup.verticalScrollPosition}"  />
+				<s:VGroup id="titleGroup"  gap="5" width="100%" height="{contentGroup.height}" clipAndEnableScrolling="true" verticalScrollPosition="{contentGroup.verticalScrollPosition}"  />
 		</s:VGroup>				
 		<s:VGroup id="renderGroup" width="100%" height="100%" gap="0">		
 				<tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />				
 				<tl:TimeRuler id="timeRuler"  width="100%" startPosition="{timeRulerSidePadding}" rulerWidth="{zoomContext.width - 2*timeRulerSidePadding}"  />	
 				<s:Scroller id="scroller" width="100%" height="100%" >							
-					<s:VGroup id="contentGroup"  gap="0" width="100%" />				
+					<s:VGroup id="contentGroup"  gap="5" width="100%" />				
 				</s:Scroller>
 		</s:VGroup>
 	</mx:HDividedBox>

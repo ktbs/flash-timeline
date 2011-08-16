@@ -78,7 +78,8 @@
 				obselsRenderer.right			= obselsRenderer.left			= renderersSidePadding;
 				obselsRenderer.obselsCollection = hostComponent._obsels;
 				obselsRenderer.addEventListener(MouseEvent.CLICK, onSelect);
-				obselsRenderer.styleName = hostComponent.styleName;
+				obselsRenderer.styleName = hostComponent.styleName;		
+				rendererGroup.height 			= obselsRenderer.height + hostComponent.getStyle("rendererGap") as Number;
 				rendererGroup.addElement( obselsRenderer );
 				timeline = hostComponent._timeline;
 			}
@@ -97,8 +98,8 @@
 		<s:State name="disabled" />
 	</s:states>
 
-	<s:VGroup width="100%" gap="5">
-		<s:Group id="rendererGroup"   width="100%" height="100%" />
-		<s:VGroup id="contentGroup"  includeIn="open"   width="100%" gap="5" />
+	<s:VGroup width="100%" gap="0">
+		<s:Group id="rendererGroup"  width="100%" />
+		<s:VGroup id="contentGroup"  includeIn="open"   width="100%" gap="0" />
 	</s:VGroup>
 </s:Skin>
