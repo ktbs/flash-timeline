@@ -72,7 +72,7 @@ package com.ithaca.timeline
 			return position;
 		}
 		
-		public function postionToTime( positionValue : Number, width : Number ) : Number
+		public function positionToTime( positionValue : Number, width : Number ) : Number
 		{
 			var time : Number = 0;	
 			var currentPostion: Number = 0;

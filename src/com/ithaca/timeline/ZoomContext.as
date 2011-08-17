@@ -12,6 +12,7 @@ package com.ithaca.timeline
 	import spark.components.SkinnableContainer;
 	import spark.events.ElementExistenceEvent;	
 
+	[Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 	public class ZoomContext  extends SkinnableContainer
 	{		
 		[SkinPart(required="true")]
@@ -67,8 +68,8 @@ package com.ithaca.timeline
 		
 		public function updateValuesFromSkinPosition() : void
 		{	
-			var begin 	: Number 	= _timelineRange.postionToTime( cursor.x + minRange.width - timelinePreview.x, timelinePreview.width );
-			var end 	: Number 	= _timelineRange.postionToTime( cursor.x  + cursor.width - maxRange.width - timelinePreview.x, timelinePreview.width );	
+			var begin 	: Number 	= _timelineRange.positionToTime( cursor.x + minRange.width - timelinePreview.x, timelinePreview.width );
+			var end 	: Number 	= _timelineRange.positionToTime( cursor.x  + cursor.width - maxRange.width - timelinePreview.x, timelinePreview.width );	
 			
 			cursorRange.changeLimits(begin, end);
 		}	

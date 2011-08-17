@@ -9,7 +9,7 @@ package com.ithaca.timeline
 	import mx.core.UIComponent;
 	
 	[Style(name = "icon", type = "Class", inherit = "no")]
-	[Style(name = "bakgroundColor", type = "uint", inherit = "no")]
+	[Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 	public class ObselSkin extends SkinnableComponent
 	{
 		public var traceline : TraceLine;

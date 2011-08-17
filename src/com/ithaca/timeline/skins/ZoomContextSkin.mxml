@@ -3,7 +3,7 @@
 				 xmlns:s="library://ns.adobe.com/flex/spark"
 				 xmlns:timeline="com.ithaca.timeline.*"
 				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*" 
-				 width="100%" height="100%" >	
+				 width="100%" >	
 	
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.ZoomContext")]</fx:Metadata>
 	
@@ -89,21 +89,21 @@
         <s:State name="normal" />
 		<s:State name="disabled" />
     </s:states>
-	<!--<s:BorderContainer     backgroundAlpha="0.5" backgroundColor="0x0A0000" height="100%" width ="100%" />-->
-	<s:BorderContainer id="zoomContextGroup" width="100%" height="100%" backgroundColor="#EEF1F7" >	
-			<s:VGroup x="4" id="actionsGroup" height="40" gap="4">
+
+	<s:BorderContainer id="zoomContextGroup" width="100%"  backgroundColor="{hostComponent.getStyle('backgroundColor')}" minHeight="1">		
+			<timeline:TimeRuler id="timeRuler"  width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />
+			
+			<s:VGroup x="4" id="actionsGroup" y="10" gap="4">
 				<mx:Button skin="@Embed(source='../images/magnifier.png')"  downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits( hostComponent.cursorRange.begin ,hostComponent.cursorRange.end  )"	/>			
 				<mx:Button skin="@Embed(source='../images/scissors.png')" 	downSkin="@Embed(source='../images/scissorsClick.png')"  click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin ,hostComponent.cursorRange.end )"/>			
 				<mx:Button skin="@Embed(source='../images/reset.png')" 		downSkin="@Embed(source='../images/resetClick.png')"	click="hostComponent.timeline.resetTimeRangeLimits()"/>			
 			</s:VGroup>
 		
-			<s:Group id="timelinePreview"   top="{actionsGroup.height}" right="25" left="30" width="100%"  height="30" resize="timeRuler.redraw(event)">				
+			<s:Group id="timelinePreview" y="{cursor.y + cursor.height}" right="25" left="30" width="100%"  height="20" resize="timeRuler.redraw(event)">				
 				<s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
 			</s:Group>
-			
-			<timeline:TimeRuler id="timeRuler" y="{timelinePreview.y+timelinePreview.height}" width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />
-			
-			<s:Group id="cursor" mouseDown="zcStartDrag(event);" x="40" width="30" y="10" height="20" >				
+
+			<s:Group id="cursor" mouseDown="zcStartDrag(event);" x="40" width="30" y="{timeRuler.y+timeRuler.height}"  height="16" >				
 				<s:Rect width="100%" height="100%" y="1">
 					<s:fill>
 						<s:LinearGradient rotation="90" >
@@ -114,8 +114,8 @@
 				</s:Rect>
 				<s:Line y="1"  width="100%"><s:stroke> <s:SolidColorStroke color="black"/></s:stroke></s:Line>	
 			</s:Group>
-			<s:Group id="minRange"  mouseDown="zcStartDrag(event);" x="{cursor.x}" y="{cursor.height}" >
-				<s:Rect width="5"  height="{timelinePreview.height + timelinePreview.y - cursor.height}" >					
+			<s:Group id="minRange"  mouseDown="zcStartDrag(event);" x="{cursor.x}" y="{cursor.y + cursor.height}" >
+				<s:Rect width="5"  height="{timelinePreview.height}" >					
 					<s:fill>
 						<s:LinearGradient rotation="90" >
 							<s:GradientEntry color="#121B54" ratio=".4" />
@@ -124,8 +124,8 @@
 					</s:fill>					
 				</s:Rect>							
 			</s:Group>
-			<s:Group id="maxRange"  mouseDown="zcStartDrag(event);" x="{cursor.x+ cursor.width-maxRange.width}" y="{cursor.height}" >
-				<s:Rect width="5"  height="{timelinePreview.height + timelinePreview.y - cursor.height}" >					
+			<s:Group id="maxRange"  mouseDown="zcStartDrag(event);" x="{cursor.x+ cursor.width-maxRange.width}" y="{cursor.y + cursor.height}" >
+				<s:Rect width="5"  height="{timelinePreview.height}" >					
 					<s:fill>
 						<s:LinearGradient rotation="90" >
 							<s:GradientEntry color="#121B54" ratio=".4" />
