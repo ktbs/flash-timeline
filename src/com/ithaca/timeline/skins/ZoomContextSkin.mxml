@@ -3,24 +3,40 @@
 				 xmlns:s="library://ns.adobe.com/flex/spark"
 				 xmlns:timeline="com.ithaca.timeline.*"
 				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*" 
+				 creationComplete="creationCompleteHandler(event)"
 				 width="100%" >	
 	
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.ZoomContext")]</fx:Metadata>
 	
 		<fx:Script>
         <![CDATA[            
+			import flash.events.Event;
 			import flash.geom.Rectangle;
 			import mx.events.ResizeEvent;
             import flash.events.MouseEvent;
 			import mx.controls.Image;
 			import spark.components.BorderContainer;
 			import spark.components.supportClasses.SkinnableComponent;
+			import com.ithaca.timeline.Stylesheet;
+			import com.ithaca.timeline.events.TimelineEvent;
 			
 			protected 	var currentCenterDragingPoint:Point;			
 			private 	var draggedPart : Group = null;
 						            			
 			public function get minX() :Number { return timelinePreview.x; }
 			public function get maxX() :Number { return timelinePreview.x + timelinePreview.width; }
+			
+			[Bindable]
+			protected var  timeRulerSidePadding : Number ;
+			
+			protected function creationCompleteHandler(event:Event):void
+			{
+				timeRulerSidePadding = Stylesheet.renderersSidePadding;
+				hostComponent.cursorRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, outputTimeRuler.onTimeRangeChange);		
+				hostComponent.cursorRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, drawFunnel )  ;
+				timelinePreview.addEventListener( Event.RESIZE, outputTimeRuler.redraw );	
+				timelinePreview.addEventListener( Event.RESIZE, drawFunnel );
+			}
 			
 			protected function zcStartDrag(e:MouseEvent):void
 			{
@@ -73,14 +89,27 @@
 					default:
 						break;
 				}			
+				hostComponent.updateValuesFromSkinPosition();			
 			}
 			
 			protected function zcStopDrag(e:MouseEvent):void
 			{
 				draggedPart = null;
-				hostComponent.updateValuesFromSkinPosition()
+				
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
 				stage.removeEventListener(MouseEvent.MOUSE_UP,zcStopDrag);		
+			}
+			
+			protected function drawFunnel (event:Event) : void
+			{
+				funnel.graphics.clear();
+				funnel.graphics.beginFill( 0xBCE0FE );
+				funnel.graphics.moveTo( cursor.x + minRange.width, 0);				
+				funnel.graphics.lineTo( outputTimeRuler.startPosition , funnel.height);				
+				funnel.graphics.lineTo( outputTimeRuler.startPosition + outputTimeRuler.rulerWidth , funnel.height);				
+				funnel.graphics.lineTo( outputTimeRuler.startPosition + outputTimeRuler.rulerWidth , funnel.height);
+				funnel.graphics.lineTo( cursor.x + cursor.width -maxRange.width, 0);
+				funnel.graphics.endFill();
 			}
         ]]>
     </fx:Script>
@@ -90,20 +119,20 @@
 		<s:State name="disabled" />
     </s:states>
 
-	<s:BorderContainer id="zoomContextGroup" width="100%"  backgroundColor="{hostComponent.getStyle('backgroundColor')}" minHeight="1">		
-			<timeline:TimeRuler id="timeRuler"  width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />
+	<s:BorderContainer id="zoomContextGroup" width="100%"  backgroundColor="{hostComponent.getStyle('backgroundColor')}"  borderVisible="false" minHeight="1">
+			<timeline:TimeRuler id="inputTimeRuler"  width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" labelsOnTop="true" />
 			
-			<s:VGroup x="4" id="actionsGroup" y="10" gap="4">
+			<s:VGroup x="4" id="actionsGroup" y="25" gap="4">
 				<mx:Button skin="@Embed(source='../images/magnifier.png')"  downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits( hostComponent.cursorRange.begin ,hostComponent.cursorRange.end  )"	/>			
 				<mx:Button skin="@Embed(source='../images/scissors.png')" 	downSkin="@Embed(source='../images/scissorsClick.png')"  click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin ,hostComponent.cursorRange.end )"/>			
 				<mx:Button skin="@Embed(source='../images/reset.png')" 		downSkin="@Embed(source='../images/resetClick.png')"	click="hostComponent.timeline.resetTimeRangeLimits()"/>			
 			</s:VGroup>
 		
-			<s:Group id="timelinePreview" y="{cursor.y + cursor.height}" right="25" left="30" width="100%"  height="20" resize="timeRuler.redraw(event)">				
+			<s:Group id="timelinePreview" y="{cursor.y + cursor.height}" x="{timeRulerSidePadding}"  width="{width-timeRulerSidePadding*2}"  height="20" resize="inputTimeRuler.redraw(event)">				
 				<s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
 			</s:Group>
 
-			<s:Group id="cursor" mouseDown="zcStartDrag(event);" x="40" width="30" y="{timeRuler.y+timeRuler.height}"  height="16" >				
+			<s:Group id="cursor" mouseDown="zcStartDrag(event);" x="40" width="30" y="{inputTimeRuler.y+inputTimeRuler.height}"  height="16" >				
 				<s:Rect width="100%" height="100%" y="1">
 					<s:fill>
 						<s:LinearGradient rotation="90" >
@@ -134,5 +163,9 @@
 					</s:fill>
 				</s:Rect>	
 			</s:Group>
+			
+			<s:Group id="funnel" height="15" minHeight="1" y="{timelinePreview.y+timelinePreview.height}" /> 
+			
+			<timeline:TimeRuler id="outputTimeRuler"  width="100%" y="{funnel.y+funnel.height}" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />		
 	</s:BorderContainer>
 </s:Skin>

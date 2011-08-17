@@ -94,9 +94,9 @@ timeline|TimeRuler
 	maxLabelsGap	 	: 30;
 	minMarksGap	 		: 4;
 	maxMarksGap	 		: 20;
-	minorMarkHeight		: 5;
-	majorMarkHeight		: 12;
-	limitMarkHeight		: 17;
+	minorMarkHeight		: 4;
+	majorMarkHeight		: 8;
+	limitMarkHeight		: 12;
 	validIntervals 		: 1, 10, 100, 1000, 10000, 	60000, 300000, 600000, 3600000 ;
 	majorIntervals 		: 5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ;
 	labelsIntervals 	: 5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ;

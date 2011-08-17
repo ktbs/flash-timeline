@@ -52,7 +52,7 @@
 		public var validIntervals 		: Array ;
 		public var majorIntervals 		: Array ;
 		public var labelsIntervals 		: Array ;
-		
+		public var labelsOnTop			: Boolean = false;
 		
 		protected function creationCompleteHandler() : void
 		{	
@@ -70,6 +70,15 @@
 			TimeRulerContainer.backgroundFill = new SolidColor( getStyle("backgroundColor") );
 			dateFormater.formatString = "JJ:NN:SS" ;
 			ruler.addChild(new Shape);
+			
+			ruler.height = limitMarkHeight;
+			if ( labelsOnTop)
+				{
+					ruler.y = 23; 				
+					timeLabels.y = 8; 					
+				}
+			else
+				timeLabels.y = limitMarkHeight + 3;
 		}
 		
 		private function getBestMarkerInterval( duration : Number, nb : Number ) : Object
@@ -116,7 +125,7 @@
 					else
 					{
 						drawMark( shape, x, limitMarkHeight );
-						lastLabel = addLabel( tBegin, x , 10 );
+						lastLabel = addLabel( tBegin, x , labelsOnTop?2:10 );
 					}
 					
 					lastLabel.setStyle('fontSize', '11');
@@ -128,28 +137,37 @@
 						if ( t % interval.label == 0 )
 						{
 							if( x - lastLabel.x - LABEL_SIZE / 2 > minLabelsGap ) 
-								lastLabel = addLabel( t, x );							
+								lastLabel = addLabel( t, x, labelsOnTop?5:0 );							
 						}
 						x += xStep;
 					}
 					
 					if( x - lastLabel.x - LABEL_SIZE / 2 < 50 ) 
 							timeLabels.removeElement(lastLabel);
-					drawMark( shape, Math.min(x,startPosition + rulerWidth),  limitMarkHeight );
-					lastLabel = addLabel( tEnd, Math.min(x,startPosition + rulerWidth) );
+					drawMark( shape, Math.min(x, startPosition + rulerWidth),  limitMarkHeight );
+					if (i < timeRange._ranges.length - 2)					
+						lastLabel = addLabel( tEnd, Math.min(x, startPosition + rulerWidth), labelsOnTop? -8:0);
+					else
+						lastLabel = addLabel( tEnd, Math.min(x, startPosition + rulerWidth) );
 					lastLabel.setStyle('fontSize', '11');
 					
 					x += timeRange.timeHoleWidth;
 				}
 			}
 			
+			shape.graphics.moveTo( startPosition , labelsOnTop?ruler.height:0);				
+			shape.graphics.lineTo( startPosition + rulerWidth , labelsOnTop?ruler.height:0);
+			
 			return shape;
 		}		
 		
 		private  function drawMark( shape : Shape, pos : Number, height : Number ) : void
 		{
-			shape.graphics.moveTo( pos , 0);				
-			shape.graphics.lineTo( pos , height  );	
+			var yFrom : Number = (labelsOnTop)?ruler.height:0;
+			var yTo : Number = (labelsOnTop)?ruler.height - height:height;
+			
+			shape.graphics.moveTo( pos , yFrom );				
+			shape.graphics.lineTo( pos , yTo  );	
 		}
 		
 		private function addLabel( time : Number , position : Number, y : Number = 0) : Label
@@ -194,8 +212,7 @@
 	</fx:Script>
 			 
 	<s:BorderContainer id="TimeRulerContainer"  backgroundColor="{getStyle('backgroundColor')}" width="100%" minHeight="10" borderVisible="false" horizontalCenter="true">	
-			<s:layout> <s:VerticalLayout gap="4" /> </s:layout>
-			<s:SpriteVisualElement  id="ruler" width="100%" height="15"/>
+			<s:SpriteVisualElement  id="ruler" width="100%"  />
 			<s:Group id="timeLabels" />									
 	</s:BorderContainer>
 	

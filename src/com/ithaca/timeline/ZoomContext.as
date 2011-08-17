@@ -24,7 +24,7 @@ package com.ithaca.timeline
 		[SkinPart(required="true")]
 		public var timelinePreview	: Group;
 		[SkinPart(required="true")]
-		public var timeRuler		: TimeRuler;
+		public var inputTimeRuler		: TimeRuler;
 
 		public var _timeline	    : Timeline;
 		public var _timelineRange	: TimeRange;
@@ -50,7 +50,7 @@ package com.ithaca.timeline
 			
 			timelinePreview.addEventListener( Event.RESIZE, updateSkinPositionFromValues );
 			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
-			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, timeRuler.onTimeRangeChange);
+			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, inputTimeRuler.onTimeRangeChange);
 			_timeline.addEventListener( TimelineEvent.LAYOUT_CHANGE, onTimelineLayoutChange );						
 		}
 		public function get timeline( ) : Timeline  { return  _timeline; }
