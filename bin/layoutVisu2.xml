@@ -3,12 +3,13 @@
 	<tlg> 	
 		<tl skinClass="background" 		selector="SelectorRegexp" field="type" regexp="Activity" />
 		<tl skinClass="contextPreview"  selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" />
-		<tl title="" selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message|Activity" >
-			<tl title="Marqueurs" selector="SelectorRegexp" field="type" regexp="Marker|Activity" />
-			<tl title="Instructions" selector="SelectorRegexp" field="type" regexp="Instructions|Activity" />
-			<tl title="Mots-Clefs" selector="SelectorRegexp" field="type" regexp="Keyword|Activity" />
-			<tl title="Documents" selector="SelectorRegexp" field="type" regexp="Document|Activity" />		
-			<tl title="Messages" selector="SelectorRegexp" field="type" regexp="Message|Activity"/>			
+		
+		<tl title="" selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" >
+			<tl title="Marqueurs" selector="SelectorRegexp" field="type" regexp="Marker" />
+			<tl title="Instructions" selector="SelectorRegexp" field="type" regexp="Instructions" />
+			<tl title="Mots-Clefs" selector="SelectorRegexp" field="type" regexp="Keyword" />
+			<tl title="Documents" selector="SelectorRegexp" field="type" regexp="Document" />		
+			<tl title="Messages" selector="SelectorRegexp" field="type" regexp="Message"/>			
 		</tl>
 	</tlg>
 </root>			

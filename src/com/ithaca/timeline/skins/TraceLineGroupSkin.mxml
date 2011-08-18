@@ -15,19 +15,36 @@
 	<fx:Script>
         <![CDATA[         
 			import com.ithaca.timeline.Timeline;
+			import com.ithaca.timeline.TraceLine;
 			import mx.events.FlexEvent;
 			import com.ithaca.timeline.Stylesheet;
+			import com.ithaca.timeline.ObselsRenderer;
 			
 			[Bindable]
 			public var backgroundColor : uint;
-						
+
+			[Bindable]
+			public var obselsRenderer:ObselsRenderer;
+			
+			[Bindable]
+			public var renderersSidePadding:Number = 0;
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				hostComponent.percentWidth = 100;
 				contentGroup.top = hostComponent.getStyle("headerHeight");
 				contentGroup.bottom = hostComponent.getStyle("bottom");
-				backgroundColor = Stylesheet.getTracelineGroupColor( hostComponent );				
+				backgroundColor = Stylesheet.getTracelineGroupColor( hostComponent );
+				
+				if ( hostComponent.backgroundTraceLine )
+				{
+					hostComponent.backgroundTraceLine.percentHeight = 100;
+					backgroundGroup.addElement( hostComponent.backgroundTraceLine );					
+					backgroundGroup.top 	= hostComponent.getStyle("headerHeight");
+					backgroundGroup.bottom 	= hostComponent.getStyle("bottom");
+				}
 			}
+			
         ]]>        
     </fx:Script>
 	
@@ -37,6 +54,7 @@
     </s:states>
 	
 	<s:BorderContainer id="tlgContainer" height="100%" width="100%" minHeight="1"  backgroundColor="{backgroundColor}" >
+		<s:Group id="backgroundGroup" width="100%" height="100%" />
 		<s:VGroup id="contentGroup"  width="100%" gap="0" />			
 	</s:BorderContainer>
 </s:Skin>

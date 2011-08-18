@@ -28,10 +28,9 @@ timeline|TraceLine
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
 }
 
-timeline|TraceLine#background
+timeline|TraceLine.background
 {
-	rendererHeight : 30;
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineBackgroundSkin");
 }
 
 timeline|TraceLineTitle

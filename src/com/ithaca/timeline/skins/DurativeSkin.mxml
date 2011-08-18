@@ -2,7 +2,8 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				 xmlns:s="library://ns.adobe.com/flex/spark" 
 				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
-				 creationComplete="creationCompleteHandler(event)">
+				 creationComplete="creationCompleteHandler(event)"
+				 height="100%">
 	<fx:Declarations>
 		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
 	</fx:Declarations>
@@ -39,12 +40,12 @@
 				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( obsel.begin , timeRange.begin ),	traceline.width );
 				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( obsel.end , timeRange.end), 	traceline.width );
 				durative.width  	= endPosition - startPosition;
-				durative.height  	= traceline.getTraceLineGroup().height - traceline.parent.y - 6 ;				
+				hostComponent.percentHeight = 100;			
 			}
 			
 		]]>        
     </fx:Script>
 		
-	<s:BorderContainer id="durative" minWidth="1" borderWeight="0" />
+	<s:BorderContainer id="durative" minWidth="1"  height="100%" borderWeight="0" />
 
 </s:Skin>
