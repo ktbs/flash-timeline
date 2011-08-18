@@ -41,7 +41,7 @@
 		{
 			allTestLayout.enabled = false;			
 			urlTTL_ti.text = "trace.ttl";
-			layout_ti.text = "layout.xml";
+			layout_ti.text = "layoutVisu2.xml";
 			loadLayout( layout_ti.text );	
 		}		
 		
