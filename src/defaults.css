@@ -23,7 +23,7 @@ timeline|TraceLineGroupTitle
 
 timeline|TraceLine
 {
-	rendererHeight : 30;
+	rendererHeight : 25;
 	rendererGap	   : 2;
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
 }
@@ -41,7 +41,7 @@ timeline|TraceLineTitle
 
 timeline|ZoomContext
 {
-	skin-class			: ClassReference("com.ithaca.timeline.skins.ZoomContextSkin");
+	skin-class			: ClassReference("com.ithaca.timeline.skins.ZoomContextSkin2");
 	backgroundColor 	: #F5F5F5;
 }
 

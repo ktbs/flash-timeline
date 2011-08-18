@@ -11,6 +11,9 @@ package com.ithaca.timeline
 		public static const TRACELINE: String = "tl";
 		public static const MODIFIER: String = "modifier";
 		public static const ROOT: String = "root";
+		
+		public static const backgroundTraceLine: String = "background";
+		public static const contextPreviewTraceLine: String = "contextPreview";
 
 		private var _timeline : Timeline;
 		
@@ -148,10 +151,23 @@ package com.ithaca.timeline
 			for each ( var child : XML in xmlLayout.children() )
 			{
 				var childTree : LayoutNode = createTree( child, trac );
-				newNode.addChildAndTitle( childTree );	
 				
-				var collec : ArrayCollection;
+				if ( child.hasOwnProperty('@skinClass') && child.@skinClass == backgroundTraceLine )
+				{			
+					if (newNode is TraceLineGroup)
+						(newNode as TraceLineGroup).backgroundTraceLine = childTree as TraceLine;
+				}
+				else if ( child.hasOwnProperty('@skinClass') && child.@skinClass == contextPreviewTraceLine )
+				{
+					if (newNode is TraceLineGroup)
+						(newNode as TraceLineGroup).contextPreviewTraceLine = childTree as TraceLine;
+				}				
+				else
+				{
+					newNode.addChildAndTitle( childTree );	
+				}
 				
+				var collec : ArrayCollection;				
 				if (child.hasOwnProperty('@source') && child.@source == "parent" )
 				{
 					(newNode as TraceLine).sourceStr = xmlLayout.@source;						

@@ -14,6 +14,9 @@ package com.ithaca.timeline
 		public var traceBegin 		: Number = 0;
 		public var traceEnd  		: Number = 0;
 		
+		public var contextPreviewTraceLine 	: TraceLine;
+		public var backgroundTraceLine 		: TraceLine;
+		
 		[SkinPart(required="true")]
 		public var backgroundColor : uint;
 				

@@ -1,30 +1,25 @@
 package com.ithaca.timeline
 {
 	import com.ithaca.timeline.events.TimelineEvent;
-	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
-	import flash.ui.ContextMenu;
-	import flash.ui.ContextMenuItem;
-	import mx.collections.ArrayCollection;
-	import mx.events.CollectionEvent;
-	import mx.events.CollectionEventKind;
+	import mx.core.UIComponent;
 	import spark.components.Group;
 	import spark.components.SkinnableContainer;
-	import spark.events.ElementExistenceEvent;	
+	import spark.events.ElementExistenceEvent;
 
 	[Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 	public class ZoomContext  extends SkinnableContainer
 	{		
 		[SkinPart(required="true")]
-		public var maxRange	 		: Group;
+		public var maxRange	 		: UIComponent;
 		[SkinPart(required="true")]
-		public var minRange			: Group;
+		public var minRange			: UIComponent;
 		[SkinPart(required="true")]
-		public var cursor	 		: Group;
+		public var cursor	 		: UIComponent;
 		[SkinPart(required="true")]
 		public var timelinePreview	: Group;
 		[SkinPart(required="true")]
-		public var inputTimeRuler		: TimeRuler;
+		public var inputTimeRuler	: TimeRuler;
 
 		public var _timeline	    : Timeline;
 		public var _timelineRange	: TimeRange;
@@ -77,7 +72,11 @@ package com.ithaca.timeline
 		public function addTraceLineGroupPreview( tlg : TraceLineGroup, index : Number  = -1  ) : void 
 		{
 			var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );											
-			simpleObselsRenderer.obselsCollection 	= tlg._trace.obsels;
+			if ( tlg.contextPreviewTraceLine ) 
+				simpleObselsRenderer.obselsCollection 	= tlg.contextPreviewTraceLine._obsels;
+			else
+				simpleObselsRenderer.obselsCollection 	= 	tlg._trace.obsels;			
+			
 			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
 			simpleObselsRenderer.percentWidth 	= 100;
 			simpleObselsRenderer.percentHeight 	= 100;
