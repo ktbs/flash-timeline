@@ -7,6 +7,7 @@ package com.ithaca.timeline.events
 	{		
 		// constants
 		static public const TIMERANGES_CHANGE 	: String = "timeranges_change";
+		static public const TIMERANGES_SHIFT 	: String = "timeranges_shift";
 		static public const TIMES_CHANGE 		: String = "times_change";
 		static public const LAYOUT_CHANGE 		: String = "layout_change";	
 	

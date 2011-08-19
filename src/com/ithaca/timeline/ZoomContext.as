@@ -3,6 +3,7 @@ package com.ithaca.timeline
 	import com.ithaca.timeline.events.TimelineEvent;
 	import flash.events.Event;
 	import mx.core.UIComponent;
+	import mx.events.MoveEvent;
 	import spark.components.Group;
 	import spark.components.SkinnableContainer;
 	import spark.events.ElementExistenceEvent;
@@ -10,10 +11,6 @@ package com.ithaca.timeline
 	[Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 	public class ZoomContext  extends SkinnableContainer
 	{		
-		[SkinPart(required="true")]
-		public var maxRange	 		: UIComponent;
-		[SkinPart(required="true")]
-		public var minRange			: UIComponent;
 		[SkinPart(required="true")]
 		public var cursor	 		: UIComponent;
 		[SkinPart(required="true")]
@@ -54,19 +51,25 @@ package com.ithaca.timeline
 		{
 			if ( cursor && _timeline && timelinePreview && !cursorRange.isEmpty())
 			{						
-				cursor.x 		= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.begin, timelinePreview.width ) - minRange.width;
-				cursor.width 	= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.end, timelinePreview.width ) + maxRange.width - cursor.x ;
-				minRange.x 		= cursor.x;
-				maxRange.x 		= cursor.x + cursor.width - maxRange.width;
+				cursor.x 		= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.begin, timelinePreview.width );
+				cursor.width 	= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.end, timelinePreview.width ) - cursor.x ;
 			}
 		}
 		
-		public function updateValuesFromSkinPosition() : void
+		public function updateValuesFromSkinPosition( e: Event = null ) : void
 		{	
-			var begin 	: Number 	= _timelineRange.positionToTime( cursor.x + minRange.width - timelinePreview.x, timelinePreview.width );
-			var end 	: Number 	= _timelineRange.positionToTime( cursor.x  + cursor.width - maxRange.width - timelinePreview.x, timelinePreview.width );	
-			
-			cursorRange.changeLimits(begin, end);
+			switch (e.type)
+			{
+				case MoveEvent.MOVE :
+					var oldPos 	: Number 	= _timelineRange.positionToTime( (e as MoveEvent).oldX - timelinePreview.x, timelinePreview.width );
+					var newPos 	: Number 	= _timelineRange.positionToTime( cursor.x - timelinePreview.x, timelinePreview.width );
+					cursorRange.shiftLimits( newPos - oldPos );					
+				break;
+				default:
+					var begin 	: Number 	= _timelineRange.positionToTime( cursor.x  - timelinePreview.x, timelinePreview.width );
+					var end 	: Number 	= _timelineRange.positionToTime( cursor.x  + cursor.width  - timelinePreview.x, timelinePreview.width );					
+					cursorRange.changeLimits(begin, end);
+			}
 		}	
 		
 		public function addTraceLineGroupPreview( tlg : TraceLineGroup, index : Number  = -1  ) : void 

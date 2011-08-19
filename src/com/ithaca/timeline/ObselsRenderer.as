@@ -7,11 +7,12 @@ package com.ithaca.timeline
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 	import spark.components.Group;
+	import com.ithaca.timeline.events.TimelineEvent;
 	
 	public class ObselsRenderer extends BaseObselsRenderer 
 	{
 		protected var  obselsSkinsCollection : ArrayCollection;
-		
+
 		public function ObselsRenderer( tr : TimeRange, tl : TraceLine ) 
 		{			
 			super( tr, tl, tl._timeline);						
@@ -47,7 +48,7 @@ package com.ithaca.timeline
 				
 				if (borderVisible)
 				{
-					intervalGroup.graphics.lineStyle( 0 );
+					intervalGroup.graphics.lineStyle( 1 );
 					intervalGroup.graphics.drawRect( 0, 0,(_timeRange._ranges[i+1] - _timeRange._ranges[i])*timeToPositionRatio-1, height -1);
 				}				
 				
@@ -55,11 +56,8 @@ package com.ithaca.timeline
 				for each (var obselSkin : ObselSkin in obselsSkinsCollection)
 				{	
 					var obsel : Obsel =  obselSkin.obsel;
-					if ( obsel.end >= intervalStart  && obsel.begin <= intervalEnd )
-					{
-						obselSkin.x = (obsel.begin - _timeRange._ranges[i]) * timeToPositionRatio;
-						intervalGroup.addElement( obselSkin ) ;
-					}
+					obselSkin.x = (obsel.begin - _timeRange._ranges[i]) * timeToPositionRatio;
+					intervalGroup.addElement( obselSkin ) ;
 				}	
 				
 				if ( lastIntervalGroup )
@@ -68,6 +66,36 @@ package com.ithaca.timeline
 				lastIntervalGroup = intervalGroup;
 			}
 		}		
+		
+		override public function onTimerangeChange( event : TimelineEvent ) : void
+		{
+			_timeRange = event.currentTarget as TimeRange;
+			
+			if ( event.type == TimelineEvent.TIMERANGES_SHIFT)
+				updateViewportPosition();
+			else
+				redraw() ;
+		}
+		
+		public function  updateViewportPosition( event : Event = null) : void
+		{						
+			if ( !_timeRange) 
+				return;	
+	 
+			var timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;	
+			var index : Number = 0;
+			for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
+			{				
+				if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
+					continue;
+					
+				var intervalStart 		: Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);				
+				var intervalGroup 		: Group  = getChildAt(index++) as Group;				
+				intervalGroup.horizontalScrollPosition = timeToPositionRatio * (intervalStart - _timeRange._ranges[i]);			
+			}
+		}		
+		
+		
 
 		public function getObselSkinIndex( obsel : Obsel ) : int
 		{			

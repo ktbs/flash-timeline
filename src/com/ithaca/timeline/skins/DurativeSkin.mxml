@@ -42,7 +42,7 @@
 				var  timeToPositionRatio : Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
 				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( obsel.begin , timeRange.begin ),	traceline.width );
 				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( obsel.end , timeRange.end), 	traceline.width );
-				trace( "x : "  + x + ", start : " + startPosition + ", end :" + endPosition + ", width :" + (endPosition - startPosition) );
+
 				durative.width  	= (obsel.end - obsel.begin) * timeToPositionRatio;
 			}
 			

@@ -233,7 +233,15 @@ package com.ithaca.timeline
 			updateDuration();
 			
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 	
-		}		
+		}	
+		
+		public function shiftLimits ( delta : Number ) : void
+		{			
+			_start 	+= delta;
+			_end 	+= delta;					
+			
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_SHIFT , true )); 	
+		}	
 		
 		public function resetLimits ( ) : void
 		{

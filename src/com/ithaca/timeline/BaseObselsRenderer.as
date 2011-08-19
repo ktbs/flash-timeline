@@ -24,6 +24,7 @@ package com.ithaca.timeline
 			_timeline = timeline;
 			addEventListener( ResizeEvent.RESIZE, onResize );
 			_timeRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimerangeChange);		
+			_timeRange.addEventListener( TimelineEvent.TIMERANGES_SHIFT, onTimerangeChange);
 		}
 	
 		public function get timeRange ( ) : TimeRange 
