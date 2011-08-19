@@ -3,6 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:tl="com.ithaca.timeline.*"
+			   xmlns:root="*"
 			   width="100%"  height="100%" 
 			   creationComplete="init()" >
 			   	
@@ -163,7 +164,7 @@
 			var string : String = df.format( new Date (n) );
 			return string;
 		}
-		
+
 		
 			
 	]]> </fx:Script>
@@ -206,6 +207,8 @@
 		</s:HGroup>
 			
 		<tl:Timeline id="timeline" width="100%" height="50%" />
+		
+		<root:version />
 	</s:VGroup>
 
 	
