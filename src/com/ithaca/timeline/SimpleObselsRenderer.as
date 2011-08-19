@@ -38,7 +38,8 @@ package com.ithaca.timeline
 				var shape : Shape = new Shape();
 				// drawing interval background
 				shape.graphics.beginFill(_backgroundColor);
-				shape.graphics.lineStyle(0, 0x00FF00);
+				if (borderVisible)
+					shape.graphics.lineStyle(1);
 				shape.graphics.drawRect( 0, 0, shapeWidth, height);
 				shape.graphics.endFill();
 				

@@ -6,6 +6,7 @@ package com.ithaca.timeline
 	import mx.containers.Canvas;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
+	import spark.components.Group;
 	
 	public class ObselsRenderer extends BaseObselsRenderer 
 	{
@@ -25,10 +26,10 @@ package com.ithaca.timeline
 			while(numChildren > 0 )
 				removeChildAt(0);		
 
-			var lastIntervalGroup : Canvas = null;
+			var lastIntervalGroup : Group = null;
 	 
 			var  timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
-			
+									
 			for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
 			{				
 				if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
@@ -38,14 +39,17 @@ package com.ithaca.timeline
 				var intervalEnd 		: Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
 				var intervalDuration 	: Number = intervalEnd - intervalStart;		
 				
-				var intervalGroup : Canvas 	= new Canvas();
+				var intervalGroup : Group 	= new Group();
 				intervalGroup.width 		= intervalDuration * timeToPositionRatio;
-				intervalGroup.height 		= height;				
-				intervalGroup.clipContent 	= true;
-				intervalGroup.horizontalScrollPolicy = "off";					
+				intervalGroup.height 		= height;			
+				intervalGroup.clipAndEnableScrolling 	= true;
+				intervalGroup.horizontalScrollPosition = timeToPositionRatio * (intervalStart - _timeRange._ranges[i]);			
 				
-				intervalGroup.graphics.lineStyle( 1 );
-				intervalGroup.graphics.drawRect( 0, 0, intervalGroup.width, height);
+				if (borderVisible)
+				{
+					intervalGroup.graphics.lineStyle( 0 );
+					intervalGroup.graphics.drawRect( 0, 0,(_timeRange._ranges[i+1] - _timeRange._ranges[i])*timeToPositionRatio-1, height -1);
+				}				
 				
 				//drawing obsels
 				for each (var obselSkin : ObselSkin in obselsSkinsCollection)
@@ -53,7 +57,7 @@ package com.ithaca.timeline
 					var obsel : Obsel =  obselSkin.obsel;
 					if ( obsel.end >= intervalStart  && obsel.begin <= intervalEnd )
 					{
-						obselSkin.x = Math.max( obsel.begin - intervalStart, 0 ) * timeToPositionRatio;
+						obselSkin.x = (obsel.begin - _timeRange._ranges[i]) * timeToPositionRatio;
 						intervalGroup.addElement( obselSkin ) ;
 					}
 				}	
@@ -64,7 +68,7 @@ package com.ithaca.timeline
 				lastIntervalGroup = intervalGroup;
 			}
 		}		
-		
+
 		public function getObselSkinIndex( obsel : Obsel ) : int
 		{			
 			for ( var i: uint = 0; i < obselsSkinsCollection.length; i++ )

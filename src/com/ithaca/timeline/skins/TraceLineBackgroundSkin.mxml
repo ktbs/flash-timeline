@@ -63,6 +63,7 @@
 				obselsRenderer 					= new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
 				obselsRenderer.percentHeight	= 100;
 				obselsRenderer.percentWidth 	= 100;
+				obselsRenderer.borderVisible 	= false;
 				obselsRenderer.right			= obselsRenderer.left			= Stylesheet.renderersSidePadding;
 				obselsRenderer.obselsCollection = hostComponent._obsels;				
 				obselsRenderer.styleName 		= hostComponent.styleName;		

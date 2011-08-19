@@ -30,12 +30,12 @@ package com.ithaca.timeline
 			obselSkin.obsel = obsel;
 			for each ( var item : Object in obselsSkinsSelectors )
 				if ( (item.selector as ISelector).isObselMatching( obsel ) )
+				{
 					obselSkin.styleName = item.id;			
-			
-			if ( obselSkin.styleName )
-				return obselSkin;
-			else
-				return null;
+					return obselSkin;
+				}
+				
+			return null;
 		}
 		
 		static public function getTracelineGroupColor( tlg : TraceLineGroup ) : uint

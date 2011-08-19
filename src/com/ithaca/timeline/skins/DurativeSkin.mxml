@@ -12,9 +12,9 @@
 	
 	<fx:Script>
         <![CDATA[ 
+			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.timeline.TimeRange;
 			import com.ithaca.timeline.TraceLine;
-			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.traces.Obsel;
 			import flash.events.Event;
 			import mx.graphics.SolidColor;
@@ -31,21 +31,24 @@
 				updateWidth( null );
 				var fillColors : Array = getStyle( "backgroundColors" ) as Array;	
 				durative.backgroundFill =  new SolidColor( fillColors[ bgColorIndex++ % fillColors.length ]) ;
+				hostComponent.percentHeight = 100;		
+				hostComponent.bottom = hostComponent.traceline.getStyle("rendererGap");
 			}
 			
 			public function updateWidth( event : Event ) :  void
 			{
 				var traceline 		: TraceLine = hostComponent.traceline;
 				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;
+				var  timeToPositionRatio : Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
 				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( obsel.begin , timeRange.begin ),	traceline.width );
 				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( obsel.end , timeRange.end), 	traceline.width );
-				durative.width  	= endPosition - startPosition;
-				hostComponent.percentHeight = 100;			
+				trace( "x : "  + x + ", start : " + startPosition + ", end :" + endPosition + ", width :" + (endPosition - startPosition) );
+				durative.width  	= (obsel.end - obsel.begin) * timeToPositionRatio;
 			}
 			
 		]]>        
     </fx:Script>
 		
-	<s:BorderContainer id="durative" minWidth="1"  height="100%" borderWeight="0" />
+	<s:BorderContainer id="durative" minWidth="1" borderVisible="false" height="100%" />
 
 </s:Skin>

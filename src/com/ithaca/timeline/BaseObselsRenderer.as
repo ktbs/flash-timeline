@@ -14,6 +14,7 @@ package com.ithaca.timeline
 		protected var _traceline		: TraceLine;
 		protected var _timeRange		: TimeRange = null;
 		protected var _obsels 			: ArrayCollection = null;
+		public 	  var borderVisible 	: Boolean = true;
 			
 		public function BaseObselsRenderer( tr : TimeRange, traceLine :  TraceLine, timeline : Timeline ) 
 		{

@@ -71,7 +71,8 @@ package com.ithaca.timeline
 		
 		public function addTraceLineGroupPreview( tlg : TraceLineGroup, index : Number  = -1  ) : void 
 		{
-			var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );											
+			var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );
+			simpleObselsRenderer.borderVisible = false;
 			if ( tlg.contextPreviewTraceLine ) 
 				simpleObselsRenderer.obselsCollection 	= tlg.contextPreviewTraceLine._obsels;
 			else
