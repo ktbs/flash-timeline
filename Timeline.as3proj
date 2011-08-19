@@ -77,9 +77,9 @@
     <!-- example: <hidden path="..." /> -->
   </hiddenPaths>
   <!-- Executed before build -->
-  <preBuildCommand>subwcrev . version.a src/version.mxml</preBuildCommand>
+  <preBuildCommand>subwcrev src version.a src/version.mxml</preBuildCommand>
   <!-- Executed after build -->
-  <postBuildCommand alwaysRun="False" />
+  <postBuildCommand alwaysRun="False">svn revert src/version.mxml</postBuildCommand>
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
