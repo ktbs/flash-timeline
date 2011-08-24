@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:tl="com.ithaca.timeline.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:skins="com.ithaca.timeline.skins.*"
+		creationComplete="creationCompleteHandler(event)"
+		width="100%"
+		height="100%"
+		elementAdd="onChildrenChange(event)" 
+		dragDrop="dragDropHandler(event);">
+
+	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLineTitle")]</fx:Metadata>
+
+	<fx:Script>
+		<![CDATA[
+			import com.ithaca.timeline.events.TimelineEvent;
+			import com.ithaca.timeline.LayoutNode;
+			import com.ithaca.timeline.ObselsRenderer;
+			import com.ithaca.timeline.SelectorRegexp;
+			import com.ithaca.timeline.Timeline;
+			import com.ithaca.timeline.TraceLine;
+			import com.ithaca.timeline.TraceLineGroup;
+			import com.ithaca.timeline.TraceLineTitle;
+			import com.ithaca.timeline.ZoomContext;
+			import com.ithaca.traces.Obsel;
+			import flash.display.DisplayObject;
+			import flash.display.DisplayObjectContainer;
+			import flash.display.Graphics;
+			import flash.display.Shape;
+			import flash.display.Sprite;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.Point;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.controls.Label;
+			import mx.controls.Menu;
+			import mx.core.DragSource;
+			import mx.core.UIComponent;
+			import mx.events.CollectionEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.MenuEvent;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			import spark.events.ElementExistenceEvent;
+			
+			[Bindable]
+			public var forme:Shape = new Shape();
+			
+			[Bindable]
+			public var displayLevel:Number = 0;
+			
+			[Bindable]
+			public var timeline:Timeline;
+			
+			[Bindable]
+			public var simpleObselsRenderer:ObselsRenderer;
+			
+			private var bStypePropChanged:Boolean;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				bStypePropChanged	= false;
+				timeline 			= hostComponent.tl._timeline;				
+				titleGroup.height 	= (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
+				dragZone.height 	= titleGroup.height;
+				traceLineTitle.text = hostComponent.tl.title;			
+				hostComponent.updateDisplayLevel();
+				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_ADD , 		onChildrenChange);
+				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_REMOVE , 	onChildrenChange);
+				traceLineTitle.addEventListener	( MouseEvent.MOUSE_DOWN, 					mouseMoveHandler);
+			}
+			
+			private function onRemoveTraceLine(evt:Event):void
+			{
+				if (evt.currentTarget.confirm)
+				{
+					var tlParent:LayoutNode = hostComponent.tl.parentNode as LayoutNode;
+					if (tlParent)
+					{
+						for(var i :uint = 0; i < hostComponent.tl.numElements; i++)
+						{
+							var child:LayoutNode = hostComponent.tl.getElementAt(i) as LayoutNode;
+							tlParent.addChildAndTitle(child);
+							if (child is TraceLine)
+								(child as TraceLine).resetObselCollection();
+						}
+						tlParent.removeChildAndTitle(hostComponent.tl);
+					}
+				}
+			}
+			
+			private function onAddTraceLine(evt:Event):void
+			{
+				timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.tl);				
+			}
+			
+			private function menuHandler(evt:MenuEvent):void
+			{
+				
+				var str:String = evt.item.@eventName;
+				switch (str)
+				{
+					case "newTraceLine": 
+					{
+						var newDialog:TraceLineEditDialog = new TraceLineEditDialog();
+						newDialog.traceline = new TraceLine(timeline);
+						PopUpManager.addPopUp(newDialog, parentApplication.timeline, true);
+						PopUpManager.centerPopUp(newDialog);
+						newDialog.addEventListener(Event.REMOVED_FROM_STAGE, onAddTraceLine );
+					}
+						break;
+					case "editTraceLine": 
+					{
+						var editDialog:TraceLineEditDialog = new TraceLineEditDialog();
+						editDialog.tracelineTitle = hostComponent.tl.title;
+						editDialog.tracelineSource = (hostComponent.tl.sourceStr == "parent") ? 1 : 0;
+						if (hostComponent.tl._selector is SelectorRegexp)
+						{
+							editDialog.selectorField = (hostComponent.tl._selector as SelectorRegexp).field;
+							editDialog.selectorRegexp = (hostComponent.tl._selector as SelectorRegexp).regexp;
+						}
+						editDialog.traceline = hostComponent.tl;
+						PopUpManager.addPopUp(editDialog, parentApplication.timeline, true);
+						PopUpManager.centerPopUp(editDialog);
+					}
+						break;
+					case "removeTraceLine": 
+					{
+						var removeDialog:ConfirmationDialog = new ConfirmationDialog();
+						removeDialog.title = "Do you really want to delete this traceline ?"
+						PopUpManager.addPopUp(removeDialog, this, true);
+						PopUpManager.centerPopUp(removeDialog);
+						removeDialog.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveTraceLine);
+					}
+						break;
+					default: 
+				}
+			}
+			
+			protected function onSelect():void
+			{
+				parentApplication.dg_label.text = hostComponent.tl.title + " : " + hostComponent.tl._obsels.length + " obsels";
+				parentApplication.obselList_dg.dataProvider = hostComponent.tl._obsels;
+			}
+			
+			protected function onChildrenChange(event:Event):void
+			{
+				OpenButton.visible = (hostComponent.tl.numElements > 0);
+			}
+			
+			protected function onOpenButtonClick():void
+			{
+				if (currentState == "normal")
+				{
+					hostComponent.tl.skin.setCurrentState("open");
+					setCurrentState("open");
+				}
+				else
+				{
+					hostComponent.tl.skin.setCurrentState("normal");
+					setCurrentState("normal");
+				}
+			}
+			
+			private function mouseMoveHandler( event:MouseEvent ) : void 
+            {                
+                var dragInitiator:TraceLineTitle = hostComponent ;
+                var ds:DragSource = new DragSource();
+                ds.addData(dragInitiator, "traceLine");               
+                DragManager.doDrag(dragInitiator, ds, event);
+            }
+					
+            private function dragEnterHandler( event:DragEvent ) : void 
+			{			
+				if ( event.dragSource.hasFormat("traceLine") )
+                {
+                    DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
+                }
+            }
+			
+            private function dragDropHandler( event:DragEvent ) : void
+			{		
+				var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;			
+				if ( traceline != hostComponent.tl )
+				{
+					if ( event.ctrlKey )
+					{
+						timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);										
+					}
+					else
+					{
+						var toIndex : Number = hostComponent.tl.parentNode.getElementIndex( hostComponent.tl );
+						 hostComponent.tl.parentNode.addChildAndTitle( traceline, toIndex );					
+					}
+					(traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
+				}	
+            }
+			
+			override public function styleChanged(styleProp:String):void
+			{
+				super.styleChanged(styleProp);
+
+				// Check to see if style changed. 				
+				if (!styleProp || styleProp=="rendererGap" || styleProp=="rendererHeight") 
+				{
+					titleGroup.height 	= (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
+					invalidateDisplayList();
+				}
+				
+				if (!styleProp || styleProp=="title" ) 
+				{
+					traceLineTitle.text = getStyle("title");					
+					invalidateDisplayList();
+				}
+			}
+		
+		]]>
+	</fx:Script>
+
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="open" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:BorderContainer id="dragZone" backgroundAlpha="0" borderAlpha="0" width="100%" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" />
+	
+	<s:VGroup width="100%" gap="0" >
+		<s:HGroup id="titleGroup" gap="5" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);">
+			<mx:Spacer id="hierarchicalSpacer" />
+			<mx:Image  id="OpenButton" visible="false" source="@Embed(source='../images/iconPlus.png')" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" />
+			<s:Label id="traceLineTitle" baselineShift="-4"  height="16" fontSize="11" />
+		</s:HGroup>
+		
+		<s:Group id="contentGroup"  includeIn="open" width="100%" >
+			<s:layout><s:VerticalLayout gap="0" /></s:layout>
+		</s:Group>
+			
+	</s:VGroup>
+	
+</s:Skin>

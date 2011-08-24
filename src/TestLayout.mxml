@@ -21,6 +21,7 @@
 		import com.ithaca.timeline.TraceLine;
 		import com.ithaca.timeline.TraceLineGroup;
 		import com.ithaca.timeline.SelectorRegexp;
+		import com.ithaca.timeline.Stylesheet;
 		import com.ithaca.traces.Obsel;
 		import com.ithaca.traces.Trace;
 		
@@ -51,6 +52,9 @@
 		private var _xmlLayoutDP	: XMLListCollection = new XMLListCollection( _xmlLayout );
 		private var layoutTree 		: XML;		
 		private var timer			: Timer;
+		
+		[Embed(source="images/unknown.jpg")]		
+		public var tlgIcon:Class;
 		
 		private function onPreinitialize():void
 		{
@@ -176,7 +180,11 @@
 			activityObselsToDurative( theTrace );
 			
 			loading.label = "Adding Trace...";
-			timeline.addTrace(theTrace);	
+			var tlg : TraceLineGroup = timeline.addTrace(theTrace);	
+			tlg.setStyle("title", theTrace.uri.toUpperCase() );
+			tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor( tlg ) );
+			tlg.setStyle("icon", tlgIcon );
+			
 			loading.visible = false;
 		}
 		
