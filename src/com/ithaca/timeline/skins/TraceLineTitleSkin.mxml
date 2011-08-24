@@ -59,7 +59,13 @@
 			import mx.managers.DragManager;
 			import mx.managers.PopUpManager;
 			import spark.events.ElementExistenceEvent;
+
+			import gnu.as3.gettext._FxGettext;
+			import gnu.as3.gettext.FxGettext;
 			
+			[Bindable]
+			private var fxgt:_FxGettext;		
+
 			[Bindable]
 			public var forme:Shape = new Shape();
 			
@@ -73,9 +79,10 @@
 			public var simpleObselsRenderer:ObselsRenderer;
 			
 			private var editMenu:Menu;
-			
+						
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
+				fxgt = FxGettext;
 				timeline 			= hostComponent.tl._timeline;				
 				titleGroup.height 	=  (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
 				dragZone.height 	= titleGroup.height;
@@ -86,6 +93,7 @@
 				traceLineTitle.addEventListener	( MouseEvent.MOUSE_DOWN, 					mouseMoveHandler);
 			}
 			
+
 			protected function showMenu():void
 			{
 				var position:Point = menuButton.localToGlobal(new Point(menuButton.x, menuButton.y));
@@ -154,7 +162,7 @@
 					case "removeTraceLine": 
 					{
 						var removeDialog:ConfirmationDialog = new ConfirmationDialog();
-						removeDialog.title = "Do you really want to delete this traceline ?"
+						removeDialog.title = fxgt.gettext("Hello World!");
 						PopUpManager.addPopUp(removeDialog, this, true);
 						PopUpManager.centerPopUp(removeDialog);
 						removeDialog.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveTraceLine);
@@ -222,7 +230,7 @@
 					(traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
 				}	
             }
-			
+
 		]]>
 	</fx:Script>
 
@@ -235,7 +243,7 @@
 	<s:BorderContainer id="dragZone" backgroundAlpha="0" borderAlpha="0" width="100%" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" />
 	
 	<s:VGroup width="100%" gap="0" >	
-		<s:HGroup id="titleGroup" gap="5" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);">
+		<s:HGroup id="titleGroup" gap="5" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" >
 			<mx:Spacer id="hierarchicalSpacer" />
 			<mx:Image  id="OpenButton" visible="false" source="@Embed(source='../images/iconPlus.png')" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" />
 			<s:Label id="traceLineTitle" baselineShift="-4"  height="16" fontSize="11" />
