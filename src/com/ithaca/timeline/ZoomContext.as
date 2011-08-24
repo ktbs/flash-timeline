@@ -19,11 +19,9 @@ package com.ithaca.timeline
 		public var inputTimeRuler	: TimeRuler;
 
 		public var _timeline	    : Timeline;
-		public var _timelineRange	: TimeRange;
-		public var cursorRange		: TimeRange;
 		
-		public var zoomStart		: Number;
-		public var zoomEnd			: Number;		
+		public var _timelineRange	: TimeRange;
+		public var cursorRange		: TimeRange;	
 		
 		public function ZoomContext() : void 
 		{				
@@ -137,6 +135,17 @@ package com.ithaca.timeline
 		public function setRange( beginValue : Number, endValue : Number ) : void
 		{
 			cursorRange.changeLimits(beginValue, endValue);
+			updateSkinPositionFromValues();			
+		}
+		
+		public function shiftContext( deltaTime : Number ) : void
+		{				
+			var delta: Number = 0;
+			if (deltaTime > 0 )
+				delta	=	Math.min(deltaTime, _timelineRange.end - cursorRange.end);
+			else
+				delta	=	Math.max(deltaTime, _timelineRange.begin- cursorRange.begin);
+			cursorRange.shiftLimits( delta );
 			updateSkinPositionFromValues();			
 		}
 	}

@@ -34,16 +34,19 @@
 		import mx.controls.*;
 		import mx.events.*;
 		
+		import flash.utils.Timer;
+		
 		private var _xmlLayout		: XMLList =  new XMLList();
 		private var _xmlLayoutDP	: XMLListCollection = new XMLListCollection( _xmlLayout );
-		private var layoutTree 		: XML;				
+		private var layoutTree 		: XML;		
+		private var timer			: Timer;
 		
 		protected function init() : void
 		{
 			allTestLayout.enabled = false;			
 			urlTTL_ti.text = "trace.ttl";
 			layout_ti.text = "layoutVisu2.xml";
-			loadLayout( layout_ti.text );	
+			loadLayout( layout_ti.text );				
 		}		
 		
 		protected function browse(event:MouseEvent):void
@@ -165,7 +168,19 @@
 			return string;
 		}
 
+		private function startTimer( ) : void
+		{	
+			timer = new Timer(50);			
+			
+			timeline.contextFollowCursor = bindZc.selected;
+			timer.addEventListener(TimerEvent.TIMER, timeline.updateCursorPosition );
+			timer.start();
+		}
 		
+		private function stopTimer( ) : void
+		{	
+			timer.stop();
+		}
 			
 	]]> </fx:Script>
 	
@@ -188,7 +203,16 @@
 					<mx:Label y="2" text="Layout :"/>
 					<mx:TextInput id="layout_ti" x="50"  width="194"  enabled="true"/>
 					<mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" top="1" left="324"/>
-				</s:Group>			
+				</s:Group>		
+				
+				<s:HGroup width="100%" >
+					<mx:Label y="2" text="Timer :"/>
+					<mx:Label id="timerValue"  width="194"  enabled="true"/>
+					<s:CheckBox label="bind" id="bindZc" />
+					<mx:Button label="Start"  click="{startTimer()}" />
+					<mx:Button label="Stop"  click="{stopTimer()}" />
+				</s:HGroup>		
+				
 			</s:VGroup>
 				
 			<!-- Obsels DataGrid -->

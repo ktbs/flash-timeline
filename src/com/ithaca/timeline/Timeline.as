@@ -2,6 +2,9 @@ package com.ithaca.timeline
 {
 	import com.ithaca.timeline.events.TimelineEvent;
 	import com.ithaca.traces.Trace;
+	import flash.events.Event;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	import mx.collections.ArrayCollection;
 	import spark.components.Group;
 	import spark.components.supportClasses.SkinnableComponent;
@@ -18,6 +21,11 @@ package com.ithaca.timeline
 		
 		[SkinPart(required="true")]
 		public  var zoomContext		: ZoomContext;
+		
+		[SkinPart(required="true")]
+		public  var cursor			: Cursor;
+		
+		public var contextFollowCursor : Boolean = false;
 		
 		public function Timeline( xmlLayout : XML = null )
 		{
@@ -51,13 +59,23 @@ package com.ithaca.timeline
 				titleGroup.removeElementAt( event.index );
 		}	
 
-		public function addTrace (  pTrace : Trace, index : int = -1 )  :void 
+		public function addObselsCollection ( obselsCollection : ArrayCollection, index : int=-1, uri : String = "", uid : int = 0  )  : TraceLineGroup 
+		{
+			var t : Trace = new Trace( uid, uri );			
+			t.obsels = obselsCollection;
+			
+			return addTrace( t, index );
+		}
+		
+		public function addTrace (  pTrace : Trace, index : int = -1 )  : TraceLineGroup 
 		{
 			var tlg : TraceLineGroup  =  timelineLayout.createTracelineGroupTree( pTrace );
 						
 			range.addTime( tlg.traceBegin, tlg.traceEnd);
 			
-			timelineLayout.addTracelineGroupTree( tlg );		
+			timelineLayout.addTracelineGroupTree( tlg, index );	
+			
+			return tlg;
 		}
 		
 		public function removeTrace ( tr : Trace ) : Boolean 
@@ -133,6 +151,36 @@ package com.ithaca.timeline
 		{
 			range.makeTimeHole( startValue, endValue);
 			zoomContext.setRange( range.begin, range.end );
+		}		
+		
+		public function changeCursorValue( timeValue : Number ) : void
+		{
+			var minPosition : Number = zoomContext.cursorRange.begin + zoomContext.cursorRange.duration*0.15;
+			var maxPosition : Number = zoomContext.cursorRange.end 	 - zoomContext.cursorRange.duration*0.15;
+			
+			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= maxPosition ) 
+			{
+				cursor.visible = true;				
+				cursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+			}
+			else
+			{
+				if ( contextFollowCursor )
+				{
+					cursor.visible = true;					
+					zoomContext.shiftContext( timeValue -zoomContext.cursorRange.begin );
+					cursor. x = Stylesheet.renderersSidePadding
+				}
+				else
+					cursor.visible = false;
+			}
+		}		
+		
+		public function updateCursorPosition( event : TimerEvent ) : void
+		{			
+            var timer : Timer = event.currentTarget as Timer;
+            
+            changeCursorValue( zoomContext._timelineRange.begin + timer.currentCount*timer.delay);            
 		}		
 	}
 }
