@@ -173,6 +173,7 @@ package com.ithaca.timeline
 				_ranges.addItem( value);			
 			_start 	= tr._start;
 			_end 	= tr.end;
+			_duration = tr.duration;
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 
 		}
 		

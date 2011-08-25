@@ -11,8 +11,8 @@ package com.ithaca.timeline
 	{	
 		public var title 			: String;
 		public var _trace 			: Trace;
-		public var traceBegin 		: Number = 0;
-		public var traceEnd  		: Number = 0;
+		public var traceBegin 		: Number;
+		public var traceEnd  		: Number;
 		
 		public var contextPreviewTraceLine 	: TraceLine;
 		public var backgroundTraceLine 		: TraceLine;

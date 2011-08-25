@@ -25,7 +25,7 @@
 				obsel = hostComponent.obsel;
 				obselIcon.source = hostComponent.getStyle( "icon" );
 				obselText.text 	= obsel.props['content'];
-				container.backgroundFill = new SolidColor( hostComponent.getStyle( "bakgroundColor" ) );
+				container.backgroundFill = new SolidColor( hostComponent.getStyle( "backgroundColor" ) );
 			}
 		]]>        
     </fx:Script>

@@ -58,22 +58,15 @@ package com.ithaca.timeline
 			else if ( event.type == ElementExistenceEvent.ELEMENT_REMOVE )
 				titleGroup.removeElementAt( event.index );
 		}	
-
-		public function addObselsCollection ( obselsCollection : ArrayCollection, index : int=-1, uri : String = "", uid : int = 0  )  : TraceLineGroup 
-		{
-			var t : Trace = new Trace( uid, uri );			
-			t.obsels = obselsCollection;
-			
-			return addTrace( t, index );
-		}
 		
 		public function addTrace (  pTrace : Trace, index : int = -1 )  : TraceLineGroup 
 		{
 			var tlg : TraceLineGroup  =  timelineLayout.createTracelineGroupTree( pTrace );
-						
-			range.addTime( tlg.traceBegin, tlg.traceEnd);
 			
-			timelineLayout.addTracelineGroupTree( tlg, index );	
+			if ( !isNaN(tlg.traceBegin ) && !isNaN(tlg.traceEnd ) )
+				range.addTime( tlg.traceBegin, tlg.traceEnd);
+			
+			timelineLayout.addTracelineGroup( tlg, index );	
 			
 			return tlg;
 		}

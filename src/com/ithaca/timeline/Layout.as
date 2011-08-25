@@ -24,10 +24,10 @@ package com.ithaca.timeline
 		
 //		public function get tracelineGroups() : ArrayCollection { return _Root.getEchildren; }
 		
-		public function addTracelineGroupTree (  node : LayoutNode,  index : int = -1) : void
+		public function addTracelineGroup (  tlg : TraceLineGroup,  index : int = -1) : void
 		{
-			if ( node )		
-				_timeline.addChildAndTitle(  node , index );			
+			if ( tlg )		
+				_timeline.addChildAndTitle(  tlg , index );			
 		}
 		
 		public function removeTraceline( ): Boolean 

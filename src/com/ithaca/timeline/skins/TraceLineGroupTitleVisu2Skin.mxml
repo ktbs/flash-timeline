@@ -43,7 +43,7 @@
 			{				
 				if (event.dragSource.hasFormat("traceLineGroup"))
                 {
-                    DragManager.acceptDragDrop(TraceLineGroupTitleSkin(event.currentTarget));
+                    DragManager.acceptDragDrop(TraceLineGroupTitleVisu2Skin(event.currentTarget));
                 } 				
             }
 
