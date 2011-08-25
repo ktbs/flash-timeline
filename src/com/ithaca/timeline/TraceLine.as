@@ -7,9 +7,10 @@ package com.ithaca.timeline
 
 	[Style(name = "rendererHeight", type = "Number", inherit = "no")]	
 	[Style(name = "rendererGap", type = "Number", inherit = "no")]	
+	[Style(name = "title", type = "String", inherit = "no")]	
 	public class TraceLine  extends LayoutNode
 	{	
-		public var title 			: String;
+		//private var _title 			: String;
 		public var sourceStr 		: String;
 		public var _selector 		: ISelector;
 		public var _obsels 			: ArrayCollection = new ArrayCollection();
@@ -24,6 +25,16 @@ package com.ithaca.timeline
 			_selector = tlSelector;
 			sourceStr = tlSource;		
 			styleName = tlSkinClass;
+		}
+		
+		public function set title ( value : String ) : void
+		{			
+			setStyle('title', value);			
+		}
+		
+		public function get title (  ) : String
+		{
+			return getStyle('title');
 		}
 		
 		public function getCollectionSource() : ArrayCollection

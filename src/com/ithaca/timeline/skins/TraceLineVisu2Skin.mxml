@@ -95,7 +95,11 @@
 					if ( styleProp )
 						hostComponent.titleComponent.setStyle( styleProp, getStyle( styleProp ));				
 					else
-						hostComponent.titleComponent.styleChanged(null);						
+					{
+						hostComponent.titleComponent.setStyle( 'title' , getStyle( 'title' ));	
+						hostComponent.titleComponent.setStyle( 'rendererHeight' , getStyle( 'rendererHeight' ));
+						hostComponent.titleComponent.setStyle( 'rendererGap' , getStyle( 'rendererGap' ));						
+					}
 				}
 					
 				invalidateDisplayList();
