@@ -3,7 +3,6 @@
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/mx" 
 			   xmlns:tl="com.ithaca.timeline.*"
-			   title="Edit obsel"
 			   close="onCancel(event)" 
 			   creationComplete="onCreationComplete(event)">
 	
@@ -22,6 +21,10 @@
 			import com.ithaca.timeline.TraceLine;
 			import spark.components.HGroup;
 			
+			import gnu.as3.gettext._FxGettext;
+			import gnu.as3.gettext.FxGettext;
+			[Bindable]
+			private var fxgt:_FxGettext;		
 						
 			private var _obsel : Obsel;
 			
@@ -38,6 +41,9 @@
 			
 			private function onCreationComplete(event:Event):void
 			{
+				fxgt = FxGettext;
+				this.title = fxgt.gettext("Edit obsel");
+				
 				addEditProperty( "type", _obsel );
 				addEditProperty( "begin", _obsel);
 				addEditProperty( "end", _obsel);
@@ -80,6 +86,6 @@
 			<s:VGroup id="labelPropGroup"/>
 			<s:VGroup id="tiPropGroup"/>
 		</s:HGroup>
-		<s:HGroup  paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">  <s:Button label="OK" width="38" click="onValid(event)" /> <s:Button label="Cancel" width="70" click="onCancel(event)" /> </s:HGroup>
+		<s:HGroup  paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">  <s:Button label='{fxgt.gettext("Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.gettext("Cancel")}' click="onCancel(event)" /> </s:HGroup>
 	</s:VGroup>
 </s:TitleWindow>

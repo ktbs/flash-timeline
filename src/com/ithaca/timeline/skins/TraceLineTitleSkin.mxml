@@ -15,12 +15,12 @@
 	<fx:Declarations>
 		<fx:XML id="menuContent">
 			<root>
-				<menuitem label="Ajouter une traceline"
+				<menuitem label='{fxgt.gettext("addTraceLine")}'
 						  eventName="newTraceLine" />
 				<menuitem type="separator" />
-				<menuitem label="Modifier cette traceline"
+				<menuitem label='{fxgt.gettext("editTraceLine")}'
 						  eventName="editTraceLine" />
-				<menuitem label="Supprimer cette traceline"
+				<menuitem label='{fxgt.gettext("removeTraceLine")}'
 						  eventName="removeTraceLine" />
 			</root>
 		</fx:XML>
@@ -62,7 +62,6 @@
 
 			import gnu.as3.gettext._FxGettext;
 			import gnu.as3.gettext.FxGettext;
-			
 			[Bindable]
 			private var fxgt:_FxGettext;		
 
@@ -82,7 +81,7 @@
 						
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				fxgt = FxGettext;
+				fxgt 				= FxGettext;
 				timeline 			= hostComponent.tl._timeline;				
 				titleGroup.height 	=  (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
 				dragZone.height 	= titleGroup.height;
@@ -162,7 +161,7 @@
 					case "removeTraceLine": 
 					{
 						var removeDialog:ConfirmationDialog = new ConfirmationDialog();
-						removeDialog.title = fxgt.gettext("Hello World!");
+						removeDialog.title = fxgt.gettext("removeTraceLineDialog");
 						PopUpManager.addPopUp(removeDialog, this, true);
 						PopUpManager.centerPopUp(removeDialog);
 						removeDialog.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveTraceLine);

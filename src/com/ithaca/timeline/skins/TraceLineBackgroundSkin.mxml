@@ -10,20 +10,6 @@
 
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLine")]</fx:Metadata>
 
-	<fx:Declarations>
-		<fx:XML id="menuContent">
-			<root>
-				<menuitem label="Ajouter une traceline"
-						  eventName="newTraceLine" />
-				<menuitem type="separator" />
-				<menuitem label="Modifier cette traceline"
-						  eventName="editTraceLine" />
-				<menuitem label="Supprimer cette traceline"
-						  eventName="removeTraceLine" />
-			</root>
-		</fx:XML>
-	</fx:Declarations>
-
 	<fx:Script>
 		<![CDATA[
 			import com.ithaca.timeline.events.TimelineEvent;
