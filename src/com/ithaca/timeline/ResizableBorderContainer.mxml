@@ -22,7 +22,6 @@
 			import spark.components.BorderContainer;
 			import spark.components.supportClasses.SkinnableComponent;
 			
-			import flash.ui.Mouse;
 			import com.ithaca.timeline.CursorIcons;
  			
 			protected 	var currentCenterDragingPoint:Point;			
@@ -58,7 +57,7 @@
 				}
 				else if (draggedPart == cursor )
 				{
-					Mouse.cursor = MouseCursor.HAND;
+					CursorIcons.SetHandCursor();
 					if ( newPos < minX)						
 						x  = minX;						
 					else if ( newPos > maxX - width )
@@ -97,16 +96,13 @@
 			protected function setHandPointer(e:MouseEvent):void
 			{
 				if ( draggedPart == null )
-					Mouse.cursor = MouseCursor.HAND;
+					CursorIcons.SetHandCursor();
 			}
 
 			protected function setDefaultPointer(e:MouseEvent):void
 			{
 				if ( draggedPart == null )
-				{
-					CursorIcons.RemoveCursor();
-					Mouse.cursor = MouseCursor.AUTO;
-				}
+					CursorIcons.SetDefaultCursor();
 			}
 
         ]]>
