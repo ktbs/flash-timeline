@@ -14,6 +14,7 @@
 
 	<fx:Script>
 		<![CDATA[
+			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.timeline.LayoutNode;
 			import com.ithaca.timeline.ObselsRenderer;
@@ -65,12 +66,11 @@
 				bStypePropChanged	= false;
 				timeline 			= hostComponent.tl._timeline;				
 				titleGroup.height 	= (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
-				dragZone.height 	= titleGroup.height;
-				traceLineTitle.text = hostComponent.tl.title;			
+				traceLineTitle.height= titleGroup.height;
+				traceLineTitle.text = hostComponent.tl.title;
 				hostComponent.updateDisplayLevel();
 				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_ADD , 		onChildrenChange);
 				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_REMOVE , 	onChildrenChange);
-				traceLineTitle.addEventListener	( MouseEvent.MOUSE_DOWN, 					mouseMoveHandler);
 			}
 			
 			private function onRemoveTraceLine(evt:Event):void
@@ -165,12 +165,13 @@
 				}
 			}
 			
-			private function mouseMoveHandler( event:MouseEvent ) : void 
+			private function mouseDownHandler( event:MouseEvent ) : void 
             {                
                 var dragInitiator:TraceLineTitle = hostComponent ;
                 var ds:DragSource = new DragSource();
                 ds.addData(dragInitiator, "traceLine");               
                 DragManager.doDrag(dragInitiator, ds, event);
+				stage.removeEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);				
             }
 					
             private function dragEnterHandler( event:DragEvent ) : void 
@@ -178,7 +179,7 @@
 				if ( event.dragSource.hasFormat("traceLine") )
                 {
                     DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
-                }
+            	}
             }
 			
             private function dragDropHandler( event:DragEvent ) : void
@@ -196,7 +197,8 @@
 						 hostComponent.tl.parentNode.addChildAndTitle( traceline, toIndex );					
 					}
 					(traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
-				}	
+				}
+				stage.addEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);
             }
 			
 			override public function styleChanged(styleProp:String):void
@@ -207,6 +209,7 @@
 				if (!styleProp || styleProp=="rendererGap" || styleProp=="rendererHeight") 
 				{
 					titleGroup.height 	= (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
+					traceLineTitle.height= titleGroup.height;
 					invalidateDisplayList();
 				}
 				
@@ -226,13 +229,11 @@
 		<s:State name="disabled" />
 	</s:states>
 	
-	<s:BorderContainer id="dragZone" backgroundAlpha="0" borderAlpha="0" width="100%" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" />
-	
 	<s:VGroup width="100%" gap="0" >
-		<s:HGroup id="titleGroup" gap="5" dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);">
+		<s:HGroup id="titleGroup" gap="5" >
 			<mx:Spacer id="hierarchicalSpacer" />
-			<mx:Image  id="OpenButton" visible="false" source="@Embed(source='../images/iconPlus.png')" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" />
-			<s:Label id="traceLineTitle" baselineShift="-4"  height="16" fontSize="11" />
+			<mx:Image  id="OpenButton" visible="false" source="@Embed(source='../images/iconPlus.png')" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+			<s:Label id="traceLineTitle" baselineShift="-4" fontSize="11" mouseDown="mouseDownHandler(event)" dragEnter="dragEnterHandler(event)" dragDrop="dragDropHandler(event)" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 		</s:HGroup>
 		
 		<s:Group id="contentGroup"  includeIn="open" width="100%" >

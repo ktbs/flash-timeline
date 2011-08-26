@@ -45,7 +45,7 @@
 				
 				if (draggedPart == minRange )
 				{
-					CursorIcons.SetResizeCursor();
+					CursorIcons.SetResizeCursor(e);
 					var oldPos : Number = x;						
 					if ( newPos < minX  )						
 						x = minX ;						
@@ -57,7 +57,7 @@
 				}
 				else if (draggedPart == cursor )
 				{
-					CursorIcons.SetHandCursor();
+					CursorIcons.SetHandCursor(e);
 					if ( newPos < minX)						
 						x  = minX;						
 					else if ( newPos > maxX - width )
@@ -67,7 +67,7 @@
 				} 
 				else if (draggedPart == maxRange )
 				{
-					CursorIcons.SetResizeCursor();
+					CursorIcons.SetResizeCursor(e);
 					if ( newPos < x + 1 )
 						maxRange.x =  1;
 					else if (newPos > maxX )
@@ -90,19 +90,19 @@
 		
 			protected function setResizePointer(e:MouseEvent):void
 			{
-				CursorIcons.SetResizeCursor();
+				CursorIcons.SetResizeCursor(e);
 			}
 			
 			protected function setHandPointer(e:MouseEvent):void
 			{
 				if ( draggedPart == null )
-					CursorIcons.SetHandCursor();
+					CursorIcons.SetHandCursor(e);
 			}
 
 			protected function setDefaultPointer(e:MouseEvent):void
 			{
 				if ( draggedPart == null )
-					CursorIcons.SetDefaultCursor();
+					CursorIcons.SetDefaultCursor(e);
 			}
 
         ]]>
