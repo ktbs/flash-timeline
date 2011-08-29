@@ -71,7 +71,7 @@ package com.ithaca.timeline
 		{
 			_timeRange = event.currentTarget as TimeRange;
 			
-			if ( event.type == TimelineEvent.TIMERANGES_SHIFT)
+			if ( numChildren > 0 && event.type == TimelineEvent.TIMERANGES_SHIFT)
 				updateViewportPosition();
 			else
 				redraw() ;

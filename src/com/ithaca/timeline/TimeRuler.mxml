@@ -42,32 +42,22 @@
 		[Bindable]
 		public var rulerWidth  			: Number = 100;
 		
-		public var minLabelsGap 		: Number ;
-		public var maxLabelsGap	 		: Number ;
-		public var minMarksGap	 		: Number ;
-		public var maxMarksGap	 		: Number ;
-		public var minorMarkHeight		: Number ;
-		public var majorMarkHeight		: Number ;
-		public var limitMarkHeight		: Number ;
-		public var validIntervals 		: Array ;
-		public var majorIntervals 		: Array ;
-		public var labelsIntervals 		: Array ;
+		public var minLabelsGap 		: Number = 100;
+		public var maxLabelsGap	 		: Number = 30;
+		public var minMarksGap	 		: Number = 4;;
+		public var maxMarksGap	 		: Number = 20;
+		public var minorMarkHeight		: Number = 4;
+		public var majorMarkHeight		: Number = 8;
+		public var limitMarkHeight		: Number = 12;
+		public var validIntervals 		: Array = [1, 10, 100, 1000, 10000, 	60000, 300000, 600000, 3600000 ];
+		public var majorIntervals 		: Array = [5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ];
+		public var labelsIntervals 		: Array = [5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ];
 		public var labelsOnTop			: Boolean = false;
+		[Bindable]
+		public var backgroundColor 		: Number = 0xF5F5F5;
 		
 		protected function creationCompleteHandler() : void
-		{	
-			
-			minLabelsGap 	= getStyle("minLabelsGap");
-			maxLabelsGap	= getStyle("maxLabelsGap");	 	
-			minMarksGap	 	= getStyle("minMarksGap");	 	
-			maxMarksGap	 	= getStyle("maxMarksGap");	
-			minorMarkHeight	= getStyle("minorMarkHeight");	
-			majorMarkHeight	= getStyle("majorMarkHeight");	
-			limitMarkHeight	= getStyle("limitMarkHeight");	
-			validIntervals 	= getStyle("validIntervals");	
-			majorIntervals 	= getStyle("majorIntervals"); 	
-			labelsIntervals = getStyle("labelsIntervals"); 	
-			TimeRulerContainer.backgroundFill = new SolidColor( getStyle("backgroundColor") );
+		{				
 			dateFormater.formatString = "JJ:NN:SS" ;
 			ruler.addChild(new Shape);
 			
@@ -211,7 +201,7 @@
 		]]> 
 	</fx:Script>
 			 
-	<s:BorderContainer id="TimeRulerContainer"  backgroundColor="{getStyle('backgroundColor')}" width="100%" minHeight="10" borderVisible="false" horizontalCenter="true">	
+	<s:BorderContainer id="TimeRulerContainer"  backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderVisible="false" horizontalCenter="true">	
 			<s:SpriteVisualElement  id="ruler" width="100%"  />
 			<s:Group id="timeLabels" />									
 	</s:BorderContainer>
