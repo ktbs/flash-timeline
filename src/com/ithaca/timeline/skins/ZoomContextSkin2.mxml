@@ -18,6 +18,7 @@
 			import mx.controls.Image;
 			import spark.components.BorderContainer;
 			import spark.components.supportClasses.SkinnableComponent;
+			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.Stylesheet;
 			import com.ithaca.timeline.events.TimelineEvent;
 			
@@ -66,9 +67,9 @@
 			<timeline:TimeRuler id="inputTimeRuler"  width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" labelsOnTop="true" />
 			
 			<s:VGroup x="4" id="actionsGroup" y="20" gap="4">
-				<mx:Button skin="@Embed(source='../images/magnifier.png')"  downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits( hostComponent.cursorRange.begin ,hostComponent.cursorRange.end  )"	/>			
-				<mx:Button skin="@Embed(source='../images/scissors.png')" 	downSkin="@Embed(source='../images/scissorsClick.png')"  click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin ,hostComponent.cursorRange.end )"/>			
-				<mx:Button skin="@Embed(source='../images/reset.png')" 		downSkin="@Embed(source='../images/resetClick.png')"	click="hostComponent.timeline.resetTimeRangeLimits()"/>			
+				<mx:Button skin="@Embed(source='../images/magnifier.png')"  downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits( hostComponent.cursorRange.begin ,hostComponent.cursorRange.end  )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+				<mx:Button skin="@Embed(source='../images/scissors.png')" 	downSkin="@Embed(source='../images/scissorsClick.png')"  click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin ,hostComponent.cursorRange.end )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+				<mx:Button skin="@Embed(source='../images/reset.png')" 		downSkin="@Embed(source='../images/resetClick.png')"	click="hostComponent.timeline.resetTimeRangeLimits()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 			</s:VGroup>
 		
 			<s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  width="{width-timeRulerSidePadding*2}"  height="20" resize="inputTimeRuler.redraw(event)">				
