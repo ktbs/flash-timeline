@@ -177,6 +177,8 @@
 			{			
 				if ( event.dragSource.hasFormat("traceLine") )
                 {
+					// Check if the dragged element come from the same TLG
+					if ( (event.dragInitiator as TraceLineTitle).tl.getTraceLineGroup() == hostComponent.tl.getTraceLineGroup() )
 						DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
             	}
             }
