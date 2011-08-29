@@ -48,15 +48,15 @@ package com.ithaca.timeline
 						if ( parentNode is TraceLine)
 							return ( parentNode as TraceLine )._obsels;					
 						if ( parentNode is TraceLineGroup )
-							return ( parentNode as TraceLineGroup )._trace.obsels;				
+							return ( parentNode as TraceLineGroup ).trace.obsels;				
 					}
 					return null;			
 				}
 				default:
 				{
 					var tlg : TraceLineGroup = getTraceLineGroup();
-					if (tlg && tlg._trace)
-						return tlg._trace.obsels;
+					if (tlg && tlg.trace)
+						return tlg.trace.obsels;
 					else 
 						return null;
 				}

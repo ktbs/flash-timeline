@@ -10,7 +10,7 @@ package com.ithaca.timeline
 	public class TraceLineGroup  extends LayoutNode
 	{	
 		public var title 			: String;
-		public var _trace 			: Trace;
+		protected var _trace 			: Trace;
 		public var traceBegin 		: Number;
 		public var traceEnd  		: Number;
 		
@@ -20,13 +20,23 @@ package com.ithaca.timeline
 		[SkinPart(required="true")]
 		public var backgroundColor : uint;
 				
-		public function TraceLineGroup( tl : Timeline, trac : Trace, title : String = null)
+		public function TraceLineGroup( tl : Timeline, trac : Trace, title : String = null, style : String = null )
 		{
 			this.title = title;
 			titleComponent = new TraceLineGroupTitle( this );
 			this.id = title;
 			trace = trac;
 			_timeline = tl;
+			if ( style )
+			{
+			 styleName = style;
+			 titleComponent.styleName = style;
+			}
+		}
+		
+		public function get trace ( ) : Trace
+		{ 
+			return _trace;
 		}
 		
 		public function set trace ( value : Trace ) : void

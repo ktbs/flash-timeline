@@ -29,10 +29,13 @@ package com.ithaca.timeline
 		
 		public function Timeline( xmlLayout : XML = null )
 		{
-			super(); 			
-			layoutXML = xmlLayout;
-			if (xmlLayout)
-				timelineLayout = new Layout( this ) ;				
+			super(); 
+			if (xmlLayout)			
+				layoutXML = xmlLayout;	
+			else 
+				layoutXML = <root> <tlg /> </root>;
+			
+			timelineLayout = new Layout( this ) ;				
 			_styleSheet = new Stylesheet();
 			range = new TimeRange( );					
 		}
@@ -59,9 +62,9 @@ package com.ithaca.timeline
 				titleGroup.removeElementAt( event.index );
 		}	
 		
-		public function addTrace (  pTrace : Trace, index : int = -1 )  : TraceLineGroup 
+		public function addTrace (  pTrace : Trace, index : int = -1, style : String = null  )  : TraceLineGroup 
 		{
-			var tlg : TraceLineGroup  =  timelineLayout.createTracelineGroupTree( pTrace );
+			var tlg : TraceLineGroup  =  timelineLayout.createTracelineGroupTree( pTrace, style );
 			
 			if ( !isNaN(tlg.traceBegin ) && !isNaN(tlg.traceEnd ) )
 				range.addTime( tlg.traceBegin, tlg.traceEnd);
@@ -76,7 +79,7 @@ package com.ithaca.timeline
 			for (var i : int = 0; i < numElements; i++)
 			{
 				var tlg : TraceLineGroup = getElementAt(i) as TraceLineGroup;
-				if ( tlg._trace == tr )
+				if ( tlg.trace == tr )
 					{
 						removeTraceLineGroup ( tlg );
 						return true;
@@ -104,7 +107,10 @@ package com.ithaca.timeline
 				var traceArray : Array = new Array();
 			 
 				for (var i : uint = 0; i < numElements; i++ )
-					traceArray.push ( (getElementAt(i) as  TraceLineGroup)._trace );
+				{					
+					var tlg : TraceLineGroup = getElementAt(i) as  TraceLineGroup;
+					traceArray.push ( (getElementAt(i) as  TraceLineGroup).trace );
+				}
 				removeAllElements();
 				
 				_layout = value;
