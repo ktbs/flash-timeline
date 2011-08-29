@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
-	<tlg source="comments" skinClass="commentsTlg" > 	
-		<tl title="Comments" skinClass="commentsTlg" />
+	<tlg styleName="Comments" > 	
+		<tl title="" styleName="Comments" />
 	</tlg> 	
 	<tlg> 	
-		<tl skinClass="background" 		selector="SelectorRegexp" field="type" regexp="Activity" />
-		<tl skinClass="contextPreview"  selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" />
+		<tl styleName="background" 		selector="SelectorRegexp" field="type" regexp="Activity" />
+		<tl styleName="contextPreview"  selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" />
 		
 		<tl title="" selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" >
 			<tl title="Marqueurs" selector="SelectorRegexp" field="type" regexp="Marker" />
