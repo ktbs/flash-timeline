@@ -18,7 +18,8 @@ package com.ithaca.timeline
 															{ id : 'Document' ,  	selector : new SelectorRegexp('Document','type')},
 															{ id : 'Instructions' ,	selector : new SelectorRegexp('Instructions','type')},
 															{ id : 'Keyword' , 		selector : new SelectorRegexp('Keyword', 'type') },
-															{ id : 'Activity' , 	selector : new SelectorRegexp('ActivityStart','type')} ];
+															{ id : 'Activity' , 	selector : new SelectorRegexp('ActivityStart', 'type') },
+															{ id : 'Comment' , 		selector : new SelectorRegexp('comment','type')} ];
 		
 		public function Stylesheet()
 		{

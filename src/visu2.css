@@ -23,6 +23,12 @@ timeline|TraceLineGroupTitle
 	bgColor		:#FFA6A8;
 }
 
+timeline|TraceLineGroupTitle.Comments
+{
+	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsVisu2Skin");
+	bgColor		:#FFA6A8;
+}
+
 timeline|TraceLine
 {
 	rendererHeight : 25;
@@ -89,17 +95,8 @@ timeline|ObselSkin.Activity
 	backgroundColors : #F4FA29, #3355F7, #D134E2, #1CFD81 ;
 }
 
-timeline|TimeRuler
+timeline|ObselSkin.Comment
 {
-	minLabelsGap 		: 100;
-	maxLabelsGap	 	: 30;
-	minMarksGap	 		: 4;
-	maxMarksGap	 		: 20;
-	minorMarkHeight		: 4;
-	majorMarkHeight		: 8;
-	limitMarkHeight		: 12;
-	validIntervals 		: 1, 10, 100, 1000, 10000, 	60000, 300000, 600000, 3600000 ;
-	majorIntervals 		: 5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ;
-	labelsIntervals 	: 5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ;
-	backgroundColor 	: #F5F5F5;
+	skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");	
+	icon :Embed("images/consigneVisu1.png");
 }
