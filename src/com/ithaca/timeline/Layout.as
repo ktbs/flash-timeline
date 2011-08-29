@@ -4,6 +4,7 @@ package com.ithaca.timeline
 	import flash.utils.getDefinitionByName;
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
+	import flash.ui.MouseCursor
 	
 	public class Layout
 	{
@@ -22,8 +23,6 @@ package com.ithaca.timeline
 			_timeline = tl;			
 		}
 		
-//		public function get tracelineGroups() : ArrayCollection { return _Root.getEchildren; }
-		
 		public function addTracelineGroup (  tlg : TraceLineGroup,  index : int = -1) : void
 		{
 			if ( tlg )		
@@ -37,20 +36,18 @@ package com.ithaca.timeline
 		
 		public function moveTraceline(  ):void {}
 	
-		public function createTracelineGroupTree ( trac : Trace ) : TraceLineGroup 
+		public function createTracelineGroupTree ( trac : Trace, styleName : String = null ) : TraceLineGroup 
 		{	
 			var treeLayout : XML = new XML( TRACELINEGROUP );
 			
 			for each (var child : XML in _timeline.layoutXML.children() )
-			{
-				if ( child.hasOwnProperty('@source') )
-				{
-					if ( child.@source == trac.uri )
-						{
-							treeLayout = child;
-							break;
-						}
-				}
+			{				
+				if (   ( child.hasOwnProperty('@styleName') && child.@styleName == styleName )
+					|| ( child.hasOwnProperty('@source') && child.@source == trac.uri ))
+				{					
+					treeLayout = child;
+					break;						
+				}				
 				else
 					treeLayout = child;
 			}
@@ -64,14 +61,14 @@ package com.ithaca.timeline
 				node = node.parentNode;
 			
 			if (node)
-				return (node as TraceLineGroup)._trace;
+				return (node as TraceLineGroup).trace;
 				
 			return null;
 		}
 		
 		public function createTraceLineGroupNode(  xmlLayout : XML , trac : Trace ) : TraceLineGroup
 		{
-			var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri );	
+			var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri, xmlLayout.hasOwnProperty('@styleName')?xmlLayout.@styleName:null);	
 			newNode.layoutXML = xmlLayout;			
 
 			return newNode;
@@ -107,8 +104,8 @@ package com.ithaca.timeline
 			}
 			if ( xmlLayout.hasOwnProperty('@title') )
 				tlTitle = xmlLayout.@title; 
-			if ( xmlLayout.hasOwnProperty('@skinClass') )
-				tlClass = xmlLayout.@skinClass; 
+			if ( xmlLayout.hasOwnProperty('@styleName') )
+				tlClass = xmlLayout.@styleName; 
 			
 			newNode = new TraceLine( _timeline, tlTitle, tlSelector, tlSource, tlClass  );
 			newNode.layoutXML = xmlLayout;			
@@ -152,12 +149,12 @@ package com.ithaca.timeline
 			{
 				var childTree : LayoutNode = createTree( child, trac );
 				
-				if ( child.hasOwnProperty('@skinClass') && child.@skinClass == backgroundTraceLine )
+				if ( child.hasOwnProperty('@styleName') && child.@styleName == backgroundTraceLine )
 				{			
 					if (newNode is TraceLineGroup)
 						(newNode as TraceLineGroup).backgroundTraceLine = childTree as TraceLine;
 				}
-				else if ( child.hasOwnProperty('@skinClass') && child.@skinClass == contextPreviewTraceLine )
+				else if ( child.hasOwnProperty('@styleName') && child.@styleName == contextPreviewTraceLine )
 				{
 					if (newNode is TraceLineGroup)
 						(newNode as TraceLineGroup).contextPreviewTraceLine = childTree as TraceLine;
@@ -174,7 +171,7 @@ package com.ithaca.timeline
 					if (newNode is TraceLine)
 						collec = (newNode as TraceLine)._obsels;
 					else if (newNode is TraceLineGroup)
-						collec = (newNode as TraceLineGroup)._trace.obsels;							
+						collec = (newNode as TraceLineGroup).trace.obsels;							
 				}
 				else						
 					collec  = trac.obsels;		
