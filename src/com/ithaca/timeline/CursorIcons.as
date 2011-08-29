@@ -11,25 +11,41 @@ package com.ithaca.timeline
 		[Embed(source="images/resize.png")]
 		static public var Resize:Class;
 		
-		static public function SetResizeCursor(e:MouseEvent) : void
+		static public function SetResizeCursor(event:MouseEvent) : void
 		{
-			CursorManager.setCursor(CursorIcons.Resize, 2, -8, -8);
+			if ( !event.buttonDown )
+			{
+				CursorManager.setCursor(CursorIcons.Resize, 3, -8, -8);
+				if ( (event.currentTarget as Object).hasOwnProperty("alpha") )
+					(event.currentTarget as Object).alpha = 0.5;
+			}
 		}
 		
-		static public function SetHandCursor(e:MouseEvent) : void
+		static public function SetHandCursor(event:MouseEvent) : void
 		{
-			Mouse.cursor = MouseCursor.HAND;
+			if ( !event.buttonDown )
+			{
+				Mouse.cursor = MouseCursor.HAND;
+				if ( (event.currentTarget as Object).hasOwnProperty("alpha") )
+					(event.currentTarget as Object).alpha = 0.5;
+			}
 		}
 		
-		static public function SetButtonCursor(e:MouseEvent) : void
+		static public function SetButtonCursor(event:MouseEvent) : void
 		{
-			Mouse.cursor = MouseCursor.BUTTON;
+			if ( !event.buttonDown )
+				Mouse.cursor = MouseCursor.BUTTON;
 		}
 		
-		static public function SetDefaultCursor(e:MouseEvent) : void
+		static public function SetDefaultCursor(event:MouseEvent) : void
 		{
-			CursorManager.removeAllCursors();
-			Mouse.cursor = MouseCursor.AUTO;
+			if ( !event.buttonDown )
+			{
+				CursorManager.removeAllCursors();
+				Mouse.cursor = MouseCursor.AUTO;
+				if ( (event.currentTarget as Object).hasOwnProperty("alpha") )
+					(event.currentTarget as Object).alpha = 1.0;
+			}
 		}
 	}
 }

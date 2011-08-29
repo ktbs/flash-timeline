@@ -171,14 +171,13 @@
                 var ds:DragSource = new DragSource();
                 ds.addData(dragInitiator, "traceLine");               
                 DragManager.doDrag(dragInitiator, ds, event);
-				stage.removeEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);				
             }
 					
             private function dragEnterHandler( event:DragEvent ) : void 
 			{			
 				if ( event.dragSource.hasFormat("traceLine") )
                 {
-                    DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
+						DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
             	}
             }
 			
@@ -198,7 +197,6 @@
 					}
 					(traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
 				}
-				stage.addEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);
             }
 			
 			override public function styleChanged(styleProp:String):void

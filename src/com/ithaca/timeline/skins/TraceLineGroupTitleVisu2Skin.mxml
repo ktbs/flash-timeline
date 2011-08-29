@@ -37,7 +37,6 @@
                 var ds:DragSource = new DragSource();
                 ds.addData(dragInitiator, "traceLineGroup");               
                 DragManager.doDrag(dragInitiator, ds, event);
-				stage.removeEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);
             }
 			
 			// The dragEnter event handler for the Canvas container enables dropping.
@@ -56,7 +55,6 @@
 				if ( event.dragInitiator is TraceLineGroupTitle )
 					tl.moveTraceLineGroup( tl.getElementIndex( (event.dragInitiator as TraceLineGroupTitle).tlg), tl.getElementIndex(hostComponent.tlg));
 					
-				stage.addEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);
             }			
 			
 			protected function creationCompleteHandler(event:FlexEvent):void

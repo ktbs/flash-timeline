@@ -12,6 +12,7 @@
 		
 		<fx:Script>
         <![CDATA[            
+			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.timeline.Stylesheet;
 			import flash.events.Event;
@@ -29,16 +30,16 @@
 			private 	var draggedPart : UIComponent = null;
 			public		var minX  :Number;
 			public		var maxX  : Number;
-			
+
 		
 			public var obsel : Obsel;
 		
 			protected function creationCompleteHandler(event:Event):void
 			{
 				obsel = hostComponent.obsel;
-				icon.source = hostComponent.getStyle( "icon" );				
+				icon.source = hostComponent.getStyle( "icon" );
 			}
-			
+
 			protected function zcStartDrag(e:MouseEvent):void
 			{
 				draggedPart = (e.currentTarget as UIComponent);
@@ -101,10 +102,10 @@
 		<s:State name="edit" />
 	</s:states>
 	
-	<mx:Image id="minRange"  height="{cursor.height}"  x="{-minRange.width}" source="@Embed(source='../images/curseurLeftGrip.png')" mouseDown="zcStartDrag(event);"/>							
-	<mx:Image id="maxRange"  height="{cursor.height}" x="{width}" source="@Embed(source='../images/curseurRightGrip.png')" mouseDown="zcStartDrag(event);" />	
-	
-	<s:BorderContainer id="cursor" borderWeight="1" backgroundColor="#A8E7FF" minWidth="1" minHeight="1" width="100%" height="100%"  mouseDown="zcStartDrag(event);">
+	<mx:Image id="minRange"  height="{cursor.height}"  x="{-minRange.width}" source="@Embed(source='../images/curseurLeftGrip.png')" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+	<mx:Image id="maxRange"  height="{cursor.height}" x="{width}" source="@Embed(source='../images/curseurRightGrip.png')" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+
+	<s:BorderContainer id="cursor" borderWeight="1" backgroundColor="#A8E7FF" minWidth="1" minHeight="1" width="100%" height="100%"  mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)">
 		<s:layout><s:HorizontalLayout/></s:layout>
 		<mx:Image id="icon" source="{getStyle('icon')}" />
 		<s:RichText width="100%" />

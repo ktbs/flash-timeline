@@ -8,7 +8,8 @@
 	</fx:Declarations>
 	
 		<fx:Script>
-        <![CDATA[            
+        <![CDATA[
+			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.timeline.Stylesheet;
 			import flash.events.Event;
@@ -18,12 +19,9 @@
 			import mx.core.IUIComponent;
 			import mx.core.UIComponent;
 			import mx.events.ResizeEvent;
-
 			import spark.components.BorderContainer;
 			import spark.components.supportClasses.SkinnableComponent;
-			
-			import com.ithaca.timeline.CursorIcons;
- 			
+			 			
 			protected 	var currentCenterDragingPoint:Point;			
 			private 	var draggedPart : UIComponent = null;
 			public		var minX  :Number;
@@ -45,7 +43,6 @@
 				
 				if (draggedPart == minRange )
 				{
-					CursorIcons.SetResizeCursor(e);
 					var oldPos : Number = x;						
 					if ( newPos < minX  )						
 						x = minX ;						
@@ -57,7 +54,6 @@
 				}
 				else if (draggedPart == cursor )
 				{
-					CursorIcons.SetHandCursor(e);
 					if ( newPos < minX)						
 						x  = minX;						
 					else if ( newPos > maxX - width )
@@ -67,7 +63,6 @@
 				} 
 				else if (draggedPart == maxRange )
 				{
-					CursorIcons.SetResizeCursor(e);
 					if ( newPos < x + 1 )
 						maxRange.x =  1;
 					else if (newPos > maxX )
@@ -81,36 +76,17 @@
 			
 			protected function zcStopDrag(e:MouseEvent):void
 			{
-				draggedPart = null;
-				setDefaultPointer(null);
-				
+				draggedPart = null;				
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
 				stage.removeEventListener(MouseEvent.MOUSE_UP,zcStopDrag);		
-			}
-		
-			protected function setResizePointer(e:MouseEvent):void
-			{
-				CursorIcons.SetResizeCursor(e);
-			}
-			
-			protected function setHandPointer(e:MouseEvent):void
-			{
-				if ( draggedPart == null )
-					CursorIcons.SetHandCursor(e);
-			}
-
-			protected function setDefaultPointer(e:MouseEvent):void
-			{
-				if ( draggedPart == null )
-					CursorIcons.SetDefaultCursor(e);
 			}
 
         ]]>
     </fx:Script>
 	
-	<mx:Image id="minRange"  height="{cursor.height}"  mouseDown="zcStartDrag(event);" x="{-minRange.width}" source="@Embed(source='images/curseurLeftGrip.png')" mouseOver="setResizePointer(event)" mouseOut="setDefaultPointer(event)" />
-	<mx:Image id="maxRange"  height="{cursor.height}"  mouseDown="zcStartDrag(event);" x="{width}" source="@Embed(source='images/curseurRightGrip.png')" mouseOver="setResizePointer(event)" mouseOut="setDefaultPointer(event)" />
+	<mx:Image id="minRange"  height="{cursor.height}"  mouseDown="zcStartDrag(event);" x="{-minRange.width}" source="@Embed(source='images/curseurLeftGrip.png')" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
+	<mx:Image id="maxRange"  height="{cursor.height}"  mouseDown="zcStartDrag(event);" x="{width}" source="@Embed(source='images/curseurRightGrip.png')" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
 	
-	<s:BorderContainer id="cursor" borderWeight="2" backgroundAlpha="0.2" backgroundColor="#A8E7FF" minWidth="1" minHeight="1" width="100%" height="100%" mouseDown="zcStartDrag(event);" mouseOver="setHandPointer(event);" mouseOut="setDefaultPointer(event)" />
+	<s:BorderContainer id="cursor" borderWeight="2" backgroundAlpha="0.2" backgroundColor="#A8E7FF" minWidth="1" minHeight="1" width="100%" height="100%" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
 			
 </s:Group>
