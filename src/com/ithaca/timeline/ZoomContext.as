@@ -41,6 +41,8 @@ package com.ithaca.timeline
 			timelinePreview.addEventListener( Event.RESIZE, updateSkinPositionFromValues );
 			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
 			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, inputTimeRuler.onTimeRangeChange);
+			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange);				 
+			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);
 			_timeline.addEventListener( TimelineEvent.LAYOUT_CHANGE, onTimelineLayoutChange );						
 		}
 		public function get timeline( ) : Timeline  { return  _timeline; }
@@ -77,7 +79,7 @@ package com.ithaca.timeline
 			if ( tlg.contextPreviewTraceLine ) 
 				simpleObselsRenderer.obselsCollection 	= tlg.contextPreviewTraceLine._obsels;
 			else
-				simpleObselsRenderer.obselsCollection 	= 	tlg._trace.obsels;			
+				simpleObselsRenderer.obselsCollection 	= 	tlg.trace.obsels;			
 			
 			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
 			simpleObselsRenderer.percentWidth 	= 100;
@@ -104,8 +106,7 @@ package com.ithaca.timeline
 		
 		private function onTimelineLayoutChange( e : Event ) : void
 		{
-			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange);				 
-			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);				 
+							 
 		}
 		
 		private function onTimelineTimesChange( e : TimelineEvent ) : void
