@@ -68,9 +68,17 @@
 						tlgContainer.backgroundFill = new SolidColor( getStyle("bgColor") )	;
 						break;
 				}
-				
-				if ( hostComponent.titleComponent )
-					hostComponent.titleComponent.setStyle(styleProp, getStyle(styleProp));
+					
+				if ( hostComponent.titleComponent )					
+				{
+					if ( styleProp )
+						hostComponent.titleComponent.setStyle( styleProp, getStyle( styleProp ));				
+					else
+					{
+						hostComponent.titleComponent.setStyle( 'headerHeight' , getStyle( 'headerHeight' ));
+						hostComponent.titleComponent.setStyle( 'bottom' , getStyle( 'bottom' ));						
+					}
+				}
 					
 				invalidateDisplayList();						
 					
