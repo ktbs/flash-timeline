@@ -11,13 +11,20 @@ package com.ithaca.timeline
 		[Embed(source="images/resize.png")]
 		static public var Resize:Class;
 		
+		static private var currentObject:Object = null;
+
 		static public function SetResizeCursor(event:MouseEvent) : void
 		{
 			if ( !event.buttonDown )
 			{
 				CursorManager.setCursor(CursorIcons.Resize, 3, -8, -8);
 				if ( (event.currentTarget as Object).hasOwnProperty("alpha") )
-					(event.currentTarget as Object).alpha = 0.5;
+				{
+					currentObject = (event.currentTarget as Object);
+					currentObject.alpha = 0.5;
+				}
+				else
+					currentObject = null;
 			}
 		}
 		
@@ -27,7 +34,12 @@ package com.ithaca.timeline
 			{
 				Mouse.cursor = MouseCursor.HAND;
 				if ( (event.currentTarget as Object).hasOwnProperty("alpha") )
-					(event.currentTarget as Object).alpha = 0.5;
+				{
+					currentObject = (event.currentTarget as Object);
+					currentObject.alpha = 0.5;
+				}
+				else
+					currentObject = null;
 			}
 		}
 		
@@ -43,8 +55,9 @@ package com.ithaca.timeline
 			{
 				CursorManager.removeAllCursors();
 				Mouse.cursor = MouseCursor.AUTO;
-				if ( (event.currentTarget as Object).hasOwnProperty("alpha") )
-					(event.currentTarget as Object).alpha = 1.0;
+				if ( currentObject )
+					currentObject.alpha = 1.0;
+				currentObject = null;
 			}
 		}
 	}

@@ -76,11 +76,12 @@
 			
 			protected function zcStopDrag(e:MouseEvent):void
 			{
+				CursorIcons.SetDefaultCursor(e);
 				draggedPart = null;				
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
-				stage.removeEventListener(MouseEvent.MOUSE_UP,zcStopDrag);		
+				stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);		
 			}
-
+			
         ]]>
     </fx:Script>
 	
