@@ -123,10 +123,10 @@
 						var editDialog:TraceLineEditDialog = new TraceLineEditDialog();
 						editDialog.tracelineTitle = hostComponent.tl.title;
 						editDialog.tracelineSource = (hostComponent.tl.sourceStr == "parent") ? 1 : 0;
-						if (hostComponent.tl._selector is SelectorRegexp)
+						if (hostComponent.tl.selector is SelectorRegexp)
 						{
-							editDialog.selectorField = (hostComponent.tl._selector as SelectorRegexp).field;
-							editDialog.selectorRegexp = (hostComponent.tl._selector as SelectorRegexp).regexp;
+							editDialog.selectorField = (hostComponent.tl.selector as SelectorRegexp).field;
+							editDialog.selectorRegexp = (hostComponent.tl.selector as SelectorRegexp).regexp;
 						}
 						editDialog.traceline = hostComponent.tl;
 						PopUpManager.addPopUp(editDialog, parentApplication.timeline, true);

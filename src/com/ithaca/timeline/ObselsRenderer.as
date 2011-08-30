@@ -149,6 +149,7 @@ package com.ithaca.timeline
 				}				
 				default:
 			}
+			redraw();
 		}	
 	}
 }

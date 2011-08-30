@@ -51,7 +51,7 @@
 				if (traceline.sourceStr != sourceDDL.selectedItem)						
 					traceline.sourceStr = sourceDDL.selectedItem;								
 				if ( fieldIT.text != "" )
-					traceline._selector = new SelectorRegexp( regexpIT.text, fieldIT.text );
+					traceline.selector = new SelectorRegexp( regexpIT.text, fieldIT.text );
 				traceline.resetObselCollection();
 				
 				PopUpManager.removePopUp(this);

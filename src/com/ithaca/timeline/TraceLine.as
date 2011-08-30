@@ -12,7 +12,7 @@ package com.ithaca.timeline
 	{	
 		//private var _title 			: String;
 		public var sourceStr 		: String;
-		public var _selector 		: ISelector;
+		private var _selector 		: ISelector;
 		public var _obsels 			: ArrayCollection = new ArrayCollection();
 		public var rendererHeight	: Number;
 		
@@ -37,6 +37,17 @@ package com.ithaca.timeline
 			return getStyle('title');
 		}
 		
+		public function set selector ( value : ISelector ) : void
+		{			
+			_selector = value;
+			resetObselCollection();
+		}
+		
+		public function get selector (  ) : ISelector
+		{
+			return _selector;
+		}
+
 		public function getCollectionSource() : ArrayCollection
 		{
 			switch ( sourceStr )

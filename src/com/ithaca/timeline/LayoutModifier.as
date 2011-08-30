@@ -38,7 +38,7 @@ package  com.ithaca.timeline
 				for ( var brotherIndex : uint = 0; brotherIndex < parentNode.numElements; brotherIndex++ )		
 				{
 					var brother : LayoutNode = parentNode.getElementAt( brotherIndex ) as LayoutNode;
-					if ( brother is TraceLine  && (brother as TraceLine)._selector && (brother as TraceLine)._selector.isEqual( selector) )
+					if ( brother is TraceLine  && (brother as TraceLine).selector && (brother as TraceLine).selector.isEqual( selector) )
 						return null;
 				}
 			
