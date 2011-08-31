@@ -34,7 +34,7 @@ package com.ithaca.timeline
 		
 		public function get title (  ) : String
 		{
-			return getStyle('title');
+			return getStyle('title');			
 		}
 		
 		public function set selector ( value : ISelector ) : void
@@ -93,20 +93,24 @@ package com.ithaca.timeline
 		};
 		
 		override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
-		{			
+		{		
+			_obsels.disableAutoUpdate();
 			_obsels.removeAll();
 		
 			if ( obselsCollection == null )
 				obselsCollection = getCollectionSource();				
 			if (obselsCollection != null && obselsCollection.length >0)
-			{				
+			{					
 				for each( var obsel :  Obsel in obselsCollection)
-					addObsel( obsel );			
+					addObsel( obsel );							
 			}
+			_obsels.enableAutoUpdate();
 		}		
 		
 		override public function onSourceChange( event : CollectionEvent ) : void
 		{
+			_obsels.disableAutoUpdate();
+			
 			var obsel : Obsel;
 			switch (event.kind)
 			{
@@ -125,11 +129,14 @@ package com.ithaca.timeline
 				case CollectionEventKind.REPLACE :
 				break;
 				
-				case CollectionEventKind.RESET :					
+				case CollectionEventKind.RESET :	
+					resetObselCollection();
 				break;				
 				
 				default:
-			}
+			}						
+		
+			_obsels.enableAutoUpdate();
 		}
 	}
 }
