@@ -14,10 +14,12 @@ package com.ithaca.timeline
 	{
 		public var traceline : TraceLine;
 		public var obsel : Obsel;
-			
+		public var editable : Boolean;
+		
 		public function ObselSkin( tl : TraceLine )
 		{
 			super();
+			editable = false;
 			traceline = tl;
 			doubleClickEnabled = true;
 			addEventListener( MouseEvent.DOUBLE_CLICK, editObsel );
