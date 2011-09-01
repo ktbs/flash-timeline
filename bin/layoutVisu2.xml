@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
 	<tlg styleName="Comments" > 	
+		<tl styleName="contextPreview"  selector="SelectorRegexp" field="type" regexp="comment" />
 		<tl title="" styleName="Comments" />
 	</tlg> 	
 	<tlg> 	
