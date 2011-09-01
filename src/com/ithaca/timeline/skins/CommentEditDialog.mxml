@@ -23,12 +23,12 @@
 
 			[Bindable]
 			private var fxgt:_FxGettext;
-			
+
 			[Bindable]
 			public var commentText : String;
-			
+
 			public var confirm : Boolean = false;			
-			
+
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				fxgt = FxGettext;
@@ -40,9 +40,9 @@
 			{
 				switch ( event.charCode )
 				{
-					case Keyboard.ENTER:
+					/*case Keyboard.ENTER:
 						onValid(event);
-						break;
+						break;*/
 					case Keyboard.ESCAPE:
 						this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
 						break;
@@ -62,14 +62,13 @@
 		]]>
 	</fx:Script>
 	
-	<mx:VBox paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
-		<s:HGroup verticalAlign="bottom" >
-			<s:TextInput id="commentTextInput" text="{commentText}"/>
+	<mx:VBox>
+		<s:HGroup verticalAlign="top" >
+			<s:TextArea id="commentTextInput" text="{commentText}"/>
 		</s:HGroup>
-		<mx:Spacer height="10"/>
-		<s:HGroup >
-			<mx:Spacer width="80"/>
-			<s:Button label='{fxgt.gettext("Ok")}' 		click="onValid(event)" />
+		<s:HGroup horizontalAlign="center" width="100%" >
+			<s:Button fontSize="10" label='{fxgt.gettext("Ok")}' 		width="60" height="20"	click="onValid(event)" />
+			<s:Button fontSize="10" label='{fxgt.gettext("Cancel")}' 	width="60" height="20"	click="onCancel(event)" /> 
 		</s:HGroup>		
 	</mx:VBox>
 </s:TitleWindow>

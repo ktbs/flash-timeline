@@ -125,7 +125,7 @@
 	<s:BorderContainer id="cursor" borderWeight="1"  backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" height="100%" >
 		<s:layout><s:HorizontalLayout/></s:layout>
 		<mx:Image id="icon" source="{getStyle('icon')}"  mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-		<s:Label id="commentLabel" text="sidcnsdoin" width="100%" height="80%" click="EditComment(event)" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+		<s:Label id="commentLabel" width="100%" height="80%" click="EditComment(event)" mouseOver="CursorIcons.SetIBeamCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 	</s:BorderContainer>
 			
 </s:Skin>
