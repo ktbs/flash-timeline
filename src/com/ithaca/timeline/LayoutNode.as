@@ -47,6 +47,21 @@ package com.ithaca.timeline
 				return null;
 		}
 		
+		public function GetElementByName( name : String) : LayoutNode
+		{
+			for ( var childIndex : uint = 0; childIndex < this.numElements; childIndex++ )
+			{
+				var child : LayoutNode = this.getElementAt( childIndex ) as LayoutNode;
+				if ( child is TraceLine  && (child as TraceLine).title == name )
+					return child;
+
+				var recursiveChild : LayoutNode= child.GetElementByName( name );
+				if ( recursiveChild != null )
+					return recursiveChild;
+			}
+			return null;
+		}
+		
 		public function removeChildAndTitle( child : LayoutNode ) : void
 		{
 			removeElement( child  );

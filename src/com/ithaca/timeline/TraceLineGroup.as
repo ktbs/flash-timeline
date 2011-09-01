@@ -22,15 +22,15 @@ package com.ithaca.timeline
 				
 		public function TraceLineGroup( tl : Timeline, trac : Trace, title : String = null, style : String = null )
 		{
-			this.title = title;
-			titleComponent = new TraceLineGroupTitle( this );
-			this.id = title;
-			trace = trac;
-			_timeline = tl;
+			this.title		= title;
+			titleComponent	= new TraceLineGroupTitle( this );
+			this.name 		= title;
+			trace			= trac;
+			_timeline 		= tl;
 			if ( style )
 			{
-			 styleName = style;
-			 titleComponent.styleName = style;
+				styleName 	= style;
+				titleComponent.styleName = style;
 			}
 		}
 		

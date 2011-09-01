@@ -60,3 +60,23 @@ msgstr ""
 #: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:77
 msgid "Field / Regexp :"
 msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:238
+msgid "Message"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:239
+msgid "Document"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:240
+msgid "Instructions"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:241
+msgid "Keyword"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:242
+msgid "Marker"
+msgstr ""

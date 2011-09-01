@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timeline 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-25 11:54+0200\n"
+"POT-Creation-Date: 2011-08-31 11:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,26 @@ msgstr ""
 
 #: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:40
 msgid "Create / Edit TraceLine"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:238
+msgid "Message"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:239
+msgid "Document"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:240
+msgid "Instructions"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:241
+msgid "Keyword"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:242
+msgid "Marker"
 msgstr ""
 
 #: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:164

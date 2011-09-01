@@ -11,20 +11,21 @@ package com.ithaca.timeline
 	public class TraceLine  extends LayoutNode
 	{	
 		//private var _title 			: String;
-		public var sourceStr 		: String;
-		private var _selector 		: ISelector;
-		public var _obsels 			: ArrayCollection = new ArrayCollection();
-		public var rendererHeight	: Number;
+		public var sourceStr 			: String;
+		private var _selector 			: ISelector;
+		public var _obsels 				: ArrayCollection = new ArrayCollection();
+		public var lastRendererHeight	: Number;
+		public var lastRendererGap		: Number;
 		
 		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null, tlSkinClass : String = null )
 		{
-			_timeline = tl;
-			titleComponent = new TraceLineTitle( this );
-			title 	= tlTitle;
-			this.id = title;
-			_selector = tlSelector;
-			sourceStr = tlSource;		
-			styleName = tlSkinClass;
+			_timeline		= tl;
+			titleComponent	= new TraceLineTitle( this );
+			title			= tlTitle;
+			this.name		= title;
+			_selector		= tlSelector;
+			sourceStr		= tlSource;		
+			styleName		= tlSkinClass;
 		}
 		
 		public function set title ( value : String ) : void
@@ -137,6 +138,25 @@ package com.ithaca.timeline
 			}						
 		
 			_obsels.enableAutoUpdate();
+		}
+
+		public function SetToVisible( visible: Boolean ) : void
+		{
+			visible 							= visible;
+			titleComponent.visible				= visible;
+			(titleComponent as TraceLineTitle).OpenButton.visible = visible;
+			if ( visible )
+			{
+				setStyle("rendererHeight", lastRendererHeight);
+				setStyle("rendererGap", lastRendererGap);
+			}
+			else
+			{
+				lastRendererGap		= getStyle( 'rendererGap' );
+				lastRendererHeight	= getStyle( 'rendererHeight' );
+				setStyle("rendererHeight", 0);
+				setStyle("rendererGap", 0);
+			}
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.ithaca.timeline
 {
 	import mx.controls.Spacer;
+	import mx.core.UIComponent;
 	import spark.components.SkinnableContainer;
 	import spark.components.supportClasses.SkinnableComponent;
 
@@ -9,7 +10,10 @@ package com.ithaca.timeline
 		public var tl		: TraceLine
 		[SkinPart(required="true")]
 		public var hierarchicalSpacer : Spacer;
-				
+		
+		[SkinPart(required="true")]
+		public var OpenButton : UIComponent;
+
 		public function TraceLineTitle( value : TraceLine) : void
 		{
 			tl = value;
