@@ -29,7 +29,7 @@
     </s:states>
 		
 	<mx:HDividedBox id="hdb" width="100%" height="100%" > 
-		<s:Group  height="100%" width="150" >					
+		<s:Group  height="100%" width="200" >					
 			<s:Scroller id="scroller" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >	
 				<s:VGroup id="titleGroup"  gap="5" width="100%" />
 			</s:Scroller>				
