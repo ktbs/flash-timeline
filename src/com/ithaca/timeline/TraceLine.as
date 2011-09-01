@@ -136,7 +136,7 @@ package com.ithaca.timeline
 				
 				default:
 			}						
-		
+					
 			_obsels.enableAutoUpdate();
 		}
 
@@ -144,7 +144,8 @@ package com.ithaca.timeline
 		{
 			visible 							= visible;
 			titleComponent.visible				= visible;
-			(titleComponent as TraceLineTitle).OpenButton.visible = visible;
+			if ((titleComponent as TraceLineTitle).OpenButton)
+				(titleComponent as TraceLineTitle).OpenButton.visible = visible && (numElements > 0);
 			if ( visible )
 			{
 				setStyle("rendererHeight", lastRendererHeight);
