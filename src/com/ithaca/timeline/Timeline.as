@@ -21,9 +21,12 @@ package com.ithaca.timeline
 		
 		[SkinPart(required="true")]
 		public  var zoomContext		: ZoomContext;
+				
+		[SkinPart(required="true")]
+		public  var globalCursor	: Cursor;
 		
 		[SkinPart(required="true")]
-		public  var cursor			: Cursor;
+		public  var contextCursor	: Cursor;
 		
 		public var contextFollowCursor : Boolean = false;
 		
@@ -152,34 +155,40 @@ package com.ithaca.timeline
 			zoomContext.setRange( range.begin, range.end );
 		}		
 		
+		public function get currentTime( ) : Number
+		{
+			return zoomContext._timelineRange.positionToTime( globalCursor.x - Stylesheet.renderersSidePadding, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+		}
+		
+		public function set currentTime(  timeValue : Number ) : void
+		{
+			changeCursorValue( timeValue );
+		}
+				
 		public function changeCursorValue( timeValue : Number ) : void
 		{
+			globalCursor.visible = true;
+			globalCursor. x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+			
 			var minPosition : Number = zoomContext.cursorRange.begin + zoomContext.cursorRange.duration*0.15;
 			var maxPosition : Number = zoomContext.cursorRange.end 	 - zoomContext.cursorRange.duration*0.15;
 			
 			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= maxPosition ) 
 			{
-				cursor.visible = true;				
-				cursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+				contextCursor.visible = true;				
+				contextCursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
 			}
 			else
 			{
 				if ( contextFollowCursor )
 				{
-					cursor.visible = true;					
-					zoomContext.shiftContext( timeValue -zoomContext.cursorRange.begin );
-					cursor. x = Stylesheet.renderersSidePadding
+					contextCursor.visible = true;					
+					zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );
+					contextCursor. x = Stylesheet.renderersSidePadding
 				}
 				else
-					cursor.visible = false;
+					contextCursor.visible = false;
 			}
-		}		
-		
-		public function updateCursorPosition( event : TimerEvent ) : void
-		{			
-            var timer : Timer = event.currentTarget as Timer;
-            
-            changeCursorValue( zoomContext._timelineRange.begin + timer.currentCount*timer.delay);            
-		}		
+		}			
 	}
 }

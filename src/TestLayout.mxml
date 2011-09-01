@@ -216,10 +216,11 @@
 
 		private function startTimer( ) : void
 		{	
-			timer = new Timer(50);			
+			timer = new Timer(1000);			
+			timer.currentCount = zoomContext._timelineRange.begin / 1000;
 			
 			timeline.contextFollowCursor = bindZc.selected;
-			timer.addEventListener(TimerEvent.TIMER, timeline.updateCursorPosition );
+			timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );
 			timer.start();
 		}
 		
@@ -227,6 +228,14 @@
 		{	
 			timer.stop();
 		}
+		
+		public function updateCursorPosition( event : TimerEvent ) : void
+		{			
+            var timer : Timer = event.currentTarget as Timer;
+            
+            changeCursorValue(  timer.currentCount*timer.delay);            
+		}	
+		
 			
 	]]> </fx:Script>
 	

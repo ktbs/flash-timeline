@@ -28,16 +28,17 @@
 		<s:State name="disabled" />
     </s:states>
 		
-	<mx:HDividedBox  width="100%" height="100%"> 
-		<s:Group width="150" height="100%">					
-			<s:Scroller id="scroller" y="{zoomContext.height}" width="100%" height="100%" >	
+	<mx:HDividedBox id="hdb" width="100%" height="100%" > 
+		<s:Group  height="100%" width="150" >					
+			<s:Scroller id="scroller" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >	
 				<s:VGroup id="titleGroup"  gap="5" width="100%" />
 			</s:Scroller>				
 		</s:Group>				
 		<s:Group id="renderGroup" width="100%" height="100%" mouseWheel="{horizontalScroll(event)}">		
 			<tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />								
 			<s:VGroup id="contentGroup" y="{zoomContext.height}" height="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />								
-			<tl:Cursor id="cursor" y="{scroller.y}" height="{contentGroup.height}" visible="false" />
+			<tl:Cursor id="contextCursor" 	y="{contentGroup.y }" 	height="{contentGroup.height}" visible="false" />
+			<tl:Cursor id="globalCursor" 	y="{zoomContext.timelinePreview.y-20}" height="{15}" visible="false" />
 		</s:Group>
 	</mx:HDividedBox>	
 </s:Skin >

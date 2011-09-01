@@ -10,14 +10,14 @@ package com.ithaca.timeline.events
 		static public const TIMERANGES_SHIFT 	: String = "timeranges_shift";
 		static public const TIMES_CHANGE 		: String = "times_change";
 		static public const LAYOUT_CHANGE 		: String = "layout_change";	
+		static public const TIMERULER_CLICK 	: String = "timeruler_click";	
 	
 		// properties
-	//	public var value : *;		
+		public var value : *;		
 		
 		public function TimelineEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) 
 		{
 			super(type, bubbles, cancelable);			
-	//		this.value = value;
 		} 
 		
 		public override function clone():Event 

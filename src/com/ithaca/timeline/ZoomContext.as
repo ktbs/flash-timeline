@@ -13,6 +13,7 @@ package com.ithaca.timeline
 	{		
 		[SkinPart(required="true")]
 		public var cursor	 		: UIComponent;
+		[Bindable]
 		[SkinPart(required="true")]
 		public var timelinePreview	: Group;
 		[SkinPart(required="true")]

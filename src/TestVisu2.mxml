@@ -22,6 +22,7 @@
 		import com.ithaca.timeline.TraceLineGroup;
 		import com.ithaca.timeline.SelectorRegexp;
 		import com.ithaca.timeline.Stylesheet;
+		import com.ithaca.timeline.events.TimelineEvent;
 		import com.ithaca.traces.Obsel;
 		import com.ithaca.traces.Trace;
 		
@@ -52,6 +53,7 @@
 		private var _xmlLayoutDP	: XMLListCollection = new XMLListCollection( _xmlLayout );
 		private var layoutTree 		: XML;		
 		private var timer			: Timer;
+		private var timeValue		: Number = 0;
 		
 		[Embed(source="images/unknown.jpg")]		
 		public var tlgIcon:Class;
@@ -90,7 +92,17 @@
 			loadLayout( layout_ti.text );	
 			
 			allTestLayout.enabled = true;
+			
+			timeline.addEventListener( TimelineEvent.TIMERULER_CLICK, onRulerClick );
 		}		
+		
+		public function onRulerClick( e : TimelineEvent ) : void
+		{
+			var df : DateFormatter = new DateFormatter();
+			df.formatString = "JJ:NN:SS.QQ";
+			trace( df.format( new Date(e.value ) ));
+			timeValue = e.value;
+		}
 		
 		protected function browse(event:MouseEvent):void
 		{			
@@ -218,10 +230,11 @@
 
 		private function startTimer( ) : void
 		{	
-			timer = new Timer(50);			
+			timer = new Timer( 1000 );
+			timeValue = timeline.zoomContext._timelineRange.begin;			
 			
 			timeline.contextFollowCursor = bindZc.selected;
-			timer.addEventListener(TimerEvent.TIMER, timeline.updateCursorPosition );
+			timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );
 			timer.start();
 		}
 		
@@ -229,6 +242,14 @@
 		{	
 			timer.stop();
 		}
+		
+		public function updateCursorPosition( event : TimerEvent ) : void
+		{			
+            var timer : Timer = event.currentTarget as Timer;
+			timeValue += timer.delay;
+            
+            timeline.changeCursorValue( timeValue );            
+		}	
 			
 	]]> </fx:Script>
 	

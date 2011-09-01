@@ -24,6 +24,7 @@
 	<fx:Script>	<![CDATA[
 		import com.ithaca.timeline.events.TimelineEvent;
 		import flash.display.Shape;
+		import flash.events.MouseEvent;
 		import flash.globalization.DateTimeStyle;
 		import mx.graphics.SolidColor;
 		import spark.components.Label;
@@ -198,10 +199,19 @@
 			timeRange 	= tr;			
 			redraw();
 		}
+		
+		public function onClick( event : MouseEvent ):void
+		{		
+			var tlEvent : TimelineEvent = new TimelineEvent( TimelineEvent.TIMERULER_CLICK, true);
+			trace(event.localX - startPosition);
+			tlEvent.value = timeRange.positionToTime(event.localX - startPosition, rulerWidth );
+			dispatchEvent( tlEvent );
+		}
+		
 		]]> 
 	</fx:Script>
 			 
-	<s:BorderContainer id="TimeRulerContainer"  backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderVisible="false" horizontalCenter="true">	
+	<s:BorderContainer id="TimeRulerContainer"  backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderVisible="false" horizontalCenter="true" click="onClick( event )">	
 			<s:SpriteVisualElement  id="ruler" width="100%"  />
 			<s:Group id="timeLabels" />									
 	</s:BorderContainer>
