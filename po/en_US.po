@@ -80,3 +80,7 @@ msgstr ""
 #: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:242
 msgid "Marker"
 msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:35
+msgid "Comment Edit"
+msgstr ""

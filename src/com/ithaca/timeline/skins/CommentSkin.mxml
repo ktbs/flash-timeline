@@ -12,26 +12,19 @@
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
 		
 		<fx:Script>
-        <![CDATA[            
+        <![CDATA[
+
 			import com.ithaca.timeline.CursorIcons;
-			import com.ithaca.timeline.events.TimelineEvent;
 			import com.ithaca.timeline.Stylesheet;
-			import flash.events.Event;
 			import flash.events.MouseEvent;
-			import flash.geom.Rectangle;
-			import mx.controls.Image;
-			import com.ithaca.traces.Obsel;
-			import mx.core.IUIComponent;
 			import mx.core.UIComponent;
-			import mx.events.ResizeEvent;
 			import spark.components.BorderContainer;
-			import spark.components.supportClasses.SkinnableComponent;
+			import mx.managers.PopUpManager;
 			
 			protected 	var currentCenterDragingPoint:Point;			
 			private 	var draggedPart : UIComponent = null;
 			public		var minX  :Number;
 			public		var maxX  : Number;
-	
 		
 			protected function creationCompleteHandler(event:Event):void
 			{
@@ -97,6 +90,27 @@
 				stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
 				hostComponent.obsel.end = hostComponent.obsel.begin = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
 			}	
+			
+			protected function EditComment( e:MouseEvent ):void
+			{
+				this.enabled = false;
+
+				var commentEditDialog:CommentEditDialog = new CommentEditDialog();
+				commentEditDialog.commentText = commentLabel.text;
+				PopUpManager.addPopUp(commentEditDialog, this);
+				PopUpManager.centerPopUp(commentEditDialog);
+				commentEditDialog.addEventListener( Event.REMOVED_FROM_STAGE, onRemoveEditDialog );
+			}
+			
+			private function onRemoveEditDialog(event:Event):void
+			{
+				if (event.currentTarget.confirm)
+				{
+					commentLabel.text = event.currentTarget.commentTextInput.text;
+				}
+				this.enabled = true;
+			}
+			
         ]]>
     </fx:Script>
 	
@@ -111,7 +125,7 @@
 	<s:BorderContainer id="cursor" borderWeight="1"  backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" height="100%" >
 		<s:layout><s:HorizontalLayout/></s:layout>
 		<mx:Image id="icon" source="{getStyle('icon')}"  mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-		<s:TextArea  width="100%" height="80%" contentBackgroundAlpha="0" borderVisible="false"  />
+		<s:Label id="commentLabel" text="sidcnsdoin" width="100%" height="80%" click="EditComment(event)" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 	</s:BorderContainer>
 			
 </s:Skin>
