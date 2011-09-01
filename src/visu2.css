@@ -26,6 +26,7 @@ timeline|TraceLineGroupTitle
 timeline|TraceLineGroupTitle.Comments
 {
 	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsVisu2Skin");
+	icon 		: Embed("images/CommentAddVer1.png");	
 	bgColor		:#FFA6A8;
 }
 
@@ -98,5 +99,5 @@ timeline|ObselSkin.Activity
 timeline|ObselSkin.Comment
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");	
-	icon :Embed("images/consigneVisu1.png");
+	icon :Embed("images/CommentVer4.png");
 }

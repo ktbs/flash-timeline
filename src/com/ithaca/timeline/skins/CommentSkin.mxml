@@ -2,7 +2,8 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				width="100">
+				width="100" height="100%"
+				creationComplete="creationCompleteHandler(event)">
 	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -30,19 +31,20 @@
 			private 	var draggedPart : UIComponent = null;
 			public		var minX  :Number;
 			public		var maxX  : Number;
-
-		
-			public var obsel : Obsel;
+	
 		
 			protected function creationCompleteHandler(event:Event):void
 			{
-				obsel = hostComponent.obsel;
-				icon.source = hostComponent.getStyle( "icon" );
+				minX = 0;
+				maxX = (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding );				
 			}
 
 			protected function zcStartDrag(e:MouseEvent):void
 			{
-				draggedPart = (e.currentTarget as UIComponent);
+				if ( e.currentTarget == icon )
+					draggedPart = cursor;
+				else
+					draggedPart = (e.currentTarget as UIComponent);
 				stage.addEventListener( MouseEvent.MOUSE_MOVE, 	zcDragging);
 				stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag);
 					
@@ -51,48 +53,49 @@
 			
 			protected function zcDragging(e:MouseEvent):void
 			{				
-				var parentMouse:Point = parent.globalToLocal(new Point(e.stageX, e.stageY));				
+				var parentMouse:Point = hostComponent.parent.globalToLocal(new Point(e.stageX, e.stageY));				
 				var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
-				
+				trace(newPos)
 				if (draggedPart == minRange )
 				{					
-					var oldPos : Number = x;						
+					var oldPos : Number = hostComponent.x;						
 					if ( newPos < minX  )						
-						x = minX ;						
-					else if ( newPos + minRange.width > x + maxRange.x - 1 )
-						x =  x + maxRange.x - 1;
+						hostComponent.x = minX ;						
+					else if ( newPos + minRange.width > hostComponent.x + maxRange.x - 1 )
+						hostComponent.x =  hostComponent.x + maxRange.x - 1;
 					else
-						x = newPos + minRange.width;
-					width 	-= x - oldPos ;	
+						hostComponent.x = newPos + minRange.width;
+					width 	-= hostComponent.x - oldPos ;	
 				}
 				else if (draggedPart == cursor )
 				{
 					if ( newPos < minX)						
-						x  = minX;						
+						hostComponent.x  = minX;						
 					else if ( newPos > maxX - width )
-						x = maxX - width;
+						hostComponent.x = maxX - width;
 					else
-						x = newPos;						
+						hostComponent.x = newPos;						
 				} 
 				else if (draggedPart == maxRange )
 				{
-					if ( newPos < x + 1 )
+					if ( newPos < hostComponent.x + 1 )
 						maxRange.x =  1;
 					else if (newPos > maxX )
-						maxRange.x = maxX - x;
+						maxRange.x = maxX - hostComponent.x;
 					else
-						maxRange.x = newPos - x;
+						maxRange.x = newPos - hostComponent.x;
 						
 					width = maxRange.x;				
-				}			
+				}						
 			}
 			
 			protected function zcStopDrag(e:MouseEvent):void
 			{
 				draggedPart = null;
-				
+
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
-				stage.removeEventListener(MouseEvent.MOUSE_UP,zcStopDrag);		
+				stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
+				hostComponent.obsel.end = hostComponent.obsel.begin = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
 			}	
         ]]>
     </fx:Script>
@@ -105,10 +108,10 @@
 	<mx:Image id="minRange"  height="{cursor.height}"  x="{-minRange.width}" source="@Embed(source='../images/curseurLeftGrip.png')" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 	<mx:Image id="maxRange"  height="{cursor.height}" x="{width}" source="@Embed(source='../images/curseurRightGrip.png')" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 
-	<s:BorderContainer id="cursor" borderWeight="1" backgroundColor="#A8E7FF" minWidth="1" minHeight="1" width="100%" height="100%"  mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)">
+	<s:BorderContainer id="cursor" borderWeight="1"  backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" height="100%" >
 		<s:layout><s:HorizontalLayout/></s:layout>
-		<mx:Image id="icon" source="{getStyle('icon')}" />
-		<s:RichText width="100%" />
+		<mx:Image id="icon" source="{getStyle('icon')}"  mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+		<s:TextArea  width="100%" height="80%" contentBackgroundAlpha="0" borderVisible="false"  />
 	</s:BorderContainer>
 			
 </s:Skin>
