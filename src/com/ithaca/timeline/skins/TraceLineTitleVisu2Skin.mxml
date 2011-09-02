@@ -71,7 +71,7 @@
 				hostComponent.updateDisplayLevel();
 				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_ADD , 		onChildrenChange);
 				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_REMOVE , 	onChildrenChange);
-				stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag);
+			//	stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag);
 			}
 			
 			protected function zcStopDrag(e:MouseEvent):void
