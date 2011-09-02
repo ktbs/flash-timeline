@@ -30,12 +30,20 @@ timeline|TraceLineGroupTitle.Comments
 	bgColor		:#FFA6A8;
 }
 
+timeline|TraceLine.Comments
+{
+	rendererHeight : 30;
+	rendererGap	   : 2;
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");
+}
+
 timeline|TraceLine
 {
 	rendererHeight : 25;
 	rendererGap	   : 2;
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");
 }
+
 
 timeline|TraceLine.background
 {
@@ -51,6 +59,12 @@ timeline|ZoomContext
 {
 	skin-class			: ClassReference("com.ithaca.timeline.skins.ZoomContextSkin2");
 	backgroundColor 	: #F5F5F5;
+}
+
+timeline|ObselSkin
+{
+	skin-class		: ClassReference("com.ithaca.timeline.skins.IconSkin");
+	icon 			: Embed("images/iconInfo_16x16.png");	
 }
 
 timeline|ObselSkin.Message

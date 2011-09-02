@@ -19,7 +19,7 @@ package com.ithaca.timeline
 															{ id : 'Instructions' ,	selector : new SelectorRegexp('Instructions','type')},
 															{ id : 'Keyword' , 		selector : new SelectorRegexp('Keyword', 'type') },
 															{ id : 'Activity' , 	selector : new SelectorRegexp('ActivityStart', 'type') },
-															{ id : 'Comment' , 		selector : new SelectorRegexp('comment','type')} ];
+															{ id : 'Comment' , 		selector : new SelectorRegexp('omment','type')} ];
 		
 		public function Stylesheet()
 		{
@@ -33,10 +33,10 @@ package com.ithaca.timeline
 				if ( (item.selector as ISelector).isObselMatching( obsel ) )
 				{
 					obselSkin.styleName = item.id;			
-					return obselSkin;
+					break;
 				}
 				
-			return null;
+			return obselSkin;
 		}
 		
 		static public function getTracelineGroupColor( tlg : TraceLineGroup ) : uint
