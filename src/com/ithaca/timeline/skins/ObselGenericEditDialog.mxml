@@ -14,6 +14,7 @@
 		<![CDATA[
 			import com.ithaca.timeline.SelectorRegexp;
 			import com.ithaca.traces.Obsel;
+			import com.ithaca.timeline.ObselSkin;
 			import mx.controls.Label;
 			import mx.controls.TextInput;
 			import mx.events.CloseEvent;
@@ -26,7 +27,7 @@
 			[Bindable]
 			private var fxgt:_FxGettext;		
 						
-			private var _obsel : Obsel;
+			private var _obsel : ObselSkin;
 			
 			[Bindable]
 			public var tracelineTitle : String;			
@@ -44,16 +45,16 @@
 				fxgt = FxGettext;
 				this.title = fxgt.gettext("Edit obsel");
 				
-				addEditProperty( "type", _obsel );
-				addEditProperty( "begin", _obsel);
-				addEditProperty( "end", _obsel);
-				addEditProperty( "uid", _obsel);	
-				for (var prop: String in _obsel.props)				
-					addEditProperty( prop, _obsel.props );	
+				addEditProperty( "type", _obsel.obsel );
+				addEditProperty( "begin", _obsel.obsel);
+				addEditProperty( "end", _obsel.obsel);
+				addEditProperty( "uid", _obsel.obsel);	
+				for (var prop: String in _obsel.obsel.props)				
+					addEditProperty( prop, _obsel.obsel.props );	
 			}
 			
-			public function set obsel ( value : Obsel):void
-			{
+			public function set obsel ( value : ObselSkin ):void
+			{				
 				_obsel = value;				
 			}
 			
@@ -65,6 +66,7 @@
 				label.text = str + " : ";
 				ti.id 	= str;
 				ti.text = obj[str];
+				ti.editable =  _obsel.editable;
 				label.height = ti.height =22;
 				labelPropGroup.addElement( label ) ;
 				tiPropGroup.addElement( ti );

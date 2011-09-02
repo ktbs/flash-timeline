@@ -3,7 +3,9 @@
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
 				width="100" height="100%"
-				creationComplete="creationCompleteHandler(event)">
+				creationComplete="creationCompleteHandler(event)" 
+				doubleClick="EditComment(event)" 
+				click="onSelect(event)">
 	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -20,6 +22,7 @@
 			import mx.core.UIComponent;
 			import spark.components.BorderContainer;
 			import mx.managers.PopUpManager;
+			import spark.components.Group;
 			
 			protected 	var currentCenterDragingPoint:Point;			
 			private 	var draggedPart : UIComponent = null;
@@ -27,9 +30,9 @@
 			public		var maxX  : Number;
 		
 			protected function creationCompleteHandler(event:Event):void
-			{
-				minX = 0;
-				maxX = (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding );				
+			{				
+				y = 5;
+				commentLabel.text = "Comment"				
 			}
 
 			protected function zcStartDrag(e:MouseEvent):void
@@ -39,16 +42,19 @@
 				else
 					draggedPart = (e.currentTarget as UIComponent);
 				stage.addEventListener( MouseEvent.MOUSE_MOVE, 	zcDragging);
-				stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag);
+				stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag);				
 					
 				currentCenterDragingPoint = new Point(e.localX, e.localY);
 			}
 			
 			protected function zcDragging(e:MouseEvent):void
 			{				
+				minX = 0;
+				maxX = (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding );				
+				
 				var parentMouse:Point = hostComponent.parent.globalToLocal(new Point(e.stageX, e.stageY));				
 				var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
-				trace(newPos)
+								
 				if (draggedPart == minRange )
 				{					
 					var oldPos : Number = hostComponent.x;						
@@ -88,7 +94,9 @@
 
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
 				stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
-				hostComponent.obsel.end = hostComponent.obsel.begin = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
+			
+				hostComponent.obsel.begin  = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
+				hostComponent.obsel.end    = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
 			}	
 			
 			protected function EditComment( e:MouseEvent ):void
@@ -99,6 +107,7 @@
 				commentEditDialog.commentText = commentLabel.text;
 				PopUpManager.addPopUp(commentEditDialog, this);
 				PopUpManager.centerPopUp(commentEditDialog);
+				commentEditDialog.y -= commentEditDialog.height;
 				commentEditDialog.addEventListener( Event.REMOVED_FROM_STAGE, onRemoveEditDialog );
 			}
 			
@@ -106,9 +115,17 @@
 			{
 				if (event.currentTarget.confirm)
 				{
+					//TODO : il faut ecrire dans hostComponent.obsel.prop .... et pas dans le skin
 					commentLabel.text = event.currentTarget.commentTextInput.text;
+					
+					toolTip = event.currentTarget.commentTextInput.text;
 				}
 				this.enabled = true;
+			}
+			
+			private function onSelect(event:Event):void
+			{
+				(hostComponent.parent as Group).addElementAt( hostComponent, (hostComponent.parent as Group).numElements -1);
 			}
 			
         ]]>
@@ -119,13 +136,12 @@
 		<s:State name="edit" />
 	</s:states>
 	
-	<mx:Image id="minRange"  height="{cursor.height}"  x="{-minRange.width}" source="@Embed(source='../images/curseurLeftGrip.png')" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-	<mx:Image id="maxRange"  height="{cursor.height}" x="{width}" source="@Embed(source='../images/curseurRightGrip.png')" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+	<s:BorderContainer id="minRange" backgroundColor="0" y="-5" borderColor="0" minWidth="1" minHeight="1" width="2" height="{cursor.height+5}"  x="{-minRange.width}"  mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+	<s:BorderContainer id="maxRange" backgroundColor="0"  y="-5" borderColor="0" minWidth="1" minHeight="1" width="2" height="{cursor.height+5}" x="{width}" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 
-	<s:BorderContainer id="cursor" borderWeight="1"  backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" height="100%" >
-		<s:layout><s:HorizontalLayout/></s:layout>
+	<s:BorderContainer id="cursor" borderWeight="1"   backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" height="100%"  >
 		<mx:Image id="icon" source="{getStyle('icon')}"  mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-		<s:Label id="commentLabel" width="100%" height="80%" click="EditComment(event)" mouseOver="CursorIcons.SetIBeamCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+		<s:Label id="commentLabel" width="100%" height="16" fontSize="10" x="{icon.width+5}"  y="3"  mouseOver="CursorIcons.SetIBeamCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"    />
 	</s:BorderContainer>
 			
 </s:Skin>

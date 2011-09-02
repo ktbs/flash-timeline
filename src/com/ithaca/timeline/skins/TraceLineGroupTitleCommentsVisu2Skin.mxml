@@ -28,6 +28,7 @@
 			import mx.events.FlexEvent;
 			import mx.graphics.SolidColor;
 			import mx.managers.DragManager;
+			import mx.core.UIComponent;
 			
 			[Bindable]
 			private var backgroundColor : uint;
@@ -46,7 +47,7 @@
 			{				
 				if (event.dragSource.hasFormat("traceLineGroup"))
                 {
-                    DragManager.acceptDragDrop(TraceLineGroupTitleVisu2Skin(event.currentTarget));
+                    DragManager.acceptDragDrop( UIComponent(event.currentTarget));
                 } 				
             }
 

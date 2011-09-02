@@ -22,13 +22,13 @@ package com.ithaca.timeline
 			editable = false;
 			traceline = tl;
 			doubleClickEnabled = true;
-			addEventListener( MouseEvent.DOUBLE_CLICK, editObsel );
+//			addEventListener( MouseEvent.DOUBLE_CLICK, editObsel );
 		}
 		
 		public function editObsel ( event : Event ) : void 
 		{
-			var editDialog:ObselGenericEditDialog = new ObselGenericEditDialog();
-			editDialog.obsel = obsel;
+			var editDialog:ObselGenericEditDialog = new ObselGenericEditDialog(  );
+			editDialog.obsel = this;
 			PopUpManager.addPopUp(editDialog, UIComponent( parentApplication), true);
 			PopUpManager.centerPopUp(editDialog);
 		};

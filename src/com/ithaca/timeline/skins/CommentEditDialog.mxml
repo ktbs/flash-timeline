@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<mx:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/mx" 
 			   xmlns:tl="com.ithaca.timeline.*"
 			   creationComplete="creationCompleteHandler(event)"
 			   close="onCancel(event)"
-			   keyDown="onKeyDown(event)">
+			   keyDown="onKeyDown(event)"
+			   fontSize="10">
 	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -32,6 +33,9 @@
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				fxgt = FxGettext;
+	
+				showCloseButton = true;
+				setStyle('headerHeight', 20);
 				this.title = fxgt.gettext("Comment Edit");
 				commentTextInput.setFocus();
 			}
@@ -62,13 +66,11 @@
 		]]>
 	</fx:Script>
 	
-	<mx:VBox>
-		<s:HGroup verticalAlign="top" >
-			<s:TextArea id="commentTextInput" text="{commentText}"/>
-		</s:HGroup>
-		<s:HGroup horizontalAlign="center" width="100%" >
+	<s:VGroup bottom="5" top="5" right="5" left="5">
+		<s:TextArea id="commentTextInput" text="{commentText}"/>		
+		<s:HGroup horizontalAlign="right" width="100%" >
 			<s:Button fontSize="10" label='{fxgt.gettext("Ok")}' 		width="60" height="20"	click="onValid(event)" />
 			<s:Button fontSize="10" label='{fxgt.gettext("Cancel")}' 	width="60" height="20"	click="onCancel(event)" /> 
 		</s:HGroup>		
-	</mx:VBox>
-</s:TitleWindow>
+	</s:VGroup>
+</mx:TitleWindow>
