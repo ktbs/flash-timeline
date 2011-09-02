@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
-	<tlg styleName="Comments" > 	
+	<tlg styleName="comments" > 	
 		<tl styleName="contextPreview"  selector="SelectorRegexp" field="type" regexp="comment" />
-		<tl title="" styleName="Comments" />
+		<tl title="" styleName="comments" />
 	</tlg> 	
 	<tlg> 	
 		<tl styleName="background" 		selector="SelectorRegexp" field="type" regexp="Activity" />

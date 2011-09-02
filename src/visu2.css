@@ -23,14 +23,14 @@ timeline|TraceLineGroupTitle
 	bgColor		:#FFA6A8;
 }
 
-timeline|TraceLineGroupTitle.Comments
+timeline|TraceLineGroupTitle.comments
 {
 	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsVisu2Skin");
 	icon 		: Embed("images/CommentAddVer1.png");	
 	bgColor		:#FFA6A8;
 }
 
-timeline|TraceLine.Comments
+timeline|TraceLine.comments
 {
 	rendererHeight : 30;
 	rendererGap	   : 2;

@@ -138,7 +138,7 @@
 			timeline.layoutXML 		= new XML( loader.data );
 			timeline.timelineLayout = new Layout( timeline );		
 					
-			var tlg : TraceLineGroup = timeline.addTrace( new Trace(0, "comments"), 0, "Comments" );	
+			var tlg : TraceLineGroup = timeline.addTrace( new Trace(0, "comments"), 0, "comments" );	
 			tlg.setStyle( "title", "Comments" );
 		}
 		
