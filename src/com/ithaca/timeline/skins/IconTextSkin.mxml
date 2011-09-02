@@ -12,6 +12,7 @@
 	<fx:Script>
         <![CDATA[ 
 			import com.ithaca.traces.Obsel;
+			import flash.events.Event;
 			import flash.filters.BlurFilter;
 			import flash.filters.ColorMatrixFilter;
 			import flash.filters.GlowFilter;
@@ -24,8 +25,13 @@
 			{
 				obsel = hostComponent.obsel;
 				obselIcon.source = hostComponent.getStyle( "icon" );
-				obselText.text 	= obsel.props['content'];
+				obselText.text 	= obsel.props[ hostComponent.getStyle( "textProp" ) ];
 				container.backgroundFill = new SolidColor( hostComponent.getStyle( "backgroundColor" ) );
+			}
+			
+			protected function onTextChange(event:Event):void
+			{									
+				obsel.props[ hostComponent.getStyle( "textProp" ) ] = obselText.text;				
 			}
 		]]>        
     </fx:Script>
@@ -33,6 +39,6 @@
 	<s:BorderContainer id="container" cornerRadius="4"  height="25" >
 		<s:layout><s:HorizontalLayout gap="2" /> </s:layout>
 		<mx:Image id="obselIcon" />
-		<mx:Label id="obselText" maxWidth="80" />
+		<s:TextInput id="obselText" maxWidth="80" focusOut="onTextChange(event)" />
 	</s:BorderContainer>
 </s:Skin>

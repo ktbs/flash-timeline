@@ -115,3 +115,11 @@ timeline|ObselSkin.Comment
 	skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");	
 	icon :Embed("images/CommentVer4.png");
 }
+
+timeline|ObselSkin.Marker
+{
+	skin-class	: ClassReference("com.ithaca.timeline.skins.IconTextSkin");	
+	icon 		:Embed("images/marqueurBlanc-bas-20px.png");
+	textProp	: 'text';
+	backgroundColor : #FFFFB3;
+}
