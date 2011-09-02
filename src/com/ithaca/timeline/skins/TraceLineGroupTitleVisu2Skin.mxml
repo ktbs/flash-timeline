@@ -201,11 +201,11 @@
 	<s:BorderContainer id="tlgContainer" width="100%" height="100%" minHeight="1" left="4" right="4" backgroundColor="{backgroundColor}" >
 		
 		<s:Label id="traceLineGroupTitle" fontSize="11" color="#000000" fontWeight="bold" height="20" width="100%"  x="32" y="5" mouseDown="mouseDownHandler(event)" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
-		<mx:Image id="traceLineGroupTitleIcon" height="20" width="20" right="46" top="0"/>
+		<mx:Image id="traceLineGroupTitleIcon" height="25" width="25" right="46" top="0"/>
 		<mx:PopUpButton id="filterTreeButton" 		openAlways="true" skin="@Embed(source='../images/tree.png')" width="16" top="0" right="30" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
 		<mx:PopUpButton id="filterSynthesisButton" 	openAlways="true" skin="@Embed(source='../images/eye.png')" width="16" top="0" right="14" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
-		<mx:Button  skin="@Embed(source='../images/BlackCross.png')" downSkin="@Embed(source='../images/BlackCrossClick.png')" overSkin="@Embed(source='../images/BlackCrossOver.png')" right="1" top="2" click="closeTracelineGroup()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-		<s:Group id="contentGroup" left="10" right="4" width="100%" />
+<!--		<mx:Button  skin="@Embed(source='../images/BlackCross.png')" downSkin="@Embed(source='../images/BlackCrossClick.png')" overSkin="@Embed(source='../images/BlackCrossOver.png')" right="1" top="2" click="closeTracelineGroup()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+-->		<s:Group id="contentGroup" left="10" right="4" width="100%" />
 		
 	</s:BorderContainer>
 </s:Skin>
