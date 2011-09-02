@@ -23,15 +23,11 @@
 	
 	<fx:Script>	<![CDATA[
 		import com.ithaca.timeline.events.TimelineEvent;
-		import flash.display.Shape;
-		import flash.events.MouseEvent;
-		import flash.globalization.DateTimeStyle;
-		import mx.graphics.SolidColor;
-		import spark.components.Label;
-		import mx.formatters.DateFormatter;		
-		import spark.primitives.Line;
-		import flash.events.Event;
+		
 		import mx.events.ResizeEvent;
+		import mx.formatters.DateFormatter;
+		
+		import spark.components.Label;
 	
 		private const LABEL_SIZE : Number = 200;
 		
