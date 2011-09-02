@@ -67,17 +67,10 @@
 				obselsRenderer.percentWidth 	= 100;
 				obselsRenderer.right			= obselsRenderer.left			= renderersSidePadding;
 				obselsRenderer.obselsCollection = hostComponent._obsels;
-				obselsRenderer.addEventListener(MouseEvent.CLICK, onSelect);
 				obselsRenderer.styleName = hostComponent.styleName;		
 				rendererGroup.height 			= obselsRenderer.height + hostComponent.getStyle("rendererGap") as Number;
 				rendererGroup.addElement( obselsRenderer );
 				timeline = hostComponent._timeline;
-			}
-			
-			protected function onSelect(event:Event):void
-			{
-				parentApplication.dg_label.text = hostComponent.title + " : " + hostComponent._obsels.length + " obsels";
-				parentApplication.obselList_dg.dataProvider = hostComponent._obsels;
 			}
 			
 			override public function styleChanged(styleProp:String):void
@@ -114,8 +107,8 @@
 		<s:State name="disabled" />
 	</s:states>
 
-	<s:VGroup width="100%" gap="0">
-		<s:Group id="rendererGroup"  width="100%" />
+	<s:VGroup width="100%" gap="0"  >
+		<s:Group id="rendererGroup"  width="100%"  />
 		<s:VGroup id="contentGroup"  includeIn="open"   width="100%" gap="0" />
 	</s:VGroup>
 </s:Skin>
