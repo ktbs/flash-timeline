@@ -183,7 +183,7 @@
 			
             private function filterTreeChange(evt:MenuEvent):void
 			{
-				var traceLine:TraceLine 			= ((hostComponent.tlg.getElementAt(0) as LayoutNode).GetElementByName( ( evt.item as Object ).name ) as TraceLine );
+				var traceLine:TraceLine 			= ((hostComponent.tlg.getElementAt(0) as LayoutNode).getElementByName( ( evt.item as Object ).name ) as TraceLine );
 				if ( traceLine )
 				{
 					traceLine.SetToVisible( (evt.item as Object ).toggled );

@@ -47,7 +47,7 @@ package com.ithaca.timeline
 				return null;
 		}
 		
-		public function GetElementByName( name : String) : LayoutNode
+		public function getElementByName( name : String) : LayoutNode
 		{
 			for ( var childIndex : uint = 0; childIndex < this.numElements; childIndex++ )
 			{
@@ -55,7 +55,7 @@ package com.ithaca.timeline
 				if ( child is TraceLine  && (child as TraceLine).title == name )
 					return child;
 
-				var recursiveChild : LayoutNode= child.GetElementByName( name );
+				var recursiveChild : LayoutNode= child.getElementByName( name );
 				if ( recursiveChild != null )
 					return recursiveChild;
 			}
