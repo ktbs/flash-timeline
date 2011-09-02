@@ -80,14 +80,17 @@ package com.ithaca.timeline
 			if ( tlg.contextPreviewTraceLine ) 
 				simpleObselsRenderer.obselsCollection 	= tlg.contextPreviewTraceLine._obsels;
 			else
-				simpleObselsRenderer.obselsCollection 	= 	tlg.trace.obsels;			
+				simpleObselsRenderer.obselsCollection 	= tlg.trace.obsels;			
 			
 			_timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
 			simpleObselsRenderer.percentWidth 	= 100;
+			
 			simpleObselsRenderer.percentHeight 	= 100;
+			simpleObselsRenderer.maxHeight 		= 6;
+			simpleObselsRenderer.minHeight 		= 2;
 			
 			if (index < 0 )
-				timelinePreview.addElement(simpleObselsRenderer);
+				timelinePreview.addElement( simpleObselsRenderer );
 			else
 				timelinePreview.addElementAt(simpleObselsRenderer, index );
 		}

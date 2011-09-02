@@ -85,8 +85,8 @@
         ]]>
     </fx:Script>
 	
-	<mx:Image id="minRange"  height="{cursor.height}"  mouseDown="zcStartDrag(event);" x="{-minRange.width}" source="@Embed(source='images/curseurLeftGrip.png')" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
-	<mx:Image id="maxRange"  height="{cursor.height}"  mouseDown="zcStartDrag(event);" x="{width}" source="@Embed(source='images/curseurRightGrip.png')" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
+	<mx:Image id="minRange"  maintainAspectRatio="false" height="{cursor.height}"  mouseDown="zcStartDrag(event);" x="{-minRange.width}" source="@Embed(source='images/curseurLeftGrip.png')" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
+	<mx:Image id="maxRange"  maintainAspectRatio="false"  height="{cursor.height}"  mouseDown="zcStartDrag(event);" x="{width}" source="@Embed(source='images/curseurRightGrip.png')" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
 	
 	<s:BorderContainer id="cursor" borderWeight="2" backgroundAlpha="0.2" backgroundColor="#A8E7FF" minWidth="1" minHeight="1" width="100%" height="100%" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
 			

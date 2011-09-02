@@ -21,6 +21,7 @@
 			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.Stylesheet;
 			import com.ithaca.timeline.events.TimelineEvent;
+			import spark.events.ElementExistenceEvent;
 			
 			protected 	var currentCenterDragingPoint:Point;			
 			private 	var draggedPart : Object = null;
@@ -42,7 +43,14 @@
 				cursor.addEventListener( MoveEvent.MOVE, hostComponent.updateValuesFromSkinPosition );
 				timelinePreview.addEventListener( Event.RESIZE, outputTimeRuler.redraw );	
 				timelinePreview.addEventListener( Event.RESIZE, drawFunnel );
+				timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_ADD, updateCursorHeight );
+				timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_REMOVE, updateCursorHeight );				
 			}			
+			
+			protected function updateCursorHeight (event:Event) : void
+			{
+				cursor.height = timelinePreview.height + 6;				
+			}
 			
 			protected function drawFunnel (event:Event) : void
 			{
@@ -72,7 +80,7 @@
 				<mx:Button skin="@Embed(source='../images/reset.png')" 		downSkin="@Embed(source='../images/resetClick.png')"	click="hostComponent.timeline.resetTimeRangeLimits()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 			</s:VGroup>
 		
-			<s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  width="{width-timeRulerSidePadding*2}"  height="20" resize="inputTimeRuler.redraw(event)">				
+			<s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  minHeight="20"   width="{width-timeRulerSidePadding*2}"   resize="inputTimeRuler.redraw(event)">				
 				<s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
 			</s:Group>
 						
