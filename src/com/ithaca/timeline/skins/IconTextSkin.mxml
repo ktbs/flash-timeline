@@ -26,12 +26,14 @@
 				obsel = hostComponent.obsel;
 				obselIcon.source = hostComponent.getStyle( "icon" );
 				obselText.text 	= obsel.props[ hostComponent.getStyle( "textProp" ) ];
-				container.backgroundFill = new SolidColor( hostComponent.getStyle( "backgroundColor" ) );
+				container.backgroundFill = new SolidColor( hostComponent.getStyle( "backgroundColor" ) );				
+				toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
 			}
 			
 			protected function onTextChange(event:Event):void
 			{									
-				obsel.props[ hostComponent.getStyle( "textProp" ) ] = obselText.text;				
+				obsel.props[ hostComponent.getStyle( "textProp" ) ] = obselText.text;
+				toolTip 	= obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
 			}
 		]]>        
     </fx:Script>
@@ -39,6 +41,6 @@
 	<s:BorderContainer id="container" cornerRadius="4"  height="25" >
 		<s:layout><s:HorizontalLayout gap="2" /> </s:layout>
 		<mx:Image id="obselIcon" />
-		<s:TextInput id="obselText" maxWidth="80" focusOut="onTextChange(event)" />
+		<s:TextInput id="obselText" maxWidth="80"  fontSize="11" contentBackgroundAlpha="0" focusOut="onTextChange(event)" />
 	</s:BorderContainer>
 </s:Skin>

@@ -13,16 +13,23 @@ package com.ithaca.timeline
 	public class ObselSkin extends SkinnableComponent
 	{
 		public var traceline : TraceLine;
-		public var obsel : Obsel;
+		private var _obsel : Obsel;
 		public var editable : Boolean;
 		
-		public function ObselSkin( tl : TraceLine )
+		public function ObselSkin( o : Obsel, tl : TraceLine )
 		{
-			super();
+			super();			
 			editable = false;
 			traceline = tl;
+			_obsel = o;
 			doubleClickEnabled = true;
+			toolTip = obsel.toString();
 //			addEventListener( MouseEvent.DOUBLE_CLICK, editObsel );
+		}
+		
+		public function get obsel () : Obsel
+		{
+			return _obsel;
 		}
 		
 		public function editObsel ( event : Event ) : void 

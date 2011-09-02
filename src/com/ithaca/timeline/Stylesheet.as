@@ -28,8 +28,7 @@ package com.ithaca.timeline
 		 		
 		public function getParameteredSkin( obsel : Obsel, traceline : TraceLine ) :  ObselSkin 
 		{ 	
-			var obselSkin : ObselSkin = new ObselSkin( traceline );
-			obselSkin.obsel = obsel;
+			var obselSkin : ObselSkin = new ObselSkin( obsel, traceline );			
 			for each ( var item : Object in obselsSkinsSelectors )
 				if ( (item.selector as ISelector).isObselMatching( obsel ) )
 				{

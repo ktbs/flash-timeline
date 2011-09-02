@@ -32,7 +32,8 @@
 			protected function creationCompleteHandler(event:Event):void
 			{				
 				y = 5;
-				commentLabel.text = "Comment"				
+				commentLabel.text = "Comment"	
+				toolTip = ""
 			}
 
 			protected function zcStartDrag(e:MouseEvent):void
