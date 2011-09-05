@@ -19,10 +19,15 @@
 			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.Stylesheet;
 			import flash.events.MouseEvent;
+			import gnu.as3.gettext._FxGettext;
+			import gnu.as3.gettext.FxGettext;
 			import mx.core.UIComponent;
-			import spark.components.BorderContainer;
 			import mx.managers.PopUpManager;
+			import spark.components.BorderContainer;
 			import spark.components.Group;
+
+			[Bindable]
+			private 	var fxgt : _FxGettext;
 			
 			protected 	var currentCenterDragingPoint:Point;			
 			private 	var draggedPart : UIComponent = null;
@@ -30,10 +35,11 @@
 			public		var maxX  : Number;
 		
 			protected function creationCompleteHandler(event:Event):void
-			{				
+			{
+				fxgt = FxGettext;
 				y = 5;
-				commentLabel.text = "Comment"	
-				toolTip = ""
+				commentLabel.text = fxgt.gettext("Write your comment");
+				toolTip = commentLabel.text;
 			}
 
 			protected function zcStartDrag(e:MouseEvent):void

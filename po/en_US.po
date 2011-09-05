@@ -84,3 +84,7 @@ msgstr ""
 #: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:35
 msgid "Comment Edit"
 msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/CommentSkin.mxml:41
+msgid "Write your comment"
+msgstr ""

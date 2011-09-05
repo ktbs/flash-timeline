@@ -35,11 +35,11 @@ msgstr "Êtes vous sûr de vouloir supprimer cette traceline ?"
 
 #: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:45
 msgid "Ok"
-msgstr "Oui"
+msgstr ""
 
 #: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:45
 msgid "Cancel"
-msgstr "Non"
+msgstr "Annuler"
 
 #: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:39
 msgid "Create / Edit TraceLine"
@@ -84,3 +84,7 @@ msgstr "Marqueur"
 #: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:35
 msgid "Comment Edit"
 msgstr "Edition du commentaire"
+
+#: ../src/com/ithaca/timeline/skins/CommentSkin.mxml:41
+msgid "Write your comment"
+msgstr "Écrivez votre commentaire"
