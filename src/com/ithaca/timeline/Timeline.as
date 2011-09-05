@@ -9,7 +9,7 @@ package com.ithaca.timeline
 	import spark.components.Group;
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.events.ElementExistenceEvent;	
-
+	
 	public class Timeline  extends LayoutNode
 	{
 		private var _styleSheet 	: Stylesheet;
@@ -139,14 +139,7 @@ package com.ithaca.timeline
 		
 		public function resetTimeRangeLimits( ) : void
 		{
-			range._ranges.removeAll();
-			for (var i : uint = 0; i < numElements; i++ )
-			{
-				var tlg : TraceLineGroup = getElementAt(i) as TraceLineGroup;
-				range.addTime( tlg.traceBegin, tlg.traceEnd );
-			}
-				
-			range.resetLimits( );
+			range.reset();
 		}
 		
 		public function makeTimeHole( startValue : Number, endValue : Number ) : void

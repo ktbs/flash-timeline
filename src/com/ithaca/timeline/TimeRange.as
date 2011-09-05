@@ -9,6 +9,7 @@ package com.ithaca.timeline
 	public class TimeRange extends EventDispatcher
 	{		
 		public  var _ranges 	: ArrayCollection;
+		private var _originalRanges 	: ArrayCollection;
 		private var _start		: Number;
 		private var _end		: Number;
 		private var _duration 	: Number;
@@ -18,6 +19,7 @@ package com.ithaca.timeline
 		public function TimeRange( startValue : Number = 0 , durationValue : Number = 1 ) : void 
 		{
 			_ranges = new ArrayCollection();	
+			_originalRanges = new ArrayCollection();	
 	//		addTime(startValue, startValue + durationValue);
 		}
 		
@@ -111,6 +113,8 @@ package com.ithaca.timeline
 		{				
 			var beginIndex 	: Number  	= _ranges.length;
 			var endIndex 	: Number 	= _ranges.length;
+			
+			_originalRanges.addItem( { begin : beginValue, end : endValue } );
 			
 			for ( var i : int = 0; i < _ranges.length; i++ )
 				if ( beginValue <= _ranges[i] )
@@ -252,6 +256,22 @@ package com.ithaca.timeline
 			updateDuration();	
 			
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 	
-		}		
+		}	
+		
+		
+		public function reset ( ) : void
+		{
+			_ranges.removeAll();
+			
+			var ranges : ArrayCollection = _originalRanges;
+			_originalRanges = new ArrayCollection();
+			for (var i : uint = 0; i < ranges.length; i++ )
+			{
+				var interval : Object = ranges.getItemAt(i);
+				addTime( interval.begin, interval.end );
+			}
+				
+			resetLimits( );
+		}
 	}
 }

@@ -6,9 +6,20 @@
 				 creationComplete="creationCompleteHandler(event)"
 				 width="100%" >	
 	
-	<fx:Metadata>[HostComponent("com.ithaca.timeline.ZoomContext")]</fx:Metadata>
+	<fx:Metadata>
+		[HostComponent("com.ithaca.timeline.ZoomContext")]
+		
+		[Style(name = "allowZoom", type = "Boolean", inherit = "no")]	
+		[Style(name = "allowCut", type = "Boolean", inherit = "no")]	
+	</fx:Metadata>
 	
-		<fx:Script>
+	<fx:Declarations>
+		<mx:Button id="zoomButton" skin="@Embed(source='../images/magnifier.png')"  downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits( hostComponent.cursorRange.begin ,hostComponent.cursorRange.end  )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+		<mx:Button id="cutButton" skin="@Embed(source='../images/scissors.png')" 	downSkin="@Embed(source='../images/scissorsClick.png')"  click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin ,hostComponent.cursorRange.end )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+		<mx:Button id="resetButton" skin="@Embed(source='../images/reset.png')" 		downSkin="@Embed(source='../images/resetClick.png')"	click="hostComponent.timeline.resetTimeRangeLimits()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>		
+	</fx:Declarations>
+	
+	<fx:Script>
         <![CDATA[            
 			import flash.events.Event;
 			import flash.geom.Rectangle;
@@ -25,6 +36,9 @@
 			
 			protected 	var currentCenterDragingPoint:Point;			
 			private 	var draggedPart : Object = null;
+			
+			public var allowZoom : Boolean = true;
+			public var allowCut  : Boolean = true;
 						            			
 			public function get minX() :Number { return timelinePreview.x; }
 			public function get maxX() :Number { return timelinePreview.x + timelinePreview.width; }
@@ -44,12 +58,36 @@
 				timelinePreview.addEventListener( Event.RESIZE, outputTimeRuler.redraw );	
 				timelinePreview.addEventListener( Event.RESIZE, drawFunnel );
 				timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_ADD, updateCursorHeight );
-				timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_REMOVE, updateCursorHeight );				
+				timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_REMOVE, updateCursorHeight );					
 			}			
 			
 			protected function updateCursorHeight (event:Event) : void
 			{
 				cursor.height = timelinePreview.height + 6;				
+			}
+			
+			
+			override public function styleChanged(styleProp:String):void
+			{
+				super.styleChanged(styleProp);
+				
+				// Check to see if style changed. 				
+				if (!styleProp || styleProp=="allowZoom" || styleProp=="allowCut" )
+				{
+					allowZoom  = getStyle("allowZoom");
+					allowCut  = getStyle("allowCut");	
+				
+					if (actionsGroup)
+					{
+						actionsGroup.removeAllElements();
+						if ( allowZoom )
+							actionsGroup.addElement( zoomButton );
+						if ( allowCut )
+							actionsGroup.addElement( cutButton );
+						if ( allowZoom || allowCut )
+							actionsGroup.addElement( resetButton );					
+					}
+				}			
 			}
 			
 			protected function drawFunnel (event:Event) : void
@@ -74,11 +112,7 @@
 	<s:BorderContainer id="zoomContextGroup" width="100%"  backgroundColor="{hostComponent.getStyle('backgroundColor')}"  borderVisible="false" minHeight="1">
 			<timeline:TimeRuler id="inputTimeRuler"  width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" labelsOnTop="true" />
 			
-			<s:VGroup x="4" id="actionsGroup" y="20" gap="4">
-				<mx:Button skin="@Embed(source='../images/magnifier.png')"  downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits( hostComponent.cursorRange.begin ,hostComponent.cursorRange.end  )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-				<mx:Button skin="@Embed(source='../images/scissors.png')" 	downSkin="@Embed(source='../images/scissorsClick.png')"  click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin ,hostComponent.cursorRange.end )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-				<mx:Button skin="@Embed(source='../images/reset.png')" 		downSkin="@Embed(source='../images/resetClick.png')"	click="hostComponent.timeline.resetTimeRangeLimits()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-			</s:VGroup>
+			<s:VGroup x="4" id="actionsGroup" y="20" gap="4" height="100%" verticalCenter="true" />			
 		
 			<s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  minHeight="20"   width="{width-timeRulerSidePadding*2}"   resize="inputTimeRuler.redraw(event)">				
 				<s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
