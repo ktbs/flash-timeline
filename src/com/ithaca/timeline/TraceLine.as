@@ -22,7 +22,8 @@ package com.ithaca.timeline
 			_timeline		= tl;
 			titleComponent	= new TraceLineTitle( this );
 			title			= tlTitle;
-			this.name		= title;
+			if (title)
+				this.name		= title;
 			_selector		= tlSelector;
 			sourceStr		= tlSource;		
 			styleName		= tlSkinClass;
