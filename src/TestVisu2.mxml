@@ -91,9 +91,7 @@
 			layout_ti.text = "layoutVisu2.xml";			
 			loadLayout( layout_ti.text );	
 			
-			allTestLayout.enabled = true;
-			
-			timeline.addEventListener( TimelineEvent.TIMERULER_CLICK, onRulerClick );
+			allTestLayout.enabled = true;			
 		}		
 		
 		public function onRulerClick( e : TimelineEvent ) : void
@@ -299,7 +297,7 @@
 			</s:Group>						 
 		</s:HGroup>
 			
-		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" pauseButtonClick="stopTimer(event)" timeMode="relative" />
+		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)" />
 		
 		<root:version />
 	</s:VGroup>

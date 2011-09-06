@@ -15,8 +15,9 @@ package com.ithaca.timeline
 	
 	
 	[Style(name = "timeMode", 	type = "String", inherit = "no")]
-	[Event(name = "playButtonClick", type = "com.ithaca.timeline.events.TimelineEvent")]
-	[Event(name = "pauseButtonClick", type = "com.ithaca.timeline.events.TimelineEvent")]
+	[Event(name = "timeRulerClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
+	[Event(name = "playButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
+	[Event(name = "pauseButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	public class Timeline  extends LayoutNode
 	{
 		private var _styleSheet 	: Stylesheet;
