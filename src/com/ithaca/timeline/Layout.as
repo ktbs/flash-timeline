@@ -36,13 +36,13 @@ package com.ithaca.timeline
 		
 		public function moveTraceline(  ):void {}
 	
-		public function createTracelineGroupTree ( trac : Trace, styleName : String = null ) : TraceLineGroup 
+		public function createTracelineGroupTree ( trac : Trace, style : String = null ) : TraceLineGroup 
 		{	
 			var treeLayout : XML = new XML( TRACELINEGROUP );
 			
 			for each (var child : XML in _timeline.layoutXML.children() )
 			{				
-				if (   ( child.hasOwnProperty('@styleName') && child.@styleName == styleName )
+				if (   ( child.hasOwnProperty('@style') && child.@style == style )
 					|| ( child.hasOwnProperty('@source') && child.@source == trac.uri ))
 				{					
 					treeLayout = child;
@@ -68,7 +68,7 @@ package com.ithaca.timeline
 		
 		public function createTraceLineGroupNode(  xmlLayout : XML , trac : Trace ) : TraceLineGroup
 		{
-			var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri, xmlLayout.hasOwnProperty('@styleName')?xmlLayout.@styleName:null);	
+			var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri, xmlLayout.hasOwnProperty('@style')?xmlLayout.@style:null);	
 			newNode.layoutXML = xmlLayout;			
 
 			return newNode;
@@ -104,8 +104,8 @@ package com.ithaca.timeline
 			}
 			if ( xmlLayout.hasOwnProperty('@title') )
 				tlTitle = xmlLayout.@title; 
-			if ( xmlLayout.hasOwnProperty('@styleName') )
-				tlClass = xmlLayout.@styleName; 
+			if ( xmlLayout.hasOwnProperty('@style') )
+				tlClass = xmlLayout.@style; 
 			
 			newNode = new TraceLine( _timeline, tlTitle, tlSelector, tlSource, tlClass  );
 			newNode.layoutXML = xmlLayout;			
@@ -149,12 +149,12 @@ package com.ithaca.timeline
 			{
 				var childTree : LayoutNode = createTree( child, trac );
 				
-				if ( child.hasOwnProperty('@styleName') && child.@styleName == backgroundTraceLine )
+				if ( child.hasOwnProperty('@style') && child.@style == backgroundTraceLine )
 				{			
 					if (newNode is TraceLineGroup)
 						(newNode as TraceLineGroup).backgroundTraceLine = childTree as TraceLine;
 				}
-				else if ( child.hasOwnProperty('@styleName') && child.@styleName == contextPreviewTraceLine )
+				else if ( child.hasOwnProperty('@style') && child.@style == contextPreviewTraceLine )
 				{
 					if (newNode is TraceLineGroup)
 						(newNode as TraceLineGroup).contextPreviewTraceLine = childTree as TraceLine;

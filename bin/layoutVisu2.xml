@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
-	<tlg styleName="comments" > 	
-		<tl styleName="contextPreview"  selector="SelectorRegexp" field="type" regexp="comment" />
-		<tl title="" styleName="comments" />
+	<tlg style="comments" > 	
+		<tl style="contextPreview"  selector="SelectorRegexp" field="type" regexp="comment" />
+		<tl title="" style="comments" />
 	</tlg> 	
 	<tlg> 	
-		<tl styleName="background" 		selector="SelectorRegexp" field="type" regexp="Activity" />
-		<tl styleName="contextPreview"  selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" />
+		<tl style="background" 		selector="SelectorRegexp" field="type" regexp="Activity" />
+		<tl style="contextPreview"  selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" />
 
-		<tl styleName="synthesis" title="" selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" >
+		<tl style="synthesis" title="" selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" >
 			<tl title="Marqueurs" selector="SelectorRegexp" field="type" regexp="Marker" />
 			<tl title="Instructions" selector="SelectorRegexp" field="type" regexp="Instructions" />
 			<tl title="Mots-Clefs" selector="SelectorRegexp" field="type" regexp="Keyword" />
