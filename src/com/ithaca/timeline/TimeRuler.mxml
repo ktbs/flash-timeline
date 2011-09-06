@@ -34,6 +34,9 @@
 		public var timeRange : TimeRange;
 		public var dateFormater : DateFormatter = new DateFormatter();
 		
+		public	var timeOffset  	: Number = 0;
+		public	var useLocaleTime   : Boolean = true;
+		
 		[Bindable]
 		public var startPosition		: Number 	= 0;
 		[Bindable]
@@ -160,9 +163,12 @@
 		private function addLabel( time : Number , position : Number, y : Number = 0) : Label
 		{			
 			var label : Label = new Label();
-			var date  : Date  = new Date( time );
+			var date  : Date  = new Date( time - timeOffset );
 			
-			label.text 	= dateFormater.format( date );
+			if (useLocaleTime )
+				label.text 	= dateFormater.format( date );
+			else
+				label.text 	= dateFormater.format( date.toUTCString() );
 			label.x 	= position - LABEL_SIZE / 2;
 			label.y 	= y;
 			label.width = LABEL_SIZE ;

@@ -18,6 +18,8 @@ package com.ithaca.timeline
 		public var timelinePreview	: Group;
 		[SkinPart(required="true")]
 		public var inputTimeRuler	: TimeRuler;
+		[SkinPart]
+		public var outputTimeRuler	: TimeRuler;
 
 		public var _timeline	    : Timeline;
 		
@@ -116,6 +118,16 @@ package com.ithaca.timeline
 		private function onTimelineTimesChange( e : TimelineEvent ) : void
 		{			
 			_timelineRange = e.currentTarget as TimeRange;
+			if ( _timeline.relativeTimeLabel == true )
+			{
+				outputTimeRuler.timeOffset = inputTimeRuler.timeOffset = _timelineRange._ranges[0];				
+				outputTimeRuler.useLocaleTime = inputTimeRuler.useLocaleTime = false;
+			}			
+			else
+			{
+				outputTimeRuler.timeOffset = inputTimeRuler.timeOffset = 0;				
+				outputTimeRuler.useLocaleTime = inputTimeRuler.useLocaleTime = true;
+			}
 			
 			var begin : Number;
 			var duration : Number;

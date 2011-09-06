@@ -10,6 +10,7 @@ package com.ithaca.timeline
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.events.ElementExistenceEvent;	
 	
+	[Style(name = "timeLabels", 	type = "String", inherit = "no")]
 	public class Timeline  extends LayoutNode
 	{
 		private var _styleSheet 	: Stylesheet;
@@ -183,5 +184,10 @@ package com.ithaca.timeline
 					contextCursor.visible = false;
 			}
 		}			
+		
+		public function get relativeTimeLabel( ) : Boolean
+		{
+			return getStyle('timeLabels') == 'relative';
+		}
 	}
 }
