@@ -84,7 +84,8 @@ package com.ithaca.timeline
 				var intervalDuration 	: Number = intervalEnd - intervalStart;		
 				
 				var intervalGroup : Group 	= getChildAt( indexIG++) as Group;
-				intervalGroup.width 		= intervalDuration * timeToPositionRatio;		
+				intervalGroup.width 		= intervalDuration * timeToPositionRatio;
+				intervalGroup.height 		= height;	
 				intervalGroup.horizontalScrollPosition = timeToPositionRatio * (intervalStart - _timeRange._ranges[i]);			
 				
 				if (borderVisible)
@@ -163,24 +164,28 @@ package com.ithaca.timeline
 			switch (event.kind)
 			{
 				case CollectionEventKind.ADD :
-				{				
+				{	
+					obselsSkinsCollection.disableAutoUpdate();
 					for each ( obsel in event.items )
 					{
 						obselSkin = _timeline.styleSheet.getParameteredSkin( obsel, _traceline) ;
 						if (obselSkin)
 							obselsSkinsCollection.addItem( obselSkin);
 					}
+					obselsSkinsCollection.enableAutoUpdate();
 					redraw();
 					break;
 				}				
 				case CollectionEventKind.REMOVE :
 				{
+					obselsSkinsCollection.disableAutoUpdate();
 					for each ( obsel in event.items )
 					{					
 						obselIndex  = getObselSkinIndex( obsel );
 						if ( obselIndex >= 0)
 							obselsSkinsCollection.removeItemAt( obselIndex );
 					}
+					obselsSkinsCollection.enableAutoUpdate();
 					redraw();
 					break;
 				}
@@ -190,12 +195,14 @@ package com.ithaca.timeline
 				case CollectionEventKind.RESET :
 				{
 					obselsSkinsCollection.removeAll();
+					obselsSkinsCollection.disableAutoUpdate();
 					for each ( obsel in _obsels )
 					{
 						obselSkin = _timeline.styleSheet.getParameteredSkin( obsel, _traceline) ;
 						if (obselSkin)
 							obselsSkinsCollection.addItem( obselSkin);
 					}
+					obselsSkinsCollection.enableAutoUpdate();
 					redraw();
 					break;
 				}			
