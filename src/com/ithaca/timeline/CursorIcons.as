@@ -52,7 +52,16 @@ package com.ithaca.timeline
 		static public function SetIBeamCursor(event:MouseEvent) : void
 		{
 			if ( !event.buttonDown )
+			{
 				Mouse.cursor = MouseCursor.IBEAM;
+				if ( (event.currentTarget as Object).hasOwnProperty("alpha") )
+				{
+					currentObject = (event.currentTarget as Object);
+					currentObject.alpha = 0.5;
+				}
+				else
+					currentObject = null;
+			}				
 		}
 
 		static public function SetDefaultCursor(event:MouseEvent) : void
