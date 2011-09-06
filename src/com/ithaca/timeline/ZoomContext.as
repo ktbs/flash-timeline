@@ -118,7 +118,7 @@ package com.ithaca.timeline
 		private function onTimelineTimesChange( e : TimelineEvent ) : void
 		{			
 			_timelineRange = e.currentTarget as TimeRange;
-			if ( _timeline.relativeTimeLabel == true )
+			if ( _timeline.isRelativeTimeMode )
 			{
 				outputTimeRuler.timeOffset = inputTimeRuler.timeOffset = _timelineRange._ranges[0];				
 				outputTimeRuler.useLocaleTime = inputTimeRuler.useLocaleTime = false;

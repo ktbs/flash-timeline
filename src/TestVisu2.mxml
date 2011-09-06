@@ -299,11 +299,10 @@
 			</s:Group>						 
 		</s:HGroup>
 			
-		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" pauseButtonClick="stopTimer(event)" />
+		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" pauseButtonClick="stopTimer(event)" timeMode="relative" />
 		
 		<root:version />
 	</s:VGroup>
-
 	
 	<mx:Box width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
 		<mx:ProgressBar id="loading"  horizontalCenter="true" verticalCenter="true" label="Loading..."  labelPlacement="center" indeterminate="true" visible="false" />
