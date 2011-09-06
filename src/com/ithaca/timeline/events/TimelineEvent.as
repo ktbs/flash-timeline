@@ -11,6 +11,8 @@ package com.ithaca.timeline.events
 		static public const TIMES_CHANGE 		: String = "times_change";
 		static public const LAYOUT_CHANGE 		: String = "layout_change";	
 		static public const TIMERULER_CLICK 	: String = "timeruler_click";	
+		static public const PLAY 				: String = "playButtonClick";
+		static public const PAUSE				: String = "pauseButtonClick";
 	
 		// properties
 		public var value : *;		

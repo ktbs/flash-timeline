@@ -6,11 +6,15 @@ package com.ithaca.timeline
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	import mx.collections.ArrayCollection;
+	import mx.controls.Label;
+	import mx.formatters.DateFormatter;
 	import spark.components.Group;
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.events.ElementExistenceEvent;	
 	
 	[Style(name = "timeLabels", 	type = "String", inherit = "no")]
+	[Event(name = "playButtonClick", type = "com.ithaca.timeline.events.TimelineEvent")]
+	[Event(name = "pauseButtonClick", type = "com.ithaca.timeline.events.TimelineEvent")]
 	public class Timeline  extends LayoutNode
 	{
 		private var _styleSheet 	: Stylesheet;
@@ -29,6 +33,9 @@ package com.ithaca.timeline
 		[SkinPart(required="true")]
 		public  var contextCursor	: Cursor;
 		
+		[SkinPart]
+		public  var clock		: Label;
+
 		public var contextFollowCursor : Boolean = false;
 		
 		public function Timeline( xmlLayout : XML = null )
@@ -41,7 +48,7 @@ package com.ithaca.timeline
 			
 			timelineLayout = new Layout( this ) ;				
 			_styleSheet = new Stylesheet();
-			range = new TimeRange( );					
+			range = new TimeRange( );
 		}
 		
 		override protected function partAdded(partName:String, instance:Object):void 
@@ -157,9 +164,15 @@ package com.ithaca.timeline
 		public function set currentTime(  timeValue : Number ) : void
 		{
 			changeCursorValue( timeValue );
+			if ( clock )
+			{
+				var dateFormatter : DateFormatter = new DateFormatter();
+				dateFormatter.formatString = "JJ:NN:SS";
+				clock.text = ( dateFormatter.format( new Date( timeValue ) ));
+			}
 		}
 				
-		public function changeCursorValue( timeValue : Number ) : void
+		private function changeCursorValue( timeValue : Number ) : void
 		{
 			globalCursor.visible = true;
 			globalCursor. x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);

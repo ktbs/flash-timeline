@@ -233,7 +233,7 @@
 		{			
             var timer : Timer = event.currentTarget as Timer;
             
-            changeCursorValue(  timer.currentCount*timer.delay);            
+            currentTime = timer.currentCount*timer.delay;
 		}	
 		
 			

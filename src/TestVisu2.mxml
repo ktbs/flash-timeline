@@ -228,7 +228,7 @@
 			return string;
 		}
 
-		private function startTimer( ) : void
+		private function startTimer( event : TimelineEvent ) : void
 		{	
 			timer = new Timer( 1000 );
 			timeValue = timeline.zoomContext._timelineRange.begin;			
@@ -238,7 +238,7 @@
 			timer.start();
 		}
 		
-		private function stopTimer( ) : void
+		private function stopTimer( event : TimelineEvent ) : void
 		{	
 			timer.stop();
 		}
@@ -248,7 +248,7 @@
             var timer : Timer = event.currentTarget as Timer;
 			timeValue += timer.delay;
             
-            timeline.changeCursorValue( timeValue );            
+            timeline.currentTime = timeValue;            
 		}	
 			
 	]]> </fx:Script>
@@ -278,8 +278,8 @@
 					<mx:Label y="2" text="Timer :"/>
 					<mx:Label id="timerValue"  width="194"  enabled="true"/>
 					<s:CheckBox label="bind" id="bindZc" />
-					<mx:Button label="Start"  click="{startTimer()}" />
-					<mx:Button label="Stop"  click="{stopTimer()}" />
+					<mx:Button label="Start"	click="{startTimer	(new TimelineEvent( TimelineEvent.PLAY, true ))}" />
+					<mx:Button label="Stop"  	click="{stopTimer	(new TimelineEvent( TimelineEvent.PAUSE, true ))}" />
 				</s:HGroup>		
 				
 			</s:VGroup>
@@ -299,7 +299,7 @@
 			</s:Group>						 
 		</s:HGroup>
 			
-		<tl:Timeline id="timeline" width="100%" height="50%" />
+		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" pauseButtonClick="stopTimer(event)" />
 		
 		<root:version />
 	</s:VGroup>
