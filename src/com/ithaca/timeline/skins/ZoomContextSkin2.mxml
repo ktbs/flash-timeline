@@ -92,14 +92,22 @@
 			
 			protected function drawFunnel (event:Event) : void
 			{
+				var h : Number = funnel.height -1;
+				var color : uint = 0x9CD2FE;
+				
 				funnel.graphics.clear();
-				funnel.graphics.beginFill( 0xBCE0FE );
+				funnel.graphics.lineStyle(1, color);
+				funnel.graphics.beginFill( color );
 				funnel.graphics.moveTo( cursor.x, 0);				
-				funnel.graphics.lineTo( outputTimeRuler.startPosition , funnel.height);				
-				funnel.graphics.lineTo( outputTimeRuler.startPosition + outputTimeRuler.rulerWidth , funnel.height);				
-				funnel.graphics.lineTo( outputTimeRuler.startPosition + outputTimeRuler.rulerWidth , funnel.height);
+				funnel.graphics.curveTo( cursor.x , funnel.height * 4/4, outputTimeRuler.startPosition  , h);	
+				funnel.graphics.lineTo( cursor.x + cursor.width , h);	
+				funnel.graphics.lineTo( cursor.x , 0);		
 				funnel.graphics.lineTo( cursor.x + cursor.width, 0);
-				funnel.graphics.endFill();
+				funnel.graphics.curveTo(cursor.x + cursor.width , funnel.height * 4/4, outputTimeRuler.startPosition + outputTimeRuler.rulerWidth  , h);
+				funnel.graphics.lineTo( cursor.x + cursor.width, h);
+				funnel.graphics.endFill();	
+				funnel.graphics.lineStyle(1, color);
+				funnel.graphics.moveTo( outputTimeRuler.startPosition, h+1);
 			}
         ]]>
     </fx:Script>
