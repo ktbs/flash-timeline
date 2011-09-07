@@ -14,10 +14,12 @@ package com.ithaca.timeline
 	import spark.events.ElementExistenceEvent;	
 	
 	
-	[Style(name = "timeMode", 	type = "String", inherit = "no")]
+	[Style(name = "timeMode", 			type = "String", inherit = "no")]
 	[Event(name = "timeRulerClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "playButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "pauseButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
+	[Event(name = "endAlert", 			type = "com.ithaca.timeline.events.TimelineEvent")]
+	[Event(name = "endReached", 		type = "com.ithaca.timeline.events.TimelineEvent")]
 	public class Timeline  extends LayoutNode
 	{
 		static public const  RECORD_MODE_INCREMENT : Number = 10 * 60 * 1000;
@@ -44,6 +46,10 @@ package com.ithaca.timeline
 		public  var playButton		: UIComponent;
 		[SkinPart]
 		public  var pauseButton		: UIComponent;
+		
+		public var endAlertThreshold			: Number = 90;
+		private var endAlertEventDispatched 	: Boolean = false;
+		private var endReachedEventDispatched 	: Boolean = false;
 
 		public var contextFollowCursor : Boolean = false;
 		public var recordMode		   : Boolean = false;
@@ -173,6 +179,23 @@ package com.ithaca.timeline
 		
 		public function set currentTime(  timeValue : Number ) : void
 		{
+			if ( timeValue > end )
+			{
+				dispatchEvent( new TimelineEvent( TimelineEvent.END_REACHED ) );
+				return;
+			}
+			
+			if ( timeValue >= end - duration*(100 - endAlertThreshold)/100 )
+			{
+				if ( !endAlertEventDispatched )
+				{
+					endAlertEventDispatched = true;
+					dispatchEvent( new TimelineEvent( TimelineEvent.END_ALERT ) );
+				}
+			}
+			else
+				endAlertEventDispatched = false;
+			
 			changeCursorValue( timeValue );
 			
 			if ( clock )

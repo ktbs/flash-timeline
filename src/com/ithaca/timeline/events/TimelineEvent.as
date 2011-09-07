@@ -13,7 +13,8 @@ package com.ithaca.timeline.events
 		static public const TIMERULER_CLICK 	: String = "timeRulerClick";	
 		static public const PLAY 				: String = "playButtonClick";
 		static public const PAUSE				: String = "pauseButtonClick";
-	
+		static public const END_ALERT			: String = "endAlert";
+	    static public const END_REACHED			: String = "endReached";
 		// properties
 		public var value : *;		
 		

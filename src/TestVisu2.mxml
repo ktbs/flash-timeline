@@ -89,8 +89,8 @@
 		{			
 			urlTTL_ti.text = "trace.ttl";
 			layout_ti.text = "layoutVisu2.xml";			
-			loadLayout( layout_ti.text );	
-			
+			loadLayout( layout_ti.text );			
+			timeline.pauseButton.visible = false;
 			allTestLayout.enabled = true;			
 		}		
 		
@@ -228,10 +228,10 @@
 
 		private function startTimer( event : TimelineEvent ) : void
 		{	
-			timer = new Timer( 1000 );
+			timer = new Timer( 100 );
 			timeValue = timeline.zoomContext._timelineRange.begin;			
 			
-			timeline.contextFollowCursor = bindZc.selected;
+		//	timeline.contextFollowCursor = bindZc.selected;
 			timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );
 			timer.start();
 		}
@@ -244,10 +244,21 @@
 		public function updateCursorPosition( event : TimerEvent ) : void
 		{			
             var timer : Timer = event.currentTarget as Timer;
-			timeValue += timer.delay;
+			timeValue += timer.delay*30;
             
             timeline.currentTime = timeValue;            
 		}	
+		
+		private function onEndAlert( event : TimelineEvent ) : void
+		{	
+			trace(" onEndAlert ");
+		}
+		
+		private function onEndReached( event : TimelineEvent ) : void
+		{	
+			trace(" onEndReached ");
+		}
+		
 			
 	]]> </fx:Script>
 	
@@ -297,7 +308,11 @@
 			</s:Group>						 
 		</s:HGroup>
 			
-		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)" />
+		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" 
+					 pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)"  					
+					 endAlertThreshold="50"
+					 endAlert="onEndAlert(event)"
+					 endReached="onEndReached(event)"/>
 		
 		<root:version />
 	</s:VGroup>
