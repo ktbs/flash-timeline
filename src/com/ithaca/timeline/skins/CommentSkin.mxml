@@ -44,6 +44,8 @@
 
 			protected function zcStartDrag(e:MouseEvent):void
 			{
+				onSelect(null);
+				
 				if ( e.currentTarget == icon )
 					draggedPart = cursor;
 				else
@@ -147,8 +149,8 @@
 	<s:BorderContainer id="maxRange" backgroundColor="0"  y="-5" borderColor="0" minWidth="1" minHeight="1" width="2" height="{cursor.height+5}" x="{width}" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetResizeCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
 
 	<s:BorderContainer id="cursor" borderWeight="1"   backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" height="100%"  >
-		<mx:Image id="icon" source="{getStyle('icon')}"  mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-		<s:Label id="commentLabel" width="100%" height="16" fontSize="10" x="{icon.width+5}"  y="3"  mouseOver="CursorIcons.SetIBeamCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"    />
+		<mx:Image id="icon" source="{getStyle('icon')}" top="2" left="2" mouseDown="zcStartDrag(event);" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+		<s:Label id="commentLabel" width="100%" height="20" fontSize="10" x="{icon.width+5}"  y="3"  mouseOver="CursorIcons.SetIBeamCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"    />
 	</s:BorderContainer>
 			
 </s:Skin>

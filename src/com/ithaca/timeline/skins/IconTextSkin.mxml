@@ -28,6 +28,7 @@
 				obselText.text 	= obsel.props[ hostComponent.getStyle( "textProp" ) ];
 				container.backgroundFill = new SolidColor( hostComponent.getStyle( "backgroundColor" ) );				
 				toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
+				obselText.editable = hostComponent.editable;
 			}
 			
 			protected function onTextChange(event:Event):void
