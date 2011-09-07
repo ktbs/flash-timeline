@@ -155,15 +155,18 @@ package com.ithaca.timeline
 			updateSkinPositionFromValues();			
 		}
 		
-		public function shiftContext( deltaTime : Number ) : void
+		public function shiftContext( deltaTime : Number ) : Number 
 		{				
 			var delta: Number = 0;
 			if (deltaTime > 0 )
 				delta	=	Math.min(deltaTime, _timelineRange.end - cursorRange.end);
 			else
-				delta	=	Math.max(deltaTime, _timelineRange.begin- cursorRange.begin);
+				delta	=	Math.max(deltaTime, _timelineRange.begin - cursorRange.begin);
+			
 			cursorRange.shiftLimits( delta );
-			updateSkinPositionFromValues();			
+			updateSkinPositionFromValues();		
+			
+			return delta;
 		}
 	}
 }

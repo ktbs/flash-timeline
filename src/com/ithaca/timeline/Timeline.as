@@ -20,6 +20,8 @@ package com.ithaca.timeline
 	[Event(name = "pauseButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	public class Timeline  extends LayoutNode
 	{
+		static public const  RECORD_MODE_INCREMENT : Number = 10 * 60 * 1000;
+		
 		private var _styleSheet 	: Stylesheet;
 		private var _layout			: Layout;
 		public  var range			: TimeRange;
@@ -44,6 +46,7 @@ package com.ithaca.timeline
 		public  var pauseButton		: UIComponent;
 
 		public var contextFollowCursor : Boolean = false;
+		public var recordMode		   : Boolean = false;
 		
 		public function Timeline( xmlLayout : XML = null )
 		{
@@ -189,25 +192,27 @@ package com.ithaca.timeline
 			globalCursor.visible = true;
 			globalCursor. x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
 			
-			var minPosition : Number = zoomContext.cursorRange.begin + zoomContext.cursorRange.duration*0.15;
+			var minPosition : Number = zoomContext.cursorRange.begin;
 			var maxPosition : Number = zoomContext.cursorRange.end 	 - zoomContext.cursorRange.duration*0.15;
-			
-			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= maxPosition ) 
+						
+			if ( contextFollowCursor && ( timeValue > maxPosition || timeValue < minPosition  ))
 			{
-				contextCursor.visible = true;				
+				var  delta : Number;
+				contextCursor.visible = true;					
+				delta = zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );
+				contextCursor.x = Stylesheet.renderersSidePadding
+							
+				if (recordMode && delta == 0 )
+					range.addTime( range.end, range.end + RECORD_MODE_INCREMENT );
+			}		
+			
+			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= zoomContext.cursorRange.end ) 
+			{
+				contextCursor.visible = true;								
 				contextCursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
 			}
 			else
-			{
-				if ( contextFollowCursor )
-				{
-					contextCursor.visible = true;					
-					zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );
-					contextCursor. x = Stylesheet.renderersSidePadding
-				}
-				else
-					contextCursor.visible = false;
-			}
+				contextCursor.visible = false;
 		}			
 		
 		public function get isRelativeTimeMode( ) : Boolean
