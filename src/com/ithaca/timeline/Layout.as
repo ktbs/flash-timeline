@@ -154,15 +154,13 @@ package com.ithaca.timeline
 					if (newNode is TraceLineGroup)
 						(newNode as TraceLineGroup).backgroundTraceLine = childTree as TraceLine;
 				}
-				else if ( child.hasOwnProperty('@style') && child.@style == contextPreviewTraceLine )
-				{
-					if (newNode is TraceLineGroup)
-						(newNode as TraceLineGroup).contextPreviewTraceLine = childTree as TraceLine;
-				}				
 				else
-				{
+				{ 
+					if ( child.hasOwnProperty('@preview') && child.@preview == 'true' && newNode is TraceLineGroup )
+						(newNode as TraceLineGroup).contextPreviewTraceLine = childTree as TraceLine;
+						
 					newNode.addChildAndTitle( childTree );	
-				}
+				}				
 				
 				var collec : ArrayCollection;				
 				if (child.hasOwnProperty('@source') && child.@source == "parent" )
