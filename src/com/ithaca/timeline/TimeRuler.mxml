@@ -205,8 +205,8 @@
 		public function onClick( event : MouseEvent ):void
 		{		
 			var tlEvent : TimelineEvent = new TimelineEvent( TimelineEvent.TIMERULER_CLICK, true);
-			trace(event.localX - startPosition);
-			tlEvent.value = timeRange.positionToTime(event.localX - startPosition, rulerWidth );
+			var xPos:Number = this.globalToLocal(new Point(event.stageX, event.stageY)).x;
+			tlEvent.value = timeRange.positionToTime(xPos - startPosition, rulerWidth );
 			dispatchEvent( tlEvent );
 		}
 		
