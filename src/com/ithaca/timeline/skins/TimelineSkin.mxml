@@ -13,25 +13,14 @@
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.Timeline")]</fx:Metadata>
 	
 	<fx:Script>
-        <![CDATA[ 	
-			import com.ithaca.timeline.events.TimelineEvent;
+        <![CDATA[
+		
 			import flash.events.MouseEvent;
-			
+
 			protected function horizontalScroll(event:MouseEvent):void
 			{
 				zoomContext.shiftContext( -event.delta * zoomContext.cursorRange.duration /5);				
 			}
-			
-			public function Play ( event : MouseEvent ) : void
-			{
-				hostComponent.dispatchEvent(new TimelineEvent( TimelineEvent.PLAY, true ));
-			}
-			
-			public function Pause ( event : MouseEvent ) : void
-			{
-				hostComponent.dispatchEvent(new TimelineEvent( TimelineEvent.PAUSE, true ));
-			}
-
 		]]>        
     </fx:Script>
 
@@ -41,11 +30,9 @@
     </s:states>
 		
 	<mx:HDividedBox id="hdb" width="100%" height="100%" > 
-		<s:Group  height="100%" width="200" >
-			<s:HGroup horizontalAlign="right" width="100%" >
-				<mx:Button id="playButton" 		skin="@Embed(source='../images/PlayVer4.png')" height="24" click="Play(event)" />			
-				<mx:Button id="pauseButton" 	skin="@Embed(source='../images/PauseVer4.png')" height="24" click="Pause(event)" />			
-				<mx:Label id="clock" width="100%" height="24" fontSize="20" text="00:00:00" />
+		<s:Group height="100%" width="200" >
+			<s:HGroup horizontalAlign="center" width="100%" >
+				<tl:PlayPauseButton id="playButton" timeline="{hostComponent}" />
 			</s:HGroup>
 			<s:Scroller id="scroller" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >	
 				<s:VGroup id="titleGroup"  gap="5" width="100%"/>

@@ -1,6 +1,7 @@
 package com.ithaca.timeline
 {
 	import com.ithaca.timeline.events.TimelineEvent;
+	import com.ithaca.timeline.PlayPauseButton;
 	import com.ithaca.traces.Trace;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -8,7 +9,6 @@ package com.ithaca.timeline
 	import mx.collections.ArrayCollection;
 	import mx.controls.Label;
 	import mx.core.UIComponent;
-	import mx.formatters.DateFormatter;
 	import spark.components.Group;
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.events.ElementExistenceEvent;	
@@ -39,13 +39,6 @@ package com.ithaca.timeline
 		
 		[SkinPart(required="true")]
 		public  var contextCursor	: Cursor;
-		
-		[SkinPart]
-		public  var clock			: Label;
-		[SkinPart]
-		public  var playButton		: UIComponent;
-		[SkinPart]
-		public  var pauseButton		: UIComponent;
 		
 		public var endAlertThreshold			: Number = 90;
 		private var endAlertEventDispatched 	: Boolean = false;
@@ -177,6 +170,11 @@ package com.ithaca.timeline
 			return zoomContext._timelineRange.positionToTime( globalCursor.x - Stylesheet.renderersSidePadding, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
 		}
 		
+		public function get currrentRelativeTime() : Number
+		{
+			return currentTime - range._ranges[0];
+		}
+		
 		public function set currentTime(  timeValue : Number ) : void
 		{
 			if ( timeValue > end )
@@ -197,17 +195,7 @@ package com.ithaca.timeline
 				endAlertEventDispatched = false;
 			
 			changeCursorValue( timeValue );
-			
-			if ( clock )
-			{
-				var dateFormatter : DateFormatter = new DateFormatter();
-				dateFormatter.formatString = "JJ:NN:SS";
-				
-				if ( isRelativeTimeMode )
-					clock.text 	= dateFormatter.format( new Date( timeValue - range._ranges[0] ).toUTCString() );
-				else
-					clock.text 	= dateFormatter.format( new Date( timeValue ) );
-			}
+			dispatchEvent( new TimelineEvent( TimelineEvent.CURRENT_TIME_CHANGE, true) )
 		}
 				
 		private function changeCursorValue( timeValue : Number ) : void

@@ -90,7 +90,6 @@
 			urlTTL_ti.text = "trace.ttl";
 			layout_ti.text = "layoutVisu2.xml";			
 			loadLayout( layout_ti.text );			
-			timeline.pauseButton.visible = false;
 			allTestLayout.enabled = true;			
 		}		
 		

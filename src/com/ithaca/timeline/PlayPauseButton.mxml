@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" >
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="play" />
+		<s:State name="pause" />
+	</s:states>		
+		
+	<fx:Script>
+        <![CDATA[ 	
+			import com.ithaca.timeline.Timeline;
+			import com.ithaca.timeline.events.TimelineEvent;
+			import flash.events.MouseEvent;
+			import mx.formatters.DateFormatter;
+
+			public var timeline : Timeline;
+			
+			private function Play ( event : MouseEvent ) : void
+			{
+				dispatchEvent(new TimelineEvent( TimelineEvent.PLAY, true ));
+				timeline.addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, onCurrentTimeChange );
+				setCurrentState("pause");
+			}
+
+			private function Pause ( event : MouseEvent ) : void
+			{
+				dispatchEvent(new TimelineEvent( TimelineEvent.PAUSE, true ));
+				timeline.removeEventListener(TimelineEvent.CURRENT_TIME_CHANGE, onCurrentTimeChange );
+				setCurrentState("play");
+			}
+			
+			public function onCurrentTimeChange( event: TimelineEvent ) : void
+			{
+				var dateFormatter : DateFormatter = new DateFormatter();
+				dateFormatter.formatString = "JJ:NN:SS";
+				if ( timeline.isRelativeTimeMode )
+					playPauseButton.label = dateFormatter.format( new Date( timeline.currrentRelativeTime ).toUTCString() );
+				else
+					playPauseButton.label = dateFormatter.format( new Date( timeline.currentTime ) );
+			}
+			
+		]]>
+    </fx:Script>
+
+	<mx:Button id="playPauseButton" width="100%" height="60" label="00:00:00" labelPlacement="left" color="#5686d0" fontWeight="bold" fontSize="20" click.play="Play(event)" click.pause="Pause(event)" icon.play="@Embed(source='images/PlayButtonGreen.png')" icon.pause="@Embed(source='images/PauseButtonGreen.png')"/>	
+</s:Group>

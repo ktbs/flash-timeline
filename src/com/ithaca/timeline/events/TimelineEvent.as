@@ -15,6 +15,8 @@ package com.ithaca.timeline.events
 		static public const PAUSE				: String = "pauseButtonClick";
 		static public const END_ALERT			: String = "endAlert";
 	    static public const END_REACHED			: String = "endReached";
+		static public const CURRENT_TIME_CHANGE	: String = "currentTimeChange";
+
 		// properties
 		public var value : *;		
 		
