@@ -12,8 +12,8 @@ timeline|TraceLineGroup
 {
 	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupVisu2Skin");
 	fillColors : #FFA6A8, #C6FFC9, #AED7FF, #FAFFB7, #FFDFB0, #E1B7F9 ;
-	headerHeight : 5;
-	bottom 		 : 5;
+	headerHeight : 1;
+	bottom 		 : 1;
 	bgColor		:#FFA6A8;
 }
 
@@ -32,15 +32,15 @@ timeline|TraceLineGroupTitle.comments
 
 timeline|TraceLine.comments
 {
-	rendererHeight : 30;
-	rendererGap	   : 2;
+	rendererHeight : 45;
+	rendererGap	   : 0;
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");
 }
 
 timeline|TraceLine
 {
 	rendererHeight : 25;
-	rendererGap	   : 2;
+	rendererGap	   : 0;
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");
 }
 
@@ -73,42 +73,33 @@ timeline|ObselSkin.Message
 {
 	skin-class		: ClassReference("com.ithaca.timeline.skins.IconSkin");
 	icon 			: Embed("images/chatMessageVisu1.png");	
-}
-
-timeline|TraceLine.viewMsgText timeline|ObselSkin.Message
-{
-	skin-class		: ClassReference("com.ithaca.timeline.skins.IconTextSkin");
-	icon 			: Embed("images/chatMessageVisu1.png");	
-	backgroundColor 	: #FFFFB3;
-}
-
-timeline|ObselSkin.Message mx|Label
-{
-	fontSize : 11;
+	tooltipProp 	: 'content';
 }
 
 timeline|ObselSkin.Document
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
 	icon : Embed("images/fichierVisu1.png");
-	toolTip : "Document :  {obsel.props.text} "
+	tooltipProp : 'text';
 }
 
 timeline|ObselSkin.Instructions
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
 	icon :Embed("images/consigneVisu1.png");
+	tooltipProp : 'instructions';
 }
 
 timeline|ObselSkin.Keyword
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
 	icon : Embed("images/motCleVisu1.png");
+	tooltipProp : 'keyword';
 }
 
 timeline|ObselSkin.Activity
 {
-	skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");	
+	skin-class: ClassReference("com.ithaca.timeline.skins.ActivitySkin");	
 	backgroundColors : #F4FA29, #3355F7, #D134E2, #1CFD81 ;
 }
 
@@ -120,8 +111,7 @@ timeline|ObselSkin.Comment
 
 timeline|ObselSkin.Marker
 {
-	skin-class	: ClassReference("com.ithaca.timeline.skins.IconTextSkin");	
-	icon 		:Embed("images/marqueurBlanc-bas-20px.png");
-	textProp	: 'text';
-	backgroundColor : #FFFFB3;
+	skin-class	: ClassReference("com.ithaca.timeline.skins.MarkerSkin");	
+	icon 		: Embed("images/marqueurBlanc-bas-20px.png");
+	tooltipProp : 'text';	
 }

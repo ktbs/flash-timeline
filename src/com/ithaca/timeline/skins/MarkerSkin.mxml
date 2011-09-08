@@ -23,16 +23,22 @@
 			{
 				obsel = hostComponent.obsel;
 				icon.source = hostComponent.getStyle( "icon" );
-				if ( hostComponent.getStyle( "tooltipProp" )  )
-					hostComponent.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ]; 
-				// (hostComponent.getStyle( "toolTip" ) as String).valueOf();					
-			//	var myColorTransform:ColorTransform = new ColorTransform(1,1,1,1,+128,0,0);
-			//	myColorTransform.color = 0xE6A360;
-//				icon.transform.colorTransform = myColorTransform;
+				if ( hostComponent.getStyle( "tooltipProp" ) )
+					icon.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
+					
+				if ( hostComponent.editable )
+				{
+					currentState = 'editable';				
+				}
 			}
 		]]>        
     </fx:Script>
-
+	
+	<s:states>
+		<s:State name="normal" />		
+		<s:State name="editable" />
+	</s:states>
+	
 	<mx:Image id="icon" />
 
 </s:Skin>
