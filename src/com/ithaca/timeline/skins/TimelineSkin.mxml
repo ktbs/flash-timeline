@@ -39,10 +39,10 @@
 			</s:Scroller>				
 		</s:Group>				
 		<s:Group id="renderGroup" width="100%" height="100%" mouseWheel="{horizontalScroll(event)}">		
-			<tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />								
 			<s:VGroup id="contentGroup" y="{zoomContext.height}" height="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />
-			<tl:Cursor id="contextCursor" 	y="{contentGroup.y }" 	height="{contentGroup.height}" visible="false" />
-			<tl:Cursor id="globalCursor" 	y="{zoomContext.timelinePreview.y-20}" height="{15}" visible="false" />
+			<tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />
+			<skins:Cursor id="contextCursor" timeline="{hostComponent}"	y="{contentGroup.y }" 	height="{contentGroup.height}" visible="false" />
+			<skins:Cursor id="globalCursor" timeline="{hostComponent}"	y="{zoomContext.timelinePreview.y-20}" height="{15}" visible="false" />
 		</s:Group>
 	</mx:HDividedBox>	
 </s:Skin >
