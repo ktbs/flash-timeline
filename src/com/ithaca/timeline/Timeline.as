@@ -35,10 +35,10 @@ package com.ithaca.timeline
 		public  var zoomContext		: ZoomContext;
 				
 		[SkinPart(required="true")]
-		public  var globalCursor	: Cursor;
+		public  var globalCursor	: UIComponent;
 		
 		[SkinPart(required="true")]
-		public  var contextCursor	: Cursor;
+		public  var contextCursor	: UIComponent;
 		
 		public var endAlertThreshold			: Number = 90;
 		private var endAlertEventDispatched 	: Boolean = false;
@@ -177,13 +177,16 @@ package com.ithaca.timeline
 		
 		public function set currentTime(  timeValue : Number ) : void
 		{
-			if ( timeValue > end )
+			var timerangeEnd : Number = range._ranges[ range._ranges.length -1 ];
+			var timerangeBegin : Number = range._ranges[ 0 ];
+			
+			if ( timeValue > timerangeEnd )
 			{
 				dispatchEvent( new TimelineEvent( TimelineEvent.END_REACHED ) );
-				return;
+				timeValue = timerangeEnd;
 			}
 			
-			if ( timeValue >= end - duration*(100 - endAlertThreshold)/100 )
+			if ( timeValue >= timerangeEnd - (timerangeEnd-timerangeBegin)*( 100 - endAlertThreshold)/100 )
 			{
 				if ( !endAlertEventDispatched )
 				{
@@ -200,22 +203,22 @@ package com.ithaca.timeline
 				
 		private function changeCursorValue( timeValue : Number ) : void
 		{
-			globalCursor.visible = true;
-			globalCursor. x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+			if ( timeValue >= begin && timeValue <= end ) 
+			{
+				globalCursor.visible = true;
+				globalCursor. x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+			}
+			else
+				globalCursor.visible = false;			
 			
 			var minPosition : Number = zoomContext.cursorRange.begin;
 			var maxPosition : Number = zoomContext.cursorRange.end 	 - zoomContext.cursorRange.duration*0.15;
 						
 			if ( contextFollowCursor && ( timeValue > maxPosition || timeValue < minPosition  ))
 			{
-				var  delta : Number;
-				contextCursor.visible = true;					
-				delta = zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );
-				contextCursor.x = Stylesheet.renderersSidePadding
-							
-				if (recordMode && delta == 0 )
-					range.addTime( range.end, range.end + RECORD_MODE_INCREMENT );
-			}		
+				var  delta : Number;					
+				delta = zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );				
+			}	
 			
 			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= zoomContext.cursorRange.end ) 
 			{
