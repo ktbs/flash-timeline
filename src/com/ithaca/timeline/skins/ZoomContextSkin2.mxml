@@ -51,9 +51,9 @@
 				timeRulerSidePadding = Stylesheet.renderersSidePadding;
 				hostComponent.cursorRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, outputTimeRuler.onTimeRangeChange);		
 				hostComponent.cursorRange.addEventListener( TimelineEvent.TIMERANGES_SHIFT, outputTimeRuler.onTimeRangeChange);
-				hostComponent.cursorRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, drawFunnel )  ;
-				hostComponent.cursorRange.addEventListener( TimelineEvent.TIMERANGES_SHIFT, drawFunnel )  ;
+				cursor.addEventListener( Event.RESIZE, drawFunnel )  ;				
 				cursor.addEventListener( Event.RESIZE, hostComponent.updateValuesFromSkinPosition );
+				cursor.addEventListener( MoveEvent.MOVE, drawFunnel )  ;
 				cursor.addEventListener( MoveEvent.MOVE, hostComponent.updateValuesFromSkinPosition );
 				timelinePreview.addEventListener( Event.RESIZE, outputTimeRuler.redraw );	
 				timelinePreview.addEventListener( Event.RESIZE, drawFunnel );
@@ -126,7 +126,7 @@
 				<s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
 			</s:Group>
 						
-			<timeline:ResizableBorderContainer id="cursor"  minX="{timelinePreview.x}" maxX="{timelinePreview.x + timelinePreview.width}"  x="40" width="30" y="{inputTimeRuler.y+inputTimeRuler.height}"  height="{timelinePreview.height+6}" />
+			<skins:ZoomContextCursor id="cursor"  minX="{timelinePreview.x}" maxX="{timelinePreview.x + timelinePreview.width}"  x="40" width="30" y="{inputTimeRuler.y+inputTimeRuler.height}"  height="{timelinePreview.height+6}" />
 	
 			<s:Group id="funnel" height="15" minHeight="1" y="{cursor.y+cursor.height}" /> 
 			
