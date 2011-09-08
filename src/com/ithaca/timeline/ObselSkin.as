@@ -12,6 +12,11 @@ package com.ithaca.timeline
 	[Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 	public class ObselSkin extends SkinnableComponent
 	{
+		[SkinPart]
+		public  var leftGrip		: UIComponent;
+		[SkinPart]
+		public  var rightGrip		: UIComponent;
+
 		public var traceline : TraceLine;
 		private var _obsel : Obsel;
 		public var editable : Boolean;
