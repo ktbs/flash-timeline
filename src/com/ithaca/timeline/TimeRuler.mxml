@@ -26,8 +26,13 @@
 		
 		import mx.events.ResizeEvent;
 		import mx.formatters.DateFormatter;
-		
+		import com.ithaca.timeline.Timeline;
+		import mx.managers.ToolTipManager;
+		import mx.controls.ToolTip;
+		import mx.events.ToolTipEvent;
 		import spark.components.Label;
+		
+		private var myToolTip:ToolTip;
 	
 		private const LABEL_SIZE : Number = 200;
 		
@@ -69,6 +74,9 @@
 				}
 			else
 				timeLabels.y = limitMarkHeight + 3;
+				
+			TimeRulerContainer.addEventListener( ToolTipEvent.TOOL_TIP_CREATE, createCustomTip);	
+			TimeRulerContainer.addEventListener( ToolTipEvent.TOOL_TIP_SHOW, onToolTipShow);	
 		}
 		
 		private function getBestMarkerInterval( duration : Number, nb : Number ) : Object
@@ -174,11 +182,11 @@
 			label.width = LABEL_SIZE ;
 			label.setStyle('textAlign', 'center');
 			label.setStyle('fontSize', '10');		
-			timeLabels.addElement( label );			
+			timeLabels.addElement( label );						
 			
 			return label;
 		}
-		
+
 		public function redraw(  event : ResizeEvent=null ) : void
 		{
 			if ( timeRange  && timeRange.duration >0)
@@ -209,11 +217,50 @@
 			tlEvent.value = timeRange.positionToTime(xPos - startPosition, rulerWidth );
 			dispatchEvent( tlEvent );
 		}
+		 
+		protected function onToolTipShow( event : ToolTipEvent ) : void
+		{	
+			var dateFormatter : DateFormatter = new DateFormatter();
+			dateFormatter.formatString = "JJ:NN:SS";
+			
+			var point : Point = this.globalToLocal(new Point(event.toolTip.stage.mouseX, event.toolTip.stage.mouseX));
+			var parentPosition : Point = parent.localToGlobal(new Point(this.x, this.y));
+			
+			event.toolTip.x = parentPosition.x + point.x - event.toolTip.width / 2 -1 ;
+			if ( labelsOnTop )
+				event.toolTip.y = parentPosition.y;	
+			else
+				event.toolTip.y = parentPosition.y + TimeRulerContainer.height - event.toolTip.height +8;	
+				
+			var date  : Date  = new Date(  timeRange.positionToTime(point.x - startPosition, rulerWidth ) - timeOffset );
+
+			if (useLocaleTime )
+				event.toolTip..text 	= dateFormater.format( date );
+			else
+				event.toolTip..text 	= dateFormater.format( date.toUTCString() );			
+		}
+			
+		private function createCustomTip( event : ToolTipEvent ) : void 
+		{
+			var tt : TimeToolTip = new TimeToolTip();
+			tt.setStyle("borderColor", "0x000000");
+			if ( labelsOnTop )
+			{
+				tt.setStyle("showBottomArrow", true);	
+				tt.setStyle("showTopArrow", false);	
+			}
+			else
+			{
+				tt.setStyle("showBottomArrow", false);	
+				tt.setStyle("showTopArrow", true);	
+			}	
+			event.toolTip = tt;
+		}
 		
 		]]> 
 	</fx:Script>
 			 
-	<s:BorderContainer id="TimeRulerContainer"  backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderVisible="false" horizontalCenter="true" click="onClick( event )">	
+	<s:BorderContainer id="TimeRulerContainer" toolTip="sdfjkl" backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderAlpha="0" horizontalCenter="true" click="onClick( event )">	
 			<s:SpriteVisualElement  id="ruler" width="100%"  />
 			<s:Group id="timeLabels" />									
 	</s:BorderContainer>
