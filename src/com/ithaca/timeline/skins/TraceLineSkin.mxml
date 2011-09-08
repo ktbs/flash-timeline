@@ -65,6 +65,8 @@
 				obselsRenderer.obselsCollection = hostComponent._obsels;
 				obselsRenderer.addEventListener(MouseEvent.CLICK, onSelect);
 				obselsRenderer.styleName = hostComponent.styleName;		
+				if ( hostComponent.getStyle("borderVisible") != null )
+					obselsRenderer.borderVisible = hostComponent.getStyle("borderVisible");
 				rendererGroup.height 			= obselsRenderer.height + hostComponent.getStyle("rendererGap") as Number;
 				rendererGroup.addElement( obselsRenderer );
 				timeline = hostComponent._timeline;

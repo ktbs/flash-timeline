@@ -52,7 +52,9 @@ package com.ithaca.timeline
 				{
 					intervalGroup.graphics.lineStyle( 1 );
 					intervalGroup.graphics.drawRect( 0, 0,(_timeRange._ranges[i+1] - _timeRange._ranges[i])*timeToPositionRatio-1, height -1);
-				}				
+				}
+				else
+					intervalGroup.graphics.clear();
 				
 				//drawing obsels
 				for each (var obselSkin : ObselSkin in obselsSkinsCollection)
@@ -93,7 +95,9 @@ package com.ithaca.timeline
 					intervalGroup.graphics.clear();
 					intervalGroup.graphics.lineStyle( 1 );
 					intervalGroup.graphics.drawRect( 0, 0,(_timeRange._ranges[i+1] - _timeRange._ranges[i])*timeToPositionRatio-1, height -1);
-				}				
+				}		
+				else
+					intervalGroup.graphics.clear();
 
 				for (var obselSkinIndex : int = 0; obselSkinIndex < intervalGroup.numElements;obselSkinIndex++ )
 				{	

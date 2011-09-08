@@ -67,7 +67,9 @@
 				obselsRenderer.percentWidth 	= 100;
 				obselsRenderer.right			= obselsRenderer.left			= renderersSidePadding;
 				obselsRenderer.obselsCollection = hostComponent._obsels;
-				obselsRenderer.styleName = hostComponent.styleName;		
+				obselsRenderer.styleName = hostComponent.styleName;	
+				if ( hostComponent.getStyle("borderVisible") != null )
+					obselsRenderer.borderVisible = hostComponent.getStyle("borderVisible");
 				rendererGroup.height 			= obselsRenderer.height + hostComponent.getStyle("rendererGap") as Number;
 				rendererGroup.addElement( obselsRenderer );
 				timeline = hostComponent._timeline;
@@ -81,6 +83,8 @@
 				{
 					obselsRenderer.height 	= hostComponent.getStyle("rendererHeight") as Number;
 					rendererGroup.height 	= obselsRenderer.height + hostComponent.getStyle("rendererGap") as Number;
+					if ( hostComponent.getStyle("borderVisible") != null )
+						obselsRenderer.borderVisible = hostComponent.getStyle("borderVisible");
 				}
 				
 				if ( hostComponent.titleComponent )					

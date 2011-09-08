@@ -34,11 +34,12 @@ timeline|TraceLine.comments
 {
 	rendererHeight : 45;
 	rendererGap	   : 0;
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");	
 }
 
 timeline|TraceLine
 {
+	borderVisible  : false;
 	rendererHeight : 25;
 	rendererGap	   : 0;
 	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");
