@@ -2,7 +2,8 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				 xmlns:s="library://ns.adobe.com/flex/spark" 
 				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
-				 creationComplete="creationCompleteHandler(event)">
+				 creationComplete="creationCompleteHandler(event)"
+				 doubleClick.editable="EditComment(event)">
 	<fx:Declarations>
 		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
 	</fx:Declarations>
@@ -16,20 +17,72 @@
 			import flash.filters.ColorMatrixFilter;
 			import flash.filters.GlowFilter;
 			import flash.geom.ColorTransform;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.PropertyChangeEventKind;
+			import mx.managers.PopUpManager;
+			import mx.events.ToolTipEvent;
+			
+			import gnu.as3.gettext._FxGettext;
+			import gnu.as3.gettext.FxGettext;
+			[Bindable]
+			private var fxgt:_FxGettext;	
 			
 			public var obsel : Obsel;
 		
 			protected function creationCompleteHandler(event:Event):void
 			{
+				fxgt = FxGettext;
 				obsel = hostComponent.obsel;
+				obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
+				icon.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, onToolTipShow);
 				icon.source = hostComponent.getStyle( "icon" );
 				if ( hostComponent.getStyle( "tooltipProp" ) )
 					icon.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
 					
-				if ( hostComponent.editable )
+				//if ( hostComponent.editable )
 				{
 					currentState = 'editable';				
 				}
+			}
+			
+			protected function EditComment( e:MouseEvent ):void
+			{
+				this.enabled = false;
+
+				var markerEdit:CommentEditDialog = new CommentEditDialog();			
+				markerEdit.commentText = obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
+				markerEdit.title = fxgt.gettext("Comment Edit");
+				
+				PopUpManager.addPopUp(markerEdit, this);
+				PopUpManager.centerPopUp(markerEdit);
+				markerEdit.y -= markerEdit.height;
+				markerEdit.addEventListener( Event.REMOVED_FROM_STAGE, onRemoveEditDialog );
+			}
+			
+			private function onRemoveEditDialog(event:Event):void
+			{
+				if (event.currentTarget.confirm)
+				{
+					//TODO : il faut ecrire dans hostComponent.obsel.prop .... et pas dans le skin
+					obsel.props[ hostComponent.getStyle( "tooltipProp" ) ] = event.currentTarget.commentTextInput.text;
+					var propChange : PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
+					propChange.property = "props";
+					obsel.dispatchEvent( propChange );
+					icon.toolTip = event.currentTarget.commentTextInput.text;
+				}
+				this.enabled = true;
+			}
+			
+			protected function onObselChange( event : PropertyChangeEvent ) : void
+			{
+				icon.source = hostComponent.getStyle( "icon" );
+				if ( hostComponent.getStyle( "tooltipProp" ) )
+					icon.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
+			}
+			
+			protected function onToolTipShow( event : ToolTipEvent ) : void
+			{	
+				event.toolTip.text 	=  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];					
 			}
 		]]>        
     </fx:Script>
