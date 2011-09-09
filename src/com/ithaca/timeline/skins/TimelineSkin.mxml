@@ -4,7 +4,8 @@
 				 xmlns:tl="com.ithaca.timeline.*"
 				 xmlns:tls="com.ithaca.timeline.skins.*"
 				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*" 
-				 width="100%" height="100%">
+				 width="100%" height="100%"
+				 creationComplete="creationCompleteHandler(event)">
 	<fx:Declarations>
 		
 		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
@@ -12,14 +13,48 @@
 	
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.Timeline")]</fx:Metadata>
 	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace tl "com.ithaca.timeline.*";
+		@namespace tls "com.ithaca.timeline.skins.*";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace skins "com.ithaca.timeline.skins.*";
+		
+		#linkCursor
+		{
+			upIcon: Embed(source='../images/curseurLockOff.png');
+			overIcon: Embed(source='../images/curseurLockOff.png');
+			downIcon: Embed(source='../images/curseurLockOff.png');
+ 
+			selectedUpIcon: Embed(source='../images/curseurLockOn.png');
+			selectedOverIcon: Embed(source='../images/curseurLockOn.png');
+			selectedDownIcon: Embed(source='../images/curseurLockOn.png');
+		}		
+	</fx:Style>
+	
 	<fx:Script>
         <![CDATA[
-		
+			
+			import com.ithaca.timeline.Timeline;
 			import flash.events.MouseEvent;
-
-			protected function horizontalScroll(event:MouseEvent):void
+			
+			[Bindable]
+			public var timeline : Timeline;
+				
+			protected function creationCompleteHandler(event:Event):void
 			{
+				timeline = hostComponent;
+			}
+		
+			protected function horizontalScroll(event:MouseEvent):void
+			{				
 				zoomContext.shiftContext( -event.delta * zoomContext.cursorRange.duration /5);				
+			}
+			
+			protected function onCursorLinkClick(event:MouseEvent):void
+			{				
+				timeline.contextFollowCursor 		= linkCursor.selected ;
+				timeline.zoomContext.cursorEditable = !linkCursor.selected ;		
 			}
 		]]>        
     </fx:Script>
@@ -31,9 +66,15 @@
 		
 	<mx:HDividedBox id="hdb" width="100%" height="100%" > 
 		<s:Group height="100%" width="200" >
-			<s:HGroup horizontalAlign="center" width="100%" >
-				<tl:PlayPauseButton id="playButton" timeline="{hostComponent}" />
-			</s:HGroup>
+			<s:VGroup height="100%" width="100%" >
+				<s:HGroup horizontalAlign="center" width="100%" >
+					<tl:PlayPauseButton id="playButton" timeline="{hostComponent}" />
+				</s:HGroup>
+				<s:HGroup width="100%" >
+					<mx:Spacer width="100%"/>
+					<mx:CheckBox  y="40" id="linkCursor"  selected="{timeline.contextFollowCursor}" click="{onCursorLinkClick(event)}" />
+				</s:HGroup>
+			</s:VGroup>
 			<s:Scroller id="scroller" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >	
 				<s:VGroup id="titleGroup"  gap="5" width="100%"/>
 			</s:Scroller>				

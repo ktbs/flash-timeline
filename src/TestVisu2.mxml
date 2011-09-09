@@ -243,19 +243,19 @@
 		public function updateCursorPosition( event : TimerEvent ) : void
 		{			
             var timer : Timer = event.currentTarget as Timer;
-			timeValue += timer.delay*30;
+			timeValue += timer.delay*60;
             
             timeline.currentTime = timeValue;            
 		}	
 		
 		private function onEndAlert( event : TimelineEvent ) : void
 		{	
-			trace(" onEndAlert ");
+//			trace(" onEndAlert ");
 		}
 		
 		private function onEndReached( event : TimelineEvent ) : void
 		{	
-			trace(" onEndReached ");
+//			trace(" onEndReached ");
 		}
 		
 			
@@ -282,13 +282,6 @@
 					<mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" top="1" left="324"/>
 				</s:Group>		
 				
-				<s:HGroup width="100%" >
-					<mx:Label y="2" text="Timer :"/>
-					<mx:Label id="timerValue"  width="194"  enabled="true"/>
-					<s:CheckBox label="bind" id="bindZc" />
-					<mx:Button label="Start"	click="{startTimer	(new TimelineEvent( TimelineEvent.PLAY, true ))}" />
-					<mx:Button label="Stop"  	click="{stopTimer	(new TimelineEvent( TimelineEvent.PAUSE, true ))}" />
-				</s:HGroup>		
 				
 			</s:VGroup>
 				
@@ -308,7 +301,8 @@
 		</s:HGroup>
 			
 		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" 
-					 pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)"  					
+					 pauseButtonClick="stopTimer(event)" timeMode="reltive" timeRulerClick="onRulerClick(event)" 
+					 cursorMode="follow"
 					 endAlertThreshold="50"
 					 endAlert="onEndAlert(event)"
 					 endReached="onEndReached(event)"/>

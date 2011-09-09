@@ -16,6 +16,7 @@ package com.ithaca.timeline.events
 		static public const END_ALERT			: String = "endAlert";
 	    static public const END_REACHED			: String = "endReached";
 		static public const CURRENT_TIME_CHANGE	: String = "currentTimeChange";
+		static public const ZOOM_CONTEXT_MANUAL_CHANGE : String = "zoomContextManualChange";
 
 		// properties
 		public var value : *;		

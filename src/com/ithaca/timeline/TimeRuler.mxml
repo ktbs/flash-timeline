@@ -52,8 +52,8 @@
 		public var minMarksGap	 		: Number = 4;;
 		public var maxMarksGap	 		: Number = 20;
 		public var minorMarkHeight		: Number = 4;
-		public var majorMarkHeight		: Number = 8;
-		public var limitMarkHeight		: Number = 12;
+		public var majorMarkHeight		: Number = 7;
+		public var limitMarkHeight		: Number = 10;
 		public var validIntervals 		: Array = [1, 10, 100, 1000, 10000, 	60000, 300000, 600000, 3600000 ];
 		public var majorIntervals 		: Array = [5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ];
 		public var labelsIntervals 		: Array = [5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ];
@@ -180,6 +180,7 @@
 			label.x 	= position - LABEL_SIZE / 2;
 			label.y 	= y;
 			label.width = LABEL_SIZE ;
+			label.height = 12;
 			label.setStyle('textAlign', 'center');
 			label.setStyle('fontSize', '10');		
 			timeLabels.addElement( label );						
@@ -188,7 +189,7 @@
 		}
 
 		public function redraw(  event : ResizeEvent=null ) : void
-		{
+		{			
 			if ( timeRange  && timeRange.duration >0)
 			{
 				if ( timeLabels.numElements > 0)
@@ -260,9 +261,9 @@
 		]]> 
 	</fx:Script>
 			 
-	<s:BorderContainer id="TimeRulerContainer" toolTip="sdfjkl" backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderAlpha="0" horizontalCenter="true" click="onClick( event )">	
+	<s:BorderContainer id="TimeRulerContainer" toolTip="  " backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderAlpha="0"  horizontalCenter="true" click="onClick( event )">	
 			<s:SpriteVisualElement  id="ruler" width="100%"  />
-			<s:Group id="timeLabels" />									
+			<s:Group id="timeLabels" clipAndEnableScrolling="true" />									
 	</s:BorderContainer>
 	
 </s:SkinnableContainer>

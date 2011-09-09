@@ -14,6 +14,7 @@ package com.ithaca.timeline
 	import spark.events.ElementExistenceEvent;	
 	
 	
+	[Style(name = "cursorMode",			type = "String", inherit = "no")]
 	[Style(name = "timeMode", 			type = "String", inherit = "no")]
 	[Event(name = "timeRulerClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "playButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
@@ -40,10 +41,13 @@ package com.ithaca.timeline
 		[SkinPart(required="true")]
 		public  var contextCursor	: UIComponent;
 		
+		
+		private var _currentTime				: Number = 0;
 		public var endAlertThreshold			: Number = 90;
 		private var endAlertEventDispatched 	: Boolean = false;
 		private var endReachedEventDispatched 	: Boolean = false;
 
+		[Bindable]
 		public var contextFollowCursor : Boolean = false;
 		public var recordMode		   : Boolean = false;
 		
@@ -58,6 +62,34 @@ package com.ithaca.timeline
 			timelineLayout = new Layout( this ) ;				
 			_styleSheet = new Stylesheet();
 			range = new TimeRange( );
+			addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
+		}
+		
+		override public function styleChanged(styleProp:String):void 
+		{
+			super.styleChanged(styleProp);
+			
+			if ( zoomContext)
+				if (!styleProp || styleProp == 'cursorMode')
+				{
+					switch( getStyle('cursorMode') )
+					{
+						case 'auto' :		
+							zoomContext.cursorEditable = true;
+							contextFollowCursor = true;
+							break;
+						case 'follow' :
+							contextFollowCursor = true;
+							zoomContext.cursorEditable = false;
+							break;
+						case 'manual' :
+							zoomContext.cursorEditable = true;
+							contextFollowCursor = false;
+							break;					
+						default :
+							break;						
+					}
+				}
 		}
 		
 		override protected function partAdded(partName:String, instance:Object):void 
@@ -66,6 +98,7 @@ package com.ithaca.timeline
 			if ( partName == "zoomContext" )
 			{
 				zoomContext.timeline = this;
+				styleChanged('cursorMode');
 			}
 			if ( partName == "titleGroup" )
 			{
@@ -167,7 +200,7 @@ package com.ithaca.timeline
 		
 		public function get currentTime( ) : Number
 		{
-			return zoomContext._timelineRange.positionToTime( globalCursor.x - Stylesheet.renderersSidePadding, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+			return _currentTime;		
 		}
 		
 		public function get currrentRelativeTime() : Number
@@ -197,30 +230,31 @@ package com.ithaca.timeline
 			else
 				endAlertEventDispatched = false;
 			
-			changeCursorValue( timeValue );
+			_currentTime = timeValue;		
 			dispatchEvent( new TimelineEvent( TimelineEvent.CURRENT_TIME_CHANGE, true) )
 		}
 				
-		private function changeCursorValue( timeValue : Number ) : void
-		{
+		private function changeCursorValue( event : TimelineEvent ) : void
+		{			
+			var timeValue : Number = currentTime;
+			
 			if ( timeValue >= begin && timeValue <= end ) 
 			{
 				globalCursor.visible = true;
-				globalCursor. x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+				globalCursor.x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
 			}
 			else
 				globalCursor.visible = false;			
 			
+			
 			var minPosition : Number = zoomContext.cursorRange.begin;
 			var maxPosition : Number = zoomContext.cursorRange.end 	 - zoomContext.cursorRange.duration*0.15;
-						
-			if ( contextFollowCursor && ( timeValue > maxPosition || timeValue < minPosition  ))
-			{
-				var  delta : Number;					
-				delta = zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );				
-			}	
+				
+			if ( contextFollowCursor && ( timeValue > maxPosition || timeValue < minPosition  )) 	
+				zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );											
 			
-			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= zoomContext.cursorRange.end ) 
+			
+			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= zoomContext.cursorRange.end +1000 ) 
 			{
 				contextCursor.visible = true;								
 				contextCursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
