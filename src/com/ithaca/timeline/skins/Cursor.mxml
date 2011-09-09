@@ -3,7 +3,7 @@
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/halo"
 			   xmlns:tl="com.ithaca.timeline.*" 
-			   creationComplete="creationCompleteHandler(event)" >
+			   creationComplete="creationCompleteHandler(event)"  width="1" >
 			   	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -51,5 +51,5 @@
 			 </s:stroke>	
 		</s:Rect>
 	</s:Group>
-	<tl:TimeToolTip id="tt" x="{-tt.width/2 -1 }" y="{cursor.y}" visible="false" borderColor="0xFF0000" />
+	<tl:TimeToolTip id="tt" x="{-tt.width/2 -1 }" y="{cursor.y - tt.height  }" visible="false"  borderColor="0xFF0000" />
 </s:Group>
