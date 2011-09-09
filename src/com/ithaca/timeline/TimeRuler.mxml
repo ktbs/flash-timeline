@@ -229,21 +229,25 @@
 			
 			var point : Point = TimeRulerContainer.globalToLocal(new Point(event.stageX, event.stageY));
 			
-			tt.visible = true;
-			tt.x =  point.x - tt.width / 2 -1 ;
-			if ( labelsOnTop )
-				tt.y = 0;	
-			else
-				tt.y = - tt.height -8;	
-				
-			var date  : Date  = new Date(  timeRange.positionToTime(point.x - startPosition, rulerWidth ) - timeOffset );
+			if ( point.x >= startPosition && point.x <= startPosition + rulerWidth )
+			{
+				tt.visible = true;
+				tt.x =  point.x - tt.width / 2 -1 ;
+				if ( labelsOnTop )
+					tt.y = 0;	
+				else
+					tt.y = - tt.height -8;	
+					
+				var date  : Date  = new Date(  timeRange.positionToTime(point.x - startPosition, rulerWidth ) - timeOffset );
 
-			if (useLocaleTime )
-				tt.text 	= dateFormater.format( date );
+				if (useLocaleTime )
+					tt.text 	= dateFormater.format( date );
+				else
+					tt.text 	= dateFormater.format( date.toUTCString() );			
+			}
 			else
-				tt.text 	= dateFormater.format( date.toUTCString() );			
+				tt.visible = false;
 		}
-			
 		
 		]]> 
 	</fx:Script>
