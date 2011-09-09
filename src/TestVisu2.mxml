@@ -99,6 +99,7 @@
 			df.formatString = "JJ:NN:SS.QQ";
 			trace( df.format( new Date(e.value ) ));
 			timeValue = e.value;
+			timeline.currentTime = timeValue;
 		}
 		
 		protected function browse(event:MouseEvent):void
@@ -227,11 +228,13 @@
 
 		private function startTimer( event : TimelineEvent ) : void
 		{	
-			timer = new Timer( 100 );
-			timeValue = timeline.zoomContext._timelineRange.begin;			
-			
-		//	timeline.contextFollowCursor = bindZc.selected;
-			timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );
+			if ( !timer)
+			{
+				timer = new Timer( 100 );
+				timeValue = timeline.zoomContext._timelineRange.begin;	
+				timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );		
+			}
+	
 			timer.start();
 		}
 		
@@ -258,6 +261,17 @@
 //			trace(" onEndReached ");
 		}
 		
+		private function onPlay( event : Event ) : void
+		{	
+			timeline.isPlaying = true;
+			startTimer(null);
+		}
+		
+		private function onPause( event : Event ) : void
+		{	
+			timeline.isPlaying = false;
+			stopTimer(null);
+		}
 			
 	]]> </fx:Script>
 	
@@ -282,6 +296,11 @@
 					<mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" top="1" left="324"/>
 				</s:Group>		
 				
+				<!-- Loading Layout-->
+				<s:HGroup width="100%" >					
+					<mx:Button label="Play" id="pause"  click="{onPlay(event)}" />
+					<mx:Button label="Pause" id="play"  click="{onPause(event)}"/>
+				</s:HGroup>	
 				
 			</s:VGroup>
 				
@@ -301,7 +320,7 @@
 		</s:HGroup>
 			
 		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" 
-					 pauseButtonClick="stopTimer(event)" timeMode="reltive" timeRulerClick="onRulerClick(event)" 
+					 pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)" 
 					 cursorMode="follow"
 					 endAlertThreshold="50"
 					 endAlert="onEndAlert(event)"

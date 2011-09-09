@@ -12,6 +12,7 @@ package com.ithaca.timeline
 	import spark.components.Group;
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.events.ElementExistenceEvent;	
+	import mx.events.ResizeEvent;
 	
 	
 	[Style(name = "cursorMode",			type = "String", inherit = "no")]
@@ -41,11 +42,13 @@ package com.ithaca.timeline
 		[SkinPart(required="true")]
 		public  var contextCursor	: UIComponent;
 		
-		
 		private var _currentTime				: Number = 0;
-		public var endAlertThreshold			: Number = 90;
+		public  var endAlertThreshold			: Number = 90;
 		private var endAlertEventDispatched 	: Boolean = false;
 		private var endReachedEventDispatched 	: Boolean = false;
+		
+		[Bindable]
+		public var	isPlaying : Boolean = false;
 
 		[Bindable]
 		public var contextFollowCursor : Boolean = false;
@@ -99,6 +102,11 @@ package com.ithaca.timeline
 			{
 				zoomContext.timeline = this;
 				styleChanged('cursorMode');
+				zoomContext.addEventListener(ResizeEvent.RESIZE, changeCursorValue);
+				zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, changeCursorValue);
+				zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, changeCursorValue);	
+				zoomContext._timelineRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, changeCursorValue);
+				zoomContext._timelineRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, changeCursorValue);	
 			}
 			if ( partName == "titleGroup" )
 			{
@@ -234,7 +242,7 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.CURRENT_TIME_CHANGE, true) )
 		}
 				
-		private function changeCursorValue( event : TimelineEvent ) : void
+		private function changeCursorValue( event : Event ) : void
 		{			
 			var timeValue : Number = currentTime;
 			
