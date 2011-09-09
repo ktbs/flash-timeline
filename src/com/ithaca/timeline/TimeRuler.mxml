@@ -2,7 +2,9 @@
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/halo"
-			   creationComplete="creationCompleteHandler()">
+			   xmlns:tl="com.ithaca.timeline.*"
+			   creationComplete="creationCompleteHandler()"
+			   mouseMove="{onToolTipShow(event)}" mouseOut="{tt.visible=false}">
 			   	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -23,6 +25,7 @@
 	
 	<fx:Script>	<![CDATA[
 		import com.ithaca.timeline.events.TimelineEvent;
+		import flash.events.MouseEvent;
 		
 		import mx.events.ResizeEvent;
 		import mx.formatters.DateFormatter;
@@ -57,6 +60,7 @@
 		public var validIntervals 		: Array = [1, 10, 100, 1000, 10000, 	60000, 300000, 600000, 3600000 ];
 		public var majorIntervals 		: Array = [5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ];
 		public var labelsIntervals 		: Array = [5, 50, 500, 5000, 60000, 300000, 1200000, 3600000, 18000000 ];
+		[Bindable]
 		public var labelsOnTop			: Boolean = false;
 		[Bindable]
 		public var backgroundColor 		: Number = 0xF5F5F5;
@@ -65,7 +69,7 @@
 		{				
 			dateFormater.formatString = "JJ:NN:SS" ;
 			ruler.addChild(new Shape);
-			
+			  ToolTipManager.showDelay = 0;
 			ruler.height = limitMarkHeight;
 			if ( labelsOnTop)
 				{
@@ -75,8 +79,7 @@
 			else
 				timeLabels.y = limitMarkHeight + 3;
 				
-			TimeRulerContainer.addEventListener( ToolTipEvent.TOOL_TIP_CREATE, createCustomTip);	
-			TimeRulerContainer.addEventListener( ToolTipEvent.TOOL_TIP_SHOW, onToolTipShow);	
+			
 		}
 		
 		private function getBestMarkerInterval( duration : Number, nb : Number ) : Object
@@ -219,51 +222,35 @@
 			dispatchEvent( tlEvent );
 		}
 		 
-		protected function onToolTipShow( event : ToolTipEvent ) : void
+		protected function onToolTipShow( event : MouseEvent ) : void
 		{	
 			var dateFormatter : DateFormatter = new DateFormatter();
 			dateFormatter.formatString = "JJ:NN:SS";
 			
-			var point : Point = this.globalToLocal(new Point(event.toolTip.stage.mouseX, event.toolTip.stage.mouseX));
-			var parentPosition : Point = parent.localToGlobal(new Point(this.x, this.y));
+			var point : Point = TimeRulerContainer.globalToLocal(new Point(event.stageX, event.stageY));
 			
-			event.toolTip.x = parentPosition.x + point.x - event.toolTip.width / 2 -1 ;
+			tt.visible = true;
+			tt.x =  point.x - tt.width / 2 -1 ;
 			if ( labelsOnTop )
-				event.toolTip.y = parentPosition.y;	
+				tt.y = 0;	
 			else
-				event.toolTip.y = parentPosition.y + TimeRulerContainer.height - event.toolTip.height +8;	
+				tt.y = - tt.height -8;	
 				
 			var date  : Date  = new Date(  timeRange.positionToTime(point.x - startPosition, rulerWidth ) - timeOffset );
 
 			if (useLocaleTime )
-				event.toolTip..text 	= dateFormater.format( date );
+				tt.text 	= dateFormater.format( date );
 			else
-				event.toolTip..text 	= dateFormater.format( date.toUTCString() );			
+				tt.text 	= dateFormater.format( date.toUTCString() );			
 		}
 			
-		private function createCustomTip( event : ToolTipEvent ) : void 
-		{
-			var tt : TimeToolTip = new TimeToolTip();
-			tt.setStyle("borderColor", "0x000000");
-			if ( labelsOnTop )
-			{
-				tt.setStyle("showBottomArrow", true);	
-				tt.setStyle("showTopArrow", false);	
-			}
-			else
-			{
-				tt.setStyle("showBottomArrow", false);	
-				tt.setStyle("showTopArrow", true);	
-			}	
-			event.toolTip = tt;
-		}
 		
 		]]> 
 	</fx:Script>
 			 
-	<s:BorderContainer id="TimeRulerContainer" toolTip="  " backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderAlpha="0"  horizontalCenter="true" click="onClick( event )">	
+	<s:BorderContainer id="TimeRulerContainer" backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderAlpha="0"  horizontalCenter="true" click="onClick( event )">	
 			<s:SpriteVisualElement  id="ruler" width="100%"  />
-			<s:Group id="timeLabels" clipAndEnableScrolling="true" />									
+			<s:Group id="timeLabels" clipAndEnableScrolling="true" />				
 	</s:BorderContainer>
-	
+	<tl:TimeToolTip id="tt"  visible="false" borderColor="0x000000" showBottomArrow="true" showTopArrow="false" mouseMove="{onToolTipShow(event)}"/>
 </s:SkinnableContainer>

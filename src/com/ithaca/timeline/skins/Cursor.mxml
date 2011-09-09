@@ -2,7 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/halo"
-			   creationComplete="creationCompleteHandler(event)">
+			   xmlns:tl="com.ithaca.timeline.*" 
+			   creationComplete="creationCompleteHandler(event)" >
 			   	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -11,6 +12,7 @@
 	<fx:Script>	<![CDATA[
 			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.TimeToolTip;
+			import flash.events.MouseEvent;
 			import flash.geom.Point;
 			import mx.managers.ToolTipManager;
 			import mx.controls.ToolTip;
@@ -20,44 +22,34 @@
 			[Bindable]
 			public var timeline : Timeline
 			
+			public var withToolTip : Boolean = false;
+			
+			private	var dateFormatter : DateFormatter;
+			
 			protected function creationCompleteHandler( event : Event ) : void
 			{	
-				cursor.toolTip = "   ";				
-				cursor.addEventListener( ToolTipEvent.TOOL_TIP_SHOW, onToolTipShow)		
-				cursor.addEventListener( ToolTipEvent.TOOL_TIP_CREATE, createCustomTip)	
-			}
-			
-			protected function onToolTipShow( event : ToolTipEvent ) : void
-			{	
-				var dateFormatter : DateFormatter = new DateFormatter();
+				dateFormatter  = new DateFormatter();
 				dateFormatter.formatString = "JJ:NN:SS";
-				
-				var point : Point = parent.localToGlobal( new Point( x, y ) );
-				
-				event.toolTip.x = point.x - event.toolTip.width / 2 -1 ;
-				event.toolTip.y = point.y - event.toolTip.height;	
-				
-				if ( timeline.isRelativeTimeMode )
-					event.toolTip.text 	= dateFormatter.format( new Date(  timeline.currrentRelativeTime ).toUTCString() );
-				else
-					event.toolTip.text 	= dateFormatter.format( new Date(  timeline.currentTime ) );
+				if ( withToolTip )
+					cursor.addEventListener(MouseEvent.MOUSE_MOVE, onToolTipShow );							
 			}
 			
-			private function createCustomTip( event : ToolTipEvent ) : void 
+			protected function onToolTipShow( event : Event ) : void
 			{
-				var tt : TimeToolTip = new TimeToolTip();
-				tt.setStyle("borderColor", "0xFF0000");	
-				tt.setStyle("showTopArrow", true);	
-				event.toolTip = tt;
+				tt.visible = true;
+				if ( timeline.isRelativeTimeMode )
+					tt.text 	= dateFormatter.format( new Date(  timeline.currrentRelativeTime ).toUTCString() );
+				else
+					tt.text 	= dateFormatter.format( new Date(  timeline.currentTime ) );
 			}
-			
 		]]> 
 	</fx:Script>
-	<s:Group  id="cursor" width="100%" height="100%">
+	<s:Group  id="cursor" width="100%" height="100%"  mouseOut="{tt.visible=false}">
 		<s:Rect width="1"  height="100%"  >					
 			 <s:stroke>
 				<s:SolidColorStroke color="0xFF0000" weight="1"/>
 			 </s:stroke>	
 		</s:Rect>
 	</s:Group>
+	<tl:TimeToolTip id="tt" x="{-tt.width/2 -1 }" y="{cursor.y}" visible="false" borderColor="0xFF0000" />
 </s:Group>

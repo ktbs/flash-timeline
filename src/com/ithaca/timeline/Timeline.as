@@ -49,6 +49,8 @@ package com.ithaca.timeline
 		
 		[Bindable]
 		public var	isPlaying : Boolean = false;
+		[Bindable]
+		public var	showPlayButton : Boolean = false;
 
 		[Bindable]
 		public var contextFollowCursor : Boolean = false;

@@ -62,7 +62,7 @@
     ]]></fx:Script>
 
 	<s:BorderContainer id="body" cornerRadius="5" height="20" minHeight="5" minWidth="5" borderWeight="2" horizontalCenter="center" backgroundColor="{getStyle('backgroundColor')}" borderColor="{getStyle('borderColor')}" percentWidth="100" >
-		<mx:Text text="{bodyText}"  percentWidth="100" fontSize="11" fontWeight="bold" />
+		<mx:Label text="{bodyText}"  percentWidth="100" fontSize="11" fontWeight="bold" />
 		<s:Path id="topArrow" x="{body.width/2-8}" y="0" data="l 8 -8  l 8 8" visible="{showTopArrow}">			
 			<s:stroke >
 				<s:SolidColorStroke color="{getStyle('borderColor')}" weight="2"/>
