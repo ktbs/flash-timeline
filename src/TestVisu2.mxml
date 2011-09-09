@@ -253,7 +253,7 @@
 		
 		private function onEndAlert( event : TimelineEvent ) : void
 		{	
-//			trace(" onEndAlert ");
+			trace(" onEndAlert ");		
 		}
 		
 		private function onEndReached( event : TimelineEvent ) : void
@@ -322,7 +322,7 @@
 		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" 
 					 pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)" 
 					 cursorMode="follow"
-					 endAlertThreshold="50"
+					 endAlertBeforeTime="30000"
 					 showPlayButton="true"
 					 endAlert="onEndAlert(event)"
 					 endReached="onEndReached(event)"/>

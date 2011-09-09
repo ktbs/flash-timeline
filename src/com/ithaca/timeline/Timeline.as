@@ -43,6 +43,7 @@ package com.ithaca.timeline
 		public  var contextCursor	: UIComponent;
 		
 		private var _currentTime				: Number = 0;
+		public  var endAlertBeforeTime			: Number = 30000;
 		public  var endAlertThreshold			: Number = 90;
 		private var endAlertEventDispatched 	: Boolean = false;
 		private var endReachedEventDispatched 	: Boolean = false;
@@ -68,6 +69,7 @@ package com.ithaca.timeline
 			_styleSheet = new Stylesheet();
 			range = new TimeRange( );
 			addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
+			range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
 		}
 		
 		override public function styleChanged(styleProp:String):void 
@@ -229,7 +231,7 @@ package com.ithaca.timeline
 				timeValue = timerangeEnd;
 			}
 			
-			if ( timeValue >= timerangeEnd - (timerangeEnd-timerangeBegin)*( 100 - endAlertThreshold)/100 )
+			if ( timeValue >= timerangeEnd - endAlertBeforeTime )
 			{
 				if ( !endAlertEventDispatched )
 				{
