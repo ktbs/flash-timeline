@@ -17,6 +17,7 @@
 		<fx:Script>
         <![CDATA[
 
+			import com.ithaca.traces.Obsel;
 			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.ObselSkin;
 			import com.ithaca.timeline.Stylesheet;
@@ -29,6 +30,8 @@
 			import mx.managers.PopUpManager;
 			import spark.components.BorderContainer;
 			import spark.components.Group;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.PropertyChangeEventKind;
 
 			[Bindable]
 			private 	var fxgt : _FxGettext;
@@ -51,6 +54,7 @@
 				toolTip = commentLabel.text;
 				UpdateResizeGripHeight();
 				
+				hostComponent.obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
 			//	if ( hostComponent.editable )				
 				{
 					currentState = 'editable';				
@@ -143,9 +147,11 @@
 
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
 				stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
-				
-				hostComponent.obsel.begin  = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
-				hostComponent.obsel.end    = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
+			
+				var begin 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
+				var end 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
+				hostComponent.obsel.end    = end;
+				hostComponent.obsel.begin  = begin ;
 				UpdateResizeGripHeight();
 			}	
 			
@@ -164,11 +170,12 @@
 			private function onRemoveEditDialog(event:Event):void
 			{
 				if (event.currentTarget.confirm)
-				{
-					//TODO : il faut ecrire dans hostComponent.obsel.prop .... et pas dans le skin
-					commentLabel.text = event.currentTarget.commentTextInput.text;
-					
-					toolTip = event.currentTarget.commentTextInput.text;
+				{						
+					hostComponent.obsel.props[ 'text' ] = event.currentTarget.commentTextInput.text;
+					var propChange : PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
+					propChange.property = "props";
+					hostComponent.obsel.dispatchEvent( propChange );
+					commentLabel.text = toolTip = event.currentTarget.commentTextInput.text;
 				}
 				this.enabled = true;
 			}
@@ -177,6 +184,15 @@
 			{
 				(hostComponent.parent as Group).addElementAt( hostComponent, (hostComponent.parent as Group).numElements -1);
 				UpdateResizeGripHeight();
+			}
+			
+			protected function onObselChange( event : PropertyChangeEvent ) : void
+			{				
+				var y : Number 	= hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.end , (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );				
+				hostComponent.x = hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.begin, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
+				rightGrip.x     = width 	= y - hostComponent.x ;
+				
+				commentLabel.text = toolTip =  hostComponent.obsel.props[ 'text' ];
 			}
 			
         ]]>
