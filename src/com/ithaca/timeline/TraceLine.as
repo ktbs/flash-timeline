@@ -16,6 +16,7 @@ package com.ithaca.timeline
 		public var _obsels 				: ArrayCollection = new ArrayCollection();
 		public var lastRendererHeight	: Number;
 		public var lastRendererGap		: Number;
+		public var autohide				: Boolean=false;
 		
 		public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null, tlSkinClass : String = null )
 		{
@@ -26,7 +27,7 @@ package com.ithaca.timeline
 				this.name		= title;
 			_selector		= tlSelector;
 			sourceStr		= tlSource;		
-			styleName		= tlSkinClass;
+			styleName		= tlSkinClass;			
 		}
 		
 		public function set title ( value : String ) : void
@@ -105,8 +106,11 @@ package com.ithaca.timeline
 			{					
 				for each( var obsel :  Obsel in obselsCollection)
 					addObsel( obsel );							
-			}
+			}			
 			_obsels.enableAutoUpdate();
+			
+			if (autohide)
+				SetToVisible( _obsels.length > 0 );
 		}		
 		
 		override public function onSourceChange( event : CollectionEvent ) : void
@@ -137,13 +141,19 @@ package com.ithaca.timeline
 				
 				default:
 			}						
-					
+									
 			_obsels.enableAutoUpdate();
+			
+			if ( autohide )
+				SetToVisible( _obsels.length > 0 );
 		}
 
 		public function SetToVisible( visible: Boolean ) : void
 		{
-			visible 							= visible;
+			if (this.visible == visible)
+				return;
+			
+			this.visible 						= visible;
 			titleComponent.visible				= visible;
 			if ((titleComponent as TraceLineTitle).OpenButton)
 				(titleComponent as TraceLineTitle).OpenButton.visible = visible && (numElements > 0);

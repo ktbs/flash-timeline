@@ -35,15 +35,15 @@
 		import mx.events.ToolTipEvent;
 		import spark.components.Label;
 		
-		private var myToolTip:ToolTip;
+		private var myToolTip			: ToolTip ;
 	
-		private const LABEL_SIZE : Number = 200;
+		private const LABEL_SIZE 		: Number = 200 ;
 		
-		public var timeRange : TimeRange;
-		public var dateFormater : DateFormatter = new DateFormatter();
+		public var timeRange 			: TimeRange;
+		public var dateFormater 		: DateFormatter = new DateFormatter();
 		
-		public	var timeOffset  	: Number = 0;
-		public	var useLocaleTime   : Boolean = true;
+		public	var timeOffset  		: Number = 0;
+		public	var useLocaleTime   	: Boolean = true;
 		
 		[Bindable]
 		public var startPosition		: Number 	= 0;

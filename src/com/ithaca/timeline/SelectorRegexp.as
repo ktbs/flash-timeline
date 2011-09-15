@@ -30,8 +30,11 @@ package com.ithaca.timeline
 		}
 		
 		public function isObselMatching(obsel:Obsel):Boolean
-		{		
-			return _regexp.test( obsel[field] );
+		{	
+			if ( obsel.hasOwnProperty( field ) )
+				return _regexp.test( obsel[field] );
+			else
+				return _regexp.test( obsel.props[field] );
 		}
 		
 		public function isEqual( selector : ISelector) : Boolean

@@ -25,7 +25,12 @@ package  com.ithaca.timeline
 		{
 			var selector : ISelector;
 			
-			selector = new SelectorRegexp( "^" + obsel[_splitter] +"$" , _splitter );
+			if ( obsel.hasOwnProperty(_splitter) )			
+				selector = new SelectorRegexp( "^" + obsel[_splitter] +"$" , _splitter );
+			else if ( obsel.props.hasOwnProperty(_splitter) )			
+				selector = new SelectorRegexp( "^" + obsel.props[_splitter] +"$" , _splitter );
+			else 
+				return null
 			
 			return selector;
 		}
@@ -58,9 +63,19 @@ package  com.ithaca.timeline
 			{											
 				var trac : Trace = obsel.trace ;
 				var newTree : LayoutNode = _timeline.timelineLayout.createTree( layoutXML, trac );
-				newTree = new TraceLine( _timeline, obsel[_splitter], selector , source );
-				if (  source == "parent" )
-					parentNode;
+				var title : String;
+				
+				if ( obsel.hasOwnProperty(_splitter) )			
+					title =  obsel[_splitter] ;
+				else if ( obsel.props.hasOwnProperty(_splitter) )			
+					title =  obsel.props[_splitter] ;
+				
+				newTree = new TraceLine( _timeline, title, selector , source );
+				if (  source == "parent"  && parentNode is TraceLine)
+				{
+					(parentNode as TraceLine)._obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree as TraceLine).onSourceChange );
+					(newTree as TraceLine ).resetObselCollection( (parentNode as TraceLine)._obsels );
+				}
 				else
 				{
 					trac.obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree as TraceLine).onSourceChange );

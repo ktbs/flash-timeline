@@ -106,8 +106,14 @@ package com.ithaca.timeline
 				tlTitle = xmlLayout.@title; 
 			if ( xmlLayout.hasOwnProperty('@style') )
 				tlClass = xmlLayout.@style; 
-			
+			if ( xmlLayout.hasOwnProperty('@source') )
+				tlSource = xmlLayout.@source;
+							
 			newNode = new TraceLine( _timeline, tlTitle, tlSelector, tlSource, tlClass  );
+			
+			if ( xmlLayout.hasOwnProperty('@autohide') &&  xmlLayout.@autohide =='true')
+				newNode.autohide = true;				
+
 			newNode.layoutXML = xmlLayout;			
 			
 			return newNode;
@@ -119,7 +125,9 @@ package com.ithaca.timeline
 			newNode.layoutXML = xmlLayout;
 		
 			if ( xmlLayout.hasOwnProperty('@splitter') )									
-					newNode._splitter =  xmlLayout.@splitter ;	
+				newNode._splitter =  xmlLayout.@splitter ;	
+			if ( xmlLayout.hasOwnProperty('@source') )
+				newNode.source = xmlLayout.@source;
 
 			return newNode;
 		}
