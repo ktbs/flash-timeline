@@ -37,10 +37,10 @@ package com.ithaca.timeline
 		public  var zoomContext		: ZoomContext;
 				
 		[SkinPart(required="true")]
-		public  var globalCursor	: UIComponent;
+		public  var globalCursor	: Cursor;
 		
 		[SkinPart(required="true")]
-		public  var contextCursor	: UIComponent;
+		public  var contextCursor	: Cursor;
 		
 		private var _currentTime				: Number = 0;
 		public  var endAlertBeforeTime			: Number = 30000;
@@ -222,9 +222,9 @@ package com.ithaca.timeline
 		
 		public function set currentTime(  timeValue : Number ) : void
 		{
-			var timerangeEnd : Number = range._ranges[ range._ranges.length -1 ];
-			var timerangeBegin : Number = range._ranges[ 0 ];
-			
+			var timerangeEnd 	: Number = range._ranges[ range._ranges.length -1 ];
+			var timerangeBegin 	: Number = range._ranges[ 0 ];
+							
 			if ( timeValue > timerangeEnd )
 			{
 				dispatchEvent( new TimelineEvent( TimelineEvent.END_REACHED ) );
@@ -262,7 +262,7 @@ package com.ithaca.timeline
 			var minPosition : Number = zoomContext.cursorRange.begin;
 			var maxPosition : Number = zoomContext.cursorRange.end 	 - zoomContext.cursorRange.duration*0.15;
 				
-			if ( contextFollowCursor && ( timeValue > maxPosition || timeValue < minPosition  )) 	
+			if ( contextFollowCursor && !contextCursor.isDragging && ( timeValue > maxPosition || timeValue < minPosition  )) 	
 				zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );											
 			
 			
@@ -272,7 +272,7 @@ package com.ithaca.timeline
 				contextCursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
 			}
 			else
-				contextCursor.visible = false;
+				contextCursor.visible = contextCursor.isDragging;
 		}			
 		
 		public function get isRelativeTimeMode( ) : Boolean

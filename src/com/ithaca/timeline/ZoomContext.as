@@ -16,8 +16,10 @@ package com.ithaca.timeline
 		[Bindable]
 		[SkinPart(required="true")]
 		public var timelinePreview	: Group;
+		[Bindable]
 		[SkinPart(required="true")]
 		public var inputTimeRuler	: TimeRuler;
+		[Bindable]
 		[SkinPart]
 		public var outputTimeRuler	: TimeRuler;
 
