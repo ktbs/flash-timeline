@@ -18,6 +18,9 @@
         <![CDATA[
 
 			import com.ithaca.traces.Obsel;
+			import com.ithaca.timeline.events.TimelineEvent;
+			import com.ithaca.timeline.TimeRange;
+			import com.ithaca.timeline.TraceLine;
 			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.ObselSkin;
 			import com.ithaca.timeline.Stylesheet;
@@ -53,6 +56,8 @@
 				commentLabel.text = fxgt.gettext("Write your comment");
 				toolTip = commentLabel.text;
 				UpdateResizeGripHeight();
+				hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
+				
 				
 				hostComponent.obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
 			//	if ( hostComponent.editable )				
@@ -61,6 +66,17 @@
 				}
 			}
 
+			public function updateWidth( event : Event ) :  void
+			{
+				var traceline 		: TraceLine = hostComponent.traceline;
+				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;
+				var  timeToPositionRatio : Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
+				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( hostComponent.obsel.begin , timeRange.begin ),	traceline.width );
+				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( hostComponent.obsel.end , timeRange.end), 	traceline.width );
+
+				width  	= (hostComponent.obsel.end - hostComponent.obsel.begin) * timeToPositionRatio;
+			}
+			
 			protected function zcStartDrag(e:MouseEvent):void
 			{
 				onSelect(null);
