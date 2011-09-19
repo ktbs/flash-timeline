@@ -2,7 +2,7 @@
 <root>
 	<tlg style="comments" > 	
 		<tl title="" style="comments" preview="true">		
-			<modifier style="comments" splitter="type" source="parent" />
+			<modifier style="comments" splitter="commentforuserid" source="parent" />
 		</tl>						
 	</tlg> 	
 	<tlg> 	
