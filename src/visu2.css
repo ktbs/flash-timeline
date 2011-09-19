@@ -23,6 +23,11 @@ timeline|TraceLineGroupTitle
 	bgColor		:#FFA6A8;
 }
 
+timeline|TraceLineGroup.comments
+{
+	headerHeight : 7;
+}
+
 timeline|TraceLineGroupTitle.comments
 {
 	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsVisu2Skin");

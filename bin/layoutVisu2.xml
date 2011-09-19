@@ -2,20 +2,14 @@
 <root>
 	<tlg style="comments" > 	
 		<tl title="" style="comments" preview="true">		
-			<modifier splitter="commentforuserid" source="parent" />
+			<modifier style="comments" splitter="type" source="parent" />
 		</tl>						
 	</tlg> 	
 	<tlg> 	
 		<tl style="background" 	selector="SelectorRegexp" field="type" regexp="Activity" />
 
-		<tl style="synthesis" title="" selector="SelectorRegexp" field="type" regexp="Marker|Instructions|Keyword|Document|Message" preview="true" >
-			<tl title="Marqueurs" selector="SelectorRegexp" field="type" regexp="Marker" autohide="true">
-				<modifier splitter="sender" source="parent"/>
-			</tl>						
-			<tl title="Instructions" selector="SelectorRegexp" field="type" regexp="Instructions" autohide="true" />
-			<tl title="Mots-Clefs" selector="SelectorRegexp" field="type" regexp="Keyword" autohide="true"/>
-			<tl title="Documents" selector="SelectorRegexp" field="type" regexp="Document" autohide="true"/>		
-			<tl title="Messages"  selector="SelectorRegexp" field="type" regexp="Message" autohide="true"/>			
-		</tl>
+		<tl title="Marqueurs" selector="SelectorRegexp" field="type" regexp="Marker" autohide="true" />		
+		<tl title="Messages" selector="SelectorRegexp" field="type" regexp="Instructions|Keyword|Message" autohide="true"/>
+		<tl title="Documents" selector="SelectorRegexp" field="type" regexp="Document" autohide="true"/>			
 	</tlg>
 </root>			

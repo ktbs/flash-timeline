@@ -128,6 +128,11 @@ package com.ithaca.timeline
 				newNode._splitter =  xmlLayout.@splitter ;	
 			if ( xmlLayout.hasOwnProperty('@source') )
 				newNode.source = xmlLayout.@source;
+			if ( xmlLayout.hasOwnProperty('@style') )
+			{
+				var style : String = xmlLayout.@style; 
+				newNode.styleName = style;
+			}
 
 			return newNode;
 		}

@@ -82,6 +82,8 @@ package  com.ithaca.timeline
 					(newTree as TraceLine ).resetObselCollection( trac.obsels );
 				}
 				
+				newTree.styleName = styleName;
+				
 				parentNode.addChildAndTitle(newTree);
 			}
 		}
