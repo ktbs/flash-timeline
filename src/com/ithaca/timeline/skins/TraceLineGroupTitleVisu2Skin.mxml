@@ -205,7 +205,10 @@
 		<mx:PopUpButton id="filterTreeButton" 		openAlways="true" skin="@Embed(source='../images/tree.png')" width="16" top="0" right="30" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
 		<mx:PopUpButton id="filterSynthesisButton" 	openAlways="true" skin="@Embed(source='../images/eye.png')" width="16" top="0" right="14" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
 <!--		<mx:Button  skin="@Embed(source='../images/BlackCross.png')" downSkin="@Embed(source='../images/BlackCrossClick.png')" overSkin="@Embed(source='../images/BlackCrossOver.png')" right="1" top="2" click="closeTracelineGroup()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
--->		<s:Group id="contentGroup" left="10" right="4" width="100%" />
+-->		<s:Group id="contentGroup" left="10" right="4" width="100%" >
+			<s:layout> <s:VerticalLayout gap="0"/> </s:layout>
+		</s:Group>
+	
 		
 	</s:BorderContainer>
 </s:Skin>
