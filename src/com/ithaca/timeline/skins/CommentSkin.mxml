@@ -58,7 +58,7 @@
 				UpdateResizeGripHeight();
 				hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
 				
-				
+				updateWidth( null );
 				hostComponent.obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
 			//	if ( hostComponent.editable )				
 				{
@@ -69,12 +69,13 @@
 			public function updateWidth( event : Event ) :  void
 			{
 				var traceline 		: TraceLine = hostComponent.traceline;
-				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;
-				var  timeToPositionRatio : Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
-				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( hostComponent.obsel.begin , timeRange.begin ),	traceline.width );
-				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( hostComponent.obsel.end , timeRange.end), 	traceline.width );
-
-				width  	= (hostComponent.obsel.end - hostComponent.obsel.begin) * timeToPositionRatio;
+				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;				
+				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( hostComponent.obsel.begin , timeRange.begin ),	traceline.width - 2 * Stylesheet.renderersSidePadding);
+				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( hostComponent.obsel.end , timeRange.end), 	traceline.width - 2 * Stylesheet.renderersSidePadding);
+								
+				trace( hostComponent.obsel.begin,  hostComponent.obsel.end);
+				
+				width  	= (endPosition - startPosition);
 			}
 			
 			protected function zcStartDrag(e:MouseEvent):void
