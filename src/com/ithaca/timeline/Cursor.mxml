@@ -67,7 +67,6 @@
 						tt.text 	= dateFormatter.format( new Date(  timeline.currrentRelativeTime ).toUTCString() );
 					else
 						tt.text 	= dateFormatter.format( new Date(  timeline.currentTime ) );
-							trace(tt.text)
 				}
 			}
 
@@ -116,7 +115,6 @@
 						tt.text 	= dateFormatter.format( new Date(  timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth )  - timeline.range._ranges[0] ).toUTCString() );
 					else
 						tt.text 	= dateFormatter.format( new Date(  timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth ) ) );
-					trace(tt.text)
 				}
 			}
 			
