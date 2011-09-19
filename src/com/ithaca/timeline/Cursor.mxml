@@ -16,6 +16,7 @@
 			import com.ithaca.timeline.Stylesheet;
 			import com.ithaca.timeline.TimeToolTip;
 			import com.ithaca.timeline.events.TimelineEvent;
+			import flash.events.Event;
 			import flash.events.MouseEvent;
 			import flash.geom.Point;
 			import flash.geom.Rectangle;
@@ -60,32 +61,23 @@
 			protected function onToolTipShow( event : Event ) : void
 			{
 				tt.visible = true;
-				if (visible)
+				if (visible && !isDragging)
 				{
 					if ( timeline.isRelativeTimeMode )
 						tt.text 	= dateFormatter.format( new Date(  timeline.currrentRelativeTime ).toUTCString() );
 					else
 						tt.text 	= dateFormatter.format( new Date(  timeline.currentTime ) );
+							trace(tt.text)
 				}
 			}
 
 		private function startDragging(event:MouseEvent):void
 		{
 			offsetX 	= event.localX;	
-			isDragging 	= true;
+			isDragging 	= true;		
 			
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCursor);
-			stage.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
-		}
-
-		// This function is called when the mouse button is released.
-		private function stopDragging(event:MouseEvent):void
-		{
-			isDragging = false;
-			
-			// Tell Flash Player to stop listening for the mouseMove event.
-			stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCursor);
-			stage.removeEventListener(MouseEvent.MOUSE_UP, stopDragging);
+			stage.addEventListener(MouseEvent.MOUSE_UP, dragCursor);
 		}
 
 		// This function is called every time the mouse moves,
@@ -99,13 +91,35 @@
 				newX = 0;
 			else if ( newX > timeline.zoomContext.width - Stylesheet.renderersSidePadding )
 				newX = timeline.zoomContext.width - Stylesheet.renderersSidePadding
+								
+			if ( event.type == MouseEvent.MOUSE_UP )
+			{
+				var tlEvent : TimelineEvent = new TimelineEvent( TimelineEvent.TIMERULER_CLICK, true);
+				tlEvent.value = timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth );
+				dispatchEvent( tlEvent );		
+				
+				isDragging = false;
 			
-			var tlEvent : TimelineEvent = new TimelineEvent( TimelineEvent.TIMERULER_CLICK, true);
-			tlEvent.value = timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth );
-			dispatchEvent( tlEvent );		
-		
-			if ( withToolTip )
-				onToolTipShow(null);
+				// Tell Flash Player to stop listening for the mouseMove event.
+				stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCursor);
+				stage.removeEventListener(MouseEvent.MOUSE_UP, dragCursor);	
+			
+				if ( withToolTip )
+					onToolTipShow(null);			
+			}
+			else
+			{
+				x = newX + tt.width / 2 -1 ;
+				if ( withToolTip )
+				{		
+					if ( timeline.isRelativeTimeMode )
+						tt.text 	= dateFormatter.format( new Date(  timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth )  - timeline.range._ranges[0] ).toUTCString() );
+					else
+						tt.text 	= dateFormatter.format( new Date(  timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth ) ) );
+					trace(tt.text)
+				}
+			}
+			
 		}			
 		]]> 
 	</fx:Script>
