@@ -22,6 +22,7 @@ package com.ithaca.timeline
 	[Event(name = "pauseButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "endAlert", 			type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "endReached", 		type = "com.ithaca.timeline.events.TimelineEvent")]
+	[Event(name = "generateNewTraceline", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	public class Timeline  extends LayoutNode
 	{
 		static public const  RECORD_MODE_INCREMENT : Number = 10 * 60 * 1000;
