@@ -12,7 +12,7 @@ timeline|TraceLineGroup
 {
 	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupVisu2Skin");
 	fillColors : #FFA6A8, #C6FFC9, #AED7FF, #FAFFB7, #FFDFB0, #E1B7F9 ;
-	headerHeight : 1;
+	headerHeight : 15;
 	bottom 		 : 1;
 	bgColor		:#FFA6A8;
 }
