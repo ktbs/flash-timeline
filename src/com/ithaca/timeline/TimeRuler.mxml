@@ -257,10 +257,12 @@
 		
 		]]> 
 	</fx:Script>
-			 
-	<s:BorderContainer id="TimeRulerContainer" backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderAlpha="0"  horizontalCenter="true" click="onClick( event )">	
-			<s:SpriteVisualElement  id="ruler" width="100%"  />
-			<s:Group id="timeLabels"  />				
-	</s:BorderContainer>
+	
+	<s:Group clipAndEnableScrolling="true" width="100%">
+		<s:BorderContainer id="TimeRulerContainer" backgroundColor="{backgroundColor}"  width="100%"  minHeight="10" borderAlpha="0"  horizontalCenter="true" click="onClick( event )">	
+				<s:SpriteVisualElement  id="ruler" width="100%"  />
+				<s:Group id="timeLabels"  />				
+		</s:BorderContainer>
+	</s:Group>
 	<tl:TimeToolTip id="tt" y="-5" visible="false" borderColor="0x000000"  mouseMove="{onToolTipShow(event)}"/>
 </s:SkinnableContainer>
