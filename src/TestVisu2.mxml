@@ -90,8 +90,15 @@
 			urlTTL_ti.text = "trace.ttl";
 			layout_ti.text = "layoutVisu2.xml";			
 			loadLayout( layout_ti.text );			
-			allTestLayout.enabled = true;			
+			allTestLayout.enabled = true;		
+			timeline.addEventListener( TimelineEvent.GENERATE_NEW_TRACELINE, onNewTl );
 		}		
+		
+		public function onNewTl( e : TimelineEvent ) : void
+		{
+			(e.value.traceline as TraceLine).title = "Test new title"			
+		}
+		
 		
 		public function onRulerClick( e : TimelineEvent ) : void
 		{

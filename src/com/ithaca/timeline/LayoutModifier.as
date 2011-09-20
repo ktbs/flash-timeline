@@ -2,8 +2,10 @@ package  com.ithaca.timeline
 {
 	public class LayoutModifier extends LayoutNode
 	{
+		import com.ithaca.timeline.events.TimelineEvent;
 		import com.ithaca.traces.Obsel;
 		import com.ithaca.traces.Trace;
+		import flash.sampler.NewObjectSample;
 		import mx.collections.ArrayCollection;
 		import mx.collections.errors.CollectionViewError;
 		import mx.events.CollectionEvent;
@@ -81,6 +83,10 @@ package  com.ithaca.timeline
 					trac.obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree as TraceLine).onSourceChange );
 					(newTree as TraceLine ).resetObselCollection( trac.obsels );
 				}
+				
+				var event : TimelineEvent = new TimelineEvent( TimelineEvent.GENERATE_NEW_TRACELINE );
+				event.value = { generator : this, obsel : obsel, traceline : newTree };
+				_timeline.dispatchEvent( event );
 				
 				newTree.styleName = styleName;
 				
