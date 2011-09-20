@@ -125,8 +125,10 @@ package com.ithaca.timeline
 			{
 				if ( event.type == TimelineEvent.TIMERANGES_SHIFT)
 					updateViewportPosition();
-				else
+				else if ( _timeRange._ranges.length/2 <= numChildren )
 					updateObselPosition() ;
+				else
+					redraw();
 			}
 			else
 				redraw();

@@ -119,8 +119,6 @@
 
 	<s:BorderContainer id="zoomContextGroup" width="100%"  backgroundColor="{hostComponent.getStyle('backgroundColor')}"  borderVisible="false" minHeight="1">
 			<timeline:TimeRuler id="inputTimeRuler"  width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" labelsOnTop="true" />
-			
-			<s:VGroup x="4" id="actionsGroup" y="20" gap="4" height="100%" verticalCenter="true" />			
 		
 			<s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  minHeight="20"   width="{width-timeRulerSidePadding*2}"   resize="inputTimeRuler.redraw(event)">				
 				<s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
@@ -130,6 +128,8 @@
 	
 			<s:Group id="funnel" height="15" minHeight="1" y="{cursor.y+cursor.height}" /> 
 			
-			<timeline:TimeRuler id="outputTimeRuler"  width="100%" y="{funnel.y+funnel.height}" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />		
+			<timeline:TimeRuler id="outputTimeRuler"  width="100%" y="{funnel.y+funnel.height}" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />	
+			
+			<s:VGroup x="4" id="actionsGroup" y="20" gap="4" height="100%" verticalCenter="true" />		
 	</s:BorderContainer>
 </s:Skin>

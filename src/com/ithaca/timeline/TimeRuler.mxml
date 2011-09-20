@@ -73,7 +73,7 @@
 			ruler.height = limitMarkHeight;
 			if ( labelsOnTop)
 			{
-				ruler.y = 23; 				
+				ruler.y = 18; 				
 				timeLabels.y = 8; 	
 				tt.setStyle('showBottomArrow',true);
 				tt.setStyle('showTopArrow',false);
@@ -85,7 +85,7 @@
 				tt.setStyle('showTopArrow',true);
 			}		
 			
-			height = ruler.height +17;
+			height = ruler.height + ruler.y;
 		}
 		
 		private function getBestMarkerInterval( duration : Number, nb : Number ) : Object
@@ -240,7 +240,7 @@
 				tt.visible = true;
 				tt.x =  point.x - tt.width / 2 -1 ;
 				if ( labelsOnTop )
-					tt.y = 0;	
+					tt.y = -5;	
 				else
 					tt.y = 18;	
 					
@@ -260,7 +260,7 @@
 			 
 	<s:BorderContainer id="TimeRulerContainer" backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderAlpha="0"  horizontalCenter="true" click="onClick( event )">	
 			<s:SpriteVisualElement  id="ruler" width="100%"  />
-			<s:Group id="timeLabels" clipAndEnableScrolling="true" />				
+			<s:Group id="timeLabels"  />				
 	</s:BorderContainer>
-	<tl:TimeToolTip id="tt"  visible="false" borderColor="0x000000"  mouseMove="{onToolTipShow(event)}"/>
+	<tl:TimeToolTip id="tt" y="-5" visible="false" borderColor="0x000000"  mouseMove="{onToolTipShow(event)}"/>
 </s:SkinnableContainer>
