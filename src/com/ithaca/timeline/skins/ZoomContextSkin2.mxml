@@ -123,13 +123,12 @@
 			<s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  minHeight="20"   width="{width-timeRulerSidePadding*2}"   resize="inputTimeRuler.redraw(event)">				
 				<s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
 			</s:Group>
-						
-			<skins:ZoomContextCursor id="cursor"  minX="{timelinePreview.x}" maxX="{timelinePreview.x + timelinePreview.width}"  x="40" width="30" y="{inputTimeRuler.y+inputTimeRuler.height}"  height="{timelinePreview.height+6}" />
-	
+							
 			<s:Group id="funnel" height="15" minHeight="1" y="{cursor.y+cursor.height}" /> 
 			
 			<timeline:TimeRuler id="outputTimeRuler"  width="100%" y="{funnel.y+funnel.height}" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />	
 			
 			<s:VGroup x="4" id="actionsGroup" y="20" gap="4" height="100%" verticalCenter="true" />		
+				<skins:ZoomContextCursor id="cursor"  minX="{timelinePreview.x}" maxX="{timelinePreview.x + timelinePreview.width}"  x="40" width="30" y="{inputTimeRuler.y+inputTimeRuler.height}"  height="{timelinePreview.height+6}" />
 	</s:BorderContainer>
 </s:Skin>
