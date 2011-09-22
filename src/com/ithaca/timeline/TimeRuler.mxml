@@ -85,7 +85,7 @@
 				tt.setStyle('showTopArrow',true);
 			}		
 			
-			height = ruler.height + ruler.y;
+			height = ruler.height + 18;
 		}
 		
 		private function getBestMarkerInterval( duration : Number, nb : Number ) : Object
