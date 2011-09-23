@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
-	<tlg style="comments" > 	
-		<tl title="" style="comments" preview="true">		
-			<modifier style="comments" splitter="commentforuserid" source="parent" />
-		</tl>						
-	</tlg> 	
-	<tlg> 	
-		<tl style="background" 	selector="SelectorRegexp" field="type" regexp="Activity" />
+	<layout>
+		<tlg style="comments" > 	
+			<tl title="" style="comments" preview="true">		
+				<modifier name="commentsGenerator" style="comments" splitter="commentforuserid" source="parent" />
+			</tl>						
+		</tlg> 	
+		<tlg> 	
+			<tl style="background" 	selector="SelectorRegexp" selectorParams="type,Activity" field="type" regexp="Activity" />
 
-		<tl title="Marqueurs" selector="SelectorRegexp" field="type" regexp="Marker" autohide="true" />		
-		<tl title="Messages" selector="SelectorRegexp" field="type" regexp="Instructions|Keyword|Message" autohide="true"/>
-		<tl title="Documents" selector="SelectorRegexp" field="type" regexp="Document" autohide="true"/>			
-	</tlg>
+			<tl title="Marqueurs" selector="SelectorRegexp" selectorParams="type,Marker"autohide="true" />		
+			<tl title="Messages" selector="SelectorRegexp" selectorParams="type,Instructions|Keyword|Message" autohide="true"/>
+			<tl title="Documents" selector="SelectorRegexp" selectorParams="type,Document" autohide="true"/>			
+		</tlg>
+	</layout>
+	
+	<obselsSelectors>
+		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,Message" />
+		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" />
+		<obselSelector id='Instructions'  selector="SelectorRegexp" selectorParams="type,Instructions" />
+		<obselSelector id='Marker'  	  selector="SelectorRegexp" selectorParams="type,Marker" />
+		<obselSelector id='Keyword'  	  selector="SelectorRegexp" selectorParams="type,Keyword" />
+		<obselSelector id='Activity'  	  selector="SelectorRegexp" selectorParams="type,ActivityStart" />
+		<obselSelector id='Comment'  	  selector="SelectorRegexp" selectorParams="type,omment" />
+	</obselsSelectors>
 </root>			

@@ -6,14 +6,15 @@ package com.ithaca.timeline
 	public class SelectorRegexp implements ISelector
 	{
 		private var _regexp : RegExp;
-		public var field : String = ""; 
 		
-		public function SelectorRegexp( regexp : String = null, obselField : String = "")
+		public var field : String = ""; 
+				
+		public function SelectorRegexp(  params : Array = null ) 
 		{
-			_regexp = new RegExp( regexp );
-			this.field = obselField;
+			if (params)
+				setParameters( params );
 		}
-	
+		
 		public function set regexp(value:String):void
 		{
 			_regexp = new RegExp( value );
@@ -45,6 +46,17 @@ package com.ithaca.timeline
 						&& ( (selector as SelectorRegexp)._regexp.source == _regexp.source );
 			}
 			return false
+		}
+		
+		public function getParameters() : Array
+		{
+			return [ field, regexp ];
+		}
+		
+		public function setParameters( params : Array) : void
+		{
+			this.field = params[0];
+			_regexp = new RegExp( params[1] );			
 		}
 	}
 }

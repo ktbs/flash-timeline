@@ -17,14 +17,14 @@ package com.ithaca.timeline
 		public function addChildAndTitle ( child : LayoutNode, index : int = -1 ) : void 
 		{ 	
 			child.parentNode = this;
-			if ( !(child is LayoutModifier))
+		//	if ( !(child is LayoutModifier))
 			{
 				if ( index < 0 || index >= numElements)
 					addElement( child );
 				else
 					addElementAt( child, index );
 				
-				if ( titleComponent )
+				if ( titleComponent && child.titleComponent)
 				{
 					if ( index < 0 || index >= numElements)
 						titleComponent.addElement( child.titleComponent );

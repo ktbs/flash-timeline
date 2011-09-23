@@ -14,13 +14,7 @@ package com.ithaca.timeline
 		static public var ZoomContextInitPercentWidth : Number = 30;
 		static public var renderersSidePadding : Number = 25;
 		
-		static public var obselsSkinsSelectors : Array = [  { id : 'Message' , 		selector : new SelectorRegexp('Message','type') },
-															{ id : 'Document' ,  	selector : new SelectorRegexp('Document','type')},
-															{ id : 'Instructions' ,	selector : new SelectorRegexp('Instructions','type')},															
-															{ id : 'Marker' , 		selector : new SelectorRegexp('Marker', 'type') },
-															{ id : 'Keyword' , 		selector : new SelectorRegexp('Keyword', 'type') },
-															{ id : 'Activity' , 	selector : new SelectorRegexp('ActivityStart', 'type') },
-															{ id : 'Comment' , 		selector : new SelectorRegexp('omment','type')} ];
+		public var obselsSkinsSelectors : Array = new Array();
 		
 		public function Stylesheet()
 		{
@@ -43,7 +37,7 @@ package com.ithaca.timeline
 		{
 			var fillColors : Array = tlg.getStyle( "fillColors" ) as Array;	
 			return fillColors[ tracelineGroupColorIndex++ % fillColors.length ] ;
-		}
+		}		
 		
 	}
 }

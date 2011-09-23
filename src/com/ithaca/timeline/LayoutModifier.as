@@ -20,17 +20,16 @@ package  com.ithaca.timeline
 		}
 		
 		public function splitBy ( ) : String 	{ return _splitter; }
-		
-		
+
 		
 		private function createSelector (obsel : Obsel) : ISelector
 		{
-			var selector : ISelector;
+			var selector : ISelector = new SelectorRegexp();
 			
-			if ( obsel.hasOwnProperty(_splitter) )			
-				selector = new SelectorRegexp( "^" + obsel[_splitter] +"$" , _splitter );
+			if ( obsel.hasOwnProperty(_splitter) )				
+				selector.setParameters([  _splitter , "^" + obsel[_splitter] +"$" ] );
 			else if ( obsel.props.hasOwnProperty(_splitter) )			
-				selector = new SelectorRegexp( "^" + obsel.props[_splitter] +"$" , _splitter );
+				selector.setParameters( [  _splitter , "^" + obsel.props[_splitter] +"$" ] );
 			else 
 				return null
 			

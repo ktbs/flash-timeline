@@ -22,7 +22,7 @@ package com.ithaca.timeline
 	[Event(name = "pauseButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "endAlert", 			type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "endReached", 		type = "com.ithaca.timeline.events.TimelineEvent")]
-	[Event(name = "generateNewTraceline", 	type = "com.ithaca.timeline.events.TimelineEvent")]
+	[Event(name = "generateNewTraceline", 	type = "com.ithaca.timeline.events.TimelineEvent")]	
 	public class Timeline  extends LayoutNode
 	{
 		static public const  RECORD_MODE_INCREMENT : Number = 10 * 60 * 1000;
@@ -66,7 +66,7 @@ package com.ithaca.timeline
 			else 
 				layoutXML = <root> <tlg /> </root>;
 			
-			timelineLayout = new Layout( this ) ;				
+			timelineLayout = new Layout( this ) ;
 			_styleSheet = new Stylesheet();
 			range = new TimeRange( );
 			addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
@@ -185,7 +185,8 @@ package com.ithaca.timeline
 					addTrace( traceArray.shift() as Trace );
 			}
 			else
-				_layout = value;
+				_layout = value;	
+			_layout.loadObselsSelectors( layoutXML[Layout.OBSELS_SELECTORS] );
 			
 			dispatchEvent( new TimelineEvent( TimelineEvent.LAYOUT_CHANGE  ));
 		}

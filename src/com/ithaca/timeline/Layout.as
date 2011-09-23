@@ -2,16 +2,20 @@ package com.ithaca.timeline
 {
 	import com.ithaca.traces.Trace;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
 	import flash.ui.MouseCursor
 	
 	public class Layout
 	{
-		public static const TRACELINEGROUP: String = "tlg";
-		public static const TRACELINE: String = "tl";
-		public static const MODIFIER: String = "modifier";
-		public static const ROOT: String = "root";
+		public static const TRACELINEGROUP	: String = "tlg";
+		public static const TRACELINE		: String = "tl";
+		public static const MODIFIER		: String = "modifier";
+		public static const ROOT			: String = "root";
+		public static const LAYOUT			: String = "layout";
+		public static const OBSELS_SELECTORS: String = "obselsSelectors";
+		public static const OBSELS_SELECTOR: String = "obselsSelector";
 		
 		public static const backgroundTraceLine: String = "background";
 		public static const contextPreviewTraceLine: String = "contextPreview";
@@ -26,7 +30,9 @@ package com.ithaca.timeline
 		public function addTracelineGroup (  tlg : TraceLineGroup,  index : int = -1) : void
 		{
 			if ( tlg )		
-				_timeline.addChildAndTitle(  tlg , index );			
+				_timeline.addChildAndTitle(  tlg , index );	
+				
+			getCurrentXmlLayout();
 		}
 		
 		public function removeTraceline( ): Boolean 
@@ -40,7 +46,7 @@ package com.ithaca.timeline
 		{	
 			var treeLayout : XML = new XML( TRACELINEGROUP );
 			
-			for each (var child : XML in _timeline.layoutXML.children() )
+			for each (var child : XML in _timeline.layoutXML[LAYOUT].children() )
 			{				
 				if (   ( child.hasOwnProperty('@style') && child.@style == style )
 					|| ( child.hasOwnProperty('@source') && child.@source == trac.uri ))
@@ -65,7 +71,7 @@ package com.ithaca.timeline
 				
 			return null;
 		}
-		
+				
 		public function createTraceLineGroupNode(  xmlLayout : XML , trac : Trace ) : TraceLineGroup
 		{
 			var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri, xmlLayout.hasOwnProperty('@style')?xmlLayout.@style:null);	
@@ -80,6 +86,35 @@ package com.ithaca.timeline
 			return traceline;
 		}
 		
+		private function createSelector( xmlSelector : XML ) : ISelector
+		{
+			var tlSelector : ISelector;
+			
+			if ( xmlSelector.hasOwnProperty('@selector') )
+			{
+				var selectorClass:Class;
+				
+				try {
+					selectorClass = getDefinitionByName( xmlSelector.@selector ) as Class;
+				}
+				catch(error:ReferenceError)	{				
+					selectorClass = getDefinitionByName( "com.ithaca.timeline::" + xmlSelector.@selector ) as Class;	
+				}
+				
+				tlSelector = new selectorClass( );	
+				
+				if ( xmlSelector.hasOwnProperty('@selectorParams') )
+				{
+					var str		: String = xmlSelector.@selectorParams ;
+					var params 	: Array = str.split(',');
+
+					tlSelector.setParameters( params );			
+				}
+			}
+			
+			return tlSelector;
+		}
+		
 		public function createTraceLineNode(  xmlLayout : XML  ) : TraceLine
 		{
 			var newNode : TraceLine;
@@ -90,17 +125,8 @@ package com.ithaca.timeline
 					
 			if ( xmlLayout.hasOwnProperty('@selector') )
 			{
-				if  ( xmlLayout.@selector == "SelectorRegexp")
-				{
-					tlTitle = "regexp : " + xmlLayout.@regexp;
-					tlSelector = new SelectorRegexp(xmlLayout.@regexp, xmlLayout.@field);
-				}
-				else
-				{
-					var selectorClass:Class = getDefinitionByName( xmlLayout.@selector ) as Class;
-					tlTitle = xmlLayout.@selector;							
-					tlSelector = new selectorClass();
-				}
+				tlSelector 	= createSelector( xmlLayout );
+				tlTitle		= xmlLayout.@selector;	
 			}
 			if ( xmlLayout.hasOwnProperty('@title') )
 				tlTitle = xmlLayout.@title; 
@@ -132,6 +158,12 @@ package com.ithaca.timeline
 			{
 				var style : String = xmlLayout.@style; 
 				newNode.styleName = style;
+			}
+			
+			if ( xmlLayout.hasOwnProperty('@name') )
+			{
+				var modName : String = xmlLayout.@name; 
+				newNode.name = modName;
 			}
 
 			return newNode;
@@ -192,6 +224,147 @@ package com.ithaca.timeline
 			}
 						
 			return newNode;
+		}		
+	
+		public function getCurrentXmlLayout ( ) : XML
+		{
+			var currentXmlLayout : XML = < {ROOT} />;
+			
+			currentXmlLayout.appendChild( layoutTreeToXml() );
+			currentXmlLayout.appendChild( obselsSelectorsToXml() );
+			
+			trace( currentXmlLayout.toXMLString() );
+			return currentXmlLayout;
+		}				
+		
+		public function loadObselsSelectors( xmlSelectors : XMLList ) : void 
+		{
+			for each (var selector : XML in xmlSelectors.children() )
+			{	
+				if ( selector.hasOwnProperty('@selector') )
+				{
+					var obselSelector : ISelector 	= createSelector( selector );
+					if ( selector.hasOwnProperty('@id') )					
+					{
+						var selectorId : String = selector.@id;
+						_timeline.styleSheet.obselsSkinsSelectors.push( { id:selectorId, selector:obselSelector } );						
+					}
+				}			
+			}
+		}
+		
+		protected function obselsSelectorsToXml ( ) : XML
+		{
+			var xmlTree 	: XML = <{OBSELS_SELECTORS} />;
+			
+			if ( _timeline.styleSheet && _timeline.styleSheet.obselsSkinsSelectors)	
+				for each (var selector : Object in _timeline.styleSheet.obselsSkinsSelectors )
+				{	
+					var xmlSelector 	: XML = <{OBSELS_SELECTOR} />;					
+					
+					if ( selector.id )
+						xmlSelector.@['id'] = selector.id;
+				
+					if  (selector.selector)
+					{
+						xmlSelector.@['selector'] = getQualifiedClassName( selector.selector );
+						xmlSelector.@['selectorParams'] = selector.selector.getParameters();
+					}						
+					xmlTree.appendChild( xmlSelector );		
+				}
+
+			return xmlTree;
+		}
+		
+		protected function layoutTreeToXml ( ) : XML
+		{
+			var xmlTree 	: XML = <{LAYOUT} />;
+			var sourceList 	: ArrayCollection = new ArrayCollection();
+			
+			for ( var tlgIndex : uint = 0; tlgIndex < _timeline.numElements; tlgIndex++ )
+			{
+				var tlg : TraceLineGroup = _timeline.getElementAt( tlgIndex ) as TraceLineGroup;
+				if ( tlg && sourceList.getItemIndex( tlg.trace.uri ) < 0)
+				{									
+					sourceList.addItem( tlg.trace.uri ) 
+					var xmlTlg : XML 	= < {TRACELINEGROUP} />;
+					xmlTlg.@['source']	= tlg.trace.uri;
+					if ( tlg.styleName )
+						xmlTlg.@['style']	= tlg.styleName;
+						
+					for ( var tlIndex : uint = 0; tlIndex < tlg.numElements; tlIndex++ )
+					{
+						var layoutNode : LayoutNode = tlg.getElementAt( tlIndex ) as LayoutNode;
+						
+						if (layoutNode is TraceLine )												
+							xmlTlg.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );	
+						else if (layoutNode is LayoutModifier )							
+							xmlTlg.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );	
+					}						
+						
+					xmlTree.appendChild( xmlTlg );							
+				}				
+			}
+			
+			xmlTree.appendChild( _timeline.layoutXML[LAYOUT].children() );		
+			return xmlTree;
+		}
+		
+		protected function tracelineTreeToXml ( tl : TraceLine ) : XML
+		{			
+			var xmlTl 	: XML = <{TRACELINE} />;
+			if ( tl.sourceStr )
+				xmlTl.@['source']	= tl.sourceStr;
+			if ( tl.styleName )
+				xmlTl.@['style'] = tl.styleName;
+			if ( tl.title )
+				xmlTl.@['title'] = tl.title;
+			if ( tl.autohide )
+				xmlTl.@['autohide'] = tl.autohide;
+				
+			if  (tl.selector)
+			{
+				xmlTl.@['selector'] = getQualifiedClassName( tl.selector );
+				xmlTl.@['params'] = tl.selector.getParameters();
+			}
+			
+			for ( var tlIndex : uint = 0; tlIndex < tl.numElements; tlIndex++ )
+			{
+				var layoutNode : LayoutNode = tl.getElementAt( tlIndex ) as LayoutNode;
+				
+				if (layoutNode is TraceLine )												
+					xmlTl.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );	
+				else if (layoutNode is LayoutModifier )							
+					xmlTl.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );	
+			}			
+			
+			return xmlTl;			
+		}		
+		
+		protected function modifierTreeToXml ( modifier : LayoutModifier ) : XML
+		{			
+			var xmlModifier 	: XML = <{MODIFIER} />;
+			
+			if ( modifier.source )
+				xmlModifier.@['source']	= modifier.source;
+			if ( modifier.styleName )
+				xmlModifier.@['style'] = modifier.styleName;
+			if ( modifier.name )
+				xmlModifier.@['name'] = modifier.name;
+			if ( modifier._splitter )
+				xmlModifier.@['splitter'] = modifier._splitter;
+
+			for ( var tlIndex : uint = 0; tlIndex < modifier.numElements; tlIndex++ )
+			{
+				var layoutNode : LayoutNode = modifier.getElementAt( tlIndex ) as LayoutNode;
+				
+				if (layoutNode is TraceLine )												
+					xmlModifier.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );	
+				else if (layoutNode is LayoutModifier )							
+					xmlModifier.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );	
+			}			
+			
+			return xmlModifier;			
 		}		
 	}
 }

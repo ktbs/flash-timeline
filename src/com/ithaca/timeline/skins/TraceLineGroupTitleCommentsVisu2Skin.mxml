@@ -109,7 +109,7 @@
 			
 			protected function addCommentObsel() : void 
 			{				
-				hostComponent.tlg.trace.addObsel( new Obsel( "comment",0,null,  hostComponent.tlg._timeline.currentTime, hostComponent.tlg._timeline.currentTime + 10000  ) );
+				hostComponent.tlg.trace.addObsel( new Obsel( "comment",0,null,  hostComponent.tlg._timeline.currentTime, hostComponent.tlg._timeline.currentTime + 20000  ) );
 			}
 			
 		]]>        
