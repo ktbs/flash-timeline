@@ -7,7 +7,7 @@
 			</tl>						
 		</tlg> 	
 		<tlg> 	
-			<tl style="background" 	selector="SelectorRegexp" selectorParams="type,Activity" field="type" regexp="Activity" />
+			<tl style="background" 	selector="SelectorRegexp" selectorParams="type,Activity" />
 
 			<tl title="Marqueurs" selector="SelectorRegexp" selectorParams="type,Marker"autohide="true" />		
 			<tl title="Messages" selector="SelectorRegexp" selectorParams="type,Instructions|Keyword|Message" autohide="true"/>

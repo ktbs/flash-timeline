@@ -239,6 +239,7 @@ package com.ithaca.timeline
 		
 		public function loadObselsSelectors( xmlSelectors : XMLList ) : void 
 		{
+			_timeline.styleSheet.obselsSkinsSelectors = new Array();
 			for each (var selector : XML in xmlSelectors.children() )
 			{	
 				if ( selector.hasOwnProperty('@selector') )
@@ -292,6 +293,9 @@ package com.ithaca.timeline
 					if ( tlg.styleName )
 						xmlTlg.@['style']	= tlg.styleName;
 						
+					if ( tlg.backgroundTraceLine )					
+						xmlTlg.appendChild( tracelineTreeToXml( tlg.backgroundTraceLine) );						
+						
 					for ( var tlIndex : uint = 0; tlIndex < tlg.numElements; tlIndex++ )
 					{
 						var layoutNode : LayoutNode = tlg.getElementAt( tlIndex ) as LayoutNode;
@@ -325,7 +329,7 @@ package com.ithaca.timeline
 			if  (tl.selector)
 			{
 				xmlTl.@['selector'] = getQualifiedClassName( tl.selector );
-				xmlTl.@['params'] = tl.selector.getParameters();
+				xmlTl.@['selectorParams'] = tl.selector.getParameters();
 			}
 			
 			for ( var tlIndex : uint = 0; tlIndex < tl.numElements; tlIndex++ )

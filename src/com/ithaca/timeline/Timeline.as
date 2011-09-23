@@ -137,6 +137,8 @@ package com.ithaca.timeline
 			
 			timelineLayout.addTracelineGroup( tlg, index );	
 			
+			trace( timelineLayout.getCurrentXmlLayout() );
+			
 			return tlg;
 		}
 		
@@ -170,6 +172,8 @@ package com.ithaca.timeline
 		{ 						
 			if (_layout)
 			{
+				_layout.loadObselsSelectors( layoutXML[Layout.OBSELS_SELECTORS] );
+				
 				var traceArray : Array = new Array();
 			 
 				for (var i : uint = 0; i < numElements; i++ )
@@ -186,7 +190,7 @@ package com.ithaca.timeline
 			}
 			else
 				_layout = value;	
-			_layout.loadObselsSelectors( layoutXML[Layout.OBSELS_SELECTORS] );
+			
 			
 			dispatchEvent( new TimelineEvent( TimelineEvent.LAYOUT_CHANGE  ));
 		}
