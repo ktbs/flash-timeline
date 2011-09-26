@@ -291,7 +291,10 @@ package com.ithaca.timeline
 					var xmlTlg : XML 	= < {TRACELINEGROUP} />;
 					xmlTlg.@['source']	= tlg.trace.uri;
 					if ( tlg.styleName )
-						xmlTlg.@['style']	= tlg.styleName;
+						xmlTlg.@['style'] = tlg.styleName;
+
+					if ( tlg.title )
+						xmlTlg.@['title'] = tlg.title;
 						
 					if ( tlg.backgroundTraceLine )					
 						xmlTlg.appendChild( tracelineTreeToXml( tlg.backgroundTraceLine) );						
@@ -310,7 +313,11 @@ package com.ithaca.timeline
 				}				
 			}
 			
-			xmlTree.appendChild( _timeline.layoutXML[LAYOUT].children() );		
+			for each (var child : XML in _timeline.layoutXML[LAYOUT].children() )
+			{		
+				if ( !child.hasOwnProperty('source') || xmlTree[LAYOUT][TRACELINEGROUP][@['source']== child.@['source']] != null)
+					xmlTree.appendChild( child );							
+			}
 			return xmlTree;
 		}
 		

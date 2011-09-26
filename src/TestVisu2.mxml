@@ -54,6 +54,7 @@
 		private var layoutTree 		: XML;		
 		private var timer			: Timer;
 		private var timeValue		: Number = 0;
+		public  var firstload : Boolean = true;
 		
 		[Embed(source="images/unknown.jpg")]		
 		public var tlgIcon:Class;
@@ -90,13 +91,12 @@
 			urlTTL_ti.text = "trace.ttl";
 			layout_ti.text = "layoutVisu2.xml";			
 			loadLayout( layout_ti.text );			
-			allTestLayout.enabled = true;		
-			timeline.addEventListener( TimelineEvent.GENERATE_NEW_TRACELINE, onNewTl );
+			allTestLayout.enabled = true;				
 		}		
 		
 		public function onNewTl( e : TimelineEvent ) : void
 		{
-			(e.value.traceline as TraceLine).title = "Test new title"			
+			(e.value.traceline as TraceLine).title = "new title"			
 		}
 		
 		
@@ -133,6 +133,12 @@
 			loading.label = "Loading Layout...";
 		}
 		
+		protected function saveLayout( ):void
+		{
+			var myFileReference :FileReference = new FileReference( ); 
+				
+			myFileReference.save(timeline.timelineLayout.getCurrentXmlLayout(), "save.xml");				
+		}	
 		
 		private function onLoadLayoutComplete(event:Event):void 
 		{
@@ -142,9 +148,13 @@
 			var loader:URLLoader=event.target as URLLoader;
 			timeline.layoutXML 		= new XML( loader.data );
 			timeline.timelineLayout = new Layout( timeline );		
-					
-			var tlg : TraceLineGroup = timeline.addTrace( new Trace(0, "comments"), 0, "comments" );	
-			tlg.setStyle( "title", "Comments" );
+				
+			if (firstload )
+			{
+				var tlg : TraceLineGroup = timeline.addTrace( new Trace(0, "comments"), 0, "comments" );	
+				tlg.setStyle( "title", "Comments" );
+				firstload = false;
+			}
 		}
 		
 		
@@ -301,6 +311,7 @@
 					<mx:Label y="2" text="Layout :"/>
 					<mx:TextInput id="layout_ti" x="50"  width="194"  enabled="true"/>
 					<mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" top="1" left="324"/>
+					<s:Button x="250" y="1" label="Save" click="saveLayout()"/>
 				</s:Group>		
 				
 				<!-- Loading Layout-->
@@ -332,7 +343,7 @@
 					 endAlertBeforeTime="30000"
 					 showPlayButton="true"
 					 endAlert="onEndAlert(event)"
-					 endReached="onEndReached(event)"/>
+					 endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
 		
 		<root:version />
 	</s:VGroup>

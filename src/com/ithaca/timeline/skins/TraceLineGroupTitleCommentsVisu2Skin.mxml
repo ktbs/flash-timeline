@@ -66,7 +66,7 @@
 				hostComponent.percentWidth = 100;
 				contentGroup.top 	= hostComponent.tlg.getStyle("headerHeight");
 				contentGroup.bottom = hostComponent.tlg.getStyle("bottom");
-				//traceLineGroupTitle.text = hostComponent.tlg.title;
+				traceLineGroupTitle.text = hostComponent.tlg.title;
 				backgroundColor = hostComponent.tlg.backgroundColor;
 			}
 			
