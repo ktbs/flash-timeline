@@ -59,7 +59,7 @@
 			protected function onCursorLinkClick(event:MouseEvent):void
 			{				
 				timeline.contextFollowCursor 		= linkCursor.selected ;
-				timeline.zoomContext.cursorEditable = !linkCursor.selected ;		
+				timeline.zoomContext.cursorEditable = !linkCursor.selected || (timeline.getStyle('cursorMode') == 'auto');		
 			}
 		]]>        
     </fx:Script>
