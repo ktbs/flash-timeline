@@ -173,7 +173,7 @@
 					if ( filter.toggled )
 					{
 						if ( selector == "##################" )
-							selector = filter.regexpFilter;
+							selector = filter.regexpFilter; 
 						else
 							selector += "|" + filter.regexpFilter;
 					}
@@ -198,7 +198,7 @@
 		<s:State name="disabled" />
     </s:states>
 	
-	<s:BorderContainer id="tlgContainer" width="100%" height="100%" minHeight="1" left="4" right="4" backgroundColor="{backgroundColor}" >
+	<s:BorderContainer id="tlgContainer" width="100%" height="100%" minHeight="32" left="4" right="4" backgroundColor="{backgroundColor}" >
 		
 		<s:Label id="traceLineGroupTitle" fontSize="11" color="#000000" fontWeight="bold" height="20" width="100%"  x="32" y="5" mouseDown="mouseDownHandler(event)" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
 		<mx:Image id="traceLineGroupTitleIcon" height="25" width="25" right="46" top="0"/>

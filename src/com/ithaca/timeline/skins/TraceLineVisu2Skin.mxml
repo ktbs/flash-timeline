@@ -62,30 +62,38 @@
 			{		
 				renderersSidePadding = Stylesheet.renderersSidePadding;
 				hostComponent.percentWidth 		= 100;
-				obselsRenderer 					= new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
-				obselsRenderer.height 			= hostComponent.getStyle("rendererHeight") as Number;
+				obselsRenderer 					= new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );			
 				obselsRenderer.percentWidth 	= 100;
 				obselsRenderer.right			= obselsRenderer.left			= renderersSidePadding;
 				obselsRenderer.obselsCollection = hostComponent._obsels;
 				obselsRenderer.styleName = hostComponent.styleName;	
-				if ( hostComponent.getStyle("borderVisible") != null )
-					obselsRenderer.borderVisible = hostComponent.getStyle("borderVisible");
-				rendererGroup.height 			= obselsRenderer.height + hostComponent.getStyle("rendererGap") as Number;
 				rendererGroup.addElement( obselsRenderer );
-				timeline = hostComponent._timeline;
+				timeline = hostComponent._timeline;				
+				styleChanged(null);
 			}
 			
 			override public function styleChanged(styleProp:String):void
 			{
 				super.styleChanged(styleProp);
-
-				if ( obselsRenderer )
+				
+				if ( hostComponent.getStyle("hide") == true )
 				{
+					rendererGroup.height = 0;
+					if ( obselsRenderer )
+						obselsRenderer.height = 0;
+					hostComponent.titleComponent.setStyle( 'hide', true);
+					hostComponent.titleComponent.setStyle( 'title' , getStyle( 'title' ));	
+					return;
+				}		
+								
+				if ( obselsRenderer )
+				{				
 					obselsRenderer.height 	= hostComponent.getStyle("rendererHeight") as Number;
 					rendererGroup.height 	= obselsRenderer.height + hostComponent.getStyle("rendererGap") as Number;
+					
 					if ( hostComponent.getStyle("borderVisible") != null )
 						obselsRenderer.borderVisible = hostComponent.getStyle("borderVisible");
-				}
+				}				
 				
 				if ( hostComponent.titleComponent )					
 				{
@@ -93,6 +101,7 @@
 						hostComponent.titleComponent.setStyle( styleProp, getStyle( styleProp ));				
 					else
 					{
+						hostComponent.titleComponent.setStyle( 'hide', false );
 						hostComponent.titleComponent.setStyle( 'title' , getStyle( 'title' ));	
 						hostComponent.titleComponent.setStyle( 'rendererHeight' , getStyle( 'rendererHeight' ));
 						hostComponent.titleComponent.setStyle( 'rendererGap' , getStyle( 'rendererGap' ));						

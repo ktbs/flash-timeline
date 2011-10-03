@@ -157,18 +157,10 @@ package com.ithaca.timeline
 			titleComponent.visible				= visible;
 			if ((titleComponent as TraceLineTitle).OpenButton)
 				(titleComponent as TraceLineTitle).OpenButton.visible = visible && (numElements > 0);
-			if ( visible )
-			{
-				setStyle("rendererHeight", lastRendererHeight);
-				setStyle("rendererGap", lastRendererGap);
-			}
-			else
-			{
-				lastRendererGap		= getStyle( 'rendererGap' );
-				lastRendererHeight	= getStyle( 'rendererHeight' );
-				setStyle("rendererHeight", 0);
-				setStyle("rendererGap", 0);
-			}
+			if ( visible )						
+				setStyle( 'hide', false )		
+			else	
+				setStyle( 'hide', true )
 		}
 	}
 }

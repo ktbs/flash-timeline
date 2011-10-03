@@ -17,6 +17,7 @@ package com.ithaca.timeline
 	
 	[Style(name = "cursorMode",			type = "String", inherit = "no")]
 	[Style(name = "timeMode", 			type = "String", inherit = "no")]
+	[Event(name = "currentTimeChange", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "timeRulerClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "playButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]
 	[Event(name = "pauseButtonClick", 	type = "com.ithaca.timeline.events.TimelineEvent")]

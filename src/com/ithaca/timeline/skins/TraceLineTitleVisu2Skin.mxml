@@ -65,13 +65,12 @@
 			{
 				bStypePropChanged	= false;
 				timeline 			= hostComponent.tl._timeline;				
-				titleGroup.height 	= (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
-				traceLineTitle.height= titleGroup.height;
 				traceLineTitle.text = hostComponent.tl.title;
 				hostComponent.updateDisplayLevel();
 				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_ADD , 		onChildrenChange);
 				hostComponent.addEventListener	( ElementExistenceEvent.ELEMENT_REMOVE , 	onChildrenChange);
 			//	stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag);
+				styleChanged( null );
 			}
 			
 			protected function zcStopDrag(e:MouseEvent):void
@@ -221,19 +220,27 @@
 			{
 				super.styleChanged(styleProp);
 
-				// Check to see if style changed. 				
-				if (!styleProp || styleProp=="rendererGap" || styleProp=="rendererHeight") 
+				if ( hostComponent.getStyle("hide") == true )
 				{
-					titleGroup.height 	= (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
-					traceLineTitle.height= titleGroup.height;
-					invalidateDisplayList();
+					traceLineTitle.height=  titleGroup.height = 0;
+				}
+				else
+				{			
+					// Check to see if style changed. 				
+					if (!styleProp || styleProp=="rendererGap" || styleProp=="rendererHeight" || styleProp=="hide") 
+					{
+						titleGroup.height 	= (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
+						traceLineTitle.height = titleGroup.height;
+						onChildrenChange( null ); 
+					}
 				}
 				
-				if (!styleProp || styleProp=="title" ) 
+				if (!styleProp || styleProp=="title" || styleProp=="hide" ) 
 				{
-					traceLineTitle.text = getStyle("title");					
-					invalidateDisplayList();
+					traceLineTitle.text = getStyle("title");											
 				}
+				
+				invalidateDisplayList();
 			}
 		
 		]]>
