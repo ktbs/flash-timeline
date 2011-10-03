@@ -13,6 +13,7 @@ package  com.ithaca.timeline
 		
 		public var _splitter 	: String = null ;		
 		public var source		: String;
+		public var	autohide	: Boolean = false;
 		
 		public function LayoutModifier( tl : Timeline ) 
 		{
@@ -87,6 +88,7 @@ package  com.ithaca.timeline
 				event.value = { generator : this, obsel : obsel, traceline : newTree };
 				_timeline.dispatchEvent( event );
 				
+				(newTree as TraceLine).autohide = autohide;
 				newTree.styleName = styleName;
 				
 				parentNode.addChildAndTitle(newTree);

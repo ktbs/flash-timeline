@@ -2,14 +2,14 @@
 <root>
 	<layout>
 		<tlg style="comments" > 	
-			<tl title="" style="comments" preview="true">		
-				<modifier name="commentsGenerator" style="comments" splitter="commentforuserid" source="parent" />
+			<tl title="" style="comments" preview="true" >		
+				<modifier name="commentsGenerator" style="comments" splitter="commentforuserid" source="parent" autohide="true" />
 			</tl>						
 		</tlg> 	
 		<tlg> 	
 			<tl style="background" 	selector="SelectorRegexp" selectorParams="type,Activity" />
 
-			<tl title="Marqueurs" selector="SelectorRegexp" selectorParams="type,Marker"autohide="true" />		
+			<tl title="Marqueurs" selector="SelectorRegexp" selectorParams="type,Marker" autohide="true" />		
 			<tl title="Messages" selector="SelectorRegexp" selectorParams="type,Instructions|Keyword|Message" autohide="true"/>
 			<tl title="Documents" selector="SelectorRegexp" selectorParams="type,Document" autohide="true"/>			
 		</tlg>

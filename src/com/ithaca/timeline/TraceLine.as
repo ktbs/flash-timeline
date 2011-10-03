@@ -147,7 +147,18 @@ package com.ithaca.timeline
 			if ( autohide )
 				SetToVisible( _obsels.length > 0 );
 		}
-
+						
+		public function getVisibleChildrenNumber() : Number 
+		{
+			var numTl : Number = 0;
+			for ( var lnIndex : int = 0; lnIndex < numElements; lnIndex++ )
+				if ( getElementAt(lnIndex) is TraceLine && (getElementAt(lnIndex) as TraceLine).visible )
+					numTl++;
+			
+			return numTl;
+		}
+		
+		
 		public function SetToVisible( visible: Boolean ) : void
 		{
 			if (this.visible == visible)
@@ -156,11 +167,12 @@ package com.ithaca.timeline
 			this.visible 						= visible;
 			titleComponent.visible				= visible;
 			if ((titleComponent as TraceLineTitle).OpenButton)
-				(titleComponent as TraceLineTitle).OpenButton.visible = visible && (numElements > 0);
-			if ( visible )						
-				setStyle( 'hide', false )		
-			else	
-				setStyle( 'hide', true )
+				(titleComponent as TraceLineTitle).OpenButton.visible = visible && (getVisibleChildrenNumber() > 0);
+				
+			if (parentNode is TraceLine && parentNode.visible && parentNode.titleComponent )
+				((parentNode as TraceLine).titleComponentas as TraceLineTitle).OpenButton.visible = (parentNode as TraceLine).getVisibleChildrenNumber();
+						
+			setStyle( 'hide', !visible )					
 		}
 	}
 }

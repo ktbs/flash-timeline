@@ -154,17 +154,14 @@
 			protected function onChildrenChange(event:Event):void
 			{
 				if ( visible )
-				{
-					var numTl : Number = 0;
-					for ( var lnIndex : int = 0; lnIndex < hostComponent.tl.numElements; lnIndex++ )
-						if (hostComponent.tl.getElementAt(lnIndex) is TraceLine )
-							numTl++;
+				{					
+					var numTl : Number = hostComponent.tl.getVisibleChildrenNumber();					
 					
 					OpenButton.visible = (numTl > 0);
 				}
 				else
 					OpenButton.visible = false;
-			}
+			}					
 			
 			protected function onOpenButtonClick():void
 			{

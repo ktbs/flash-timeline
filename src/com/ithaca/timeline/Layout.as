@@ -154,6 +154,8 @@ package com.ithaca.timeline
 				newNode._splitter =  xmlLayout.@splitter ;	
 			if ( xmlLayout.hasOwnProperty('@source') )
 				newNode.source = xmlLayout.@source;
+			if ( xmlLayout.hasOwnProperty('@autohide') &&  xmlLayout.@autohide =='true' )
+				newNode.autohide = true;
 			if ( xmlLayout.hasOwnProperty('@style') )
 			{
 				var style : String = xmlLayout.@style; 
