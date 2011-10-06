@@ -189,8 +189,9 @@
 			{			
 				if ( event.dragSource.hasFormat("traceLine") )
                 {
-					// Check if the dragged element come from the same TLG
-					if ( (event.dragInitiator as TraceLineTitle).tl.getTraceLineGroup() == hostComponent.tl.getTraceLineGroup() )
+					var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;	
+					// Check if the dragged element come from the same parent
+					if ( traceline.parentNode == hostComponent.tl.parentNode )
 						DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
             	}
             }
@@ -198,17 +199,10 @@
             private function dragDropHandler( event:DragEvent ) : void
 			{		
 				var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;			
-				if ( traceline != hostComponent.tl )
+				if ( traceline != hostComponent.tl  )
 				{
-					if ( event.ctrlKey )
-					{
-						timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);										
-					}
-					else
-					{
-						var toIndex : Number = hostComponent.tl.parentNode.getElementIndex( hostComponent.tl );
-						 hostComponent.tl.parentNode.addChildAndTitle( traceline, toIndex );					
-					}
+					var toIndex : Number = hostComponent.tl.parentNode.getElementIndex( hostComponent.tl );
+					 hostComponent.tl.parentNode.addChildAndTitle( traceline, toIndex );					
 					(traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
 				}
             }
