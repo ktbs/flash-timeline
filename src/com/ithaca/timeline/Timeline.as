@@ -157,6 +157,19 @@ package com.ithaca.timeline
 			return false;
 		}
 		
+		public function getTraceLineGroupByTraceUri ( uri : String ) : TraceLineGroup
+		{
+			for (var i : int = 0; i < numElements; i++)
+			{
+				var tlg : TraceLineGroup = getElementAt(i) as TraceLineGroup;
+				if ( tlg.trace.uri == uri )					
+						return tlg ;
+			}
+			
+			return null;
+		}
+		
+		
 		public function removeTraceLineGroup ( tlg : TraceLineGroup ) : void
 		{
 			if ( tlg )
