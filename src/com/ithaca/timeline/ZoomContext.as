@@ -166,6 +166,17 @@ package com.ithaca.timeline
 			updateSkinPositionFromValues();		
 		}
 		
+		public function reset( ) : void
+		{
+			var begin 		: Number	= _timelineRange.begin;
+			var duration 	: Number 	= ( _timelineRange.end - _timelineRange.begin )*Stylesheet.ZoomContextInitPercentWidth / 100;
+
+			cursorRange.clone( _timelineRange );
+			cursorRange.changeLimits(begin, begin + duration);
+			updateSkinPositionFromValues();				
+		}
+		
+		
 		public function setRange( beginValue : Number, endValue : Number ) : void
 		{
 			cursorRange.changeLimits(beginValue, endValue);
