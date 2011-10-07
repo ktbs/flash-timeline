@@ -11,13 +11,21 @@
 
 			<tl title="Marqueurs" selector="SelectorRegexp" selectorParams="type,Marker" autohide="true" />		
 			<tl title="Messages" selector="SelectorRegexp" selectorParams="type,Instructions|Keyword|Message" autohide="true"/>
-			<tl title="Documents" selector="SelectorRegexp" selectorParams="type,Document" autohide="true"/>			
+			<tl title="Documents" selector="SelectorRegexp" selectorParams="type,Document" autohide="true">			
+				<tl title="Images" selector="SelectorRegexp" selectorParams="typedocument,image" autohide="true">
+					<modifier name="imagesGenerator" splitter="iddocument" source="parent" autohide="true" />
+				</tl>
+				<tl title="Videos" selector="SelectorRegexp" selectorParams="typedocument,video" autohide="true">
+					<modifier name="videosGenerator" splitter="iddocument" source="parent" autohide="true" />
+				</tl>
+			</tl>
 		</tlg>
 	</layout>
 	
 	<obselsSelectors>
 		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,Message" />
-		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" />
+		<obselSelector id='PlayDocumentVideo'  	  selector="SelectorRegexp" selectorParams="type,PlayDocumentVideo" />
+		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" />	
 		<obselSelector id='Instructions'  selector="SelectorRegexp" selectorParams="type,Instructions" />
 		<obselSelector id='Marker'  	  selector="SelectorRegexp" selectorParams="type,Marker" />
 		<obselSelector id='Keyword'  	  selector="SelectorRegexp" selectorParams="type,Keyword" />
