@@ -44,25 +44,25 @@ package com.ithaca.timeline
 				shape.graphics.endFill();
 				
 				//drawing obsels
-				for each (var durativeObsel : Obsel in _obsels)
+				for each (var obsel : Obsel in _obsels)
 				{	
-					if ( durativeObsel.end >= intervalStart  && durativeObsel.begin <= intervalEnd )
+					if ( obsel.end >= intervalStart  && obsel.begin <= intervalEnd )
 					{
 						// durative
-						if (durativeObsel.begin < durativeObsel.end ) 
+						if (obsel.begin < obsel.end ) 
 						{
 							shape.graphics.beginFill(_durativeColor, 0.5);
 							shape.graphics.lineStyle();
-							var beginDurative : Number = Math.max( durativeObsel.begin, intervalStart );
-							var widthDurative : Number = Math.min( durativeObsel.end,   intervalEnd ) - beginDurative;
+							var beginDurative : Number = Math.max( obsel.begin, intervalStart );
+							var widthDurative : Number = Math.min( obsel.end,   intervalEnd ) - beginDurative;
 							shape.graphics.drawRect( (beginDurative - intervalStart ) * shapeWidth / intervalDuration , 0, widthDurative * shapeWidth / intervalDuration, height);
 							shape.graphics.endFill();
 						} 
 						// non durative
-						else if (durativeObsel.begin == durativeObsel.end )
+						else if (obsel.begin == obsel.end )
 						{
 							shape.graphics.lineStyle(0, _markerColor);	
-							var x : Number = (durativeObsel.begin - intervalStart) * shapeWidth / intervalDuration;
+							var x : Number = (obsel.begin - intervalStart) * shapeWidth / intervalDuration;
 							shape.graphics.moveTo( x, 0 );
 							shape.graphics.lineTo( x, height );
 						}
