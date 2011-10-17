@@ -19,8 +19,7 @@
 
 			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.ObselSkin;
-			import com.ithaca.timeline.Stylesheet;
-			import com.ithaca.traces.view.ObselComment;
+			import com.ithaca.timeline.Stylesheet;			
 			import flash.events.MouseEvent;
 			import gnu.as3.gettext._FxGettext;
 			import gnu.as3.gettext.FxGettext;
@@ -143,8 +142,8 @@
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
 				stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
 				
-				hostComponent.obsel.begin  = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
-				hostComponent.obsel.end    = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
+				hostComponent.obsel.begin  = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
+				hostComponent.obsel.end    = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
 				UpdateResizeGripHeight();
 			}	
 			

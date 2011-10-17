@@ -48,11 +48,11 @@ package com.ithaca.timeline
 		{
 			var position : Number = 0;
 			
-			if ( timeValue <= begin )
+		/*	if ( timeValue <= begin )
 				position = 0;		
 			else if ( timeValue >= end )
 				position = width;
-			else for ( var i : int = 1; i < _ranges.length; i ++ )
+			else */for ( var i : int = 1; i < _ranges.length; i ++ )
 				if ( begin <= _ranges[i]  )
 				{
 					var rangeStart : Number = Math.max( begin, _ranges[i - 1] );

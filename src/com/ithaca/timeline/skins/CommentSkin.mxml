@@ -24,7 +24,7 @@
 			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.ObselSkin;
 			import com.ithaca.timeline.Stylesheet;
-			import com.ithaca.traces.view.ObselComment;
+	//		import com.ithaca.traces.view.ObselComment;
 			import flash.events.MouseEvent;
 			import gnu.as3.gettext._FxGettext;
 			import gnu.as3.gettext.FxGettext;
@@ -38,7 +38,9 @@
 
 			[Bindable]
 			private 	var fxgt : _FxGettext;
-			
+
+			public 		var obsel : Obsel;
+
 			[Bindable]
 			private 	var gripRadius : Number = 8;
 			[Bindable]
@@ -52,6 +54,7 @@
 			protected function creationCompleteHandler(event:Event):void
 			{
 				fxgt = FxGettext;
+				obsel = hostComponent.obsel;
 				y = hostComponent.traceline.getStyle('rendererHeight') - cursor.height - 2;
 				commentLabel.text = fxgt.gettext("Write your comment");
 				toolTip = commentLabel.text;
@@ -66,13 +69,12 @@
 				}
 			}
 
-			public function updateWidth( event : Event ) :  void
+		public function updateWidth( event : Event ) :  void
 			{
 				var traceline 		: TraceLine = hostComponent.traceline;
-				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;				
-				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( hostComponent.obsel.begin , timeRange.begin ),	traceline.width - 2 * Stylesheet.renderersSidePadding);
-				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( hostComponent.obsel.end , timeRange.end), 	traceline.width - 2 * Stylesheet.renderersSidePadding);									
-				
+				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;											
+				var startPosition 	: Number 	= timeRange.timeToPosition( obsel.begin, traceline._timeline.zoomContext.timelinePreview.width );
+				var endPosition 	: Number 	= timeRange.timeToPosition( obsel.end, traceline._timeline.zoomContext.timelinePreview.width );		
 				width  	= (endPosition - startPosition);
 			}
 			
@@ -84,8 +86,8 @@
 					draggedPart = cursor;
 				else
 					draggedPart = (e.currentTarget as UIComponent);
-				stage.addEventListener( MouseEvent.MOUSE_MOVE, 	zcDragging);
-				stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag);				
+				stage.addEventListener( MouseEvent.MOUSE_MOVE, 	zcDragging );
+				stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag );				
 				
 				currentCenterDragingPoint = new Point(e.localX, e.localY);
 			}
@@ -93,7 +95,7 @@
 			protected function zcDragging(e:MouseEvent):void
 			{				
 				minX = (hostComponent.parent as Group).horizontalScrollPosition;
-				maxX = (hostComponent.parent as Group).horizontalScrollPosition + (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding );				
+				maxX = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.timelinePreview.width;				
 				
 				var parentMouse:Point = hostComponent.parent.globalToLocal(new Point(e.stageX, e.stageY));				
 				var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
@@ -158,15 +160,24 @@
 			
 			protected function zcStopDrag(e:MouseEvent):void
 			{
-				draggedPart = null;
-
+			
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
 				stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
-			
-				var begin 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x- (hostComponent.parent as Group).horizontalScrollPosition, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
-				var end 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width- (hostComponent.parent as Group).horizontalScrollPosition, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );				
-				hostComponent.obsel.end    = end;
-				hostComponent.obsel.begin  = begin ;
+				
+				var begin 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x- (hostComponent.parent as Group).horizontalScrollPosition,		 hostComponent.traceline._timeline.zoomContext.timelinePreview.width );
+				var end 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width- (hostComponent.parent as Group).horizontalScrollPosition, hostComponent.traceline._timeline.zoomContext.timelinePreview.width );				
+
+				if (draggedPart == leftGrip )				
+					hostComponent.obsel.begin  = begin ;				
+				else if (draggedPart == cursor )
+				{
+					hostComponent.obsel.begin  = begin ;	
+					hostComponent.obsel.end    = end;
+				} 
+				else if (draggedPart == rightGrip )
+					hostComponent.obsel.end    = end;
+					draggedPart = null;
+
 				UpdateResizeGripHeight();			
 			}	
 			
@@ -203,8 +214,8 @@
 			
 			protected function onObselChange( event : PropertyChangeEvent ) : void
 			{				
-				var y : Number 	= (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.end , (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );				
-				hostComponent.x = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.begin, (hostComponent.traceline.width - 2 * Stylesheet.renderersSidePadding ) );
+				var y : Number 	= (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.end , (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );				
+				hostComponent.x = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.begin, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
 				rightGrip.x     = width 	= y - hostComponent.x ;
 				
 				commentLabel.text = toolTip =  hostComponent.obsel.props[ 'text' ];

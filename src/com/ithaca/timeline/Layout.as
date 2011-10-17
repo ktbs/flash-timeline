@@ -31,8 +31,6 @@ package com.ithaca.timeline
 		{
 			if ( tlg )		
 				_timeline.addChildAndTitle(  tlg , index );	
-				
-			getCurrentXmlLayout();
 		}
 		
 		public function removeTraceline( ): Boolean 

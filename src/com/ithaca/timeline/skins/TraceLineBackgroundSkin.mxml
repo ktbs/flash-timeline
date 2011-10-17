@@ -5,6 +5,7 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:skins="com.ithaca.timeline.skins.*"
 		creationComplete="creationCompleteHandler(event)"
+		resize="onResize(event)"
 		width="100%"
 		height="100%">
 
@@ -49,11 +50,21 @@
 				obselsRenderer 					= new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
 				obselsRenderer.percentHeight	= 100;
 				obselsRenderer.percentWidth 	= 100;
-				obselsRenderer.borderVisible 	= false;
-				obselsRenderer.right			= obselsRenderer.left			= Stylesheet.renderersSidePadding;
+				obselsRenderer.borderVisible 	= false;		
+				obselsRenderer.left				= Stylesheet.renderersSidePadding;
+				obselsRenderer.width			= hostComponent._timeline.zoomContext.timelinePreview.width;
 				obselsRenderer.obselsCollection = hostComponent._obsels;				
 				obselsRenderer.styleName 		= hostComponent.styleName;		
 				rendererGroup.addElement( obselsRenderer );
+			}
+			
+			protected function onResize(event:Event):void
+			{		
+				if ( obselsRenderer)
+				{
+					obselsRenderer.left			= Stylesheet.renderersSidePadding;
+					obselsRenderer.width		= hostComponent._timeline.zoomContext.timelinePreview.width;
+				}
 			}
 		]]>
 	</fx:Script>

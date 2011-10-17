@@ -27,9 +27,10 @@
 			{
 				obsel = hostComponent.obsel;
 				hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
+				hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
 				hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
 				updateWidth( null );
-					
+				
 				toolTip = "";
 				durative.backgroundFill =  new SolidColor( 0xF0F9FF ) ;
 				
@@ -41,16 +42,15 @@
 			{
 				var traceline 		: TraceLine = hostComponent.traceline;
 				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;
-				var  timeToPositionRatio : Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
-				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( obsel.begin , timeRange.begin ),	traceline.width );
-				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( obsel.end , timeRange.end), 	traceline.width );
-
-				durative.width  	= (obsel.end - obsel.begin) * timeToPositionRatio;
+												
+				var startPosition 	: Number 	= timeRange.timeToPosition( obsel.begin, traceline._timeline.zoomContext.timelinePreview.width );
+				var endPosition 	: Number 	= timeRange.timeToPosition( obsel.end, traceline._timeline.zoomContext.timelinePreview.width );		
+				width  	= (endPosition - startPosition);
 			}
 			
 		]]>        
     </fx:Script>
 		
-	<s:BorderContainer id="durative" minWidth="1" borderVisible="false" height="100%" />
+	<s:BorderContainer id="durative" minWidth="1" width="100%" borderVisible="false" height="100%" />
 
 </s:Skin>

@@ -48,18 +48,25 @@
 				
 			protected function creationCompleteHandler(event:Event):void
 			{				
-				timeline = hostComponent;			
+				timeline = hostComponent;	
+				renderGroup.addEventListener(MouseEvent.MOUSE_WHEEL, horizontalScroll, false, 3);
+				contentGroup.addEventListener(MouseEvent.MOUSE_WHEEL, noVerticalScroll, false, 3);
 			}
 		
 			protected function horizontalScroll(event:MouseEvent):void
 			{				
-				zoomContext.shiftContext( -event.delta * zoomContext.cursorRange.duration /5);				
+				zoomContext.shiftContext( -event.delta * zoomContext.cursorRange.duration / 5);					
 			}
 			
 			protected function onCursorLinkClick(event:MouseEvent):void
 			{				
 				timeline.contextFollowCursor 		= linkCursor.selected ;
 				timeline.zoomContext.cursorEditable = !linkCursor.selected || (timeline.getStyle('cursorMode') == 'auto');		
+			}
+			
+			protected function noVerticalScroll(event:MouseEvent):void
+			{					
+				event.preventDefault();
 			}
 		]]>        
     </fx:Script>
@@ -81,11 +88,13 @@
 				</s:HGroup>
 				
 			<s:Scroller id="scroller" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >	
-				<s:VGroup id="titleGroup"  gap="5" width="100%"/>
+				<s:VGroup id="titleGroup"  gap="5" width="100%"  verticalScrollPosition="{contentGroup.verticalScrollPosition}" />
 			</s:Scroller>				
 		</s:Group>				
-		<s:Group id="renderGroup" width="100%" height="100%" mouseWheel="{horizontalScroll(event)}">		
-			<s:VGroup id="contentGroup" y="{zoomContext.height}" maxHeight="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />
+		<s:Group id="renderGroup" width="100%" height="100%">		
+			<s:Scroller id="scroller2" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >
+				<s:VGroup id="contentGroup" y="{zoomContext.height}" maxHeight="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />
+			</s:Scroller>
 			<tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />
 			<tl:Cursor id="contextCursor" timeRuler="{zoomContext.outputTimeRuler}" timeline="{hostComponent}"	y="{contentGroup.y }" 	height="{contentGroup.height}" visible="false"  withToolTip="true" />
 			<tl:Cursor id="globalCursor"  timeRuler="{zoomContext.inputTimeRuler}"  timeline="{hostComponent}"	y="{zoomContext.timelinePreview.y-20}" height="{15}" visible="false" withToolTip="true"/>

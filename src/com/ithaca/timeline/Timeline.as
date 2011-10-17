@@ -273,7 +273,7 @@ package com.ithaca.timeline
 			if ( timeValue >= begin && timeValue <= end ) 
 			{
 				globalCursor.visible = true;
-				globalCursor.x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+				globalCursor.x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.timelinePreview.width );
 			}
 			else
 				globalCursor.visible = false;			
@@ -289,7 +289,7 @@ package com.ithaca.timeline
 			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= zoomContext.cursorRange.end +1000 ) 
 			{
 				contextCursor.visible = true;								
-				contextCursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.width - 2 * Stylesheet.renderersSidePadding);
+				contextCursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.timelinePreview.width );
 			}
 			else
 				contextCursor.visible = contextCursor.isDragging;
