@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<!-- A last version of mini layout. This one contains an OblselsSelectors section and use a LayoutModifier to create Traceline -->
+	
+	<!-- The OblselsSelectors section defines selectors that are used to set a 'stylename' to obselSkins which match.
+		This stylename can be used as obselSkins selectors in the CSS file 
+		For example : 
+			timeline|ObselSkin.Message
+			{
+			...
+			}
+		
+		The 'selector' attributes is the class name of a ISelector implementaion.
+		The 'selectorParams' is the list of parameters needed to initialize the selector class in the order defined by the getPrameters/setParameters functions 	
+		
+		The obsels which don't match any selectors will be rendered with the default ObselSkin.
+	-->		
+	<obselsSelectors>
+		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,Message" />
+		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" />	
+		<obselSelector id='Instructions'  selector="SelectorRegexp" selectorParams="type,Instructions" />
+		<obselSelector id='Marker'  	  selector="SelectorRegexp" selectorParams="type,Marker" />
+		<obselSelector id='Keyword'  	  selector="SelectorRegexp" selectorParams="type,Keyword" />
+		<obselSelector id='Comment'  	  selector="SelectorRegexp" selectorParams="type,omment" />
+	</obselsSelectors>
+	
+	<!-- the layout definition -->
+	<layout>
+		<!-- Default and only traceLineGroup definition. Each Trace will use this definition -->
+		<tlg > 			
+			<!-- Instead of a static traceline, a LayoutModifier node could be used.
+				 Then, tracelines will be dynamicaly generated when needed. 
+				 At the moment, the only implemented LayoutModifier is the splitter one that creates a new traceline for each value of the obsels property defines by the splitter attribute.
+				 
+				 In this example, a new traceline will be created for each different type of Obsel. (see obsel.type ) 
+			-->
+			<modifier splitter="type" />							
+			
+			<!-- there is no traceLine tagged with the 'preview' attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace -->
+		</tlg > 				
+	</layout>
+</root>			

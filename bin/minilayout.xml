@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<!-- this is the minimal layout definition that allows to see something-->
+	
+	<!-- there is no OblselsSelectors definition. That means that all obsels will be rendered with the default obselSkin skin -->
+	
+	<!-- the layout definition -->
+	<layout>
+		<!-- Default and only traceLineGroup definition. Each Trace will use this definition -->
+		<tlg > 			
+			<!-- One traceLine with no selecter ( each obsel will match ) -->
+			<tl />
+			
+			<!-- there is no traceLine tagged with the 'preview' attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace -->
+		</tlg > 				
+	</layout>
+</root>			

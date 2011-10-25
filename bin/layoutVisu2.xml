@@ -1,30 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
-	<layout>
-		<tlg style="comments" > 	
-			<tl title="" style="comments" preview="true" >		
-				<modifier name="commentsGenerator" style="comments" splitter="commentforuserid" source="parent" autohide="true" />
-			</tl>						
-		</tlg> 	
-		<tlg> 	
-			<tl style="background" 	selector="SelectorRegexp" selectorParams="type,Activity" />
-
-			<tl title="Marqueurs" selector="SelectorRegexp" selectorParams="type,Marker" autohide="true" />		
-			<tl title="Messages" selector="SelectorRegexp" selectorParams="type,Instructions|Keyword|Message" autohide="true"/>
-			<tl title="Documents" selector="SelectorRegexp" selectorParams="type,Document" autohide="true">			
-				<tl title="Images" selector="SelectorRegexp" selectorParams="typedocument,image" autohide="true">
-					<modifier name="imagesGenerator" splitter="iddocument" source="parent" autohide="true" />
-				</tl>
-				<tl title="Videos" selector="SelectorRegexp" selectorParams="typedocument,video" autohide="true">
-					<modifier name="videosGenerator" splitter="iddocument" source="parent" autohide="true" />
-				</tl>
-			</tl>
-		</tlg>
-	</layout>
-	
+	<!-- The obselsSelectors section defines the selectors used to create ObselSkin CSS selectors to use different skins.-->		
+	<!-- The selectors defined in this section can also be used in the layout section as selector for Tracelines -->		
 	<obselsSelectors>
 		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,Message" />
-		<obselSelector id='PlayDocumentVideo'  	  selector="SelectorRegexp" selectorParams="type,PlayDocumentVideo" />
+		<obselSelector id='PlayDocumentVideo'  selector="SelectorRegexp" selectorParams="type,PlayDocumentVideo" />
 		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" />	
 		<obselSelector id='Instructions'  selector="SelectorRegexp" selectorParams="type,Instructions" />
 		<obselSelector id='Marker'  	  selector="SelectorRegexp" selectorParams="type,Marker" />
@@ -32,4 +12,50 @@
 		<obselSelector id='Activity'  	  selector="SelectorRegexp" selectorParams="type,ActivityStart" />
 		<obselSelector id='Comment'  	  selector="SelectorRegexp" selectorParams="type,omment" />
 	</obselsSelectors>
+	
+	<!-- The layout section to define the tree structure of the timeline. -->
+	<layout>
+		<!-- This TracelineGroup definition is used when the stylename of the TracelineGroup is 'comments' 
+			( the stylename of TracelineGroup can be set when calling the timeline.addTrace(..) function. ) -->
+		<!-- the stylename is used to create CSS selectors -->
+		<tlg style="comments" > 				
+			<tl title="" style="comments" preview="true" >		
+				<!-- a layoutModifier is used to create one traceline by document (split when an obsel with new value obsel.props['commentforuserid'] is added -->
+				<!-- the autohide attribute will set for each traceline created -->
+				<modifier name="commentsGenerator" style="comments" splitter="commentforuserid" source="parent" autohide="true" />
+			</tl>						
+		</tlg> 	
+		
+		<!-- 
+			The default tracelinegroup definition of this layout (because this is the last tracelinegroup definition. 
+			Used for the traces of users. 
+		-->
+		<tlg> 				
+			<!-- definition of the traceline in the background of the tracelinegroup -->
+			<!-- the selector is already defined in the obselsSelectors setion -->
+			<tl style="background" 	selectorID="Activity" />
+
+			<!-- autohide='true' is used to automaticaly hide or show the traceline when it is empty or not -->
+			<tl title="Marqueurs" selectorID="Marker" autohide="true" />		
+			
+			<!-- A new selector must be created -->
+			<tl title="Messages" selector="SelectorRegexp" selectorParams="type,Instructions|Keyword|Message" autohide="true"/>
+			
+			<tl title="Documents" selectorID="Document" autohide="true">
+				<!-- the selector is not for the classic 'type' property but for 'typedocument' -->
+				<tl title="Images" selector="SelectorRegexp" selectorParams="typedocument,image" autohide="true">
+					<!-- a layoutModifier is used to create one traceline by document (split when an obsel with new value obsel.props['iddocument'] is added -->
+					<!-- the autohide attribute will set for each traceline created -->
+					<!-- the source attribute is set to 'parent' to use the parent traceline ( 'Images' ) as obsels source instead of the trace -->
+					<modifier name="imagesGenerator" splitter="iddocument" source="parent" autohide="true" />
+				</tl>
+				<tl title="Videos" selector="SelectorRegexp" selectorParams="typedocument,video" autohide="true">
+					<modifier name="videosGenerator" splitter="iddocument" source="parent" autohide="true" />
+				</tl>
+			</tl>
+			
+			<!-- Note : There's no preview attribute in this tracelinegroup, then the preview traceline is the not filtered whole trace -->			
+			
+		</tlg>
+	</layout>
 </root>			

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<!-- A basic layout definition of the old version of Visu2 with a static definition of the tree structure.
+	We want something like that :
+		Summary view ( according to user settings )
+			|____ Message
+			|____ Document
+			|____ Marker
+			|____ Instructions
+			|____ Keyword
+	-->
+	
+	<!-- The OblselsSelectors section -->		
+	<obselsSelectors>
+		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,Message" />
+		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" />	
+		<obselSelector id='Instructions'  selector="SelectorRegexp" selectorParams="type,Instructions" />
+		<obselSelector id='Marker'  	  selector="SelectorRegexp" selectorParams="type,Marker" />
+		<obselSelector id='Keyword'  	  selector="SelectorRegexp" selectorParams="type,Keyword" />
+		<obselSelector id='Comment'  	  selector="SelectorRegexp" selectorParams="type,omment" />
+	</obselsSelectors>
+	
+	<!-- the layout definition -->
+	<layout>		
+		<tlg> 									
+			<!-- Tracelines can create their own selector in the same way as in the obselsSelectors section
+				Note : this selector should be changed at runtime to let user select what he wants
+				    =>    traceline.selector = new SelectorRegexp( ["type", listOfTypes ]);
+			
+			The 'title' attribute defines the default traceline.title property and the traceline.name too. -->			
+			<tl title="Synthesis"  selector="SelectorRegexp" selectorParams="type,Message|Document|Marker|Instructions|Keyword" > 				
+				<!-- Tracelines can also use selector ID of already created obselSelector 
+				
+					Note : We cannot use a layoutModifier to split obsels by type because the Message selector, for example, select  obsels with the 'Message' in the obsel.type string
+					but SendMessage and ReceiveMessage types exist, then the splitter would create two differents Tracelines -->			
+				<tl title="Message" selectorID="Message" />
+				<tl title="Document" selectorID="Document" />
+				<tl title="Marker" selectorID="Marker" 	/>
+				<tl title="Instructions" selectorID="Instructions" 	/>
+				<tl title="Keyword" selectorID="Keyword" />				
+			</tl>
+		</tlg>		
+	</layout>
+</root>		

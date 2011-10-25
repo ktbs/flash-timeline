@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<!-- An enhanced layout definition of the old version of Visu2. ( see classicVisu2Layout.xml )
+	
+	In this enhanced version, we create a special tracelinegroup for Comments
+	We add a traceline in the background of the users traceLineGroup
+	We change the default preview traceLine in the zoomContext (remember that if not defined the preview traceline is the whole trace)
+	And we use the autohide attribute to automaticlay hide or show a traceline when it is empty or not.
+	
+	We want something like that :
+	
+		Comments
+	
+		Summary view ( according to user settings )
+			|____ Message
+			|____ Document
+			|____ Marker
+			|____ Instructions
+			|____ Keyword
+		
+		Summary view ( according to user settings )
+			|____ Message
+			|____ Document
+			|____ Marker
+			|____ Instructions
+			|____ Keyword
+		(... for each user ...)
+	-->
+	
+	<!-- The OblselsSelectors section -->		
+	<obselsSelectors>
+		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,Message" />
+		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" />	
+		<obselSelector id='Instructions'  selector="SelectorRegexp" selectorParams="type,Instructions" />
+		<obselSelector id='Marker'  	  selector="SelectorRegexp" selectorParams="type,Marker" />
+		<obselSelector id='Keyword'  	  selector="SelectorRegexp" selectorParams="type,Keyword" />
+		<obselSelector id='Comment'  	  selector="SelectorRegexp" selectorParams="type,omment" />
+		<obselSelector id='Activity'  	  selector="SelectorRegexp" selectorParams="type,ActivityStart" />
+	</obselsSelectors>
+	
+	<!-- the layout definition -->
+	<layout>		
+		<!-- This is the  TraceLineGroup definition used when the stylename of the TraceLineGroup is "comments". 
+			The stylename could set when using the timeline.addTrace (  trace, index , stylename ) function.		
+			
+			Of course teh stylename could be use to create CSS selector :
+				timeline|TraceLineGroup.comments
+				{
+					....
+				}
+		
+			The other way to select a TraceLineGroup definition is the use of the URI of the trace and the 'source' attribute. 
+			Example : To use a special definition when trace.uri is 'trace-20110112105114-0.ttl'
+				<tlg source="trace-20110112105114-0.ttl" >
+					... special tree structure...
+				</tlg>			 
+		-->	
+		<tlg style="comments" > 	
+			<!-- A "style" attibute in a TraceLine definition is also used to set the stylename and then to create a CSS selector. -->
+			<tl title="" style="comments">						
+			</tl>						
+		</tlg> 	
+		
+		<!-- This is the default TraceLineGroup definition because this is the last TraceLineGroup definition -->
+		<tlg>
+			<!-- 
+			The 'style="background"' attribute is used to define the traceline to be show in the background of the traceLineGroup.
+			-->
+			<tl style="background" 	selectorID="Activity" />
+			
+			<!--
+			The 'preview=true' attribute is used to define the traceline as preview in the zoomContext.
+			Note 	: if more than one traceline has a 'preview=true' attribute, the next created traceline with 'preview=true' overwrites the current one.
+			Note 2 	: if the wanted traceline don't exist in the tree structure, it can be created with a 'style="contextPreview"' attribute ( in the same way of the background traceline)
+				example : <tl style="contextPreview" selector="SelectorRegexp" selectorParams="type,Message|Document|Marker|Instructions|Keyword|Activity" />
+			-->			
+			<tl title="Synthesis"  selector="SelectorRegexp" selectorParams="type,Message|Document|Marker|Instructions|Keyword" > 				
+				<!-- 
+					the autohide='true' attribute is used to automaticaly show/hide tracelines if the traceline is empty or not.
+				-->			
+				<tl title="Message" selectorID="Message"  autohide='true'/>
+				<tl title="Document" selectorID="Document" autohide='true'/>
+				<tl title="Marker" selectorID="Marker" autohide='true'	/>
+				<tl title="Instructions" selectorID="Instructions" 	autohide='true' />
+				<tl title="Keyword" selectorID="Keyword" autohide='true' />				
+			</tl>
+		</tlg>		
+	</layout>
+</root>		
