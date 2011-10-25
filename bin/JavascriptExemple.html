@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+	<title>Basic example of the HTML/JS integration of the Timeline.</title>
+
+	<style type="text/css"> 
+		html, body { 
+			height: 100%; 
+			margin: 0; 
+			padding: 0; 
+		} 
+	</style>
+</head>
+
+	<script type="text/javascript">
+		function getFlexApp(appName) {
+		  if (navigator.appName.indexOf ("Microsoft") !=-1) {
+			return window[appName];
+		  } else {
+			return document[appName];
+		  }
+		}
+
+		// JAVASCRIPT ---> FLEX
+
+		function loadTTL()
+		{
+		  var ttlName = document.getElementById('ttlTi').value;
+		  getFlexApp('timeline').loadTTL( ttlName );
+		}
+
+		function loadLayout()
+		{
+		  var layoutName = document.getElementById('layoutTi').value;
+		  getFlexApp('timeline').loadLayout( layoutName );
+		}
+
+		function saveLayout()
+		{
+		  var ttlName = document.getElementById('ttlTi').value;
+		  alert( getFlexApp('timeline').saveLayout( ) );
+		}
+
+		function play()
+		{ 
+		  getFlexApp('timeline').onPlay( );
+		}
+
+		function pause()
+		{  
+		  getFlexApp('timeline').onPause( );
+		}
+		
+		
+		// FLEX ---> JAVASCRIPT
+		
+		// This function is called from the SWF
+		function updateTimer( value )
+		{  
+		  document.getElementById('timeLabel').innerHTML = value;
+		}	
+	</script>
+
+<body >
+	<h3>Basic example of the HTML/JS integration of the Timeline.</h3>
+	
+	<strong>HTML :</strong>
+	<br />
+	<table width="100%">
+		<tr>
+			<td width="50%">		
+				<table style="border-spacing:5px;">
+					<tr>
+						<td style="border-style:none;padding:0px;">Load TTL:</td>
+						<td style="border-style:none;padding:0px;"> <input id="ttlTi" type="text" value="trace.ttl" /> </td>
+						<td style="border-style:none;padding:0px;"> <input type="button" id="loadTtlButton" onclick="loadTTL()" value="Load" /> </td>			
+					</tr>
+					<tr>
+						<td style="border-style:none;padding:0px;">Layout :</td>
+						<td style="border-style:none;padding:0px;"> <input id="layoutTi" type="text" /> </td>
+						<td style="border-style:none;padding:0px;"> <input type="button" id="loadLayoutButton" onclick="loadLayout()" value="Load" /> </td>			
+						<td style="border-style:none;padding:0px;"> <input type="button" id="loadLayoutButton" onclick="saveLayout()" value="Save" /> </td>			
+					</tr>
+					<tr>
+						<td style="border-style:none;padding:0px;">Time :</td>
+						<td style="border-style:none;padding:0px;"> <label id="timeLabel" type="text" /> </td>
+						<td style="border-style:none;padding:0px;"> <input type="button" id="playButton" onclick="play()" 	value="Play" /> </td>			
+						<td style="border-style:none;padding:0px;"> <input type="button" id="pauseButton" onclick="pause()" value="Pause" /> </td>			
+					</tr>										
+				</table>
+			</td>				
+		</tr>
+	</table>
+	<br />
+	<br />
+	<strong>SWF :</strong>
+	<br />
+	<object id='timeline' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' >
+        <param name='src' value='Timeline.swf'/>
+        <param name='flashVars' value=''/>
+        <embed name='timeline' src='Timeline.swf' height='800' width='1000' flashVars=''/>
+    </object>	
+</body>
+</html>

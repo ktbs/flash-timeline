@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:tl="com.ithaca.timeline.*"
+			   xmlns:root="*"
+			   width="100%"  height="100%" 
+			   preinitialize="onPreinitialize()"
+			   creationComplete="init()" >
+			   	
+	<fx:Script> 
+	<![CDATA[
+		import com.ithaca.timeline.events.TimelineEvent;
+		import com.ithaca.timeline.ISelector;
+		import com.ithaca.timeline.Layout;
+		import com.ithaca.timeline.LayoutModifier;
+		import com.ithaca.timeline.LayoutNode;
+		import com.ithaca.timeline.ObselSkin;
+		import com.ithaca.timeline.SelectorRegexp;
+		import com.ithaca.timeline.skins.TimelineSkin;
+		import com.ithaca.timeline.Stylesheet;
+		import com.ithaca.timeline.Timeline;
+		import com.ithaca.timeline.TraceLine;
+		import com.ithaca.timeline.TraceLineGroup;
+		import com.ithaca.traces.Obsel;
+		import com.ithaca.traces.Trace;
+		import flash.display.StageAlign;
+		import flash.display.StageScaleMode;
+		import flash.events.*;
+		import flash.events.Event;
+		import flash.external.ExternalInterface;
+		import flash.net.FileReference;
+		import flash.net.URLLoader;
+		import flash.utils.Timer;
+		import gnu.as3.gettext._FxGettext;
+		import gnu.as3.gettext.FxGettext;
+		import gnu.as3.gettext.ISO_3166;
+		import gnu.as3.gettext.ISO_639_1;
+		import gnu.as3.gettext.Locale;
+		import gnu.as3.gettext.services.IGettextService;
+		import gnu.as3.gettext.services.URLLoaderService;
+		import mx.collections.ArrayCollection;
+		import mx.collections.XMLListCollection;
+		import mx.controls.*;
+		import mx.events.*;
+		import mx.formatters.DateFormatter;
+			
+		/*
+		 * This example creates a basic wrapper for Javascript.
+		 * 
+		 * The Timeline is the only created component.
+		 * Then it can be used for HTML integration.
+		 */
+		
+		/************************************ 		 
+		 * JAVASCRIPT --->  FLEX
+		 * 
+		 * Definition of the functions that could be called from Javascript.		
+		 * It is called when receive the creationComplete event.
+		 ************************************/		
+		public function initExternalInterface():void
+		{
+			flash.system.Security.allowDomain("~~")
+			flash.system.Security.allowInsecureDomain("~~")			
+			
+			if (ExternalInterface.available)	
+			{
+				 ExternalInterface.addCallback("loadTTL", loadTTL );  
+				 ExternalInterface.addCallback("onPlay", onPlay );  
+				 ExternalInterface.addCallback("onPause", onPause );  
+				 ExternalInterface.addCallback("loadLayout", loadLayout );  
+				 ExternalInterface.addCallback("saveLayout", timeline.timelineLayout.getCurrentXmlLayout );  
+			}
+		}
+				
+		/************************************ 		
+		 * FLEX ---> JAVASCRIPT
+		 * 
+		 * Example of calling a Javascript function from Flex.
+		 */
+		private function updateTimer( event : TimelineEvent ) : void
+		{	
+			var df : DateFormatter = new DateFormatter();
+			df.formatString = "JJ:NN:SS.QQ";			
+			var string : String = df.format( new Date (timeline.currentTime) );
+		
+			// Calling the javascript function : function updateTimer( string )
+			ExternalInterface.call("updateTimer", string );
+		}
+		
+		/* ************************************ */
+		/* End of the Javascript specific code  */
+		/* ************************************ */		
+				
+		[Bindable]
+		private var fxgt:_FxGettext;		
+		
+		private var _xmlLayout		: XMLList =  new XMLList();
+		private var _xmlLayoutDP	: XMLListCollection = new XMLListCollection( _xmlLayout );
+		private var layoutTree 		: XML;		
+		private var timer			: Timer;
+		private var timeValue		: Number = 0;
+		public  var firstload 		: Boolean = true;
+		public  var ttlName			: String ;
+		
+		[Embed(source="images/unknown.jpg")]		
+		public var tlgIcon:Class;
+		private function onPreinitialize():void
+		{
+			fxgt = FxGettext;	
+			setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
+			var service:IGettextService = new URLLoaderService("..");			
+			service.addEventListener(IOErrorEvent.IO_ERROR, onIOError);			
+			fxgt.bindtextdomain("timeline", null, service);			
+			fxgt.textdomain("timeline");
+		}		
+		
+		private function onIOError(event:IOErrorEvent):void
+		{			
+			trace(event);
+		}
+		
+		protected function init() : void
+		{						
+			loadLayout( "layoutVisu2.xml" );					
+			initExternalInterface();
+		}	
+		
+		public function onRulerClick( e : TimelineEvent ) : void
+		{			
+			timeValue = e.value;
+			timeline.currentTime = timeValue;
+		}
+		
+		protected function loadLayout( layoutFilename : String ):void
+		{
+			var loader:URLLoader=new URLLoader();
+			
+			loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
+			loader.load(new URLRequest(layoutFilename));
+			
+			loading.visible = true;
+			loading.label = "Loading Layout...";
+		}
+		
+		private function onLoadLayoutComplete(event:Event):void 
+		{
+			loading.visible = false;	
+			
+			//we init the trace object
+			var loader:URLLoader=event.target as URLLoader;
+			timeline.layoutXML 		= new XML( loader.data );
+			timeline.timelineLayout = new Layout( timeline );				
+		}
+		
+		
+		public function loadTTL( url : String ):void
+		{
+			var loader:URLLoader = new URLLoader();
+			
+			ttlName = url;
+			
+			loader.dataFormat=URLLoaderDataFormat.BINARY;
+			loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
+			loader.load(new URLRequest( url));
+			
+			loading.visible = true;		
+			loading.label = "Loading TTL...";
+		}	
+		
+		
+		public function ttlToTrace(ttl:String, theTrace:Trace):void
+		{	
+			//we split the ttl on each "." line (kind of an "end of instruction" in ttl (?))
+			var ar:Array = ttl.split("\n.\n");
+			
+			for each (var l: String in ar)
+			{
+				l = l + "\n.\n"; //we (re)add the "." line at the end of instruction (because the "split function" has not include it)
+				
+				//for each "ttl instruction", we create a new obsel and initialize it with the "ttl insctruction" content
+				var obs:Obsel = new Obsel("temp");
+				obs.updateFromRDF(l);
+				
+				//if the initialization from the ttl chunk is ok, we add the obsel to the trace
+				if(obs.type != "temp")
+					theTrace.addObsel(obs);
+			}
+		}
+		
+		private function onLoadTTLComplete(event:Event):void 
+		{	
+			loading.visible = false;
+			
+			//we init the trace object
+			var loader : URLLoader = event.target as URLLoader;
+			var trace_ttl:String = loader.data;
+			
+			var theTrace:Trace = new Trace(421, ttlName ); //Dirty
+			theTrace.autosync = false;
+			
+			loading.visible = true;
+			loading.label = "TTL to trace...";
+			ttlToTrace(trace_ttl, theTrace);
+			
+			activityObselsToDurative( theTrace );
+			
+			loading.label = "Adding Trace...";
+			var tlg : TraceLineGroup = timeline.addTrace(theTrace);	
+			tlg.setStyle("title", theTrace.uri.toUpperCase() );
+			tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor( tlg ) );
+			tlg.setStyle("icon", tlgIcon );			
+			
+			loading.visible = false;
+		}
+		
+		private function activityObselsToDurative( theTrace : Trace ) : void
+		{
+			var activityStart : Obsel = null;
+			for each (var obsel : Obsel in theTrace.obsels)
+			{
+				if (obsel.type == "ActivityStart" || obsel.type == "ActivityStop"  )
+				{
+					if (activityStart)
+						activityStart.end = obsel.begin;
+					
+					if (obsel.type == "ActivityStart" )	
+						activityStart = obsel;
+					else
+						activityStart = null;
+				}
+			}
+		}	
+
+		private function startTimer( ) : void
+		{	
+			if ( !timer)
+			{
+				timer = new Timer( 100 );
+				timeValue = timeline.zoomContext._timelineRange.begin;	
+				timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );		
+			}
+	
+			timer.start();
+		}
+		
+		private function stopTimer( ) : void
+		{	
+			timer.stop();
+		}
+		
+		public function updateCursorPosition( event : TimerEvent ) : void
+		{			
+            var timer : Timer = event.currentTarget as Timer;
+			timeValue += timer.delay*60;
+            
+            timeline.currentTime = timeValue;            
+		}	
+
+		
+		private function onPlay( event : Event = null ) : void
+		{	
+			timeline.isPlaying = true;
+			startTimer();
+		}
+		
+		private function onPause( event : Event = null) : void
+		{	
+			timeline.isPlaying = false;
+			stopTimer();
+		}
+			
+	]]> </fx:Script>
+	
+	<fx:Style source="visu2.css" />
+	
+	<s:VGroup  width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">						
+		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer()" 
+					 pauseButtonClick="stopTimer()" timeRulerClick="onRulerClick(event)" 
+					 cursorMode="auto"
+					 endAlertBeforeTime="30000"
+					 showPlayButton="true"
+					 currentTimeChange="updateTimer(event)" />		
+		<root:version />
+	</s:VGroup>
+	
+	<mx:Box width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<mx:ProgressBar id="loading"  horizontalCenter="true" verticalCenter="true" label="Loading..."  labelPlacement="center" indeterminate="true" visible="false" />
+	</mx:Box>
+	
+</s:Application>
