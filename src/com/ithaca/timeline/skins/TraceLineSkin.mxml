@@ -67,12 +67,14 @@
 				obselsRenderer.percentWidth 	= 100;
 				obselsRenderer.left			= renderersSidePadding;
 				obselsRenderer.width		= hostComponent._timeline.zoomContext.timelinePreview.width;
-				obselsRenderer.obselsCollection = hostComponent._obsels;
+				obselsRenderer.obselsCollection = hostComponent._obsels;			
 				obselsRenderer.styleName = hostComponent.styleName;	
 				rendererGroup.addElement( obselsRenderer );
 				timeline = hostComponent._timeline;				
 				styleChanged(null);
 			}
+
+		
 			
 			protected function onResize(event:Event):void
 			{		

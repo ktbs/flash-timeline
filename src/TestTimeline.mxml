@@ -13,7 +13,6 @@
 		import com.ithaca.timeline.Layout;
 		import com.ithaca.timeline.ObselSkin;
 		import com.ithaca.timeline.skins.TimelineSkin;
-		import com.ithaca.timeline.skins.TraceLineGroupSkin;
 		import com.ithaca.timeline.ISelector;
 		import com.ithaca.timeline.LayoutModifier;
 		import com.ithaca.timeline.LayoutNode;
@@ -23,8 +22,11 @@
 		import com.ithaca.timeline.SelectorRegexp;
 		import com.ithaca.timeline.Stylesheet;
 		import com.ithaca.timeline.events.TimelineEvent;
+		import com.ithaca.timeline.TraceLineGroupTitle;
+		import com.ithaca.timeline.TraceLineTitle;
 		import com.ithaca.traces.Obsel;
 		import com.ithaca.traces.Trace;
+		import spark.events.ElementExistenceEvent;
 		
 		import flash.events.*;
 		import flash.net.FileReference;
@@ -34,6 +36,7 @@
 		import mx.formatters.DateFormatter;		
 		import mx.collections.ArrayCollection;
 		import mx.collections.XMLListCollection;
+		import mx.styles.StyleManager;
 		import mx.controls.*;
 		import mx.events.*;
 		
@@ -91,12 +94,36 @@
 			urlTTL_ti.text = "trace.ttl";
 			layout_ti.text = "layoutVisu2.xml";			
 			loadLayout( layout_ti.text );			
-			allTestLayout.enabled = true;				
+			allTestLayout.enabled = true;	
+			timeline.addEventListener( TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
 		}		
+		
+		public function onAddLayoutNode( e : TimelineEvent ) : void
+		{		
+			if (e.value is TraceLine)
+				(e.value as TraceLine).titleComponent.addEventListener( MouseEvent.MOUSE_DOWN, onSelect, true);	
+			else if (e.value is TraceLineGroup)
+				(e.value as TraceLineGroup).titleComponent.addEventListener( MouseEvent.MOUSE_DOWN, onSelect,true);	
+		}
+		
+		
+		public function onSelect( e : MouseEvent ) : void
+		{				
+			if ( e.currentTarget is TraceLineTitle )
+			{
+				dg_label.text = (e.currentTarget as TraceLineTitle).tl.title + " : " + (e.currentTarget as TraceLineTitle).tl._obsels.length + " obsels";
+				obselList_dg.dataProvider = (e.currentTarget as TraceLineTitle).tl._obsels;
+			}
+			else if ( e.currentTarget is TraceLineGroupTitle )
+			{
+				dg_label.text = (e.currentTarget as TraceLineGroupTitle).tlg.title + " : " + (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels.length + " obsels";
+				obselList_dg.dataProvider = (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels;
+			}
+		}
 		
 		public function onNewTl( e : TimelineEvent ) : void
 		{
-			(e.value.traceline as TraceLine).title = "new title"			
+			//(e.value.traceline as TraceLine).title = "new title"			
 		}
 		
 		
@@ -106,7 +133,7 @@
 			df.formatString = "JJ:NN:SS.QQ";
 			trace( df.format( new Date(e.value ) ));
 			timeValue = e.value;
-			timeline.currentTime = timeValue;
+			timeline.currentTime = timeValue;			
 		}
 		
 		protected function browse(event:MouseEvent):void
@@ -214,6 +241,8 @@
 			tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor( tlg ) );
 			tlg.setStyle("icon", tlgIcon );			
 			
+			timeline.zoomContext.reset();
+			
 			loading.visible = false;
 		}
 		
@@ -292,7 +321,7 @@
 			
 	]]> </fx:Script>
 	
-	<fx:Style source="visu2.css" />
+	<fx:Style source="default.css" />
 	
 	<s:VGroup id="allTestLayout" width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">		
 		
@@ -338,9 +367,10 @@
 		</s:HGroup>
 			
 		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" 
-					 pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)" 
-					 cursorMode="follow"
+					 pauseButtonClick="stopTimer(event)" timeMode="relagtive" timeRulerClick="onRulerClick(event)" 
+					 cursorMode="manual"
 					 endAlertBeforeTime="30000"
+					
 					 showPlayButton="true"
 					 endAlert="onEndAlert(event)"
 					 endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />

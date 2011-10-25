@@ -5,12 +5,12 @@
 
 timeline|Timeline
 {
-	skin-class	: ClassReference("com.ithaca.timeline.skins.TimelineSkin");	
+	skin-class	: ClassReference("com.ithaca.timeline.skins.TimelineSkin");	 
 }
 
 timeline|TraceLineGroup
 {
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupVisu2Skin");
+	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
 	fillColors : #FFA6A8, #C6FFC9, #AED7FF, #FAFFB7, #FFDFB0, #E1B7F9 ;
 	headerHeight : 15;
 	bottom 		 : 1;
@@ -19,18 +19,18 @@ timeline|TraceLineGroup
 
 timeline|TraceLineGroupTitle
 {
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleVisu2Skin");
+	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleSkin");
 	bgColor		:#FFA6A8;
 }
 
 timeline|TraceLineGroup.comments
 {
-	headerHeight : 7;
+	headerHeight : 1;
 }
 
 timeline|TraceLineGroupTitle.comments
 {
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsVisu2Skin");
+	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsSkin");
 	icon 		: Embed("images/CommentAddVer1.png");	
 	bgColor		:#FFA6A8;
 }
@@ -39,7 +39,7 @@ timeline|TraceLine.comments
 {
 	rendererHeight : 45;
 	rendererGap	   : 0;
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");	
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");	
 }
 
 timeline|TraceLine
@@ -47,7 +47,7 @@ timeline|TraceLine
 	borderVisible  : false;
 	rendererHeight : 25;
 	rendererGap	   : 0;
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineVisu2Skin");
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
 }
 
 
@@ -58,12 +58,12 @@ timeline|TraceLine.background
 
 timeline|TraceLineTitle
 {
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineTitleVisu2Skin");
+	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineTitleSkin");
 }
 
 timeline|ZoomContext
 {
-	skin-class			: ClassReference("com.ithaca.timeline.skins.ZoomContextSkin2");
+	skin-class			: ClassReference("com.ithaca.timeline.skins.ZoomContextSkin");
 	backgroundColor 	: #F5F5F5;
 	allowZoom			: true;
 	allowCut			: false;
@@ -86,6 +86,13 @@ timeline|ObselSkin.Document
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
 	icon : Embed("images/fichierVisu1.png");
+	tooltipProp : 'text';
+}
+
+timeline|ObselSkin.PlayDocumentVideo
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
+	icon : Embed("images/chatMessageVisu1.png");
 	tooltipProp : 'text';
 }
 

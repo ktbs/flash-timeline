@@ -12,6 +12,20 @@
 
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLineTitle")]</fx:Metadata>
 
+	<fx:Declarations>
+		<fx:XML id="menuContent">
+			<root>
+				<menuitem label='{fxgt.gettext("addTraceLine")}'
+						  eventName="newTraceLine" />
+				<menuitem type="separator" />
+				<menuitem label='{fxgt.gettext("editTraceLine")}'
+						  eventName="editTraceLine" />
+				<menuitem label='{fxgt.gettext("removeTraceLine")}'
+						  eventName="removeTraceLine" />
+			</root>
+		</fx:XML>
+	</fx:Declarations>
+
 	<fx:Script>
 		<![CDATA[
 			import com.ithaca.timeline.CursorIcons;
@@ -47,6 +61,11 @@
 			import mx.managers.PopUpManager;
 			import spark.events.ElementExistenceEvent;
 			
+			import gnu.as3.gettext._FxGettext;
+			import gnu.as3.gettext.FxGettext;
+			[Bindable]
+			private var fxgt:_FxGettext;		
+
 			[Bindable]
 			public var forme:Shape = new Shape();
 			
@@ -60,10 +79,12 @@
 			public var simpleObselsRenderer:ObselsRenderer;
 			
 			private var bStypePropChanged:Boolean;
+			private var editMenu:Menu;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				bStypePropChanged	= false;
+				fxgt 				= FxGettext;
 				timeline 			= hostComponent.tl._timeline;				
 				traceLineTitle.text = hostComponent.tl.title;
 				hostComponent.updateDisplayLevel();
@@ -73,6 +94,17 @@
 				styleChanged( null );
 			}
 			
+			protected function showMenu():void
+			{
+				var position:Point = menuButton.localToGlobal(new Point(menuButton.x, menuButton.y));
+				
+				editMenu = Menu.createMenu(this, menuContent, false);
+				editMenu.labelField = "@label";
+				editMenu.addEventListener(MenuEvent.ITEM_CLICK, menuHandler);
+				
+				editMenu.show(position.x - 50, position.y);
+			}
+
 			protected function zcStopDrag(e:MouseEvent):void
 			{
 				CursorIcons.SetDefaultCursor(e);
@@ -191,7 +223,8 @@
                 {
 					var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;	
 					// Check if the dragged element come from the same parent
-					if ( traceline.parentNode == hostComponent.tl.parentNode )
+					if ( 	traceline.getTraceLineGroup() == hostComponent.tl.getTraceLineGroup() &&
+							( traceline.parentNode == hostComponent.tl.parentNode  || timeline.getStyle( "adminMode" ) == true) )
 						DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
             	}
             }
@@ -201,8 +234,16 @@
 				var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;			
 				if ( traceline != hostComponent.tl  )
 				{
-					var toIndex : Number = hostComponent.tl.parentNode.getElementIndex( hostComponent.tl );
-					 hostComponent.tl.parentNode.addChildAndTitle( traceline, toIndex );					
+					trace(timeline.getStyle( "adminMode" ));
+					if ( event.ctrlKey && timeline.getStyle( "adminMode" ) == true  )
+					{
+						timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);										
+					}
+					else
+					{
+						var toIndex : Number = hostComponent.tl.parentNode.getElementIndex( hostComponent.tl );
+					 	hostComponent.tl.parentNode.addChildAndTitle( traceline, toIndex );					
+					}
 					(traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
 				}
             }
@@ -245,11 +286,12 @@
 	
 	<s:VGroup width="100%" gap="0" >
 		<s:HGroup id="titleGroup" gap="5" >
-			<mx:Spacer id="hierarchicalSpacer" />
-			<mx:Image  id="OpenButton" visible="false" source="@Embed(source='../images/iconPlus.png')" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-			<s:Label id="traceLineTitle" baselineShift="-4" fontSize="11" mouseDown="mouseDownHandler(event)" dragEnter="dragEnterHandler(event)" dragDrop="dragDropHandler(event)" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+			<mx:Spacer id="hierarchicalSpacer" />			
+			<mx:Image  id="OpenButton" visible="false" source="@Embed(source='../images/iconPlus.png')" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>		
+			<s:Label id="traceLineTitle" baselineShift="-4" fontSize="11" mouseDown="mouseDownHandler(event)" dragEnter="dragEnterHandler(event)" dragDrop="dragDropHandler(event)" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>			
+			<mx:Image id="menuButton"  visible="{timeline.getStyle( 'adminMode' )}" source="@Embed(source='../images/iconOption_16x16.png')" click="showMenu()" />
 		</s:HGroup>
-		
+					
 		<s:Group id="contentGroup"  includeIn="open" width="100%" >
 			<s:layout><s:VerticalLayout gap="0" /></s:layout>
 		</s:Group>
