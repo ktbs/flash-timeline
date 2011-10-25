@@ -96,7 +96,7 @@
 				<s:VGroup id="contentGroup" y="{zoomContext.height}" maxHeight="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />
 			</s:Scroller>
 			<tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />
-			<tl:Cursor id="contextCursor" timeRuler="{zoomContext.outputTimeRuler}" timeline="{hostComponent}"	y="{contentGroup.y }" 	height="{contentGroup.height}" visible="false"  withToolTip="true" />
+			<tl:Cursor id="contextCursor" timeRuler="{zoomContext.outputTimeRuler}" timeline="{hostComponent}"	y="{scroller2.y }" 	height="{contentGroup.height}" visible="false"  withToolTip="true" />
 			<tl:Cursor id="globalCursor"  timeRuler="{zoomContext.inputTimeRuler}"  timeline="{hostComponent}"	y="{zoomContext.timelinePreview.y-20}" height="{15}" visible="false" withToolTip="true"/>
 		</s:Group>
 	</mx:HDividedBox>	
