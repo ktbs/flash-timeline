@@ -1,5 +1,8 @@
 package com.ithaca.timeline 
 {
+	/**
+	 * This class is used to change the appearance of the cursor
+	 * */
 	public class CursorIcons
 	{
 		import flash.events.MouseEvent;
@@ -9,6 +12,7 @@ package com.ithaca.timeline
 
 		[Bindable]
 		[Embed(source="images/resize.png")]
+
 		static public var Resize:Class;
 		
 		static private var currentObject:Object = null;
@@ -42,13 +46,13 @@ package com.ithaca.timeline
 					currentObject = null;
 			}
 		}
-		
+
 		static public function SetButtonCursor(event:MouseEvent) : void
 		{
 			if ( !event.buttonDown )
 				Mouse.cursor = MouseCursor.BUTTON;
 		}
-		
+
 		static public function SetIBeamCursor(event:MouseEvent) : void
 		{
 			if ( !event.buttonDown )

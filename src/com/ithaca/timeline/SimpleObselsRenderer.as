@@ -4,6 +4,11 @@ package com.ithaca.timeline
 	import flash.display.Shape;
 	import flash.events.Event;
 	
+	/**
+	 * The SimpleObselRenderer class extends BaseOselsRender to render obsels with lines and rect (durrative obsel) in a Shape component. 
+	 * <p>It's used to render the preview tracelines in the zoomContext zone.</p>
+	 * <p>Using different colors is not supported yet.</p>	 
+	 */
 	public class SimpleObselsRenderer extends BaseObselsRenderer 
 	{
 		public	var _markerColor 		: uint = 0x000000;
@@ -14,7 +19,11 @@ package com.ithaca.timeline
 		{
 			super( tr, null, tl);						
 		}
-	
+		
+		/**
+		 * The only way to refresh the render in this class.
+		 * @param	event
+		 */
 		override public function  redraw( event : Event = null) : void
 		{	
 			if ( !_timeRange) 

@@ -11,6 +11,10 @@ package com.ithaca.timeline
 	import spark.components.Group;
 	import com.ithaca.timeline.events.TimelineEvent;
 	
+	
+	/**
+	 * The ObselsRenderer class extends BaseOselsRender to render obsels with skinned ObselsSkins. 
+	 */
 	public class ObselsRenderer extends BaseObselsRenderer 
 	{
 		protected var  obselsSkinsCollection : ArrayCollection;
@@ -20,7 +24,10 @@ package com.ithaca.timeline
 			super( tr, tl, tl._timeline);						
 			obselsSkinsCollection = new ArrayCollection();	
 		}
-		
+		/**
+		 * Full redraw of the obsels renderer.
+		 * @param	event
+		 */
 		override public function  redraw( event : Event = null) : void
 		{						
 			if ( !_timeRange) 
@@ -71,6 +78,10 @@ package com.ithaca.timeline
 			}
 		}	
 		
+		/**
+		 * This redraw function is used when the same set of obsels is visible but their positions have changed. That's what happens when the window is resized for example.
+		 * @param	event
+		 */
 		public function  updateObselPosition( event : Event = null) : void
 		{						
 			var lastIntervalGroup : Group = null;
@@ -112,11 +123,18 @@ package com.ithaca.timeline
 			}
 		}	
 		
+		/**
+		 * Function called when the ObselRenderer is resized.
+		 */
 		override public function  onResize( event : ResizeEvent ) : void
 		{
 			updateObselPosition();
 		}
 		
+		/**
+		 * Switch between different redraw functions.
+		 * @param	event
+		 */
 		override public function onTimerangeChange( event : TimelineEvent ) : void
 		{
 			_timeRange = event.currentTarget as TimeRange;
@@ -134,6 +152,11 @@ package com.ithaca.timeline
 				redraw();
 		}
 		
+		/**
+		 * This redraw function is used when the time range has shifted. These are the same obsels at the same position (no resizing of the renderer) but the position of the viwport must change.
+		 * That's what happens when the current time change.
+		 * @param	event
+		 */
 		public function  updateViewportPosition( event : Event = null) : void
 		{						
 			if ( !_timeRange) 
@@ -152,6 +175,10 @@ package com.ithaca.timeline
 			}
 		}		
 		
+		/**
+		 * @param	obsel An Obsel
+		 * @return the index in <code>obselsSkinsCollection</code> of the ObselSkin that represents <code>obsel</code>. Return -1 if the obsel is not found.
+		 */
 		public function getObselSkinIndex( obsel : Obsel ) : int
 		{			
 			for ( var i: uint = 0; i < obselsSkinsCollection.length; i++ )
@@ -161,6 +188,10 @@ package com.ithaca.timeline
 			return -1;
 		}
 		
+		/**
+		 * Manage the <code>obselsSkinsCollection</code> when the <code>_obsels</code> ArrayCollection change.
+		 * This function is called when a CollectionEvent.COLLECTION_CHANGE is dispatched by <code>_obsels</code>.
+		 */
 		override public function  onObselsCollectionChange( event : CollectionEvent ) : void
 		{
 			var obsel 		: Obsel;

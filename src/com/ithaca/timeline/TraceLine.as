@@ -4,10 +4,22 @@ package com.ithaca.timeline
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
-
+	
+	/**
+	 * The height of the obsel renderer component
+	 */
 	[Style(name = "rendererHeight", type = "Number", inherit = "no")]	
+	/**
+	 * The gap under the obsel renderer component
+	 */
 	[Style(name = "rendererGap", type = "Number", inherit = "no")]	
-	[Style(name = "title", type = "String", inherit = "no")]	
+	[Style(name = "title", type = "String", inherit = "no")]
+	/**
+	 * The TraceLine class extends the LayoutNode ; it manages an obsels collection selected from an obsels source and renders them.
+	 * 
+	 * @see Layout
+	 * @see LayoutNode
+	 */
 	public class TraceLine  extends LayoutNode
 	{	
 		//private var _title 			: String;
@@ -51,6 +63,9 @@ package com.ithaca.timeline
 			return _selector;
 		}
 
+		/**
+		 * @return the obsels collection used as source (before selection) by the traceline ; it can be the trace or the obsels collection of the parent node 
+		 */
 		public function getCollectionSource() : ArrayCollection
 		{
 			switch ( sourceStr )
@@ -76,18 +91,30 @@ package com.ithaca.timeline
 				}
 			}
 		}
-		
+		/**
+		 * Check if an obsel matches the selector
+		 * @param obsel
+		 * @return true if the obsel matches the selector or if there's no selector ; otherwise return false.
+		 */
 		public function acceptObsel ( obsel : Obsel ) : Boolean
 		{
 			return ( !_selector || _selector.isObselMatching( obsel as Obsel ) ); 
 		}
 		
+		/**
+		 * add an obsel in the obsel collection
+		 * @param	event
+		 */
 		public function addObsel ( obsel : Obsel ) : void 
 		{
 			if ( acceptObsel( obsel ) )
 				_obsels.addItem( obsel );
 		}
 		
+		/**
+		 * Remove an  obsel in the obsel collection
+		 * @param	event
+		 */
 		public function removeObsel ( obsel : Obsel ) : void 
 		{
 			var obselIndex : int = _obsels.getItemIndex( obsel );
@@ -95,6 +122,10 @@ package com.ithaca.timeline
 				_obsels.removeItemAt( obselIndex );
 		};
 		
+		/**
+		 * Rebuild the obsel collection from the source
+		 * @param	event
+		 */
 		override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
 		{		
 			_obsels.disableAutoUpdate();
@@ -113,6 +144,10 @@ package com.ithaca.timeline
 				SetToVisible( _obsels.length > 0 );
 		}		
 		
+		/**
+		 * Handle an obsels collection event that occurs in the source collection
+		 * @param	event
+		 */
 		override public function onSourceChange( event : CollectionEvent ) : void
 		{
 			_obsels.disableAutoUpdate();
@@ -147,7 +182,13 @@ package com.ithaca.timeline
 			if ( autohide )
 				SetToVisible( _obsels.length > 0 );
 		}
-						
+
+		/**
+		 * Compute the number of traceline children which are not hidden ; used to know if the open/close button must be visible.
+		 * <p> This is because a node could have children in autohide mode and then the open button must be hidden </p>
+		 * 
+		 * @return the number of visible children
+		 */
 		public function getVisibleChildrenNumber() : Number 
 		{
 			var numTl : Number = 0;
@@ -158,21 +199,27 @@ package com.ithaca.timeline
 			return numTl;
 		}
 		
-		
+		/**
+		 * Show or hide the traceline and its children according to the parameter.
+		 * @param	visible if true the TraceLine is visible; otherwise it's hidden.
+		 */
 		public function SetToVisible( visible: Boolean ) : void
 		{
 			if (this.visible == visible)
 				return;
 			
-			this.visible 						= visible;
-			titleComponent.visible				= visible;
-			if ((titleComponent as TraceLineTitle).OpenButton)
-				(titleComponent as TraceLineTitle).OpenButton.visible = visible && (getVisibleChildrenNumber() > 0);
-				
-			if (parentNode is TraceLine && parentNode.visible && parentNode.titleComponent && ((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton)
-				((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton.visible = ((parentNode as TraceLine).getVisibleChildrenNumber() > 0 );
-						
-			setStyle( 'hide', !visible )					
+			if ( _timeline.getStyle( "adminMode" ) != true)
+			{
+				this.visible 						= visible;
+				titleComponent.visible				= visible;
+				if ((titleComponent as TraceLineTitle).OpenButton)
+					(titleComponent as TraceLineTitle).OpenButton.visible = visible && (getVisibleChildrenNumber() > 0);
+					
+				if (parentNode is TraceLine && parentNode.visible && parentNode.titleComponent && ((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton)
+					((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton.visible = ((parentNode as TraceLine).getVisibleChildrenNumber() > 0 );
+							
+				setStyle( 'hide', !visible )					
+			}
 		}
 	}
 }

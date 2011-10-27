@@ -8,6 +8,11 @@ package com.ithaca.timeline
 	
 	import com.ithaca.traces.Obsel;
 
+	/**
+	 * Created to manage colors, obsels skins and other CSS like properties but not really used ; should be merged with the Layout class.
+	 * 
+	 * @see Layout
+	 */
 	public class Stylesheet
 	{
 		static private var tracelineGroupColorIndex : uint = 0;
@@ -20,6 +25,12 @@ package com.ithaca.timeline
 		{
 		}	
 		 		
+		/**
+		 * Create a ObselSkin from an Obsel and set a stylename according to the obselsSkinsSelectors array defined in the XML timeline descriptor.
+		 * @param	obsel The obsel to render
+		 * @param	traceline The traceline that's contained the Obsel
+		 * @return an ObselSkin
+		 */
 		public function getParameteredSkin( obsel : Obsel, traceline : TraceLine ) :  ObselSkin 
 		{ 	
 			var obselSkin : ObselSkin = new ObselSkin( obsel, traceline );			
@@ -33,6 +44,11 @@ package com.ithaca.timeline
 			return obselSkin;
 		}
 		
+		/**
+		 * Select a color in the "fillColors" array of the TraceLineGroups
+		 * @param	tlg A TraceLineGroup
+		 * @return the selected color
+		 */
 		static public function getTracelineGroupColor( tlg : TraceLineGroup ) : uint
 		{
 			var fillColors : Array = tlg.getStyle( "fillColors" ) as Array;	

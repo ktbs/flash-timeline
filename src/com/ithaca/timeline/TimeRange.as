@@ -5,35 +5,73 @@ package com.ithaca.timeline
 	import flash.events.EventDispatcher;
 	import flash.sampler.NewObjectSample;
 	import mx.collections.ArrayCollection;
-	
+	/**
+	 * The TimeRange class manages times intervals, zoom an time holes.
+	 */
 	public class TimeRange extends EventDispatcher
-	{		
+	{	
+		/**
+		 * The current times intervals ; the limits are stored as a list :( begin1, end1, begin2, end2, ...., beginn, endn)
+		 */
 		public  var _ranges 	: ArrayCollection;
+		/**
+		 * The originals times intervals are saved here in order to restore them after making some holes and zoom.
+		 */
 		private var _originalRanges 	: ArrayCollection;
+		/**
+		 * The begining of the range
+		 */
 		private var _start		: Number;
+		/**
+		 * The end of the range
+		 */
 		private var _end		: Number;
+		/**
+		 * The duration of the range
+		 */
 		private var _duration 	: Number;
+		/**
+		 * true if a zoom is actived
+		 */
 		private var _zoom		: Boolean  = false;
+		/**
+		 * gap between to interval (width of the time hole) ; must be used in each component that render time hole.
+		 */
 		public  var	timeHoleWidth : Number = 10;
 		
-		public function TimeRange( startValue : Number = 0 , durationValue : Number = 1 ) : void 
+		public function TimeRange( ) : void 
 		{
 			_ranges = new ArrayCollection();	
-			_originalRanges = new ArrayCollection();	
-	//		addTime(startValue, startValue + durationValue);
+			_originalRanges = new ArrayCollection();		
 		}
 		
+		/**		 
+		 * @return there'
+		 */		
 		public function isEmpty () : Boolean
 		{
 			return _ranges.length == 0;
 		}
 		
-		public function get numIntervals() 			: Number { return _ranges.length/2; }
+		/**
+		 * return the number of intervals (this the number of time holes + 1 )
+		 */
+		public function get numIntervals() 			: Number { return _ranges.length / 2; }
+		/**
+		 * The begining of the range
+		 */
 		public function get begin() 				: Number { return _start; }
-//		public function set begin( value :Number ) 	: void 	 { _ranges[0] = value;  }
+		/**
+		 * The end of the range
+		 */
 		public function get end() 					: Number { return _end; }
-//		public function set end( value : Number ) 	: void 	 { _ranges[_ranges.length -1] = value; }
-		public function get totalDuration() 		: Number { return end - begin; }	
+		/**
+		 * The  duration of the range without taking into account the time holes
+		 */
+		public function get totalDuration() 		: Number { return end - begin; }
+		/**
+		 * The sum of duration of each intervals ( the time holes are taking into account )
+		 */
 		public function get duration() 				: Number { return _duration; }	
 		
 		private function addItem( value : Number, pos : Number = Infinity ) : void
@@ -44,6 +82,12 @@ package com.ithaca.timeline
 				_ranges.addItemAt( value, pos );
 		}
 		
+		/**
+		 * Converts a time to a position for a given witdh of component
+		 * @param	timeValue  time in milliseconds
+		 * @param	width The width of the renderer component
+		 * @return the position in the renderer component
+		 */
 		public function timeToPosition( timeValue : Number, width : Number ) : Number
 		{
 			var position : Number = 0;
@@ -74,6 +118,12 @@ package com.ithaca.timeline
 			return position;
 		}
 		
+		/**
+		 * Converts the positon to a time for a given witdh of component
+		 * @param	positionValue the position in the renderer component
+		 * @param	width The width of the renderer component
+		 * @return  time in milliseconds
+		 */
 		public function positionToTime( positionValue : Number, width : Number ) : Number
 		{
 			var time : Number = 0;	
@@ -99,7 +149,7 @@ package com.ithaca.timeline
 			return time;
 		}
 		
-		public function updateDuration ( ) : void
+		private function updateDuration ( ) : void
 		{
 			_duration = 0;
 			for ( var i : int = 0; i < _ranges.length; i += 2 )
@@ -109,6 +159,13 @@ package com.ithaca.timeline
 				trace("duration 0");
 		}		
 		
+		
+		/**
+		 * Builds a new  list of time intervals with the current list and a new time interval
+		 * @param	beginValue begin of the new inteval
+		 * @param	endValue end of the new inteval
+		 * @param	fillHole if true the interval between the current list and the new interval is considered as valid and usable; otherwise this time hole is preseved
+		 */
 		public function addTime ( beginValue : Number , endValue : Number,  fillHole : Boolean = true ) : void
 		{				
 			var beginIndex 	: Number  	= _ranges.length;
@@ -170,6 +227,10 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE, true )); 	
 		}
 		
+		/**
+		 * Clones another TimeRange
+		 * @param	tr the TimeRange to clone
+		 */
 		public function clone( tr : TimeRange ) : void
 		{	
 			_ranges.removeAll();
@@ -181,6 +242,11 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 
 		}
 		
+		/**
+		 * Makes a time hole between the startValue and endValue. 
+		 * @param startValue lower limit of the time hole interval
+		 * @param endValue higher limit of the time hole interval
+		 */
 		public function makeTimeHole (beginValue : Number , endValue : Number ) : void
 		{
 			var beginIndex 	: Number  	= _ranges.length;
@@ -230,6 +296,12 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 	
 		}
 		
+		/**
+		 * Changes the begin an the end of the time to consider, but the intervals stay the same. 
+		 * It's used to make a zoom.
+		 * @param	begin
+		 * @param	end
+		 */
 		public function changeLimits ( begin : Number , end : Number ) : void
 		{			
 			_start = begin;
@@ -240,6 +312,10 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 	
 		}	
 		
+		/**
+		 * Adds a same time value both to the begin and to the end of the TimeRange
+		 * @param delta time in milliseconds to add.
+		 */
 		public function shiftLimits ( delta : Number ) : void
 		{			
 			_start 	+= delta;
@@ -248,6 +324,9 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_SHIFT , true )); 	
 		}	
 		
+		/**
+		 * Restores the begin and the end of time to consider from the intevals list ; in order to cancel a zoom for example.	 
+		 */
 		public function resetLimits ( ) : void
 		{
 			_start 	= _ranges[ 0 ];
@@ -258,7 +337,9 @@ package com.ithaca.timeline
 			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 	
 		}	
 		
-		
+		/**
+		 * Restores the intervals and  the begin / end of time to consider from the saved intevals list ; in order to cancel all zooms and time holes for example.	 
+		 */
 		public function reset ( ) : void
 		{
 			_ranges.removeAll();

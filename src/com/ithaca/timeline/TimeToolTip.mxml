@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!---
+	This is a tooltip like component that shows a time label ; it is used in the Cursor class or appears when cursor is over a TimeRuler.
+	<p>(this is not a true toolTip)</p>
+	@see Cursor
+-->
 <mx:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				 xmlns:s="library://ns.adobe.com/flex/spark"
 				 xmlns:timeline="com.ithaca.timeline.*"

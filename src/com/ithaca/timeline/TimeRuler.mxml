@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<!---
+	This component display a TimeRange as a ruler with equidistant marker line and time labels.
+	There is two TimeRulers in the ZommContext component one to display the whole TimeRange of timeline and the other to display the selected TimeRange.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/halo"
 			   xmlns:tl="com.ithaca.timeline.*"
@@ -11,15 +15,25 @@
 	</fx:Declarations>
 	
 	<fx:Metadata>		
-		[Style(name = "minLabelsGap", 	type = "Number", inherit = "no")]
+		<!--- Minimum distance between two time labels-->
+		[Style(name = "minLabelsGap", 	type = "Number", inherit = "no")]		
+		<!--- Maximum distance between two time labels-->
 		[Style(name = "maxLabelsGap", 	type = "Array", inherit = "no")]
+		<!--- Minimum distance between two mark lines-->
 		[Style(name = "minMarksGap", 	type = "Array", inherit = "no")]
+		<!--- Maximum distance between two mark lines-->
 		[Style(name = "maxMarksGap", 	type = "Array", inherit = "no")]
+		<!--- Height of small marker lines-->
 		[Style(name = "minorMarkHeight", type = "Array", inherit = "no")]
+		<!--- Height of big marker lines-->
 		[Style(name = "majorMarkHeight", type = "Array", inherit = "no")]
+		<!--- Height of  marker line which are an interval limit-->
 		[Style(name = "limitMarkHeight", type = "Array", inherit = "no")]
+		<!--- Array of valid time interval that could be marked (1, 5, 10....)-->
 		[Style(name = "validIntervals", type = "Array", inherit = "no")]
+		<!--- Array of valid time interval that could be labeled (10, 30, 60....)-->
 		[Style(name = "labelsIntervals", type = "Array", inherit = "no")]
+		<!--- Background color of the ruler -->
 		[Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 	</fx:Metadata>
 	
@@ -221,6 +235,10 @@
 			redraw();
 		}
 		
+		/**
+		 * Handles a click on the ruler to dispatch an TimelineEvent.TIMERULER_CLICK event with the clicked time 
+		 * @param	event
+		 */
 		public function onClick( event : MouseEvent ):void
 		{		
 			var tlEvent : TimelineEvent = new TimelineEvent( TimelineEvent.TIMERULER_CLICK, true);
@@ -266,4 +284,4 @@
 		</s:BorderContainer>
 	</s:Group>
 	<tl:TimeToolTip id="tt" y="-5" visible="false" borderColor="0x000000"  mouseMove="{onToolTipShow(event)}"/>
-</s:SkinnableContainer>
+</s:Group>

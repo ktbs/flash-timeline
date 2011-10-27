@@ -8,24 +8,46 @@ package com.ithaca.timeline
 	import spark.components.SkinnableContainer;
 	import spark.events.ElementExistenceEvent;
 
-	[Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
-	public class ZoomContext  extends SkinnableContainer
+	[Style(name = "backgroundColor", type = "Number", format = "Color", inherit = "no")]
+	/**
+	 * The ZoomContext class manages a movable and resizable cursor to control the time interval in which the obsels have to be displayed. 	
+	 */
+	public class ZoomContext extends SkinnableContainer
 	{		
-		[SkinPart(required="true")]
+		[SkinPart(required = "true")]
+		/**
+		 * This is the movable an resizable part of the zoomContext. Its position defines the begin of the cursorRange Property and its width defines the duration of this TimeRange.
+		 */
 		public var cursor	 		: UIComponent;
 		[Bindable]
 		[SkinPart(required="true")]
+		/**
+		 * This group contains a preview traceline for each TraceLineGroup of the Timeline ; the obsels in the _timelineRange are rendered.
+		 */
 		public var timelinePreview	: Group;
 		[Bindable]
-		[SkinPart(required="true")]
+		[SkinPart(required = "true")]
+		/**
+		 * A ruler to display to the _timelineRange
+		 */
 		public var inputTimeRuler	: TimeRuler;
 		[Bindable]
 		[SkinPart]
+		/**
+		 * A ruler to display to the cursorRange
+		 */
 		public var outputTimeRuler	: TimeRuler;
-
+		/**
+		 * Reference to the TimeLine
+		 */
 		public var _timeline	    : Timeline;
-		
+		/**
+		 * The TimeRange of the Timeline ; it defines the minimum and maximum of the possible values of the cursorRange.
+		 */
 		public var _timelineRange	: TimeRange;
+		/**
+		 * The TimeRange defined by the position and the width of the 'cursor' component ; the obsels in this TimeRange are rendered in the main layout zone.
+		 */
 		public var cursorRange		: TimeRange;	
 		
 		public function ZoomContext() : void 
@@ -53,6 +75,10 @@ package com.ithaca.timeline
 		}
 		public function get timeline( ) : Timeline  { return  _timeline; }
 				
+		/**
+		 * update the position and the width of the cursor according to the cursorRange values
+		 * @param	e
+		 */
 		public function updateSkinPositionFromValues( e: Event = null) : void
 		{
 			if ( cursor && _timeline && timelinePreview && !cursorRange.isEmpty())
@@ -61,7 +87,10 @@ package com.ithaca.timeline
 				cursor.width 	= timelinePreview.x + _timelineRange.timeToPosition( cursorRange.end, timelinePreview.width ) - cursor.x ;
 			}
 		}
-		
+		/**
+		 * Set the cursor in the 'editable' or 'fixed' state according to the parameter value.
+		 * @param value if 'true' change the state of the cursor to 'editable', otherwise change it to 'fixed'
+		 */
 		public function set cursorEditable( value : Boolean ) : void
 		{
 			if (value)
@@ -76,6 +105,10 @@ package com.ithaca.timeline
 				timeline.contextFollowCursor = false;
 		}
 		
+		/**
+		 * update the cursorRange values according to the position and the width of the cursor
+		 * @param	e
+		 */
 		public function updateValuesFromSkinPosition( e: Event = null ) : void
 		{	
 			switch (e.type)
@@ -92,10 +125,16 @@ package com.ithaca.timeline
 			}
 		}	
 		
+		/**
+		 * Add a traceline to the timelinePreview Group in order to make a preview of a given TraceLineGroup.
+		 * @param	tlg the TraceLineGroup to preview
+		 * @param	index the position of the preview (-1 to add it at the end)
+		 */
 		public function addTraceLineGroupPreview( tlg : TraceLineGroup, index : Number  = -1  ) : void 
 		{
 			var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );
 			simpleObselsRenderer.borderVisible = false;
+			// if there's no 'contextPreviewTraceLine', the whole trace would be the preview
 			if ( tlg.contextPreviewTraceLine ) 
 				simpleObselsRenderer.obselsCollection 	= tlg.contextPreviewTraceLine._obsels;
 			else
@@ -114,11 +153,19 @@ package com.ithaca.timeline
 				timelinePreview.addElementAt(simpleObselsRenderer, index );
 		}
 		
+		/**
+		 * Remove a TraceLine from the timelinePreview Group
+		 * @param	i index of the traceline to remove
+		 */
 		public function removeTraceLineGroupPreviewAt( i : uint ) : void 
 		{
 			timelinePreview.removeElementAt( i ) ;
 		}
 		
+		/**
+		 * Update the content of the timelinePreview Group according to the TraceLineGroup of the Timeline 
+		 * @param	event
+		 */
 		public function onTracelineGroupsChange( event: ElementExistenceEvent ) : void
 		{
 			if ( event.type == ElementExistenceEvent.ELEMENT_ADD )			
@@ -131,7 +178,10 @@ package com.ithaca.timeline
 		{
 							 
 		}
-		
+		/**
+		 * Handle modification of the TimeRanhe of the Timeline.
+		 * @param	e
+		 */
 		private function onTimelineTimesChange( e : TimelineEvent ) : void
 		{			
 			_timelineRange = e.currentTarget as TimeRange;
@@ -166,6 +216,9 @@ package com.ithaca.timeline
 			updateSkinPositionFromValues();		
 		}
 		
+		/**
+		 * Reset the position and width of the cursor component to default value  ( and obviously the cursorRange interval )
+		 */
 		public function reset( ) : void
 		{
 			var begin 		: Number	= _timelineRange.begin;
@@ -175,14 +228,23 @@ package com.ithaca.timeline
 			cursorRange.changeLimits(begin, begin + duration);
 			updateSkinPositionFromValues();				
 		}
-		
-		
+				
+		/**
+		 * Change the limits of the cursorRange ( and obviously the position and width of the cursor )
+		 * @param	beginValue start of the new range in milliseconds
+		 * @param	endValue end of the new range in milliseconds
+		 */
 		public function setRange( beginValue : Number, endValue : Number ) : void
 		{
 			cursorRange.changeLimits(beginValue, endValue);
 			updateSkinPositionFromValues();			
 		}
 		
+		/**
+		 * Add a given number of milliseconds both to the begin and to the end of the cursorRange
+		 * @param	deltaTime ( can be a negative value )
+		 * @return
+		 */
 		public function shiftContext( deltaTime : Number ) : Number 
 		{				
 			var delta: Number = 0;
