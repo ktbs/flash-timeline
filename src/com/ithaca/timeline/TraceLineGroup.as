@@ -16,6 +16,11 @@ package com.ithaca.timeline
 	[Style(name = "headerHeight", type = "Number", inherit = "no")]	
 	
 	/**
+	 * The background color of the preview for this TracelineGroup in the zoomContext ; if 'auto' the color is the backgroundColor of the TracelineGroup.
+	 */
+	[Style(name = "previewBgColor", type = "String", inherit = "no")]	
+	
+	/**
 	 * The TraceLineGroup class extends LayoutNode and it is a direct child of the timeline in the layout ; it contains the reference to the trace.
 	 */	
 	public class TraceLineGroup  extends LayoutNode
@@ -36,7 +41,6 @@ package com.ithaca.timeline
 		 */
 		public var backgroundTraceLine 		: TraceLine;
 		
-		[SkinPart(required="true")]
 		public var backgroundColor : uint;
 				
 		/**

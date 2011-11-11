@@ -145,8 +145,9 @@ package com.ithaca.timeline
 			
 			simpleObselsRenderer.percentHeight 	= 100;
 			simpleObselsRenderer.maxHeight 		= 6;
-			simpleObselsRenderer.minHeight 		= 2;
-			
+			simpleObselsRenderer.minHeight 		= 2;	
+			simpleObselsRenderer._backgroundColor = ( tlg.getStyle("previewBgColor") == "auto" ||  tlg.getStyle("previewBgColor") == null) ? tlg.getStyle("bgColor") :  Number( tlg.getStyle("previewBgColor") );			
+				
 			if (index < 0 )
 				timelinePreview.addElement( simpleObselsRenderer );
 			else

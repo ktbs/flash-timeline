@@ -18,6 +18,7 @@
 	 
 	<fx:Script>
         <![CDATA[         
+			import com.ithaca.timeline.SimpleObselsRenderer;
 			import com.ithaca.timeline.Timeline;
 			import com.ithaca.timeline.TraceLine;
 			import mx.events.FlexEvent;
@@ -50,23 +51,44 @@
 			{
 				super.styleChanged(styleProp)			
 
-				switch(styleProp)
+				if (!styleProp  || styleProp =="headerHeight")
 				{
-					case "headerHeight": 
 						if ( contentGroup )
 							contentGroup.top 	= getStyle("headerHeight");
-						backgroundGroup.top 	= getStyle("headerHeight");
+						if ( backgroundGroup )
+							backgroundGroup.top 	= getStyle("headerHeight");
 						invalidateDisplayList();
-						break;
-					case "bottom": 
+				}
+				
+				if (!styleProp  || styleProp =="bottom")
+				{					
 						if ( contentGroup )
 							contentGroup.bottom	= getStyle("bottom");
-						backgroundGroup.bottom 	= getStyle("bottom");
+						if ( backgroundGroup )
+							backgroundGroup.bottom 	= getStyle("bottom");
 						invalidateDisplayList();
-						break;
-					case "bgColor": 
+				}
+				
+				if (!styleProp  || styleProp =="bgColor")
+				{				
 						tlgContainer.backgroundFill = new SolidColor( getStyle("bgColor") )	;
-						break;
+						if ( hostComponent._timeline.zoomContext.timelinePreview.numElements > hostComponent._timeline.getElementIndex( hostComponent ) )
+						{
+							if ( getStyle("previewBgColor") == "auto" || getStyle("previewBgColor") == null)
+								(hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;							
+						}
+				}
+				
+				if (!styleProp  || styleProp =="previewBgColor")
+				{	
+					if ( hostComponent._timeline.zoomContext.timelinePreview.numElements > hostComponent._timeline.getElementIndex( hostComponent ) )
+						{
+						if ( getStyle("previewBgColor") == "auto" || getStyle("previewBgColor") == null)
+							(hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;	
+						else
+							(hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor =  Number( getStyle("previewBgColor") ) ;
+							trace(Number( getStyle("previewBgColor") ));		
+						}
 				}
 					
 				if ( hostComponent.titleComponent )					
