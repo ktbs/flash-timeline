@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--- The default skin class for a Spark SkinnableContainer container.  
+
+     @see spark.components.SkinnableContainer
+        
+      @langversion 3.0
+      @playerversion Flash 10
+      @playerversion AIR 1.5
+      @productversion Flex 4
+-->
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:fb="http://ns.adobe.com/flashbuilder/2009" xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:timeline="com.ithaca.visu.controls.timeline.*"
+	 creationComplete="skin1_creationCompleteHandler(event)">
+    <fx:Metadata>[HostComponent("com.ithaca.visu.controls.timeline.TraceLineB")]</fx:Metadata>
+
+    <fx:Script fb:purpose="styling">
+        <![CDATA[         
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			[Embed("/images/marqueurBlanc-bas-20px.png")]
+			private var markerIcon:Class;
+			
+			[Bindable]
+			[Embed("/images/messageChat.png")]
+			private var messageChatIcon:Class;
+			
+			[Bindable]
+			[Embed("/images/motCleVisu1.png")]
+			private var keywordIcon:Class;
+			
+			[Bindable]
+			[Embed("/images/video.jpg")]
+			private var videoIcon:Class;
+			
+			[Bindable]
+			[Embed("/images/chatMessageVisu1.png")]
+			private var messageChatIconVisu1:Class;
+			
+			[Bindable]
+			[Embed("/images/consigneVisu1.png")]
+			private var consigneIconVisu1:Class;
+			
+			[Bindable]
+			[Embed("/images/fichierVisu1.png")]
+			private var fichierIconVisu1:Class;
+            /**
+             *  @private
+             */
+
+			[Bindable]
+			private var LEFT_LABEL:String = "15";
+			[Bindable]
+			private var SIZE_IMAGE_TITLE_TRACELINE:int = 20;
+			[Bindable]
+			private var WIDTH_GROUP_ICON:int = 50;
+			[Bindable]
+			private var LEFT_TRACE_LINE_OBSEL:int = 210;
+			[Bindable]
+			private var DELTA_POSSITION_LINE_VERTICAL_START_SESSION:int = -2;
+			[Bindable]
+			private var VERICAL_CENTER_IMAGE_TITLE_TRACELINE:int = 5;
+			private function onClick():void{
+//				nameUser.text = traceLoggedUser.width.toString();
+			}
+			private function onClickTrace1():void{
+//				labelTrace1.text = trace1.width.toString();
+			}
+
+
+			protected function skin1_creationCompleteHandler(event:FlexEvent):void
+			{
+				this.nameUser.text = hostComponent.nameUserTraceLine;
+				this.imageUser.source = hostComponent.sourceImageUserTraceLine;
+				this.solidColor.color = hostComponent.colorUserTraceLine;
+				/* this.bgFillTrace1.color = hostComponent.colorUserTraceLine;
+				this.bgFillTrace2.color = hostComponent.colorUserTraceLine; */
+				this.timeLayoutTitle.startTime = hostComponent.startTimeSession;
+				this.timeLayoutTitle.durationSession = hostComponent.durationSession;
+				
+				this.traceLineIcon.addEventListener(MouseEvent.ROLL_OVER, ro);
+			//	this.traceLineIcon.addEventListener(MouseEvent.ROLL_OUT, rout);
+				//this.traceLineIcon.addEventListener(MouseEvent.ROLL_OUT, rout);
+				test.addEventListener(MouseEvent.ROLL_OUT, rout);
+				//var colorBorderMarkerTitleTraceLine:uint = hostComponent.colorUserTraceLine - 300;
+			//	borderMarkerTitleTraceLine.setStyle("backgroundColor", colorBorderMarkerTitleTraceLine);
+			}
+			
+			private function ro(e:MouseEvent):void
+			{
+				test.visible = true;
+			}
+			private function rout(e:MouseEvent):void
+			{
+				test.visible = false;
+			}
+
+        ]]>        
+    </fx:Script>
+    
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="open" />
+		<s:State name="disabled" />
+    </s:states>
+	
+
+    
+    <!--- Defines the appearance of the SkinnableContainer class's background. -->
+
+	<s:layout>
+		<s:VerticalLayout />
+	</s:layout>
+    <!--
+        Note: setting the minimum size to 0 here so that changes to the host component's
+        size will not be thwarted by this skin part's minimum size.   This is a compromise,
+        more about it here: http://bugs.adobe.com/jira/browse/SDK-21143
+    -->
+<s:Group left="0" right="0" top="0" bottom="0"  minWidth="200" minHeight="30"  width="100%">
+	<s:layout>
+		<s:VerticalLayout gap="0"/>
+	</s:layout>
+    <s:Group id="contentGroupTraceLine" left="0" right="0" top="0" bottom="0" minWidth="200" minHeight="30" width="100%"  height="30" verticalCenter="{VERICAL_CENTER_IMAGE_TITLE_TRACELINE}">
+		<s:Rect  left="0" right="0" top="0" bottom="0" bottomLeftRadiusX.normal="5" bottomRightRadiusX.normal="5" topRightRadiusX="5">
+			<s:fill>
+				<!--- @private -->
+				<s:SolidColor id="solidColor" color="#bebebe"/>
+			</s:fill>
+		</s:Rect>
+		<s:Path data="M 0 0 L 7 5 L 0 10 L 0 0 Z" 
+				rotation.open="90"
+				left="3" top="5"
+				id="partOpenTraceLineElements"		 
+				>
+			<s:postLayoutTransformOffsets>
+				<s:TransformOffsets id="tOffsets" x.open="0" y.open="3"/>  
+			</s:postLayoutTransformOffsets>
+			<s:fill>
+				<s:SolidColor color="#333333"/>
+			</s:fill>
+			<s:filters>
+				<s:DropShadowFilter angle="90"  distance="1" blurX="2" blurY="2" alpha=".7" inner="true" />
+				<s:DropShadowFilter angle="180" distance="1" blurX="1" blurY="1" color="#FFFFFF" />
+			</s:filters>
+		</s:Path>
+		
+		<s:Line  includeIn="open"  bottom="0" left="50" right="2">
+			<!-- Define the border color of the line. -->
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="20"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		
+	<!--	<s:Label text="Ma tracejhgjhgkjgkjh" left="{LEFT_LABEL}" width="55" top="5" id="nameUser"  maxWidth="55" height="18" />
+-->		<!--<s:RichText text="kjhjkhgkjgkjgkjgh" left="{LEFT_LABEL}" width="55" top="5" id="nameUser"  maxWidth="55" />-->
+		<mx:Label text="----"  left="{LEFT_LABEL}"  width="70" top="5" id="nameUser"  maxWidth="70" />
+		<mx:Image  id="imageUser" left="80" width="28" height="28" top="1"/>
+		<s:Line   bottom="0" top="0"  left="110">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+
+		<s:Group id="traceLineIcon" left="110" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}" verticalCenter="{VERICAL_CENTER_IMAGE_TITLE_TRACELINE}">
+			<s:layout>
+				<s:HorizontalLayout gap="0"/>
+			</s:layout>
+			<!--<s:BorderContainer  left="0" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}" backgroundColor="#D8EFC2">-->
+				<mx:Image  id="imageMarker" source="{markerIcon}"  height="20" width="20"/>
+				<mx:Image  id="imageConsigne" source="{consigneIconVisu1}"  height="20" width="20"/>
+				<s:Label text="..."  top="20"/>
+				<!--<mx:Image id="imageKeyword" source="{keywordIcon}"   height="15" width="15"/>
+				<mx:Image source="{fichierIconVisu1}"   height="15" width="15"/>
+				<mx:Image source="{messageChatIconVisu1}" height="15" width="15"/>-->
+			<!--</s:BorderContainer>-->
+		</s:Group>
+		<s:Line   bottom="0" top="0"  left="160">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line   bottom="0" top="0"  left="{LEFT_TRACE_LINE_OBSEL+DELTA_POSSITION_LINE_VERTICAL_START_SESSION}">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Group  id="traceLoggedUser" left="{LEFT_TRACE_LINE_OBSEL}" right="2" height="{contentGroupTraceLine.height}" click="onClick()">
+				<s:layout>
+					<timeline:TimeLayout id="timeLayoutTitle"/>
+				</s:layout>
+			<!--<s:BorderContainer left="0" right="0" height="{contentGroupTraceLine.height}" borderColor="#cacaca"  borderWeight="1" borderVisible="true">
+			</s:BorderContainer>-->
+		</s:Group>
+<!-- panel add obsel -->		
+		<s:Group visible="false" id="test" left="110" top="0" width="170"  height="35" toolTip="Sélectionner un type d'obsel pour l'ajouter ici">
+			<s:BorderContainer  id="borderMarkerTitleTraceLine" color="#123456"  width="170"  height="35"   borderVisible="true" backgroundColor="#CCCCCC">
+				<mx:Image  left="0" source="{markerIcon}"  height="{SIZE_IMAGE_TITLE_TRACELINE}" width="{SIZE_IMAGE_TITLE_TRACELINE}"/>
+				<s:CheckBox left="15"  id="checkBoxMarkerObsel" height="3" width="3"   bottom="7"/>
+				
+				<mx:Image  left="30" source="{consigneIconVisu1}"   height="{SIZE_IMAGE_TITLE_TRACELINE}" width="{SIZE_IMAGE_TITLE_TRACELINE}"/>
+				<s:CheckBox left="45"  id="checkBoxConsigneObsel" height="5" width="5"   bottom="7"/>			
+			
+				<mx:Image  left="62"  source="{keywordIcon}"   height="{SIZE_IMAGE_TITLE_TRACELINE}" width="{SIZE_IMAGE_TITLE_TRACELINE}"/>
+				<s:CheckBox left="82"  id="checkBoxKeywordObsel" height="5" width="5"   bottom="7"/>			
+			
+				<mx:Image  left="97" source="{fichierIconVisu1}"   height="{SIZE_IMAGE_TITLE_TRACELINE}" width="{SIZE_IMAGE_TITLE_TRACELINE}"/>
+				<s:CheckBox left="113"  id="checkBoxFichierObsel" height="5" width="5"   bottom="7"/>			
+			
+				<mx:Image  left="130" source="{messageChatIconVisu1}" height="{SIZE_IMAGE_TITLE_TRACELINE}" width="{SIZE_IMAGE_TITLE_TRACELINE}"/>	
+				<s:CheckBox left="150"  id="checkBoxMessageObsel" height="5" width="5"   bottom="7"/>			
+			</s:BorderContainer>
+		</s:Group>
+    </s:Group>
+	
+<!-- MARKER -->
+	<s:Group includeIn="open" width="100%" height="{contentGroupTraceLine.height}">
+		<s:Rect  left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<!--- @private -->
+				<s:SolidColor  color="{solidColor.color}"/>
+			</s:fill>
+		</s:Rect>
+		<!-- lines -->
+		<s:Line  includeIn="open"  bottom="0" left="50" right="2">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  bottom="0" top="0"  left="160">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line   includeIn="open" bottom="0" top="0"  left="110">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		
+		<s:Line  includeIn="open"  top="0"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="10" height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="20"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="18" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="28" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		
+		<s:Label text="marker" left="45"  maxWidth="70" id="labelTrace5" top="10"/>
+		<s:Group id="traceLineIconTrace5" left="110" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}">
+			<mx:Button width="15" height="15"  right="0" bottom="0" id="buttonAddTypeObselTrace5" visible="false"  chromeColor="#000000" icon="@Embed(source='/images/iconPlus.png')" />
+			<mx:Image source="{markerIcon}"  left="10" />
+			<mx:Image id="sharedIconMarker" left="55"  height="26" width="26"/>
+		</s:Group>
+		<s:Line   bottom="0" top="0"  left="{LEFT_TRACE_LINE_OBSEL+DELTA_POSSITION_LINE_VERTICAL_START_SESSION}">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Group  id="trace5" left="{LEFT_TRACE_LINE_OBSEL}" right="2" height="{contentGroupTraceLine.height}">
+			<s:layout>
+				<timeline:TimeLayout id="timeLayoutTrace5"/>
+			</s:layout>
+		</s:Group>
+	</s:Group>
+	
+<!-- INSTRUCTION -->
+	<s:Group includeIn="open" width="100%" height="{contentGroupTraceLine.height}">
+		<s:Rect  left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<!--- @private -->
+				<s:SolidColor id="bgFillTrace1" color="{solidColor.color}"/>
+			</s:fill>
+		</s:Rect>
+		<!-- lines -->
+		<s:Line  includeIn="open"  bottom="0" left="50" right="2">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  bottom="0" top="0"  left="160">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line   includeIn="open" bottom="0" top="0"  left="110">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		
+		<s:Line  includeIn="open"  top="0"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="10" height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="20"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="18" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="28" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		
+		<s:Label text="Instructions" left="45"  maxWidth="70" id="labelTrace1" top="10"/>
+		<s:Group id="traceLineIconTrace1" left="110" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}">
+			<!--<s:BorderContainer  left="0" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}" backgroundColor="#D8EFC2" visible="true">-->
+				<mx:Button width="15" height="15"  right="0" bottom="0" id="buttonAddTypeObselTrace1" visible="false"  chromeColor="#000000" icon="@Embed(source='/images/iconPlus.png')" />
+				<!--<mx:Button width="15" height="15" left="16"  bottom="0" id="buttonAddTypeObsel2Trace1" visible="false" chromeColor="#000000" icon="@Embed(source='/images/iconMinus.png')" />-->
+				<mx:Image source="{consigneIconVisu1}"  left="10" />
+			<!--</s:BorderContainer>-->
+		</s:Group>
+		<s:Line   bottom="0" top="0"  left="{LEFT_TRACE_LINE_OBSEL+DELTA_POSSITION_LINE_VERTICAL_START_SESSION}">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Group  id="trace1" left="{LEFT_TRACE_LINE_OBSEL}" right="2" height="{contentGroupTraceLine.height}" click="onClickTrace1()">
+			<s:layout>
+				<timeline:TimeLayout id="timeLayoutTrace1"/>
+			</s:layout>
+			<!--<s:BorderContainer left="0" right="0" height="{contentGroupTraceLine.height}" borderColor="#cacaca"  borderWeight="1" borderVisible="true">
+			</s:BorderContainer>-->
+		</s:Group>
+	</s:Group>
+	
+	<s:Group includeIn="open" width="100%" height="{contentGroupTraceLine.height}">
+		<s:Rect  left="0" right="0" top="0" bottom="0" >
+			<s:fill>
+				<s:SolidColor id="bgFillTrace2" color="{solidColor.color}"/>
+			</s:fill>
+		</s:Rect>
+		<!-- lines -->
+		<s:Line  includeIn="open"  bottom="0" left="50" right="2">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  bottom="0" top="0"  left="160">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line   includeIn="open" bottom="0" top="0"  left="110">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		
+		<s:Line  includeIn="open"  top="0"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="10" height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="20"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="18" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="28" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Label text="Mots-clés" left="45" maxWidth="70" id="labelTrace2" top="10"/>
+		<s:Group  id="traceLineIconTrace2" left="110" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}">
+			<!--<s:BorderContainer  left="0" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}" backgroundColor="#D8EFC2" visible="true">-->
+				<mx:Button width="15" height="15"  right="0" bottom="0" id="buttonAddTypeObselTrace2" visible="false"  chromeColor="#000000" icon="@Embed(source='/images/iconPlus.png')" />
+				<!--<mx:Button width="15" height="15" left="16"  bottom="0" id="buttonAddTypeObsel2Trace2" visible="false" chromeColor="#000000" icon="@Embed(source='/images/iconMinus.png')" />-->
+				<mx:Image source="{keywordIcon}"  left="10" />
+			<!--</s:BorderContainer>-->
+		</s:Group>
+		<s:Line   bottom="0" top="0"  left="{LEFT_TRACE_LINE_OBSEL+DELTA_POSSITION_LINE_VERTICAL_START_SESSION}">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Group  id="trace2" left="{LEFT_TRACE_LINE_OBSEL}" right="2" height="{contentGroupTraceLine.height}">
+			<!--<s:BorderContainer left="0" right="0" height="{contentGroupTraceLine.height}" borderColor="#cacaca"  borderWeight="1" borderVisible="true">
+			</s:BorderContainer>-->
+			<s:layout>
+				<timeline:TimeLayout id="timeLayoutTrace2"/>
+			</s:layout>
+		</s:Group>
+	</s:Group>
+	
+	<s:Group includeIn="open" width="100%" height="{contentGroupTraceLine.height}">
+		<s:Rect  left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor id="bgFillTrace3" color="{solidColor.color}"/>
+			</s:fill>
+		</s:Rect>
+		<!-- lines -->
+		<s:Line  includeIn="open"  bottom="0" left="50" right="2">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  bottom="0" top="0"  left="160">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line   includeIn="open" bottom="0" top="0"  left="110">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		
+		<s:Line  includeIn="open"  top="0"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="10" height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="20"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="18" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="28" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Label text="documents" left="45" maxWidth="70" id="labelTrace3" top="10"/>
+		<s:Group  id="traceLineIconTrace3" left="110" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}">
+			<mx:Button width="15" height="15"  right="0" bottom="0" id="buttonAddTypeObselTrace3" visible="false"  chromeColor="#000000" icon="@Embed(source='/images/iconPlus.png')" />
+			<mx:Image source="{fichierIconVisu1}"  left="10" />
+		</s:Group>
+		<s:Line   bottom="0" top="0"  left="{LEFT_TRACE_LINE_OBSEL+DELTA_POSSITION_LINE_VERTICAL_START_SESSION}">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Group  id="trace3" left="{LEFT_TRACE_LINE_OBSEL}" right="2" height="{contentGroupTraceLine.height}">
+			<s:layout>
+				<timeline:TimeLayout id="timeLayoutTrace3"/>
+			</s:layout>
+		</s:Group>
+	</s:Group>
+	
+	<s:Group includeIn="open" width="100%" height="{contentGroupTraceLine.height}">
+		<s:Rect  left="0" right="0" top="0" bottom="0"  bottomLeftRadiusX="5" bottomRightRadiusX="5" >
+			<s:fill>
+				<s:SolidColor id="bgFillTrace4" color="{solidColor.color}"/>
+			</s:fill>
+		</s:Rect>
+		<!-- lines -->
+		<s:Line  includeIn="open"  bottom="0" top="0"  left="160">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line   includeIn="open" bottom="0" top="0"  left="110">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="0"  height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="10" height="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="8" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="18" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line  includeIn="open"  top="15"   width="5" left="28" >
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Label text="documents" left="45" maxWidth="70" id="labelTrace4" top="10"/>
+		<s:Group  id="traceLineIconTrace4" left="110" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}">
+			<mx:Button width="15" height="15"  right="0" bottom="0" id="buttonAddTypeObselTrace4" visible="false"  chromeColor="#000000" icon="@Embed(source='/images/iconPlus.png')" />
+			<mx:Image source="{messageChatIconVisu1}"  left="10"/>
+		</s:Group>
+		<s:Line   bottom="0" top="0"  left="{LEFT_TRACE_LINE_OBSEL+DELTA_POSSITION_LINE_VERTICAL_START_SESSION}">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+			</s:stroke>
+		</s:Line>
+		<s:Group  id="trace4" left="{LEFT_TRACE_LINE_OBSEL}" right="2" height="{contentGroupTraceLine.height}">
+			<s:layout>
+				<timeline:TimeLayout id="timeLayoutTrace4"/>
+			</s:layout>
+		</s:Group>
+	</s:Group>
+	
+</s:Group>
+</s:Skin>
