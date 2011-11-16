@@ -6,8 +6,8 @@ package com.ithaca.timeline
 	import spark.components.supportClasses.SkinnableComponent;
 
 	/**
-	 * The TraceLineTitle component is the title part of traceline. 
-	 * 
+	 * The TraceLineTitle component is the title part of traceline.
+	 *
 	 * <p> This title component is skinnable in order to allow to put it outside of the TraceLineGroup</p>
 	 * <p> It extends SkinnableContainer because it contains the TraceLineTitles of the Traceline children.</p>
 	 */

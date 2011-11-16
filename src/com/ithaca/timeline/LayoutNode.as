@@ -8,7 +8,7 @@ package com.ithaca.timeline
 	
 	/**
 	 * The LayoutNode class is a base class for each node in the layout tree; it should be an abstract class.
-	 * 
+	 *
 	 * @see Timeline
 	 * @see TraceLineGroup
 	 * @see TraceLine
@@ -40,14 +40,14 @@ package com.ithaca.timeline
 		/**
 		 * @return The XML descriptor of the sub-layout from this node.
 		 */
-		public function get layoutXML ( ) : XML	{ return _layout;	} 
+		public function get layoutXML ( ) : XML	{ return _layout;	}
 
 		/**
-		 * 
+		 *
 		 * @param child
 		 * @param index
 		 */
-		public function addChildAndTitle ( child : LayoutNode, index : int = -1 ) : void 
+		public function addChildAndTitle ( child : LayoutNode, index : int = -1 ) : void
 		{ 	
 			child.parentNode = this;
 		
@@ -73,7 +73,7 @@ package com.ithaca.timeline
 		}
 		
 		/**
-		 * 
+		 *
 		 * @return the tracelinegroup containing this node
 		 */
 		public function getTraceLineGroup() : TraceLineGroup
@@ -110,7 +110,7 @@ package com.ithaca.timeline
 		}
 		
 		/**
-		 * 
+		 *
 		 * @param child
 		 */
 		public function removeChildAndTitle( child : LayoutNode ) : void
@@ -119,12 +119,12 @@ package com.ithaca.timeline
 			titleComponent.removeElement( child.titleComponent );			
 		}	
 		
-		/** 
+		/**
 		 * @param event
 		 */
 		public function onSourceChange( event : CollectionEvent ) : void { };
 		/**
-		 * 
+		 *
 		 * @param obselsCollection
 		 */
 		public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void { };

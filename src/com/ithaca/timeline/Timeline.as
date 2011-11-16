@@ -60,9 +60,9 @@ package com.ithaca.timeline
 	[Event(name = "endReached", 		type = "com.ithaca.timeline.events.TimelineEvent")]
 	/**
 	 * This event is dispatched when a traceline is created by a layoutModifier
-	 * The 'value' property of the TimelineEvent is an object with 3 properties { generator, obsel, traceline } where  : 
-	 * 'generator' is the LayoutModier, 
-	 * 'traceline' the created traceline,  
+	 * The 'value' property of the TimelineEvent is an object with 3 properties { generator, obsel, traceline } where  :
+	 * 'generator' is the LayoutModier,
+	 * 'traceline' the created traceline,
 	 * and 'obsel' is the obsel for wich we create a new traceline.
 	 */
 	[Event(name = "generateNewTraceline", 	type = "com.ithaca.timeline.events.TimelineEvent")]	
@@ -73,7 +73,7 @@ package com.ithaca.timeline
 	[Event(name = "layoutNodeAdded", 	type = "com.ithaca.timeline.events.TimelineEvent")]	
 
 	/**
-	 * The main component of the package and the entry point of the API. 
+	 * The main component of the package and the entry point of the API.
 	 */
 	public class Timeline  extends LayoutNode
 	{
@@ -123,10 +123,10 @@ package com.ithaca.timeline
 		 */
 		public function Timeline( xmlLayout : XML = null )
 		{
-			super(); 
+			super();
 			if (xmlLayout)			
 				layoutXML = xmlLayout;	
-			else 
+			else
 				layoutXML = <root> <tlg /> </root>;
 		
 			_timeline = this;
@@ -138,7 +138,7 @@ package com.ithaca.timeline
 			range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
 		}
 		
-		override public function styleChanged(styleProp:String):void 
+		override public function styleChanged(styleProp:String):void
 		{
 			super.styleChanged(styleProp);
 			
@@ -165,8 +165,8 @@ package com.ithaca.timeline
 				}
 		}
 		
-		override protected function partAdded(partName:String, instance:Object):void 
-		{ 
+		override protected function partAdded(partName:String, instance:Object):void
+		{
 			super.partAdded(partName, instance);			
 			if ( partName == "zoomContext" )
 			{
@@ -180,7 +180,7 @@ package com.ithaca.timeline
 			}
 			if ( partName == "titleGroup" )
 			{
-				addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange );				 
+				addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange );				
 				addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);		
 			}
 		}	
@@ -204,7 +204,7 @@ package com.ithaca.timeline
 		 * @param style the style name of the tracelinegroup to create.
 		 * @return the TraceLineGroup if the creation successed otherwise return null.
 		 */
-		public function addTrace (  pTrace : Trace, index : int = -1, style : String = null  )  : TraceLineGroup 
+		public function addTrace (  pTrace : Trace, index : int = -1, style : String = null  )  : TraceLineGroup
 		{
 			var tlg : TraceLineGroup  =  timelineLayout.createTracelineGroupTree( pTrace, style );
 			
@@ -224,7 +224,7 @@ package com.ithaca.timeline
 		 * @param tr the trace of the TraceLineGroup
 		 * @return true if sucess else return false.
 		 */
-		public function removeTrace ( tr : Trace ) : Boolean 
+		public function removeTrace ( tr : Trace ) : Boolean
 		{
 			for (var i : int = 0; i < numElements; i++)
 			{
@@ -240,7 +240,7 @@ package com.ithaca.timeline
 		
 		/**
 		 * Find and return the first TraceLineGroup which the trace has a given URI ; return null if not found.
-		 * @param uri the uri of the trace 
+		 * @param uri the uri of the trace
 		 * @return the tracelinegroup if exists. null if not found.
 		 */
 		public function getTraceLineGroupByTraceUri ( uri : String ) : TraceLineGroup
@@ -256,7 +256,7 @@ package com.ithaca.timeline
 		}
 				
 		/**
-		 * Remove a TraceLineGroup 
+		 * Remove a TraceLineGroup
 		 * @param tlg the TraceLineGroup to remove.
 		 */
 		public function removeTraceLineGroup ( tlg : TraceLineGroup ) : void
@@ -275,7 +275,7 @@ package com.ithaca.timeline
 			addElementAt( getElementAt(fromIndex) as TraceLineGroup, toIndex );	
 		}
 
-		/**		 
+		/**		
 		 * @return the Layout object bind to this Timeline
 		 * @see Layout
 		 */
@@ -284,7 +284,7 @@ package com.ithaca.timeline
 		 * Set the Layout object of the timeline
 		 * @param value
 		 */
-		public function set timelineLayout( value:Layout ):void 
+		public function set timelineLayout( value:Layout ):void
 		{ 						
 			if (_layout)
 			{
@@ -292,7 +292,7 @@ package com.ithaca.timeline
 				_layout.loadObselsSelectors( layoutXML[Layout.OBSELS_SELECTORS] );
 				
 				var traceArray : Array = new Array();
-			 
+			
 				for (var i : uint = 0; i < numElements; i++ )
 				{					
 					var tlg : TraceLineGroup = getElementAt(i) as  TraceLineGroup;
@@ -328,7 +328,7 @@ package com.ithaca.timeline
 		public function get duration() 				: Number 	{ return range.duration; }
 		
 		/**
-		 * @return 
+		 * @return
 		 */
 		public function get styleSheet() 			: Stylesheet { return _styleSheet; }
 		/**
@@ -356,7 +356,7 @@ package com.ithaca.timeline
 		}
 		
 		/**
-		 * Make a time hole between the startValue and endValue. 
+		 * Make a time hole between the startValue and endValue.
 		 * @param startValue lower limit of the time hole interval
 		 * @param endValue higher limit of the time hole interval
 		 */
@@ -384,7 +384,7 @@ package com.ithaca.timeline
 		
 		/**
 		 * Modify the current time value. It's the only way to change the current value of the timeline and it's never called in the timeline code (then it must be change from outside)
-		 * @param timeValue the new time value in milliseconds 
+		 * @param timeValue the new time value in milliseconds
 		 */
 		public function set currentTime(  timeValue : Number ) : void
 		{
@@ -416,7 +416,7 @@ package com.ithaca.timeline
 		{			
 			var timeValue : Number = currentTime;
 			
-			if ( timeValue >= begin && timeValue <= end ) 
+			if ( timeValue >= begin && timeValue <= end )
 			{
 				globalCursor.visible = true;
 				globalCursor.x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.timelinePreview.width );
@@ -432,7 +432,7 @@ package com.ithaca.timeline
 				zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );											
 			
 			
-			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= zoomContext.cursorRange.end +1000 ) 
+			if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= zoomContext.cursorRange.end +1000 )
 			{
 				contextCursor.visible = true;								
 				contextCursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.timelinePreview.width );

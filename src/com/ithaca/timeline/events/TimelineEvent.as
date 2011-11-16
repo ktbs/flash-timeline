@@ -1,13 +1,13 @@
-package com.ithaca.timeline.events 
+package com.ithaca.timeline.events
 {
 	import com.ithaca.timeline.TimeRange;
 	import flash.events.Event;
 	
 	/**
 	 * Define the new types of events needed by the timeline.
-	 * Most of these events are dispatched by the Timeline class. 
-	 * 
-	 * <p> 
+	 * Most of these events are dispatched by the Timeline class.
+	 *
+	 * <p>
 	 *	There's only one property 'value' which change according to the type of the event :
 	 * 	<ol>
 	 *		<li>TIMERULER_CLICK : 'value' contains the time in milliseconds where the user clicked </li>
@@ -19,7 +19,7 @@ package com.ithaca.timeline.events
 	 * 	
 	 * @see com.ithaca.timeline.Timeline
 	 */
-	public class TimelineEvent extends Event 
+	public class TimelineEvent extends Event
 	{		
 		// constants
 		static public const TIMERANGES_CHANGE 	: String = "timeranges_change";
@@ -39,19 +39,19 @@ package com.ithaca.timeline.events
 		// properties
 		public var value : *;		
 		
-		public function TimelineEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) 
+		public function TimelineEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false)
 		{
 			super(type, bubbles, cancelable);			
-		} 
+		}
 		
-		public override function clone():Event 
-		{ 
+		public override function clone():Event
+		{
 			return new TimelineEvent(type, bubbles, cancelable);
-		} 
+		}
 		
-		public override function toString():String 
-		{ 
-			return formatToString("TimelineEvents", "type", "bubbles", "cancelable", "eventPhase"); 
+		public override function toString():String
+		{
+			return formatToString("TimelineEvents", "type", "bubbles", "cancelable", "eventPhase");
 		}		
 	}	
 }

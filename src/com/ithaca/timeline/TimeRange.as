@@ -1,4 +1,4 @@
-package com.ithaca.timeline 
+package com.ithaca.timeline
 {	
 	import com.ithaca.timeline.events.TimelineEvent;
 	import flash.display.JointStyle;
@@ -39,13 +39,13 @@ package com.ithaca.timeline
 		 */
 		public  var	timeHoleWidth : Number = 10;
 		
-		public function TimeRange( ) : void 
+		public function TimeRange( ) : void
 		{
 			_ranges = new ArrayCollection();	
 			_originalRanges = new ArrayCollection();		
 		}
 		
-		/**		 
+		/**		
 		 * @return there'
 		 */		
 		public function isEmpty () : Boolean
@@ -187,9 +187,9 @@ package com.ithaca.timeline
 					break;
 				}
 				
-			if ( beginIndex == endIndex ) 
+			if ( beginIndex == endIndex )
 			{
-				if ( beginIndex % 2 == 0 )  
+				if ( beginIndex % 2 == 0 )
 				{
 					if ( !fillHole || _ranges.length == 0)
 					{
@@ -206,7 +206,7 @@ package com.ithaca.timeline
 				}
 				else 	
 					return; // the new interval is in another interval
-			} 
+			}
 			else
 			{				
 				if ( beginIndex % 2 == 0)	
@@ -239,11 +239,11 @@ package com.ithaca.timeline
 			_start 	= tr._start;
 			_end 	= tr.end;
 			_duration = tr.duration;
-			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true )); 
+			dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE , true ));
 		}
 		
 		/**
-		 * Makes a time hole between the startValue and endValue. 
+		 * Makes a time hole between the startValue and endValue.
 		 * @param startValue lower limit of the time hole interval
 		 * @param endValue higher limit of the time hole interval
 		 */
@@ -266,16 +266,16 @@ package com.ithaca.timeline
 					break;
 				}
 				
-			if ( beginIndex == endIndex ) 
+			if ( beginIndex == endIndex )
 			{
-				if ( beginIndex % 2 != 0 && beginIndex <  _ranges.length)  
+				if ( beginIndex % 2 != 0 && beginIndex <  _ranges.length)
 				{
 					addItem(endValue, endIndex);
 					addItem(beginValue, beginIndex);
 				}
 				else 	
 					return; // the new interval is in another interval
-			} 
+			}
 			else
 			{				
 				if ( beginIndex % 2 != 0)	
@@ -297,7 +297,7 @@ package com.ithaca.timeline
 		}
 		
 		/**
-		 * Changes the begin an the end of the time to consider, but the intervals stay the same. 
+		 * Changes the begin an the end of the time to consider, but the intervals stay the same.
 		 * It's used to make a zoom.
 		 * @param	begin
 		 * @param	end
@@ -325,7 +325,7 @@ package com.ithaca.timeline
 		}	
 		
 		/**
-		 * Restores the begin and the end of time to consider from the intevals list ; in order to cancel a zoom for example.	 
+		 * Restores the begin and the end of time to consider from the intevals list ; in order to cancel a zoom for example.	
 		 */
 		public function resetLimits ( ) : void
 		{
@@ -338,7 +338,7 @@ package com.ithaca.timeline
 		}	
 		
 		/**
-		 * Restores the intervals and  the begin / end of time to consider from the saved intevals list ; in order to cancel all zooms and time holes for example.	 
+		 * Restores the intervals and  the begin / end of time to consider from the saved intevals list ; in order to cancel all zooms and time holes for example.	
 		 */
 		public function reset ( ) : void
 		{

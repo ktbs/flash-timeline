@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--- The default skin class for a Spark SkinnableContainer container.  
+<!--- The default skin class for a Spark SkinnableContainer container.
 
      @see spark.components.SkinnableContainer
-        
+
       @langversion 3.0
       @playerversion Flash 10
       @playerversion AIR 1.5
       @productversion Flex 4
 -->
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
     xmlns:fb="http://ns.adobe.com/flashbuilder/2009" xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:timeline="com.ithaca.visu.controls.timeline.*"
 	 creationComplete="skin1_creationCompleteHandler(event)">
     <fx:Metadata>[HostComponent("com.ithaca.visu.controls.timeline.TraceLineB")]</fx:Metadata>
 
     <fx:Script fb:purpose="styling">
-        <![CDATA[         
+        <![CDATA[
 			import mx.events.FlexEvent;
 			
 			[Bindable]
@@ -96,9 +96,9 @@
 				test.visible = false;
 			}
 
-        ]]>        
+        ]]>
     </fx:Script>
-    
+
     <s:states>
         <s:State name="normal" />
         <s:State name="open" />
@@ -106,7 +106,7 @@
     </s:states>
 	
 
-    
+
     <!--- Defines the appearance of the SkinnableContainer class's background. -->
 
 	<s:layout>
@@ -128,13 +128,13 @@
 				<s:SolidColor id="solidColor" color="#bebebe"/>
 			</s:fill>
 		</s:Rect>
-		<s:Path data="M 0 0 L 7 5 L 0 10 L 0 0 Z" 
+		<s:Path data="M 0 0 L 7 5 L 0 10 L 0 0 Z"
 				rotation.open="90"
 				left="3" top="5"
-				id="partOpenTraceLineElements"		 
+				id="partOpenTraceLineElements"		
 				>
 			<s:postLayoutTransformOffsets>
-				<s:TransformOffsets id="tOffsets" x.open="0" y.open="3"/>  
+				<s:TransformOffsets id="tOffsets" x.open="0" y.open="3"/>
 			</s:postLayoutTransformOffsets>
 			<s:fill>
 				<s:SolidColor color="#333333"/>

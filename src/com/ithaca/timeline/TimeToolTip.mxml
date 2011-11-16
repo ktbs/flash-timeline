@@ -4,11 +4,11 @@
 	<p>(this is not a true toolTip)</p>
 	@see Cursor
 -->
-<mx:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<mx:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
 				 xmlns:s="library://ns.adobe.com/flex/spark"
 				 xmlns:timeline="com.ithaca.timeline.*"
 				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*" 	
-    implements="mx.core.IToolTip" 
+    implements="mx.core.IToolTip"
 	borderSkin="{null}"
     horizontalAlign="center"
 	borderColor="0"
@@ -27,34 +27,34 @@
         public var showTopArrow:Boolean = true;
 		 [Bindable]
         public var showBottomArrow:Boolean = true;
-    
-        //  Implement required methods of the IToolTip interface; these 
+
+        //  Implement required methods of the IToolTip interface; these
         //  methods are not used in this example, though.
         public var _text:String;
 
         [Bindable]
-		public function get text():String 
-		{ 
-            return _text; 
-        } 
+		public function get text():String
+		{
+            return _text;
+        }
 		
-        public function set text( value : String ) : void 
-		{ 
+        public function set text( value : String ) : void
+		{
 			bodyText = _text = value;
-        } 
+        }
 		
 			override public function styleChanged(styleProp:String):void
 			{
 				super.styleChanged(styleProp);
 		
-				if (!styleProp || styleProp=="showTopArrow" ) 
+				if (!styleProp || styleProp=="showTopArrow" )
 				{
 					if ( getStyle("showTopArrow") != null )
 						showTopArrow = getStyle("showTopArrow") ;
 					invalidateDisplayList();
 				}
 				
-				if (!styleProp || styleProp=="showBottomArrow" ) 
+				if (!styleProp || styleProp=="showBottomArrow" )
 				{
 					if ( getStyle("showBottomArrow") !=null )
 						showBottomArrow = getStyle("showBottomArrow") ;
@@ -73,7 +73,7 @@
 				<s:SolidColorStroke color="{getStyle('borderColor')}" weight="2"/>
 			</s:stroke>		
 			<s:fill>
-				<s:SolidColor color="{getStyle('backgroundColor')}" />                                               
+				<s:SolidColor color="{getStyle('backgroundColor')}" />
 			</s:fill>
 		</s:Path>
 		<s:Path id="bottomArrow" x="{body.width/2-8}" y="{body.height-4}" data="l 8 8  l 8 -8" visible="{showBottomArrow}">
@@ -81,11 +81,11 @@
 				<s:SolidColorStroke color="{getStyle('borderColor')}" weight="2"/>
 			</s:stroke>
 			<s:fill>
-				<s:SolidColor color="{getStyle('backgroundColor')}" />                                               
+				<s:SolidColor color="{getStyle('backgroundColor')}" />
 			</s:fill>
 		</s:Path>
 	</s:BorderContainer>
 	
 	
-    
+
 </mx:Panel>

@@ -1,21 +1,21 @@
-package com.ithaca.timeline 
+package com.ithaca.timeline
 {
 	import com.ithaca.traces.Obsel;
 	import flash.display.Shape;
 	import flash.events.Event;
 	
 	/**
-	 * The SimpleObselRenderer class extends BaseOselsRender to render obsels with lines and rect (durrative obsel) in a Shape component. 
+	 * The SimpleObselRenderer class extends BaseOselsRender to render obsels with lines and rect (durrative obsel) in a Shape component.
 	 * <p>It's used to render the preview tracelines in the zoomContext zone.</p>
-	 * <p>Using different colors is not supported yet.</p>	 
+	 * <p>Using different colors is not supported yet.</p>	
 	 */
-	public class SimpleObselsRenderer extends BaseObselsRenderer 
+	public class SimpleObselsRenderer extends BaseObselsRenderer
 	{
 		public	var _markerColor 		: uint = 0x000000;
 		public	var _durativeColor 		: uint = 0xC9C9C9;
 		public	var _backgroundColor	: uint = 0xF5F5F5;
 		
-		public function SimpleObselsRenderer( tr : TimeRange, tl : Timeline ) 
+		public function SimpleObselsRenderer( tr : TimeRange, tl : Timeline )
 		{
 			super( tr, null, tl);						
 		}
@@ -26,7 +26,7 @@ package com.ithaca.timeline
 		 */
 		override public function  redraw( event : Event = null) : void
 		{	
-			if ( !_timeRange) 
+			if ( !_timeRange)
 				return;	
 			
 			while(numChildren > 0 )
@@ -58,7 +58,7 @@ package com.ithaca.timeline
 					if ( obsel.end >= intervalStart  && obsel.begin <= intervalEnd )
 					{
 						// durative
-						if (obsel.begin < obsel.end ) 
+						if (obsel.begin < obsel.end )
 						{
 							shape.graphics.beginFill(_durativeColor, 0.5);
 							shape.graphics.lineStyle();
@@ -66,7 +66,7 @@ package com.ithaca.timeline
 							var widthDurative : Number = Math.min( obsel.end,   intervalEnd ) - beginDurative;
 							shape.graphics.drawRect( (beginDurative - intervalStart ) * shapeWidth / intervalDuration , 0, widthDurative * shapeWidth / intervalDuration, height);
 							shape.graphics.endFill();
-						} 
+						}
 						// non durative
 						else if (obsel.begin == obsel.end )
 						{

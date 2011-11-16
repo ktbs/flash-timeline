@@ -1,4 +1,4 @@
-package com.ithaca.timeline 
+package com.ithaca.timeline
 {
 	import com.ithaca.traces.Obsel;
 	import flash.events.Event;
@@ -13,13 +13,13 @@ package com.ithaca.timeline
 	
 	
 	/**
-	 * The ObselsRenderer class extends BaseOselsRender to render obsels with skinned ObselsSkins. 
+	 * The ObselsRenderer class extends BaseOselsRender to render obsels with skinned ObselsSkins.
 	 */
-	public class ObselsRenderer extends BaseObselsRenderer 
+	public class ObselsRenderer extends BaseObselsRenderer
 	{
 		protected var  obselsSkinsCollection : ArrayCollection;
 
-		public function ObselsRenderer( tr : TimeRange, tl : TraceLine ) 
+		public function ObselsRenderer( tr : TimeRange, tl : TraceLine )
 		{			
 			super( tr, tl, tl._timeline);						
 			obselsSkinsCollection = new ArrayCollection();	
@@ -30,14 +30,14 @@ package com.ithaca.timeline
 		 */
 		override public function  redraw( event : Event = null) : void
 		{						
-			if ( !_timeRange) 
+			if ( !_timeRange)
 				return;	
 
 			while(numChildren > 0 )
 				removeChildAt(0);		
 
 			var lastIntervalGroup : Group = null;
-	 
+	
 			var  timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
 			
 			for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
@@ -159,9 +159,9 @@ package com.ithaca.timeline
 		 */
 		public function  updateViewportPosition( event : Event = null) : void
 		{						
-			if ( !_timeRange) 
+			if ( !_timeRange)
 				return;	
-	 
+	
 			var timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;	
 			var index : Number = 0;
 			for (var i :int = 0; i < _timeRange._ranges.length; i+=2)

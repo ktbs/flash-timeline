@@ -3,8 +3,8 @@
 	This component display a TimeRange as a ruler with equidistant marker line and time labels.
 	There is two TimeRulers in the ZommContext component one to display the whole TimeRange of timeline and the other to display the selected TimeRange.
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-               xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:mx="library://ns.adobe.com/flex/halo"
 			   xmlns:tl="com.ithaca.timeline.*"
 			   creationComplete="creationCompleteHandler()"
@@ -117,7 +117,7 @@
 		
 		private function drawRuler () : Shape
 		{
-			var usableRulerWidth : Number = rulerWidth - timeRange.timeHoleWidth * (timeRange.numIntervals - 1); 
+			var usableRulerWidth : Number = rulerWidth - timeRange.timeHoleWidth * (timeRange.numIntervals - 1);
 			
 			var shape			: Shape  = new Shape();
 			var rulerDuration   : Number = timeRange.duration;			
@@ -158,13 +158,13 @@
 						
 						if ( t % interval.label == 0 )
 						{
-							if( x - lastLabel.x - LABEL_SIZE / 2 > minLabelsGap ) 
+							if( x - lastLabel.x - LABEL_SIZE / 2 > minLabelsGap )
 								lastLabel = addLabel( t, x, labelsOnTop?5:0 );							
 						}
 						x += xStep;
 					}
 					
-					if( x - lastLabel.x - LABEL_SIZE / 2 < 50 ) 
+					if( x - lastLabel.x - LABEL_SIZE / 2 < 50 )
 							timeLabels.removeElement(lastLabel);
 					drawMark( shape, Math.min(x, startPosition + rulerWidth),  limitMarkHeight );
 					if (i < timeRange._ranges.length - 2)					
@@ -236,7 +236,7 @@
 		}
 		
 		/**
-		 * Handles a click on the ruler to dispatch an TimelineEvent.TIMERULER_CLICK event with the clicked time 
+		 * Handles a click on the ruler to dispatch an TimelineEvent.TIMERULER_CLICK event with the clicked time
 		 * @param	event
 		 */
 		public function onClick( event : MouseEvent ):void
@@ -246,7 +246,7 @@
 			tlEvent.value = timeRange.positionToTime(xPos - startPosition, rulerWidth );
 			dispatchEvent( tlEvent );
 		}
-		 
+		
 		protected function onToolTipShow( event : MouseEvent ) : void
 		{	
 			var dateFormatter : DateFormatter = new DateFormatter();
@@ -274,7 +274,7 @@
 				tt.visible = false;
 		}
 		
-		]]> 
+		]]>
 	</fx:Script>
 	
 	<s:Group clipAndEnableScrolling="true" width="100%">

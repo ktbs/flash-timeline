@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:timeline="com.ithaca.visu.controls.timeline.*"
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600"
 			   creationComplete="init()">
@@ -59,12 +59,12 @@
 			// interval the decalage max in seconds
 			[Bindable]
 			private var maxIntervalDecalage:Number = 1.1;
-			// interval the contol of the decalage im microseconds 
+			// interval the contol of the decalage im microseconds
 			private var INTERVAL_CONTROL_DECALAGE:Number = 10000;
 			// interval the check the decalage in seconds
 			[Bindable]
 			private var intervalCheckDecalage:Number = 5;
-			// time start session plus time in this session 
+			// time start session plus time in this session
 			private var currentTime:Number;
 		
 		
@@ -124,7 +124,7 @@
 					}
 			}
 		
-			private function onCallComplete(event:Event):void 
+			private function onCallComplete(event:Event):void
 			{
 				//we init the trace object
 				var loader:URLLoader=event.target as URLLoader;
@@ -146,7 +146,7 @@
 				
 			private function createSessionTimeLine(durationSession:Number,startSession:Number):void
 			{
-				// set current session duration 
+				// set current session duration
 				this.currentSessionDuration = durationSession;
 				this.sessionTimeLine.sessionTimeLineLayout.durationSession = durationSession;
 				this.sessionTimeLine.sessionTimeLineLayout.startTime = startSession;
@@ -173,7 +173,7 @@
 					var minuts:int = (beginTimeObsel/1000)/60;
 						var minutsString:String = minuts.toString();
 						if(minuts<10){
-							minutsString = "0"+minutsString; 
+							minutsString = "0"+minutsString;
 						}
 						var seconds:int = (beginTimeObsel/1000)-minuts*60;
 						var secondsString:String = seconds.toString();
@@ -227,7 +227,7 @@
 					traceLine.tempList = traceLineObj.listTitleObsels;
 					traceLine.listElementTraceline = traceLineObj.listElementTraceLine;
 	//				traceLine.addEventListener(TraceLineEvent.ADD_LIST_OBSEL, onAddListObsel);
-	//				traceLine.addEventListener(TraceLineEvent.REMOVE_LIST_OBSEL, onRemoveListObsel); 
+	//				traceLine.addEventListener(TraceLineEvent.REMOVE_LIST_OBSEL, onRemoveListObsel);
 					
 	//				traceLine.addEventListener(FlexEvent.CREATION_COMPLETE, onCreationCompletTraceLine);
 					// listener activity user on observer the obsel
@@ -236,7 +236,7 @@
 	//				if(userId == Model.getInstance().getLoggedUser().id_user)
 					{
 						// create sessionTimeLine
-						this.createSessionTimeLine(durationSession,0); 
+						this.createSessionTimeLine(durationSession,0);
 						this.testTimeLine = traceLine;
 						
 						traceLine.nameUserTraceLine = ("Ma trace");
@@ -314,11 +314,11 @@
 			 </s:Group>
 			 <s:HGroup>
 				 <s:Label text="Zoom: " />
-				 <s:HSlider id="durationSessionSlider" 						   
+				 <s:HSlider id="durationSessionSlider" 						
 							liveDragging="true" width="15%" valueCommit="durationSessionSlider_valueCommitHandler(event)" enabled="true"/>
-				 
+				
 				 <s:Label text="Position: "/>
-				 <s:HSlider id="startTimeSessionSlider" 
+				 <s:HSlider id="startTimeSessionSlider"
 							liveDragging="true" width="70%" valueCommit="startTimeSessionSlider_valueCommitHandler(event)" enabled="true"/>
 			 </s:HGroup>
 		 </s:VGroup>

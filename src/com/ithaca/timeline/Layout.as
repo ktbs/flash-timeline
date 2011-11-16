@@ -8,22 +8,22 @@ package com.ithaca.timeline
 	import flash.ui.MouseCursor
 	
 	/**
-	 * The Layout class manages the creation of tracelines and tracelinegroups in a tree layout as defined in a XML descriptor. 
+	 * The Layout class manages the creation of tracelines and tracelinegroups in a tree layout as defined in a XML descriptor.
 	 * Each node of the tree extends the LayoutNode abstract class ( currently TraceLineGroup, TraceLine, LayoutModifier or Timeline ).
-	 * 
-	 * <p> 
+	 *
+	 * <p>
 	 * The XML descriptor is contained by the _timeline property ( _timeline.layoutXML[LAYOUT] ) which is also the root of the tree (as a LayoutNode).
 	 * </p>
 	 * <p>
-	 * In addition to this definition, the _timeline.layoutXML xml contains a second section to define obsels selectors ( _timeline.layoutXML[OBSELS_SELECTORS] ). 
+	 * In addition to this definition, the _timeline.layoutXML xml contains a second section to define obsels selectors ( _timeline.layoutXML[OBSELS_SELECTORS] ).
 	 * These selectors are used both to create CSS selector for obslesSkin ( in order to use different skins) and to define traceline selectors.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The xml element names are define in this class :
 	 * <ul>
-	 * 	<li><strong>layout:</strong> 		the layout section</li> 
-	 *  <li><strong>tlg:</strong>			 a tracelinegroup node</li> 
+	 * 	<li><strong>layout:</strong> 		the layout section</li>
+	 *  <li><strong>tlg:</strong>			 a tracelinegroup node</li>
 	 * 				<ul>
 	 * 					<li><em>title : </em> the title and the <code>name</code> of the tracelinegroup  </li>
 	 * 					<li><em>style : </em> the stylename of the tracelinegroup. It's used to select the a specific layout ( see examples ) </li>
@@ -40,7 +40,7 @@ package com.ithaca.timeline
 	 *					<li><em>preview : </em>if "true", the traceline is used as preview in the zoomContext zone</li>
 	 *					<li><em>source : </em>if "parent", the obsels source of the traceline is the parent layoutNode otherwise this is the whole trace</li>
 	 * 				</ul>
-	 *  </li> 
+	 *  </li>
 	 *  <li><strong>modifier:</strong> 	 a layout modifier node </li>
 	* 			<ul>
 	* 					<li><em>splitter : </em> the property of the obsel use to split the obsels </li>
@@ -49,7 +49,7 @@ package com.ithaca.timeline
 	 * 					<li><em>autohide : </em> the value of the autohide property of the created tracelines </li>
 	 *					<li><em>source : </em>if "parent", the obsels source of the modifier is the parent layoutNode otherwise this is the whole trace</li>
 	 * 				</ul>
-	 *  <li><strong>obselsSelectors:</strong> the obsels selectors section</li> 
+	 *  <li><strong>obselsSelectors:</strong> the obsels selectors section</li>
      *  <li><strong>obselsSelector:</strong> an obsels selector . Attributes :
 	 * 			<ul>
 	 * 					<li><em>id : </em>the ID of the selector (will be the stylename of matching obselSkins )</li>
@@ -59,14 +59,14 @@ package com.ithaca.timeline
 	 * </li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * <p>
-	 * Besides the xml driven creation, the Layout class can also be used to modify the tree with low level methods. For example : <br/> 
+	 * Besides the xml driven creation, the Layout class can also be used to modify the tree with low level methods. For example : <br/>
 	 * <code>
 	 * 		timeline.timelineLayout.addTraceline( traceline , parentLayoutNode );	
 	 * </code>
 	 * </p>
-	 * 
+	 *
 	 * @example The minimal Layout definition that allows to see something
 	 * <listing version="3.0"> <p>
 	 *  &lt;root&gt;<br />
@@ -84,8 +84,8 @@ package com.ithaca.timeline
 	 *          &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;<br />
 	 *      &lt;/tlg &gt;    <br />
 	 *  &lt;/layout&gt;<br />
-	 * &lt;/root&gt;  </p></listing> 	 
-	 * 
+	 * &lt;/root&gt;  </p></listing> 	
+	 *
 	 * @example  A second version of mini layout. This one contains an OblselsSelectors section
 	 * <listing version="3.0"> <p>
 	 * &lt;root&gt;<br />
@@ -123,8 +123,8 @@ package com.ithaca.timeline
 	 *            &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;<br />
 	 *        &lt;/tlg &gt;                <br />
 	 *    &lt;/layout&gt;<br />
-	 * &lt;/root&gt;           </p></listing> 
-	 * 
+	 * &lt;/root&gt;           </p></listing>
+	 *
 	 * @example  A last version of mini layout. This one contains an OblselsSelectors section and use a LayoutModifier to create Traceline
 	 * <listing version="3.0"> <p>
 	 * &lt;root&gt;<br />
@@ -167,9 +167,9 @@ package com.ithaca.timeline
 	 *            &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;<br />
 	 *        &lt;/tlg &gt;                <br />
 	 *    &lt;/layout&gt;<br />
-	 * &lt;/root&gt;          </p></listing> 
+	 * &lt;/root&gt;          </p></listing>
      *
-	 * 
+	 *
 	 * 	@example   A basic layout definition of the old version of Visu2 with a static definition of the tree structure.
 	 * <listing version="3.0"> <p>
 	 * &lt;root&gt;<br />
@@ -215,7 +215,7 @@ package com.ithaca.timeline
 	 *        &lt;/tlg&gt;        <br />
 	 *    &lt;/layout&gt;<br />
 	 * &lt;/root&gt;       </p></listing>
-	 * 
+	 *
 	 * 	@example   An enhanced layout definition of the old version of Visu2.
 	 * <listing version="3.0"> <p>
 	 * &lt;root&gt;<br />
@@ -306,7 +306,7 @@ package com.ithaca.timeline
 	 *        &lt;/tlg&gt;        <br />
 	 *    &lt;/layout&gt;<br />
 	 * &lt;/root&gt;   </p></listing>
-	 * 
+	 *
 	 * 	@example   New version of the Visu2 layout.
 	 * <listing version="3.0"> <p>
 	 * &lt;root&gt;<br />
@@ -426,14 +426,14 @@ package com.ithaca.timeline
 	
 		/**
 		 * Select an XML descriptor of TraceLineGroup tree in the list of descriptors stored in the <code>_timeline</code> and create the tree structure.
-		 * The first TraceLineGroup descriptor of the list that the property 'source' is equal to the URI of <code>trac</code> or that the 'style' property is equal to the optionnal <code>style</code> parameters is selected. 
+		 * The first TraceLineGroup descriptor of the list that the property 'source' is equal to the URI of <code>trac</code> or that the 'style' property is equal to the optionnal <code>style</code> parameters is selected.
 		 * If no such descriptor exist in the list, the last descriptor of the list is used by default.
-		 * 
+		 *
 		 * @param trac the Trace for which the tree is created
 		 * @param style an optional stylename used to select the TraceLineGroup definition in the xml descriptor.
 		 * @return the created TraceLineGroup tree
 		 */
-		public function createTracelineGroupTree ( trac : Trace, style : String = null ) : TraceLineGroup 
+		public function createTracelineGroupTree ( trac : Trace, style : String = null ) : TraceLineGroup
 		{	
 			var treeLayout : XML = new XML( TRACELINEGROUP );
 			
@@ -455,7 +455,7 @@ package com.ithaca.timeline
 				
 		/**
 		 * Create a TracelineGroupNode from a xml descriptor and a trace
-		 * 
+		 *
 		 * @param xmlLayout The XML descriptor of the TraceLineGroup
 		 * @param trac The trace used to create the TraceLineGroup
 		 * @return the TraceLineGroup node
@@ -470,7 +470,7 @@ package com.ithaca.timeline
 		
 		/**
 		 * Add a traceline as a child to a LayoutNode
-		 * 
+		 *
 		 * @param traceline The tracelien to add
 		 * @param parentNode the LayoutNode where you want to add the traceline
 		 * @param xmlLayout
@@ -513,7 +513,7 @@ package com.ithaca.timeline
 		
 		/**
 		 * Create a Traceline from an xml descriptor
-		 * 
+		 *
 		 * @param xmlLayout an xml descriptor of the traceline
 		 * @return the created traceline
 		 */
@@ -531,12 +531,12 @@ package com.ithaca.timeline
 				{
 					if (_timeline.styleSheet.obselsSkinsSelectors[i].id == xmlLayout.@selectorID )
 					{
-						tlSelector 	= _timeline.styleSheet.obselsSkinsSelectors[i].selector; 
+						tlSelector 	= _timeline.styleSheet.obselsSkinsSelectors[i].selector;
 						tlTitle		= _timeline.styleSheet.obselsSkinsSelectors[i].id;	
 					}					
 				}
 			
-			} 
+			}
 			else if ( xmlLayout.hasOwnProperty('@selector') )
 			{
 				tlSelector 	= createSelector( xmlLayout );
@@ -544,9 +544,9 @@ package com.ithaca.timeline
 			}
 			
 			if ( xmlLayout.hasOwnProperty('@title') )
-				tlTitle = xmlLayout.@title; 
+				tlTitle = xmlLayout.@title;
 			if ( xmlLayout.hasOwnProperty('@style') )
-				tlClass = xmlLayout.@style; 
+				tlClass = xmlLayout.@style;
 			if ( xmlLayout.hasOwnProperty('@source') )
 				tlSource = xmlLayout.@source;
 							
@@ -562,7 +562,7 @@ package com.ithaca.timeline
 		
 		/**
 		 * Create a LayoutModifier from an xml descriptor
-		 * 
+		 *
 		 * @param xmlLayout an xml descriptor of the LayoutModifier
 		 * @return the created LayoutModifier
 		 */
@@ -579,13 +579,13 @@ package com.ithaca.timeline
 				newNode.autohide = true;
 			if ( xmlLayout.hasOwnProperty('@style') )
 			{
-				var style : String = xmlLayout.@style; 
+				var style : String = xmlLayout.@style;
 				newNode.styleName = style;
 			}
 			
 			if ( xmlLayout.hasOwnProperty('@name') )
 			{
-				var modName : String = xmlLayout.@name; 
+				var modName : String = xmlLayout.@name;
 				newNode.name = modName;
 			}
 
@@ -594,12 +594,12 @@ package com.ithaca.timeline
 		
 		/**
 		 * Create a tree structure of LayoutNode ( TraceLineGroup, Traceline, ModifierNode) from an xml descriptor and a trace. This is a recursive method. It uses the createTraceLineGroupNode, createTraceLineNode and createModifierNode methods.
-		 * 
+		 *
 		 * @param xmlLayout the xml descriptor of the tree
 		 * @param trac the trace for which the tree is created
 		 * @return the root of the tree structure as a LayoutNode
 		 */
-		public function createTree ( xmlLayout : XML , trac : Trace) : LayoutNode 
+		public function createTree ( xmlLayout : XML , trac : Trace) : LayoutNode
 		{		
 			var newNode : LayoutNode = null;
 			
@@ -630,8 +630,8 @@ package com.ithaca.timeline
 						(newNode as TraceLineGroup).backgroundTraceLine = childTree as TraceLine;
 				}
 				else
-				{ 
-					if ( 	(child.hasOwnProperty('@style') && child.@style == CONTEXT_PREVIEW_TRACELINE ) 
+				{
+					if ( 	(child.hasOwnProperty('@style') && child.@style == CONTEXT_PREVIEW_TRACELINE )
 						|| ( child.hasOwnProperty('@preview') && child.@preview == 'true' && newNode is TraceLineGroup ))
 						(newNode as TraceLineGroup).contextPreviewTraceLine = childTree as TraceLine;
 						
@@ -658,8 +658,8 @@ package com.ithaca.timeline
 		}		
 	
 		/**
-		 * 
-		 * @return the xml descriptor of the current tree structure 
+		 *
+		 * @return the xml descriptor of the current tree structure
 		 */
 		public function getCurrentXmlLayout ( ) : XML
 		{
@@ -673,10 +673,10 @@ package com.ithaca.timeline
 		
 		/**
 		 * Loads a set of obsels skins selectors from a XML descriptor. It overwrites the current set if one exists.
-		 * 
+		 *
 		 * @param xmlSelectors xml descriptor of a set of obsels skins selectors
 		 */
-		public function loadObselsSelectors( xmlSelectors : XMLList ) : void 
+		public function loadObselsSelectors( xmlSelectors : XMLList ) : void
 		{
 			_timeline.styleSheet.obselsSkinsSelectors = new Array();
 			for each (var selector : XML in xmlSelectors.children() )
@@ -732,7 +732,7 @@ package com.ithaca.timeline
 				var tlg : TraceLineGroup = _timeline.getElementAt( tlgIndex ) as TraceLineGroup;
 				if ( tlg && sourceList.getItemIndex( tlg.trace.uri ) < 0)
 				{									
-					sourceList.addItem( tlg.trace.uri ) 
+					sourceList.addItem( tlg.trace.uri )
 					var xmlTlg : XML 	= < {TRACELINEGROUP} />;
 					xmlTlg.@['source']	= tlg.trace.uri;
 					if ( tlg.styleName )
@@ -766,7 +766,7 @@ package com.ithaca.timeline
 			return xmlTree;
 		}
 		
-		/**		 
+		/**		
 		 * @param tl a traceline tree
 		 * @return the xml descriptor of a given traceline tree structure.
 		 */
@@ -801,7 +801,7 @@ package com.ithaca.timeline
 			return xmlTl;			
 		}		
 		
-		/**		 
+		/**		
 		 * @param tl a modifier tree
 		 * @return the xml descriptor of a given modifier tree structure.
 		 */

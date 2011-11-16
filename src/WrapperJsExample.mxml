@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:tl="com.ithaca.timeline.*"
 			   xmlns:root="*"
-			   width="100%"  height="100%" 
+			   width="100%"  height="100%"
 			   preinitialize="onPreinitialize()"
 			   creationComplete="init()" >
 			   	
-	<fx:Script> 
+	<fx:Script>
 	<![CDATA[
 		import com.ithaca.timeline.events.TimelineEvent;
 		import com.ithaca.timeline.ISelector;
@@ -47,14 +47,14 @@
 			
 		/*
 		 * This example creates a basic wrapper for Javascript.
-		 * 
+		 *
 		 * The Timeline is the only created component.
 		 * Then it can be used for HTML integration.
 		 */
 		
-		/************************************ 		 
+		/************************************ 		
 		 * JAVASCRIPT --->  FLEX
-		 * 
+		 *
 		 * Definition of the functions that could be called from Javascript.		
 		 * It is called when receive the creationComplete event.
 		 ************************************/		
@@ -65,17 +65,17 @@
 			
 			if (ExternalInterface.available)	
 			{
-				 ExternalInterface.addCallback("loadTTL", loadTTL );  
-				 ExternalInterface.addCallback("onPlay", onPlay );  
-				 ExternalInterface.addCallback("onPause", onPause );  
-				 ExternalInterface.addCallback("loadLayout", loadLayout );  
-				 ExternalInterface.addCallback("saveLayout", timeline.timelineLayout.getCurrentXmlLayout );  
+				 ExternalInterface.addCallback("loadTTL", loadTTL );
+				 ExternalInterface.addCallback("onPlay", onPlay );
+				 ExternalInterface.addCallback("onPause", onPause );
+				 ExternalInterface.addCallback("loadLayout", loadLayout );
+				 ExternalInterface.addCallback("saveLayout", timeline.timelineLayout.getCurrentXmlLayout );
 			}
 		}
 				
 		/************************************ 		
 		 * FLEX ---> JAVASCRIPT
-		 * 
+		 *
 		 * Example of calling a Javascript function from Flex.
 		 */
 		private function updateTimer( event : TimelineEvent ) : void
@@ -143,7 +143,7 @@
 			loading.label = "Loading Layout...";
 		}
 		
-		private function onLoadLayoutComplete(event:Event):void 
+		private function onLoadLayoutComplete(event:Event):void
 		{
 			loading.visible = false;	
 			
@@ -188,7 +188,7 @@
 			}
 		}
 		
-		private function onLoadTTLComplete(event:Event):void 
+		private function onLoadTTLComplete(event:Event):void
 		{	
 			loading.visible = false;
 			
@@ -253,8 +253,8 @@
 		{			
             var timer : Timer = event.currentTarget as Timer;
 			timeValue += timer.delay*60;
-            
-            timeline.currentTime = timeValue;            
+
+            timeline.currentTime = timeValue;
 		}	
 
 		
@@ -275,8 +275,8 @@
 	<fx:Style source="default.css" />
 	
 	<s:VGroup  width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">						
-		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer()" 
-					 pauseButtonClick="stopTimer()" timeRulerClick="onRulerClick(event)" 
+		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer()"
+					 pauseButtonClick="stopTimer()" timeRulerClick="onRulerClick(event)"
 					 cursorMode="auto"
 					 endAlertBeforeTime="30000"
 					 showPlayButton="true"

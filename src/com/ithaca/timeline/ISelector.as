@@ -4,7 +4,7 @@ package com.ithaca.timeline
 	
 	/**
 	 * <p>The ISelector interface is implemented by classes that are used to select obsels ( Tracelines have an ISelector properties for example ).</p>
-	 * 	 
+	 * 	
 	 * @see SelectorRegexp
 	 */
 	public interface ISelector
@@ -21,14 +21,14 @@ package com.ithaca.timeline
 		 * @param	obselsArray the array of obsels to test
 		 * @return	the array of matching obsels
 		 */
-		function getMatchingObsels ( obselsArray : Array ) : Array ; 
+		function getMatchingObsels ( obselsArray : Array ) : Array ;
 		
 		/**
 		 * Test if another ISelector is the same of this one.
 		 * <p>This function is used to test if a selector has already been created by a LayoutModifier in order to know if a new traceline need to be created.</p>
-		 * 
+		 *
 		 * @see LayoutModifier
-		 * 
+		 *
 		 * @param selector the selector to test
 		 * @return true if equal, else return false
 		 */
@@ -37,20 +37,20 @@ package com.ithaca.timeline
 		
 		/**
 		 * This function return the array of parameters needed to define the Selector.
-		 * 
+		 *
 		 * <p> It is used to save the current layout in an xml descriptor.</p>
-		 * 		 
+		 * 		
 		 * @return the parameters of the selectors in the same order as the argument of the setParameters method.
-		 * 
+		 *
 		 * @see #setParameters
 		 */
 		function getParameters() : Array;
 		
 		/**
 		 * Change the parameters of the selector.
-		 * 
+		 *
 		 * @param parameters The array of parameters in the same order as the array returned by the getParameters method.
-		 * 
+		 *
 		 * @see #getParameters
 		 */
 		function setParameters(parameters : Array) : void;

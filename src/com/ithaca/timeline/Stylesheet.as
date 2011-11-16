@@ -10,7 +10,7 @@ package com.ithaca.timeline
 
 	/**
 	 * Created to manage colors, obsels skins and other CSS like properties but not really used ; should be merged with the Layout class.
-	 * 
+	 *
 	 * @see Layout
 	 */
 	public class Stylesheet
@@ -31,7 +31,7 @@ package com.ithaca.timeline
 		 * @param	traceline The traceline that's contained the Obsel
 		 * @return an ObselSkin
 		 */
-		public function getParameteredSkin( obsel : Obsel, traceline : TraceLine ) :  ObselSkin 
+		public function getParameteredSkin( obsel : Obsel, traceline : TraceLine ) :  ObselSkin
 		{ 	
 			var obselSkin : ObselSkin = new ObselSkin( obsel, traceline );			
 			for each ( var item : Object in obselsSkinsSelectors )

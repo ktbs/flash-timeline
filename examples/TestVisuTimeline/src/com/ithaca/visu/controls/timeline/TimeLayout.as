@@ -23,7 +23,7 @@ public class TimeLayout extends LayoutBase
     {
         super();
     }
-    
+
     //--------------------------------------------------------------------------
     //
     //  Properties
@@ -81,26 +81,26 @@ public class TimeLayout extends LayoutBase
 		return new Point(minTime, maxTime);
 	}
 	
-  
-    
+
+
     //--------------------------------------------------------------------------
     //
     //  Overridden methods: LayoutBase
     //
     //--------------------------------------------------------------------------
-    
+
     /**
      * @private
      */
-   
+
     override public function measure():void
     {
        /* var bounds:Point = calculateBounds();
-        
+
         target.measuredWidth = bounds.x;
         target.measuredHeight = bounds.y;*/
     }
-    
+
     override public function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
 		//super.updateDisplayList(unscaledWidth,unscaledHeight);
@@ -145,10 +145,10 @@ public class TimeLayout extends LayoutBase
 			}				
 		}
 		
-     
+
     }
-    
-    
+
+
 
 }
 }

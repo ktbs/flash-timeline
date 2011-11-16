@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				 xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
 				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
 				 creationComplete="creationCompleteHandler(event)">
 	<fx:Declarations>
@@ -10,7 +10,7 @@
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
 	
 	<fx:Script>
-        <![CDATA[ 
+        <![CDATA[
 			import com.ithaca.traces.Obsel;
 			import flash.events.Event;
 			import flash.filters.BlurFilter;
@@ -36,7 +36,7 @@
 				obsel.props[ hostComponent.getStyle( "textProp" ) ] = obselText.text;
 				toolTip 	= obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
 			}
-		]]>        
+		]]>
     </fx:Script>
 
 	<s:BorderContainer id="container" cornerRadius="4"  height="25" >

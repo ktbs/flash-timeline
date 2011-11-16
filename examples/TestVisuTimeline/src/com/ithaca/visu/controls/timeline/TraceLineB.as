@@ -37,95 +37,95 @@ package com.ithaca.visu.controls.timeline
 	public class TraceLineB extends SkinnableContainer
 	{
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var contentGroupTraceLine:Group;
 
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var partOpenTraceLineElements:Path;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var imageMarker:Image;
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var imageConsigne:Image;
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var imageKeyword:Image;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var traceLoggedUser:Group;
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var timeLayoutTitle:TimeLayout;
 		
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var checkBoxMarkerObsel:CheckBox;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var checkBoxConsigneObsel:CheckBox;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var checkBoxKeywordObsel:CheckBox;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var checkBoxFichierObsel:CheckBox;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var checkBoxMessageObsel:CheckBox;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var traceLineIconTrace1:Group;	
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var buttonAddTypeObselTrace1:Button;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var timeLayoutTrace1:TimeLayout;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var trace1:Group;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var labelTrace1:Label;
 		private var listObselTraceLine1Change:Boolean;
 			
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var traceLineIconTrace2:Group;	
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var buttonAddTypeObselTrace2:Button;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var timeLayoutTrace2:TimeLayout;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var trace2:Group;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var labelTrace2:Label;
 		private var listObselTraceLine2Change:Boolean;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var traceLineIconTrace3:Group;	
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var buttonAddTypeObselTrace3:Button;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var timeLayoutTrace3:TimeLayout;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var trace3:Group;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var labelTrace3:Label;
 		private var listObselTraceLine3Change:Boolean;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var traceLineIconTrace4:Group;	
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var buttonAddTypeObselTrace4:Button;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var timeLayoutTrace4:TimeLayout;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var trace4:Group;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var labelTrace4:Label;
 		private var listObselTraceLine4Change:Boolean;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var traceLineIconTrace5:Group;	
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var buttonAddTypeObselTrace5:Button;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var timeLayoutTrace5:TimeLayout;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var trace5:Group;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var labelTrace5:Label;
 		private var listObselTraceLine5Change:Boolean;
-		[SkinPart("false")] 
+		[SkinPart("false")]
 		public var sharedIconMarker:Image;
 		
 		private var open:Boolean;
@@ -425,7 +425,7 @@ package com.ithaca.visu.controls.timeline
 				{
 					// add obsel explane/minimize traceLine
 					var eventExpandeTraceLine:SalonRetroEvent = new SalonRetroEvent(SalonRetroEvent.ACTION_ON_EXPAND_TRACE_LINE);
-					eventExpandeTraceLine.userId = this._userId; 
+					eventExpandeTraceLine.userId = this._userId;
 					eventExpandeTraceLine.nameUserTraceLine = this._nameUserTraceLine;
 					eventExpandeTraceLine.avatarUser = this._sourceImageUserTraceLine;
 					eventExpandeTraceLine.isOpen = open;
@@ -804,7 +804,7 @@ package com.ithaca.visu.controls.timeline
 				sharedIconMarkerCodeChange = false;
 				if(sharedIconMarker != null)
 				{
-					// set source the shared icon  
+					// set source the shared icon
 					sharedIconMarker.source = IconEnum.getIconByCodeShared(this._sharedIconMarkerCode);
 				}				
 			}
@@ -878,7 +878,7 @@ package com.ithaca.visu.controls.timeline
 					obsel.addEventListener(ToolTipEvent.TOOL_TIP_SHOWN, onToolTipObselShow)
 					trace5.addElement(obsel);	
 				}	
-				// set source the shared icon  
+				// set source the shared icon
 				sharedIconMarker.source = IconEnum.getIconByCodeShared(this._sharedIconMarkerCode);
 			}
 			

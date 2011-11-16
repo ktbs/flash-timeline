@@ -36,7 +36,7 @@ package com.ithaca.visu.controls.timeline
 		[SkinPart("true")]
 		public var traceTitleLoggedUser:Group;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var timeLayoutTitle:TimeLayout;
 		
 		private var _listTitleObsels:ArrayCollection;

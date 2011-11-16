@@ -13,14 +13,14 @@ package com.ithaca.timeline
 
 	/**
 	 * The ObselSkin class is a skinnable component that represent a com.ithaca.traces.Obsel.
-	 * 
-	 * <p> There're two steps to assign a skin to an obsel. 
+	 *
+	 * <p> There're two steps to assign a skin to an obsel.
 	 * <ol>
 	 * 		<li> Create a obselSelector in the obselsSelector section of the xml descriptor. Example : <code> &lt;obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" /&gt;</code> </li>
 	 * 		<li> Use the Id in the CSS file to assign the skin : <code> timeline|ObselSkin.Document { .... } </code> </li>
 	 * </ol>
 	 * </p>
-	 * 
+	 *
 	 */
 	public class ObselSkin extends SkinnableComponent
 	{
@@ -54,7 +54,7 @@ package com.ithaca.timeline
 		public var editable : Boolean;
 		
 		/**
-		 * 
+		 *
 		 * @param o The obsel represented by the ObselSkin
 		 * @param tl The traceline that contains the obsel
 		 */
@@ -69,8 +69,8 @@ package com.ithaca.timeline
 //			addEventListener( MouseEvent.DOUBLE_CLICK, editObsel );
 		}
 		
-		/**		 
-		 * @return The obsel 
+		/**		
+		 * @return The obsel
 		 */
 		public function get obsel () : Obsel
 		{
@@ -78,10 +78,10 @@ package com.ithaca.timeline
 		}
 		
 		/**
-		 * 
+		 *
 		 * @param event
 		 */
-		public function editObsel ( event : Event ) : void 
+		public function editObsel ( event : Event ) : void
 		{
 			var editDialog:ObselGenericEditDialog = new ObselGenericEditDialog(  );
 			editDialog.obsel = this;

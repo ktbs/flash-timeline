@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:tl="com.ithaca.timeline.*"
 			   xmlns:root="*"
-			   width="100%"  height="100%" 
+			   width="100%"  height="100%"
 			   preinitialize="onPreinitialize()"
 			   creationComplete="init()" >
 			   	
-	<fx:Script> 
+	<fx:Script>
 	<![CDATA[
 		import com.ithaca.timeline.Layout;
 		import com.ithaca.timeline.ObselSkin;
@@ -138,7 +138,7 @@
 		
 		protected function browse(event:MouseEvent):void
 		{			
-			var myFileReference :FileReference = new FileReference( ); 
+			var myFileReference :FileReference = new FileReference( );
 			
 			myFileReference.addEventListener(Event.SELECT, selectHandler);
 			myFileReference.browse();		
@@ -162,12 +162,12 @@
 		
 		protected function saveLayout( ):void
 		{
-			var myFileReference :FileReference = new FileReference( ); 
+			var myFileReference :FileReference = new FileReference( );
 				
 			myFileReference.save(timeline.timelineLayout.getCurrentXmlLayout(), "save.xml");				
 		}	
 		
-		private function onLoadLayoutComplete(event:Event):void 
+		private function onLoadLayoutComplete(event:Event):void
 		{
 			loading.visible = false;	
 			
@@ -218,7 +218,7 @@
 						
 		}
 		
-		private function onLoadTTLComplete(event:Event):void 
+		private function onLoadTTLComplete(event:Event):void
 		{	
 			loading.visible = false;
 			
@@ -293,8 +293,8 @@
 		{			
             var timer : Timer = event.currentTarget as Timer;
 			timeValue += timer.delay*60;
-            
-            timeline.currentTime = timeValue;            
+
+            timeline.currentTime = timeValue;
 		}	
 		
 		private function onEndAlert( event : TimelineEvent ) : void
@@ -363,11 +363,11 @@
 						<mx:DataGridColumn dataField="end" headerText="End" labelFunction="{toDate}"/>
 					</mx:columns>
 				</mx:DataGrid>
-			</s:Group>						 
+			</s:Group>						
 		</s:HGroup>
 			
-		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)" 
-					 pauseButtonClick="stopTimer(event)" timeMode="relagtive" timeRulerClick="onRulerClick(event)" 
+		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)"
+					 pauseButtonClick="stopTimer(event)" timeMode="relagtive" timeRulerClick="onRulerClick(event)"
 					 cursorMode="manual"
 					 endAlertBeforeTime="30000"
 					

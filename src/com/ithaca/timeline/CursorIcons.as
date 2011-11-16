@@ -1,4 +1,4 @@
-package com.ithaca.timeline 
+package com.ithaca.timeline
 {
 	/**
 	 * This class is used to change the appearance of the cursor

@@ -50,25 +50,25 @@ package com.ithaca.timeline
 		 */
 		public var cursorRange		: TimeRange;	
 		
-		public function ZoomContext() : void 
+		public function ZoomContext() : void
 		{				
 			super();	
 			enabled = false;
 		}	
 		
-		public function set timeline( value : Timeline ) : void 
+		public function set timeline( value : Timeline ) : void
 		{
-			if ( _timeline == value) 
-				return; 
+			if ( _timeline == value)
+				return;
 			
-			_timeline 		= value; 
+			_timeline 		= value;
 			_timelineRange 	= _timeline.range;
 			cursorRange 	= new TimeRange();
 			
 			timelinePreview.addEventListener( Event.RESIZE, updateSkinPositionFromValues );
 			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
 			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, inputTimeRuler.onTimeRangeChange);
-			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange);				 
+			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange);				
 			_timeline.addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);
 			_timeline.addEventListener( TimelineEvent.LAYOUT_CHANGE, onTimelineLayoutChange );			
 			cursor.addEventListener( TimelineEvent.ZOOM_CONTEXT_MANUAL_CHANGE, onManualChange );
@@ -130,12 +130,12 @@ package com.ithaca.timeline
 		 * @param	tlg the TraceLineGroup to preview
 		 * @param	index the position of the preview (-1 to add it at the end)
 		 */
-		public function addTraceLineGroupPreview( tlg : TraceLineGroup, index : Number  = -1  ) : void 
+		public function addTraceLineGroupPreview( tlg : TraceLineGroup, index : Number  = -1  ) : void
 		{
 			var simpleObselsRenderer : SimpleObselsRenderer = new SimpleObselsRenderer( _timelineRange, _timeline );
 			simpleObselsRenderer.borderVisible = false;
 			// if there's no 'contextPreviewTraceLine', the whole trace would be the preview
-			if ( tlg.contextPreviewTraceLine ) 
+			if ( tlg.contextPreviewTraceLine )
 				simpleObselsRenderer.obselsCollection 	= tlg.contextPreviewTraceLine._obsels;
 			else
 				simpleObselsRenderer.obselsCollection 	= tlg.trace.obsels;			
@@ -158,13 +158,13 @@ package com.ithaca.timeline
 		 * Remove a TraceLine from the timelinePreview Group
 		 * @param	i index of the traceline to remove
 		 */
-		public function removeTraceLineGroupPreviewAt( i : uint ) : void 
+		public function removeTraceLineGroupPreviewAt( i : uint ) : void
 		{
 			timelinePreview.removeElementAt( i ) ;
 		}
 		
 		/**
-		 * Update the content of the timelinePreview Group according to the TraceLineGroup of the Timeline 
+		 * Update the content of the timelinePreview Group according to the TraceLineGroup of the Timeline
 		 * @param	event
 		 */
 		public function onTracelineGroupsChange( event: ElementExistenceEvent ) : void
@@ -177,7 +177,7 @@ package com.ithaca.timeline
 		
 		private function onTimelineLayoutChange( e : Event ) : void
 		{
-							 
+							
 		}
 		/**
 		 * Handle modification of the TimeRanhe of the Timeline.
@@ -246,7 +246,7 @@ package com.ithaca.timeline
 		 * @param	deltaTime ( can be a negative value )
 		 * @return
 		 */
-		public function shiftContext( deltaTime : Number ) : Number 
+		public function shiftContext( deltaTime : Number ) : Number
 		{				
 			var delta: Number = 0;
 			

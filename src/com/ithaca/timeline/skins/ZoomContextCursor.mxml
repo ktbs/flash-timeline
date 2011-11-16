@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
 				xmlns:mx="library://ns.adobe.com/flex/mx" >
 	
 	<fx:Declarations>
@@ -62,7 +62,7 @@
 						x = maxX - width;
 					else
 						x = newPos;						
-				} 
+				}
 				else if (draggedPart == maxRange )
 				{
 					if ( newPos < x + 1 )

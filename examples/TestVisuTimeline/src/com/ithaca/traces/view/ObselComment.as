@@ -27,19 +27,19 @@ package com.ithaca.traces.view
 		[SkinPart("true")]
 		public var textContent:Label;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var imageObsel:Image;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var textEdit:TextArea;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var buttonDelete:Button;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var buttonOk:Button;
 		
-		[SkinPart("true")] 
+		[SkinPart("true")]
 		public var buttonCancel:Button;
 		
 		private var _begin:Number;
@@ -191,7 +191,7 @@ package com.ithaca.traces.view
 			if(event is MouseEvent){
 				text = textEdit.text;
 				this.sendComment();
-			}else if (event is KeyboardEvent) 
+			}else if (event is KeyboardEvent)
 			{
 				if(event.keyCode == Keyboard.ENTER)
 				{
@@ -246,7 +246,7 @@ package com.ithaca.traces.view
 				imageProxy.source = imageObsel.source;
 			}
 			imageProxy.height=this.height*0.75;
-			imageProxy.width=this.width*0.75;                
+			imageProxy.width=this.width*0.75;
 			DragManager.doDrag(this,ds,event,imageProxy, -15, -15, 1.00);
 
 		}

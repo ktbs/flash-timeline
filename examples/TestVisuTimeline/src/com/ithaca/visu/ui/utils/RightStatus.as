@@ -7,7 +7,7 @@ package com.ithaca.visu.ui.utils
 		
 		public static function hasRight(profilUser:String , rightUser:uint):Boolean
 		{
-			if( profilUser.charAt(NUMBER_DIGITS_IN_MASK_RIGHT - 1 - rightUser) == '1' ) 
+			if( profilUser.charAt(NUMBER_DIGITS_IN_MASK_RIGHT - 1 - rightUser) == '1' )
 			{
 				return true;
 			}else return false;

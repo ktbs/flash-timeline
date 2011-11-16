@@ -16,7 +16,7 @@ package com.ithaca.timeline
 	[Style(name = "title", type = "String", inherit = "no")]
 	/**
 	 * The TraceLine class extends the LayoutNode ; it manages an obsels collection selected from an obsels source and renders them.
-	 * 
+	 *
 	 * @see Layout
 	 * @see LayoutNode
 	 */
@@ -64,7 +64,7 @@ package com.ithaca.timeline
 		}
 
 		/**
-		 * @return the obsels collection used as source (before selection) by the traceline ; it can be the trace or the obsels collection of the parent node 
+		 * @return the obsels collection used as source (before selection) by the traceline ; it can be the trace or the obsels collection of the parent node
 		 */
 		public function getCollectionSource() : ArrayCollection
 		{
@@ -86,7 +86,7 @@ package com.ithaca.timeline
 					var tlg : TraceLineGroup = getTraceLineGroup();
 					if (tlg && tlg.trace)
 						return tlg.trace.obsels;
-					else 
+					else
 						return null;
 				}
 			}
@@ -98,14 +98,14 @@ package com.ithaca.timeline
 		 */
 		public function acceptObsel ( obsel : Obsel ) : Boolean
 		{
-			return ( !_selector || _selector.isObselMatching( obsel as Obsel ) ); 
+			return ( !_selector || _selector.isObselMatching( obsel as Obsel ) );
 		}
 		
 		/**
 		 * add an obsel in the obsel collection
 		 * @param	event
 		 */
-		public function addObsel ( obsel : Obsel ) : void 
+		public function addObsel ( obsel : Obsel ) : void
 		{
 			if ( acceptObsel( obsel ) )
 				_obsels.addItem( obsel );
@@ -115,7 +115,7 @@ package com.ithaca.timeline
 		 * Remove an  obsel in the obsel collection
 		 * @param	event
 		 */
-		public function removeObsel ( obsel : Obsel ) : void 
+		public function removeObsel ( obsel : Obsel ) : void
 		{
 			var obselIndex : int = _obsels.getItemIndex( obsel );
 			if ( obselIndex >= 0)
@@ -186,10 +186,10 @@ package com.ithaca.timeline
 		/**
 		 * Compute the number of traceline children which are not hidden ; used to know if the open/close button must be visible.
 		 * <p> This is because a node could have children in autohide mode and then the open button must be hidden </p>
-		 * 
+		 *
 		 * @return the number of visible children
 		 */
-		public function getVisibleChildrenNumber() : Number 
+		public function getVisibleChildrenNumber() : Number
 		{
 			var numTl : Number = 0;
 			for ( var lnIndex : int = 0; lnIndex < numElements; lnIndex++ )

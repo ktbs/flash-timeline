@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:mx="library://ns.adobe.com/flex/mx" currentState="normal"
 		currentStateChange="skin1_currentStateChangeHandler(event)"
 		creationComplete="skin1_creationCompleteHandler(event)">
@@ -30,7 +30,7 @@
 				{
 					this.textContent.setStyle("backgroundColor", this.hostComponent.backGroundColor );
 				}
-			} 
+			}
 
 
 			protected function skin1_creationCompleteHandler(event:FlexEvent):void
@@ -74,7 +74,7 @@
 		</s:Group>
 	</s:Group>
 
-	<s:Group width="250" top="-20" height="100" includeIn="editabled" left="-220"> 
+	<s:Group width="250" top="-20" height="100" includeIn="editabled" left="-220">
 		<s:layout>
 			<s:VerticalLayout gap="4"/>
 		</s:layout>
@@ -92,9 +92,9 @@
 					left="2" right="2" top="0" bottom="0">
 				<s:stroke>
 					<s:LinearGradientStroke rotation="90" weight="1">
-						<s:GradientEntry color="0x000000" 
+						<s:GradientEntry color="0x000000"
 										 alpha="0.5625"/>
-						<s:GradientEntry color="0x000000" 
+						<s:GradientEntry color="0x000000"
 										 alpha="0.75" />
 					</s:LinearGradientStroke>
 				</s:stroke>

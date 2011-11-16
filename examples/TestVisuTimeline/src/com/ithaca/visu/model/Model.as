@@ -1,49 +1,49 @@
 /**
  * Copyright Université Lyon 1 / Université Lyon 2 (2009,2010)
- * 
+ *
  * <ithaca@liris.cnrs.fr>
- * 
+ *
  * This file is part of Visu.
- * 
+ *
  * This software is a computer program whose purpose is to provide an
  * enriched videoconference application.
- * 
+ *
  * Visu is a free software subjected to a double license.
- * You can redistribute it and/or modify since you respect the terms of either 
+ * You can redistribute it and/or modify since you respect the terms of either
  * (at least one of the both license) :
- * - the GNU Lesser General Public License as published by the Free Software Foundation; 
- *   either version 3 of the License, or any later version. 
+ * - the GNU Lesser General Public License as published by the Free Software Foundation;
+ *   either version 3 of the License, or any later version.
  * - the CeCILL-C as published by CeCILL; either version 2 of the License, or any later version.
- * 
+ *
  * -- GNU LGPL license
- * 
+ *
  * Visu is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * Visu is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with Visu.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * -- CeCILL-C license
- * 
+ *
  * This software is governed by the CeCILL-C license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL-C
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
- * 
+ * "http://www.cecill.info".
+ *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
- * 
+ * liability.
+ *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
  * software by the user in light of its specific status of free software,
@@ -51,13 +51,13 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
- * 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
- * 
+ *
  * -- End of licenses
  */
 package  com.ithaca.visu.model
@@ -101,7 +101,7 @@ package  com.ithaca.visu.model
 		private static var instance:Model;
 		/* Serveur */
 		public var server : String = "localhost";
-		public var port   : uint = 5080; 
+		public var port   : uint = 5080;
 		public var appName: String = "visu2";
 		
 		private var NAME_VISU2: String = "VISU";
@@ -127,7 +127,7 @@ package  com.ithaca.visu.model
 	
 		private var listTraceLine:ArrayCollection;
 
-		private var _buttonSalonSynchrone:Button; 
+		private var _buttonSalonSynchrone:Button;
 		private var _listViewObselSessionOut:ArrayCollection = new ArrayCollection();
 		private var _listViewObselComment:ArrayCollection = new ArrayCollection();
 		private var _listFrameSplit:ArrayCollection = new ArrayCollection();
@@ -142,7 +142,7 @@ package  com.ithaca.visu.model
 		private var _currentObselComment:ObselComment=null;
 		private var _selectedRadioButtonHomeModule:String = "";
 		private var _localeVersionGit:String;
-		private var _remoteVersionGit:String;  
+		private var _remoteVersionGit:String;
 		private var _dateCompiled:String;
 		private var _currentFilterSession:int = SessionFilterEnum.SESSION_MY;
 		private var _modeDebug:Boolean = false;
@@ -228,11 +228,11 @@ package  com.ithaca.visu.model
 			var name:String = "Visu";
 			switch (this.appName)
 			{
-				case "visu2" : 
+				case "visu2" :
 					name = NAME_VISU2;
 					break;
 				
-				case "visuvciel" : 
+				case "visuvciel" :
 					name = this.NAME_VISU_VCIEL;
 					break;
 				default:
@@ -368,7 +368,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * get calculated time of the serveur red5  
+		 * get calculated time of the serveur red5
 		 */
 		public function getTimeServeur():Number
 		{
@@ -378,7 +378,7 @@ package  com.ithaca.visu.model
 		
 		public function setLoggedUser(value:UserVO):void
 		{ 	
-			_loggedUser = new User(value); 
+			_loggedUser = new User(value);
 			_loggedUser.setStatus(ConnectionStatus.PENDING);
 		}
 		
@@ -388,7 +388,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * Update status of logged User 
+		 * Update status of logged User
 		 */
 		public function updateStatusLoggedUser(value:int):void
 		{
@@ -406,7 +406,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * set client id 
+		 * set client id
 		 */
 		public function setUserIdClient(value:String):void
 		{
@@ -423,7 +423,7 @@ package  com.ithaca.visu.model
 		
 		/**
 		 * current session for tutorat module, only for debugging
-		 */ 
+		 */
 		public function setCurrentSession(value:Session):void
 		{
 			_currentSession = value;
@@ -435,7 +435,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * 
+		 *
 		 */
 		public function setButtonSalonSynchrone(value:Button):void
 		{
@@ -498,7 +498,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * Set list obsels 
+		 * Set list obsels
 		 */
 		public function setListObsel(listObsels:ArrayCollection):void
 		{
@@ -845,7 +845,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * remove obsel by property "begin" 
+		 * remove obsel by property "begin"
 		 */
 		private function removeClonedObsel(listObsel:ArrayCollection , obselOrigin:*):void
 		{
@@ -886,7 +886,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * 
+		 *
 		 */
 		public function getTraceLineByUserId(userId:int):Object
 		{
@@ -940,7 +940,7 @@ package  com.ithaca.visu.model
 					if(this._currentObselComment.parentObsel.props[TraceModel.TIMESTAMP] == 0)
 					{
 						var index:int = _listViewObselComment.getItemIndex(this._currentObselComment);
-						// if hasn't obsel 
+						// if hasn't obsel
 						if(index != -1)
 						{
 							_listViewObselComment.removeItemAt(index);
@@ -1023,7 +1023,7 @@ package  com.ithaca.visu.model
 					var labelSender:String ="";
 					if(!checkServeurVisuVciel())
 					{
-						labelSender = obsel.props[TraceModel.SENDER]+":"; 
+						labelSender = obsel.props[TraceModel.SENDER]+":";
 					}
 					viewObsel.toolTip =  labelSender + textObsel;
 					var senderObsel:int = obsel.props[TraceModel.SENDER];
@@ -1061,10 +1061,10 @@ package  com.ithaca.visu.model
 					break;
 				case TraceModel.SEND_DOCUMENT :
 					ownerObsel = obsel.uid;
-					var typeDocument:String = obsel.props[TraceModel.TYPE_DOCUMENT]; 
+					var typeDocument:String = obsel.props[TraceModel.TYPE_DOCUMENT];
 					if(typeDocument == ActivityElementType.IMAGE)
 					{
-						viewObsel.source =  obsel.props[TraceModel.URL];  
+						viewObsel.source =  obsel.props[TraceModel.URL];
 					}else
 					{
 						viewObsel.source = IconEnum.getIconByTypeObsel(typeObsel);
@@ -1074,10 +1074,10 @@ package  com.ithaca.visu.model
 					break;
 				case TraceModel.RECEIVE_DOCUMENT :
 					ownerObsel = obsel.uid;
-					var typeDocument:String = obsel.props[TraceModel.TYPE_DOCUMENT]; 
+					var typeDocument:String = obsel.props[TraceModel.TYPE_DOCUMENT];
 					if(typeDocument == ActivityElementType.IMAGE)
 					{
-						viewObsel.source =  obsel.props[TraceModel.URL];  
+						viewObsel.source =  obsel.props[TraceModel.URL];
 					}else
 					{
 						viewObsel.source = IconEnum.getIconByTypeObsel(typeObsel);
@@ -1090,10 +1090,10 @@ package  com.ithaca.visu.model
 					break;
 				case TraceModel.READ_DOCUMENT :
 					ownerObsel = obsel.props[TraceModel.SENDER];
-					var typeDocument:String = obsel.props[TraceModel.TYPE_DOCUMENT]; 
+					var typeDocument:String = obsel.props[TraceModel.TYPE_DOCUMENT];
 					if(typeDocument == ActivityElementType.IMAGE)
 					{
-						viewObsel.source =  obsel.props[TraceModel.URL];  
+						viewObsel.source =  obsel.props[TraceModel.URL];
 					}else
 					{
 						viewObsel.source = IconEnum.getIconByTypeObsel(typeObsel);
@@ -1316,7 +1316,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * add session for user when responsable add him to this session 
+		 * add session for user when responsable add him to this session
 		 */
 		public function addSession(sessionVO:SessionVO, listUsers:Array):String{
 			var labelDate:String = getDateFormatYYY_MM_DD(sessionVO.date_session);			
@@ -1370,7 +1370,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * set list participants of this session 
+		 * set list participants of this session
 		 */
 		public function setListUsersSession(arUser:Array, sessionId:int):void
 		{
@@ -1398,7 +1398,7 @@ package  com.ithaca.visu.model
 				var id:int = session.getSessionId();
 				if(sessionId == id)
 				{
-					return session; 
+					return session;
 				}
 			}
 			return null;
@@ -1441,8 +1441,8 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * get list session 
-		 */ 
+		 * get list session
+		 */
 		public function getSessionByDay(date:Date):ArrayCollection
 		{
 			var nbrSession:uint = this.listSessions.length;
@@ -1461,7 +1461,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * checking if we have the same date 
+		 * checking if we have the same date
 		 */
 		private function hasSameDate(ar:ArrayCollection , date:Date ):Boolean
 		{
@@ -1500,7 +1500,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * set list date 
+		 * set list date
 		 */
 		public function setSessionDate(ar:Array):void
 		{
@@ -1540,7 +1540,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * set connected users 
+		 * set connected users
 		 */
 		public function setConnectedUsers(ar:Array):void
 		{
@@ -1690,7 +1690,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * update duration viewObsels "SessionOut" 
+		 * update duration viewObsels "SessionOut"
 		 */
 		public function setTimeViewObselSessionOut(value:Number):void
 		{
@@ -1702,7 +1702,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * add viewObsel "SessionOut" 
+		 * add viewObsel "SessionOut"
 		 */
 		public function addViewObselSessionOut(timeBegin:Number, userId:int):void
 		{
@@ -1812,7 +1812,7 @@ package  com.ithaca.visu.model
 			}		
 		}
 		/**
-		 * set obsels "SessionOut" for users had walk out from TutoratModule 
+		 * set obsels "SessionOut" for users had walk out from TutoratModule
 		 * before creation "TimeLine" for logged user
 		 */
 		public function setObselSessionOutForUserWalkOutSession(session:Session, obsel:Obsel):void
@@ -1854,7 +1854,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * get list users id of the session 
+		 * get list users id of the session
 		 */
 		public function getListUsersIdByConnectedSession(sessionId:int):Array
 		{
@@ -1894,7 +1894,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * get list users id with status "RECORDING" of the recording session 
+		 * get list users id with status "RECORDING" of the recording session
 		 */
 		public function getListUsersIdByRecordingSession(sessionId:int, role:int=0, filter:Boolean = false):Array
 		{
@@ -1926,7 +1926,7 @@ package  com.ithaca.visu.model
 								result.push(user.getId());	
 							}
 						}
-					else 
+					else
 						// will shared only with himself
 					{
 						if(user.id_user == this._loggedUser.id_user)
@@ -2006,7 +2006,7 @@ package  com.ithaca.visu.model
 		}
 		
 		/**
-		 * 
+		 *
 		 */
 		private function getDateFormatYYY_MM_DD(date:Date):String{
 			var month:uint = date.getMonth()+1;

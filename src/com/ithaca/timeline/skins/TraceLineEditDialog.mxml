@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
-               xmlns:s="library://ns.adobe.com/flex/spark" 
-               xmlns:mx="library://ns.adobe.com/flex/mx" 
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:tl="com.ithaca.timeline.*"
 			   creationComplete="creationCompleteHandler(event)"
 			   close="onCancel(event)" >
@@ -63,12 +63,12 @@
 		<s:HGroup verticalAlign="bottom" >  <s:Label text='{fxgt.gettext("Title :")}'/> <s:TextInput id="titleIT" text="{tracelineTitle}"/> </s:HGroup>
 		
 		<mx:Spacer height="10"/>
-		<s:HGroup verticalAlign="bottom"> 
+		<s:HGroup verticalAlign="bottom">
 			<s:Label text='{fxgt.gettext("Source :")}' />
-			<s:DropDownList id="sourceDDL" selectedIndex="{tracelineSource}" width="90"> 
+			<s:DropDownList id="sourceDDL" selectedIndex="{tracelineSource}" width="90">
 				<mx:ArrayCollection>
 					<fx:String>trace</fx:String>
-					<fx:String>parent</fx:String>            
+					<fx:String>parent</fx:String>
 				</mx:ArrayCollection>
 			</s:DropDownList>
 		</s:HGroup>

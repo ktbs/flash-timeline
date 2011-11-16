@@ -6,7 +6,7 @@ package com.ithaca.timeline
 	import spark.components.SkinnableContainer;
 	
 	/**
-	 * 
+	 *
 	 */
 	[Style(name = "fillColors", type = "Array", format = "Color", inherit = "no")]
 	
@@ -37,14 +37,14 @@ package com.ithaca.timeline
 		public var contextPreviewTraceLine 	: TraceLine;
 				
 		/**
-		 * The traceline displayed in the background of the TraceLineGroup. In the XML descriptor, this traceline has the attribute : style="background".	 
+		 * The traceline displayed in the background of the TraceLineGroup. In the XML descriptor, this traceline has the attribute : style="background".	
 		 */
 		public var backgroundTraceLine 		: TraceLine;
 		
 		public var backgroundColor : uint;
 				
 		/**
-		 * 
+		 *
 		 * @param	tl a reference to the timeline that contains this TraceLineGroup
 		 * @param	trac the trace displayed by this TraceLineGroup
 		 * @param	title the title and the name of the TraceLineGroup.
@@ -68,7 +68,7 @@ package com.ithaca.timeline
 		 * @return the trace displayed by this TraceLineGroup
 		 */
 		public function get trace ( ) : Trace
-		{ 
+		{
 			return _trace;
 		}
 		
@@ -76,7 +76,7 @@ package com.ithaca.timeline
 		 * Set the trace displayed by this TraceLineGroup
 		 */
 		public function set trace ( value : Trace ) : void
-		{ 
+		{
 			_trace = value
 		
 			 if (_trace.obsels && _trace.obsels.length )

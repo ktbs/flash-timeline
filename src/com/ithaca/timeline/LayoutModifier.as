@@ -2,12 +2,12 @@ package  com.ithaca.timeline
 {
 	/**
 	 * The LayoutModifier is a layout node which dynamicaly creates Tracelines when needed. Tracelines are created at the same layout level as the layoutModifier.
-	 * 
-	 * <p> 
-	 * The only layout modifier implemented is the one that split an obsels source according to an obsel property. 	 
+	 *
+	 * <p>
+	 * The only layout modifier implemented is the one that split an obsels source according to an obsel property. 	
 	 * </p>
-	 * 
-	 * @see Layout	 
+	 *
+	 * @see Layout	
 	 */
 	public class LayoutModifier extends LayoutNode
 	{
@@ -33,7 +33,7 @@ package  com.ithaca.timeline
 		 */
 		public var	autohide	: Boolean = false;
 		
-		public function LayoutModifier( tl : Timeline ) 
+		public function LayoutModifier( tl : Timeline )
 		{
 			_timeline = tl;
 		}
@@ -56,7 +56,7 @@ package  com.ithaca.timeline
 				selector.setParameters([  _splitter , "^" + obsel[_splitter] +"$" ] );
 			else if ( obsel.props.hasOwnProperty(_splitter) )			
 				selector.setParameters( [  _splitter , "^" + obsel.props[_splitter] +"$" ] );
-			else 
+			else
 				return null
 			
 			return selector;
@@ -78,7 +78,7 @@ package  com.ithaca.timeline
 		}
 		
 		/**
-		 * (Re)Check every obsel of the source.		 
+		 * (Re)Check every obsel of the source.		
 		 */
 		override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
 		{			

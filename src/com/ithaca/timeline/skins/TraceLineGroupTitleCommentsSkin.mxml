@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				 xmlns:s="library://ns.adobe.com/flex/spark" 
-				 xmlns:tl="com.ithaca.timeline.*" 
-				 xmlns:mx="library://ns.adobe.com/flex/mx" 
-				 xmlns:skins="com.ithaca.timeline.skins.*" 
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:tl="com.ithaca.timeline.*"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:skins="com.ithaca.timeline.skins.*"
 				 creationComplete="creationCompleteHandler(event)"
-				 width="100%" height="100%" 
+				 width="100%" height="100%"
 				 dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" >
 	<fx:Declarations>
 		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
 	</fx:Declarations>
 	
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLineGroupTitle")]</fx:Metadata>
-	 
+	
 	<fx:Script>
         <![CDATA[
 			import com.ithaca.timeline.CursorIcons;
@@ -32,18 +32,18 @@
 			
 			[Bindable]
 			private var backgroundColor : uint;
-    
-            private function mouseMoveHandler( event:MouseEvent ) : void 
-            {                
+
+            private function mouseMoveHandler( event:MouseEvent ) : void
+            {
                 var dragInitiator:TraceLineGroupTitle = hostComponent ;
                 var ds:DragSource = new DragSource();
-                ds.addData(dragInitiator, "traceLineGroup");               
+                ds.addData(dragInitiator, "traceLineGroup");
                 DragManager.doDrag(dragInitiator, ds, event);
 				stage.removeEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);
             }
 			
 			// The dragEnter event handler for the Canvas container enables dropping.
-            private function dragEnterHandler( event:DragEvent ) : void 
+            private function dragEnterHandler( event:DragEvent ) : void
 			{				
 				if (event.dragSource.hasFormat("traceLineGroup"))
                 {
@@ -79,26 +79,26 @@
 			{
 				super.styleChanged(styleProp);
 
-				if (  !styleProp  || styleProp == "headerHeight" ) 
+				if (  !styleProp  || styleProp == "headerHeight" )
 				{					
 					if ( contentGroup )
 						contentGroup.top 	= getStyle("headerHeight");
 				}
-				if (  !styleProp  || styleProp == "bottom" ) 
+				if (  !styleProp  || styleProp == "bottom" )
 				{					
 					if ( contentGroup )
 						contentGroup.top 	= getStyle("bottom");
 				}
-				if (  !styleProp  || styleProp == "bgColor" ) 
+				if (  !styleProp  || styleProp == "bgColor" )
 				{					
 					tlgContainer.backgroundFill = new SolidColor( getStyle("bgColor") )	;
 				}				
-				if (  !styleProp  || styleProp == "icon" ) 
+				if (  !styleProp  || styleProp == "icon" )
 				{		
 					if ( traceLineGroupTitleIcon )
 						traceLineGroupTitleIcon.source = getStyle("icon");
 				}
-				if (  !styleProp  || styleProp == "title" ) 
+				if (  !styleProp  || styleProp == "title" )
 				{				
 					if ( traceLineGroupTitle )
 						traceLineGroupTitle.text = getStyle("title");	
@@ -107,12 +107,12 @@
 				invalidateDisplayList();
 			}
 			
-			protected function addCommentObsel() : void 
+			protected function addCommentObsel() : void
 			{				
 				hostComponent.tlg.trace.addObsel( new Obsel( "comment",0,null,  hostComponent.tlg._timeline.currentTime, hostComponent.tlg._timeline.currentTime + 20000  ) );
 			}
 			
-		]]>        
+		]]>
     </fx:Script>
 	
 	<s:states>

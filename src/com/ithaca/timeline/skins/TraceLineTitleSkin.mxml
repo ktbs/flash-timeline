@@ -7,7 +7,7 @@
 		creationComplete="creationCompleteHandler(event)"
 		width="100%"
 		height="100%"
-		elementAdd="onChildrenChange(event)" 
+		elementAdd="onChildrenChange(event)"
 		dragDrop="dragDropHandler(event);">
 
 	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLineTitle")]</fx:Metadata>
@@ -140,7 +140,7 @@
 				var str:String = evt.item.@eventName;
 				switch (str)
 				{
-					case "newTraceLine": 
+					case "newTraceLine":
 					{
 						var newDialog:TraceLineEditDialog = new TraceLineEditDialog();
 						newDialog.traceline = new TraceLine(timeline);
@@ -149,7 +149,7 @@
 						newDialog.addEventListener(Event.REMOVED_FROM_STAGE, onAddTraceLine );
 					}
 						break;
-					case "editTraceLine": 
+					case "editTraceLine":
 					{
 						var editDialog:TraceLineEditDialog = new TraceLineEditDialog();
 						editDialog.tracelineTitle = hostComponent.tl.title;
@@ -164,7 +164,7 @@
 						PopUpManager.centerPopUp(editDialog);
 					}
 						break;
-					case "removeTraceLine": 
+					case "removeTraceLine":
 					{
 						var removeDialog:ConfirmationDialog = new ConfirmationDialog();
 						removeDialog.title = "Do you really want to delete this traceline ?"
@@ -173,7 +173,7 @@
 						removeDialog.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveTraceLine);
 					}
 						break;
-					default: 
+					default:
 				}
 			}
 			
@@ -209,15 +209,15 @@
 				}
 			}
 			
-			private function mouseDownHandler( event:MouseEvent ) : void 
-            {                
+			private function mouseDownHandler( event:MouseEvent ) : void
+            {
                 var dragInitiator:TraceLineTitle = hostComponent ;
                 var ds:DragSource = new DragSource();
-                ds.addData(dragInitiator, "traceLine");               
+                ds.addData(dragInitiator, "traceLine");
                 DragManager.doDrag(dragInitiator, ds, event);
             }
 					
-            private function dragEnterHandler( event:DragEvent ) : void 
+            private function dragEnterHandler( event:DragEvent ) : void
 			{			
 				if ( event.dragSource.hasFormat("traceLine") )
                 {
@@ -259,15 +259,15 @@
 				else
 				{			
 					// Check to see if style changed. 				
-					if (!styleProp || styleProp=="rendererGap" || styleProp=="rendererHeight" || styleProp=="hide") 
+					if (!styleProp || styleProp=="rendererGap" || styleProp=="rendererHeight" || styleProp=="hide")
 					{
 						titleGroup.height 	= (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
 						traceLineTitle.height = titleGroup.height;
-						onChildrenChange( null ); 
+						onChildrenChange( null );
 					}
 				}
 				
-				if (!styleProp || styleProp=="title" || styleProp=="hide" ) 
+				if (!styleProp || styleProp=="title" || styleProp=="hide" )
 				{
 					traceLineTitle.text = getStyle("title");											
 				}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				xmlns:s="library://ns.adobe.com/flex/spark" 
-				xmlns:mx="library://ns.adobe.com/flex/mx" 
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
 				width="100" height="100%"
-				creationComplete="creationCompleteHandler(event)" 				 
+				creationComplete="creationCompleteHandler(event)" 				
 				click="onSelect(event)"
 				doubleClick.editable="EditComment(event)">
 	
@@ -118,7 +118,7 @@
 						hostComponent.x = maxX - width;
 					else
 						hostComponent.x = newPos;						
-				} 
+				}
 				else if (draggedPart == rightGrip )
 				{
 					if ( newPos < hostComponent.x + 1 )
@@ -172,7 +172,7 @@
 				{
 					hostComponent.obsel.begin  = begin ;	
 					hostComponent.obsel.end    = end;
-				} 
+				}
 				else if (draggedPart == rightGrip )
 					hostComponent.obsel.end    = end;
 					draggedPart = null;
@@ -229,21 +229,21 @@
 	</s:states>
 
 	<s:Group id="leftGrip"	x="{-(gripRadius/2+2)}" y="{-8}"  mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)">
-		<s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="1">  
+		<s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="1">
 			<s:stroke> <s:SolidColorStroke color="{gripColor}" weight="2"/> </s:stroke>
 		    <s:fill > <s:SolidColor alpha=".1" color="{gripColor}" /> </s:fill>
          </s:Rect>
-		 <s:Rect height="100%" width="2" y="{gripRadius}" x="{gripRadius/2}" >  
+		 <s:Rect height="100%" width="2" y="{gripRadius}" x="{gripRadius/2}" >
           <s:fill> <s:SolidColor color="{gripColor}" /> </s:fill>
          </s:Rect>
 	</s:Group>
 	
 	<s:Group id="rightGrip"	x="{width}" y="{-8}" mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)">
-		<s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="-2">  
+		<s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="-2">
 			<s:stroke> <s:SolidColorStroke color="{gripColor}" weight="2"/> </s:stroke>
 		    <s:fill > <s:SolidColor alpha=".1" color="{gripColor}" /> </s:fill>
          </s:Rect>
-		 <s:Rect height="100%" width="2" y="{gripRadius}" >  
+		 <s:Rect height="100%" width="2" y="{gripRadius}" >
 			<s:fill><s:SolidColor color="{gripColor}" /> </s:fill>
          </s:Rect>
 	</s:Group>

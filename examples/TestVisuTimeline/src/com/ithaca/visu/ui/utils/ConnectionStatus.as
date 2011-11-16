@@ -22,8 +22,8 @@ package com.ithaca.visu.ui.utils
 		}
 		public function toString():String
 		{
-			return value==CONNECTED ? "connected " : 
-					value == DISCONNECTED ? "disconnected" : 
+			return value==CONNECTED ? "connected " :
+					value == DISCONNECTED ? "disconnected" :
 					value == PENDING ? "pending" : "recording" ;
 		}
 	}
