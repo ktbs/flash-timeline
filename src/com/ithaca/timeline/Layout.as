@@ -260,9 +260,9 @@ package com.ithaca.timeline
 	 *    &lt;!-- the layout definition --&gt;<br />
 	 *    &lt;layout&gt;        <br />
 	 *        &lt;!-- This is the  TraceLineGroup definition used when the stylename of the TraceLineGroup is &quot;comments&quot;.<br />
-	 *            The stylename could set when using the timeline.addTrace (  trace, index , stylename ) function.        <br />
+	 *            The stylename can be set when using the timeline.addTrace (  trace, index , stylename ) function.        <br />
 	 *           <br />
-	 *            Of course teh stylename could be use to create CSS selector :<br />
+	 *            Of course the stylename could be used to create a CSS selector :<br />
 	 *                timeline|TraceLineGroup.comments<br />
 	 *                {<br />
 	 *                    ....<br />
