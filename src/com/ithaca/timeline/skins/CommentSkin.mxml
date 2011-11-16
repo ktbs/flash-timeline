@@ -24,7 +24,6 @@
 			import com.ithaca.timeline.CursorIcons;
 			import com.ithaca.timeline.ObselSkin;
 			import com.ithaca.timeline.Stylesheet;
-	//		import com.ithaca.traces.view.ObselComment;
 			import flash.events.MouseEvent;
 			import gnu.as3.gettext._FxGettext;
 			import gnu.as3.gettext.FxGettext;
