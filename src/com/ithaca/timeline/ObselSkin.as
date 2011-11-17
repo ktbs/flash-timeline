@@ -1,12 +1,16 @@
 package com.ithaca.timeline
 {
-    import spark.components.supportClasses.SkinnableComponent;
+    import com.ithaca.timeline.skins.ObselGenericEditDialog;
     import com.ithaca.traces.Obsel;
+    import com.ithaca.traces.events.ObselEvent;
+    
     import flash.events.Event;
     import flash.events.MouseEvent;
-    import com.ithaca.timeline.skins.ObselGenericEditDialog;
-    import mx.managers.PopUpManager;
+    
     import mx.core.UIComponent;
+    import mx.managers.PopUpManager;
+    
+    import spark.components.supportClasses.SkinnableComponent;
     
     [Style(name = "icon", type = "Class", inherit = "no")]
     [Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
@@ -54,19 +58,27 @@ package com.ithaca.timeline
         public var editable : Boolean;
         
         /**
+         * TODO : comment
+         */ 
+        private var _dragArea:UIComponent = null;
+        private var dragAreaChange:Boolean;
+        
+        /**
          *
          * @param o The obsel represented by the ObselSkin
          * @param tl The traceline that contains the obsel
          */
         public function ObselSkin( o : Obsel, tl : TraceLine )
         {
-            super();            
+            super();
             editable = false;
             traceline = tl;
             _obsel = o;
             doubleClickEnabled = true;
             toolTip = obsel.toString();
-//            addEventListener( MouseEvent.DOUBLE_CLICK, editObsel );
+            
+            this.setStyle("dragEnabled", "true");
+            this.setStyle("dragMoveEnabled", "true");
         }
         
         /**        
@@ -75,6 +87,20 @@ package com.ithaca.timeline
         public function get obsel () : Obsel
         {
             return _obsel;
+        }
+        
+        /**
+         * set drag area of the obsels
+         */
+        public function set dragArea(value:UIComponent):void
+        {
+            dragAreaChange = true;
+            _dragArea = value;
+            invalidateProperties();
+        }
+        public function get dragArea():UIComponent
+        {
+            return _dragArea;
         }
         
         /**
@@ -88,5 +114,34 @@ package com.ithaca.timeline
             PopUpManager.addPopUp(editDialog, UIComponent( parentApplication), true);
             PopUpManager.centerPopUp(editDialog);
         };
+        
+        private function onMouseDown(event:MouseEvent):void
+        {
+            // Dispatcher
+            var moveObselEvent:ObselEvent = new ObselEvent(ObselEvent.MOUSE_DOWN_OBSEL);
+            moveObselEvent.value = this;
+            moveObselEvent.event = event;
+            
+            this.dispatchEvent(moveObselEvent);
+        }
+
+        //_____________________________________________________________________
+        //
+        // Overriden Methods
+        //
+        //_____________________________________________________________________
+        
+        override protected function commitProperties():void
+        {
+            super.commitProperties();
+            if(dragAreaChange)
+            {
+                dragAreaChange = false;
+                if(dragArea)
+                {
+                    dragArea.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+                }
+            }
+        }
     }
 }
