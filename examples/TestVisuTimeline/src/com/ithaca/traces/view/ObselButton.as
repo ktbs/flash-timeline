@@ -62,41 +62,41 @@
  */
 package com.ithaca.traces.view
 {
-	import mx.controls.Button;
+    import mx.controls.Button;
 
-	public class ObselButton extends Button
-	{
-		private var _begin:Number;
-		private var _end:Number;
+    public class ObselButton extends Button
+    {
+        private var _begin:Number;
+        private var _end:Number;
 
-		public function ObselButton()
-		{
-			super();
-		}
-		
-	
-		public function setBegin(value:Number):void
-		{
-			this._begin = value;
-		}
-		
-		public function getBegin():Number
-		{
-			return this._begin;
-		}
-		
-		public function setEnd(value:Number):void
-		{
-			this._end = value;
-		}
-		
-		public function getEnd():Number
-		{
-			return this._end;
-		}
-		public function setObselViewVisible(value:Boolean):void
-		{
-			this.visible = value;
-		}
-	}
+        public function ObselButton()
+        {
+            super();
+        }
+        
+    
+        public function setBegin(value:Number):void
+        {
+            this._begin = value;
+        }
+        
+        public function getBegin():Number
+        {
+            return this._begin;
+        }
+        
+        public function setEnd(value:Number):void
+        {
+            this._end = value;
+        }
+        
+        public function getEnd():Number
+        {
+            return this._end;
+        }
+        public function setObselViewVisible(value:Boolean):void
+        {
+            this.visible = value;
+        }
+    }
 }

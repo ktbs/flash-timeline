@@ -2,47 +2,47 @@
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:mx="library://ns.adobe.com/flex/mx"
-			   xmlns:tl="com.ithaca.timeline.*"			
-			   creationComplete="creationCompleteHandler(event)"
-			   close="onCancel(event)" >
-	
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	
-	<fx:Script>
-		<![CDATA[		
-			import mx.events.CloseEvent;
-			import mx.events.FlexEvent;
-			import mx.managers.PopUpManager;
+               xmlns:tl="com.ithaca.timeline.*"            
+               creationComplete="creationCompleteHandler(event)"
+               close="onCancel(event)" >
+    
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    
+    <fx:Script>
+        <![CDATA[        
+            import mx.events.CloseEvent;
+            import mx.events.FlexEvent;
+            import mx.managers.PopUpManager;
 
-			import gnu.as3.gettext._FxGettext;
-			import gnu.as3.gettext.FxGettext;
-			[Bindable]
-			private var fxgt:_FxGettext;		
-			
-			public var confirm : Boolean = false;			
+            import gnu.as3.gettext._FxGettext;
+            import gnu.as3.gettext.FxGettext;
+            [Bindable]
+            private var fxgt:_FxGettext;        
+            
+            public var confirm : Boolean = false;            
 
-			protected function creationCompleteHandler(event:FlexEvent):void
-			{
-				fxgt = FxGettext;
-			}
+            protected function creationCompleteHandler(event:FlexEvent):void
+            {
+                fxgt = FxGettext;
+            }
 
-			private function onCancel(event:Event):void
-			{
-				PopUpManager.removePopUp(this);
-			}
-			
-			private function onValid(event:Event):void
-			{
-				confirm = true;
-				PopUpManager.removePopUp(this);
-			}
-		]]>
-	</fx:Script>
-	
-	<mx:VBox paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">	
-		<mx:Spacer height="10"/>
-		<s:HGroup > <mx:Spacer width="80"/> <s:Button label='{fxgt.gettext("Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.gettext("Cancel")}' click="onCancel(event)" /> </s:HGroup>
-	</mx:VBox>
+            private function onCancel(event:Event):void
+            {
+                PopUpManager.removePopUp(this);
+            }
+            
+            private function onValid(event:Event):void
+            {
+                confirm = true;
+                PopUpManager.removePopUp(this);
+            }
+        ]]>
+    </fx:Script>
+    
+    <mx:VBox paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">    
+        <mx:Spacer height="10"/>
+        <s:HGroup > <mx:Spacer width="80"/> <s:Button label='{fxgt.gettext("Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.gettext("Cancel")}' click="onCancel(event)" /> </s:HGroup>
+    </mx:VBox>
 </s:TitleWindow>

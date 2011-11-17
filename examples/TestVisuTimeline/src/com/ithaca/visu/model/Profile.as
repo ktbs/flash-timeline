@@ -62,13 +62,13 @@
  */
 package com.ithaca.visu.model
 {
-	import com.ithaca.visu.model.vo.ProfileDescriptionVO;
+    import com.ithaca.visu.model.vo.ProfileDescriptionVO;
 
-	public class Profile extends ProfileDescriptionVO
-	{
-		public function testPermission(permission:int):Boolean
-		{
-			return true;
-		}
-	}
+    public class Profile extends ProfileDescriptionVO
+    {
+        public function testPermission(permission:int):Boolean
+        {
+            return true;
+        }
+    }
 }

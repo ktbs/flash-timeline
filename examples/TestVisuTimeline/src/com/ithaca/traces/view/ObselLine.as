@@ -62,49 +62,49 @@
  */
 package com.ithaca.traces.view
 {
-	import com.ithaca.traces.Obsel;
-	
-	import spark.components.SkinnableContainer;
-	
-	public class ObselLine extends SkinnableContainer implements IObselComponenet
-	{
-		private var _begin:Number;
-		private var _end:Number;
-		private var _parentObsel:Obsel;
-		
-		
-		public function ObselLine()
-		{
-			//TODO: implement function
-			super();
-		}
-		
-		public function setBegin(value:Number):void
-		{
-			this._begin = value;
-		}
-		
-		public function getBegin():Number
-		{
-			return this._begin;
-		}
-		
-		public function setEnd(value:Number):void
-		{
-			this._end = value;
-		}
-		
-		public function getEnd():Number
-		{
-			return this._end;
-		}
-		
-		public function setObselViewVisible(value:Boolean):void
-		{
-			this.visible = value;
-		}
-		
-		public function set parentObsel(value:Obsel):void{_parentObsel = value;}
-		public function get parentObsel():Obsel{return this._parentObsel}
-	}
+    import com.ithaca.traces.Obsel;
+    
+    import spark.components.SkinnableContainer;
+    
+    public class ObselLine extends SkinnableContainer implements IObselComponenet
+    {
+        private var _begin:Number;
+        private var _end:Number;
+        private var _parentObsel:Obsel;
+        
+        
+        public function ObselLine()
+        {
+            //TODO: implement function
+            super();
+        }
+        
+        public function setBegin(value:Number):void
+        {
+            this._begin = value;
+        }
+        
+        public function getBegin():Number
+        {
+            return this._begin;
+        }
+        
+        public function setEnd(value:Number):void
+        {
+            this._end = value;
+        }
+        
+        public function getEnd():Number
+        {
+            return this._end;
+        }
+        
+        public function setObselViewVisible(value:Boolean):void
+        {
+            this.visible = value;
+        }
+        
+        public function set parentObsel(value:Obsel):void{_parentObsel = value;}
+        public function get parentObsel():Obsel{return this._parentObsel}
+    }
 }

@@ -1,256 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
-				xmlns:s="library://ns.adobe.com/flex/spark"
-				xmlns:mx="library://ns.adobe.com/flex/mx"
-				width="100" height="100%"
-				creationComplete="creationCompleteHandler(event)" 				
-				click="onSelect(event)"
-				doubleClick.editable="EditComment(event)">
-	
-	<fx:Declarations>
-		
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	
-	<fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
-		
-		<fx:Script>
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:mx="library://ns.adobe.com/flex/mx"
+                width="100" height="100%"
+                creationComplete="creationCompleteHandler(event)"                 
+                click="onSelect(event)"
+                doubleClick.editable="EditComment(event)">
+    
+    <fx:Declarations>
+        
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    
+    <fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
+        
+        <fx:Script>
         <![CDATA[
 
-			import com.ithaca.traces.Obsel;
-			import com.ithaca.timeline.events.TimelineEvent;
-			import com.ithaca.timeline.TimeRange;
-			import com.ithaca.timeline.TraceLine;
-			import com.ithaca.timeline.CursorIcons;
-			import com.ithaca.timeline.ObselSkin;
-			import com.ithaca.timeline.Stylesheet;
-			import flash.events.MouseEvent;
-			import gnu.as3.gettext._FxGettext;
-			import gnu.as3.gettext.FxGettext;
-			import mx.core.UIComponent;
-			import mx.formatters.NumberBaseRoundType;
-			import mx.managers.PopUpManager;
-			import spark.components.BorderContainer;
-			import spark.components.Group;
-			import mx.events.PropertyChangeEvent;
-			import mx.events.PropertyChangeEventKind;
+            import com.ithaca.traces.Obsel;
+            import com.ithaca.timeline.events.TimelineEvent;
+            import com.ithaca.timeline.TimeRange;
+            import com.ithaca.timeline.TraceLine;
+            import com.ithaca.timeline.CursorIcons;
+            import com.ithaca.timeline.ObselSkin;
+            import com.ithaca.timeline.Stylesheet;
+            import flash.events.MouseEvent;
+            import gnu.as3.gettext._FxGettext;
+            import gnu.as3.gettext.FxGettext;
+            import mx.core.UIComponent;
+            import mx.formatters.NumberBaseRoundType;
+            import mx.managers.PopUpManager;
+            import spark.components.BorderContainer;
+            import spark.components.Group;
+            import mx.events.PropertyChangeEvent;
+            import mx.events.PropertyChangeEventKind;
 
-			[Bindable]
-			private 	var fxgt : _FxGettext;
+            [Bindable]
+            private     var fxgt : _FxGettext;
 
-			public 		var obsel : Obsel;
+            public         var obsel : Obsel;
 
-			[Bindable]
-			private 	var gripRadius : Number = 8;
-			[Bindable]
-			private 	var gripColor : Number = 0;
-			
-			protected 	var currentCenterDragingPoint:Point;			
-			private 	var draggedPart : UIComponent = null;
-			public		var minX  :Number;
-			public		var maxX  : Number;
-		
-			protected function creationCompleteHandler(event:Event):void
-			{
-				fxgt = FxGettext;
-				obsel = hostComponent.obsel;
-				y = hostComponent.traceline.getStyle('rendererHeight') - cursor.height - 2;
-				commentLabel.text = fxgt.gettext("Write your comment");
-				toolTip = commentLabel.text;
-				UpdateResizeGripHeight();
-				hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
-				
-				updateWidth( null );
-				hostComponent.obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
-			//	if ( hostComponent.editable )				
-				{
-					currentState = 'editable';				
-				}
-			}
+            [Bindable]
+            private     var gripRadius : Number = 8;
+            [Bindable]
+            private     var gripColor : Number = 0;
+            
+            protected     var currentCenterDragingPoint:Point;            
+            private     var draggedPart : UIComponent = null;
+            public        var minX  :Number;
+            public        var maxX  : Number;
+        
+            protected function creationCompleteHandler(event:Event):void
+            {
+                fxgt = FxGettext;
+                obsel = hostComponent.obsel;
+                y = hostComponent.traceline.getStyle('rendererHeight') - cursor.height - 2;
+                commentLabel.text = fxgt.gettext("Write your comment");
+                toolTip = commentLabel.text;
+                UpdateResizeGripHeight();
+                hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
+                
+                updateWidth( null );
+                hostComponent.obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
+            //    if ( hostComponent.editable )                
+                {
+                    currentState = 'editable';                
+                }
+            }
 
-		public function updateWidth( event : Event ) :  void
-			{
-				var traceline 		: TraceLine = hostComponent.traceline;
-				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;											
-				var startPosition 	: Number 	= timeRange.timeToPosition( obsel.begin, traceline._timeline.zoomContext.timelinePreview.width );
-				var endPosition 	: Number 	= timeRange.timeToPosition( obsel.end, traceline._timeline.zoomContext.timelinePreview.width );		
-				width  	= (endPosition - startPosition);
-			}
-			
-			protected function zcStartDrag(e:MouseEvent):void
-			{
-				onSelect(null);
-							
-				if ( e.currentTarget == icon )
-					draggedPart = cursor;
-				else
-					draggedPart = (e.currentTarget as UIComponent);
-				stage.addEventListener( MouseEvent.MOUSE_MOVE, 	zcDragging );
-				stage.addEventListener( MouseEvent.MOUSE_UP,	zcStopDrag );				
-				
-				currentCenterDragingPoint = new Point(e.localX, e.localY);
-			}
-			
-			protected function zcDragging(e:MouseEvent):void
-			{				
-				minX = (hostComponent.parent as Group).horizontalScrollPosition;
-				maxX = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.timelinePreview.width;				
-				
-				var parentMouse:Point = hostComponent.parent.globalToLocal(new Point(e.stageX, e.stageY));				
-				var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
-								
-				if (draggedPart == leftGrip )
-				{					
-					var oldPos : Number = hostComponent.x;						
-					if ( newPos < minX  )						
-						hostComponent.x = minX ;						
-					else if ( newPos + leftGrip.width > hostComponent.x + rightGrip.x - 1 )
-						hostComponent.x =  hostComponent.x + rightGrip.x - 1;
-					else
-						hostComponent.x = newPos + leftGrip.width;
-					width 	-= hostComponent.x - oldPos ;	
-				}
-				else if (draggedPart == cursor )
-				{
-					if ( newPos < minX)						
-						hostComponent.x  = minX;						
-					else if ( newPos > maxX - width )
-						hostComponent.x = maxX - width;
-					else
-						hostComponent.x = newPos;						
-				}
-				else if (draggedPart == rightGrip )
-				{
-					if ( newPos < hostComponent.x + 1 )
-						rightGrip.x =  1;
-					else if (newPos > maxX )
-						rightGrip.x = maxX - hostComponent.x;
-					else
-						rightGrip.x = newPos - hostComponent.x;
-						
-					width = rightGrip.x;				
-				}
-				UpdateResizeGripHeight();		
-			}
-			
-			protected function UpdateResizeGripHeight(): void
-			{
-				var commentsGroup:Group = (hostComponent.parent as Group);
-				for ( var i:int = 0; i < commentsGroup.numChildren; i ++ )
-				{
-					var currentComment:ObselSkin = (commentsGroup.getElementAt(i) as ObselSkin );
-					var nbCommentsOver:int = GetNbCommentsOver ( currentComment.x, currentComment.width, i );
-					currentComment.rightGrip.y = currentComment.leftGrip.y = cursor.y - 8 - 4 * nbCommentsOver;
-					currentComment.rightGrip.height = currentComment.leftGrip.height = (cursor.y +cursor.height) - currentComment.leftGrip.y;
-				}
-			}
-			
-			protected function GetNbCommentsOver( x:int, width:int, beginIndex:int ) : int
-			{
-				var nbCommentsOver:int = 0;
-				var commentsGroup:Group = (hostComponent.parent as Group);
-				for ( var i:int = beginIndex + 1; i < commentsGroup.numChildren; i ++ )
-				{
-					if ( ((commentsGroup.getElementAt(i) as ObselSkin ).x <= x + width ) && ((commentsGroup.getElementAt(i) as ObselSkin ).x + (commentsGroup.getElementAt(i) as ObselSkin ).width >= x ))
-						nbCommentsOver ++;
-				}
-				return nbCommentsOver;
-			}
-			
-			protected function zcStopDrag(e:MouseEvent):void
-			{
-			
-				stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
-				stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
-				
-				var begin 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x- (hostComponent.parent as Group).horizontalScrollPosition,		 hostComponent.traceline._timeline.zoomContext.timelinePreview.width );
-				var end 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width- (hostComponent.parent as Group).horizontalScrollPosition, hostComponent.traceline._timeline.zoomContext.timelinePreview.width );				
+        public function updateWidth( event : Event ) :  void
+            {
+                var traceline         : TraceLine = hostComponent.traceline;
+                var timeRange        : TimeRange = traceline._timeline.zoomContext.cursorRange;                                            
+                var startPosition     : Number     = timeRange.timeToPosition( obsel.begin, traceline._timeline.zoomContext.timelinePreview.width );
+                var endPosition     : Number     = timeRange.timeToPosition( obsel.end, traceline._timeline.zoomContext.timelinePreview.width );        
+                width      = (endPosition - startPosition);
+            }
+            
+            protected function zcStartDrag(e:MouseEvent):void
+            {
+                onSelect(null);
+                            
+                if ( e.currentTarget == icon )
+                    draggedPart = cursor;
+                else
+                    draggedPart = (e.currentTarget as UIComponent);
+                stage.addEventListener( MouseEvent.MOUSE_MOVE,     zcDragging );
+                stage.addEventListener( MouseEvent.MOUSE_UP,    zcStopDrag );                
+                
+                currentCenterDragingPoint = new Point(e.localX, e.localY);
+            }
+            
+            protected function zcDragging(e:MouseEvent):void
+            {                
+                minX = (hostComponent.parent as Group).horizontalScrollPosition;
+                maxX = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.timelinePreview.width;                
+                
+                var parentMouse:Point = hostComponent.parent.globalToLocal(new Point(e.stageX, e.stageY));                
+                var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
+                                
+                if (draggedPart == leftGrip )
+                {                    
+                    var oldPos : Number = hostComponent.x;                        
+                    if ( newPos < minX  )                        
+                        hostComponent.x = minX ;                        
+                    else if ( newPos + leftGrip.width > hostComponent.x + rightGrip.x - 1 )
+                        hostComponent.x =  hostComponent.x + rightGrip.x - 1;
+                    else
+                        hostComponent.x = newPos + leftGrip.width;
+                    width     -= hostComponent.x - oldPos ;    
+                }
+                else if (draggedPart == cursor )
+                {
+                    if ( newPos < minX)                        
+                        hostComponent.x  = minX;                        
+                    else if ( newPos > maxX - width )
+                        hostComponent.x = maxX - width;
+                    else
+                        hostComponent.x = newPos;                        
+                }
+                else if (draggedPart == rightGrip )
+                {
+                    if ( newPos < hostComponent.x + 1 )
+                        rightGrip.x =  1;
+                    else if (newPos > maxX )
+                        rightGrip.x = maxX - hostComponent.x;
+                    else
+                        rightGrip.x = newPos - hostComponent.x;
+                        
+                    width = rightGrip.x;                
+                }
+                UpdateResizeGripHeight();        
+            }
+            
+            protected function UpdateResizeGripHeight(): void
+            {
+                var commentsGroup:Group = (hostComponent.parent as Group);
+                for ( var i:int = 0; i < commentsGroup.numChildren; i ++ )
+                {
+                    var currentComment:ObselSkin = (commentsGroup.getElementAt(i) as ObselSkin );
+                    var nbCommentsOver:int = GetNbCommentsOver ( currentComment.x, currentComment.width, i );
+                    currentComment.rightGrip.y = currentComment.leftGrip.y = cursor.y - 8 - 4 * nbCommentsOver;
+                    currentComment.rightGrip.height = currentComment.leftGrip.height = (cursor.y +cursor.height) - currentComment.leftGrip.y;
+                }
+            }
+            
+            protected function GetNbCommentsOver( x:int, width:int, beginIndex:int ) : int
+            {
+                var nbCommentsOver:int = 0;
+                var commentsGroup:Group = (hostComponent.parent as Group);
+                for ( var i:int = beginIndex + 1; i < commentsGroup.numChildren; i ++ )
+                {
+                    if ( ((commentsGroup.getElementAt(i) as ObselSkin ).x <= x + width ) && ((commentsGroup.getElementAt(i) as ObselSkin ).x + (commentsGroup.getElementAt(i) as ObselSkin ).width >= x ))
+                        nbCommentsOver ++;
+                }
+                return nbCommentsOver;
+            }
+            
+            protected function zcStopDrag(e:MouseEvent):void
+            {
+            
+                stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
+                stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
+                
+                var begin     : Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x- (hostComponent.parent as Group).horizontalScrollPosition,         hostComponent.traceline._timeline.zoomContext.timelinePreview.width );
+                var end     : Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width- (hostComponent.parent as Group).horizontalScrollPosition, hostComponent.traceline._timeline.zoomContext.timelinePreview.width );                
 
-				if (draggedPart == leftGrip )				
-					hostComponent.obsel.begin  = begin ;				
-				else if (draggedPart == cursor )
-				{
-					hostComponent.obsel.begin  = begin ;	
-					hostComponent.obsel.end    = end;
-				}
-				else if (draggedPart == rightGrip )
-					hostComponent.obsel.end    = end;
-					draggedPart = null;
+                if (draggedPart == leftGrip )                
+                    hostComponent.obsel.begin  = begin ;                
+                else if (draggedPart == cursor )
+                {
+                    hostComponent.obsel.begin  = begin ;    
+                    hostComponent.obsel.end    = end;
+                }
+                else if (draggedPart == rightGrip )
+                    hostComponent.obsel.end    = end;
+                    draggedPart = null;
 
-				UpdateResizeGripHeight();			
-			}	
-			
-			protected function EditComment( e:MouseEvent ):void
-			{
-				this.enabled = false;
+                UpdateResizeGripHeight();            
+            }    
+            
+            protected function EditComment( e:MouseEvent ):void
+            {
+                this.enabled = false;
 
-				var commentEditDialog:CommentEditDialog = new CommentEditDialog();
-				commentEditDialog.commentText = commentLabel.text;
-				PopUpManager.addPopUp(commentEditDialog, this);
-				PopUpManager.centerPopUp(commentEditDialog);
-				commentEditDialog.y -= commentEditDialog.height;
-				commentEditDialog.addEventListener( Event.REMOVED_FROM_STAGE, onRemoveEditDialog );
-			}
-			
-			private function onRemoveEditDialog(event:Event):void
-			{
-				if (event.currentTarget.confirm)
-				{						
-					hostComponent.obsel.props[ 'text' ] = event.currentTarget.commentTextInput.text;
-					var propChange : PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
-					propChange.property = "props";
-					hostComponent.obsel.dispatchEvent( propChange );
-					commentLabel.text = toolTip = event.currentTarget.commentTextInput.text;
-				}
-				this.enabled = true;
-			}
-			
-			private function onSelect(event:Event):void
-			{
-				(hostComponent.parent as Group).addElementAt( hostComponent, (hostComponent.parent as Group).numElements -1);
-				UpdateResizeGripHeight();
-			}
-			
-			protected function onObselChange( event : PropertyChangeEvent ) : void
-			{				
-				var y : Number 	= (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.end , (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );				
-				hostComponent.x = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.begin, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
-				rightGrip.x     = width 	= y - hostComponent.x ;
-				
-				commentLabel.text = toolTip =  hostComponent.obsel.props[ 'text' ];
-			}
-			
+                var commentEditDialog:CommentEditDialog = new CommentEditDialog();
+                commentEditDialog.commentText = commentLabel.text;
+                PopUpManager.addPopUp(commentEditDialog, this);
+                PopUpManager.centerPopUp(commentEditDialog);
+                commentEditDialog.y -= commentEditDialog.height;
+                commentEditDialog.addEventListener( Event.REMOVED_FROM_STAGE, onRemoveEditDialog );
+            }
+            
+            private function onRemoveEditDialog(event:Event):void
+            {
+                if (event.currentTarget.confirm)
+                {                        
+                    hostComponent.obsel.props[ 'text' ] = event.currentTarget.commentTextInput.text;
+                    var propChange : PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
+                    propChange.property = "props";
+                    hostComponent.obsel.dispatchEvent( propChange );
+                    commentLabel.text = toolTip = event.currentTarget.commentTextInput.text;
+                }
+                this.enabled = true;
+            }
+            
+            private function onSelect(event:Event):void
+            {
+                (hostComponent.parent as Group).addElementAt( hostComponent, (hostComponent.parent as Group).numElements -1);
+                UpdateResizeGripHeight();
+            }
+            
+            protected function onObselChange( event : PropertyChangeEvent ) : void
+            {                
+                var y : Number     = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.end , (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );                
+                hostComponent.x = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.begin, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
+                rightGrip.x     = width     = y - hostComponent.x ;
+                
+                commentLabel.text = toolTip =  hostComponent.obsel.props[ 'text' ];
+            }
+            
         ]]>
     </fx:Script>
-	
-	<s:states>
-		<s:State name="normal" />		
-		<s:State name="editable" />
-	</s:states>
+    
+    <s:states>
+        <s:State name="normal" />        
+        <s:State name="editable" />
+    </s:states>
 
-	<s:Group id="leftGrip"	x="{-(gripRadius/2+2)}" y="{-8}"  mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)">
-		<s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="1">
-			<s:stroke> <s:SolidColorStroke color="{gripColor}" weight="2"/> </s:stroke>
-		    <s:fill > <s:SolidColor alpha=".1" color="{gripColor}" /> </s:fill>
+    <s:Group id="leftGrip"    x="{-(gripRadius/2+2)}" y="{-8}"  mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)">
+        <s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="1">
+            <s:stroke> <s:SolidColorStroke color="{gripColor}" weight="2"/> </s:stroke>
+            <s:fill > <s:SolidColor alpha=".1" color="{gripColor}" /> </s:fill>
          </s:Rect>
-		 <s:Rect height="100%" width="2" y="{gripRadius}" x="{gripRadius/2}" >
+         <s:Rect height="100%" width="2" y="{gripRadius}" x="{gripRadius/2}" >
           <s:fill> <s:SolidColor color="{gripColor}" /> </s:fill>
          </s:Rect>
-	</s:Group>
-	
-	<s:Group id="rightGrip"	x="{width}" y="{-8}" mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)">
-		<s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="-2">
-			<s:stroke> <s:SolidColorStroke color="{gripColor}" weight="2"/> </s:stroke>
-		    <s:fill > <s:SolidColor alpha=".1" color="{gripColor}" /> </s:fill>
+    </s:Group>
+    
+    <s:Group id="rightGrip"    x="{width}" y="{-8}" mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)">
+        <s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="-2">
+            <s:stroke> <s:SolidColorStroke color="{gripColor}" weight="2"/> </s:stroke>
+            <s:fill > <s:SolidColor alpha=".1" color="{gripColor}" /> </s:fill>
          </s:Rect>
-		 <s:Rect height="100%" width="2" y="{gripRadius}" >
-			<s:fill><s:SolidColor color="{gripColor}" /> </s:fill>
+         <s:Rect height="100%" width="2" y="{gripRadius}" >
+            <s:fill><s:SolidColor color="{gripColor}" /> </s:fill>
          </s:Rect>
-	</s:Group>
-			
-	<s:BorderContainer id="cursor" borderWeight="1"   backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" >
-		<mx:Image id="icon" source="{getStyle('icon')}" height="100%" top="2" left="2" mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetHandCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)"/>
-		<s:Label id="commentLabel" width="100%" height="10" fontSize="10" x="{icon.width+5}"  y="3"  mouseOver.editable="CursorIcons.SetIBeamCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)"    />
-	</s:BorderContainer>
-			
+    </s:Group>
+            
+    <s:BorderContainer id="cursor" borderWeight="1"   backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" >
+        <mx:Image id="icon" source="{getStyle('icon')}" height="100%" top="2" left="2" mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetHandCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)"/>
+        <s:Label id="commentLabel" width="100%" height="10" fontSize="10" x="{icon.width+5}"  y="3"  mouseOver.editable="CursorIcons.SetIBeamCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)"    />
+    </s:BorderContainer>
+            
 </s:Skin>

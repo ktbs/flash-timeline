@@ -62,9 +62,9 @@
  */
 package com.ithaca.visu.ui.utils
 {
-	public class ActionObselEnum
-	{
-		static public var EDIT_TEXT_OBSEL:String = "editTextObsel";
-		static public var DELETE_OBSEL:String = "deleteObsel";	
-	}
+    public class ActionObselEnum
+    {
+        static public var EDIT_TEXT_OBSEL:String = "editTextObsel";
+        static public var DELETE_OBSEL:String = "deleteObsel";    
+    }
 }

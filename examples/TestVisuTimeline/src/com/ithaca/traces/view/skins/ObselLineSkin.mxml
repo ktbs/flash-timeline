@@ -49,27 +49,27 @@
         <s:layout>
             <s:BasicLayout/>
         </s:layout>
-		<!--<s:Path data="M 0 0 L 7 5 L 0 10 L 0 0 Z"
-				rotation="90"
-				left="3" bottom="0"
-				id="partOpenTraceLineElements"		
-				>
-			<s:postLayoutTransformOffsets>
-				<s:TransformOffsets id="tOffsets" x="0" y="3"/>
-			</s:postLayoutTransformOffsets>
-			<s:fill>
-				<s:SolidColor color="#AE0000"/>
-			</s:fill>
-			<s:filters>
-				<s:DropShadowFilter angle="90"  distance="1" blurX="2" blurY="2" alpha=".7" inner="true" />
-				<s:DropShadowFilter angle="180" distance="1" blurX="1" blurY="1" color="#AE0000" />
-			</s:filters>
-		</s:Path>-->
-		<s:Line   bottom="0"  left="0" top="0">
-			<s:stroke>
-				<s:SolidColorStroke color="#AE0000" weight="3" joints="miter"/>
-			</s:stroke>
-		</s:Line>
+        <!--<s:Path data="M 0 0 L 7 5 L 0 10 L 0 0 Z"
+                rotation="90"
+                left="3" bottom="0"
+                id="partOpenTraceLineElements"        
+                >
+            <s:postLayoutTransformOffsets>
+                <s:TransformOffsets id="tOffsets" x="0" y="3"/>
+            </s:postLayoutTransformOffsets>
+            <s:fill>
+                <s:SolidColor color="#AE0000"/>
+            </s:fill>
+            <s:filters>
+                <s:DropShadowFilter angle="90"  distance="1" blurX="2" blurY="2" alpha=".7" inner="true" />
+                <s:DropShadowFilter angle="180" distance="1" blurX="1" blurY="1" color="#AE0000" />
+            </s:filters>
+        </s:Path>-->
+        <s:Line   bottom="0"  left="0" top="0">
+            <s:stroke>
+                <s:SolidColorStroke color="#AE0000" weight="3" joints="miter"/>
+            </s:stroke>
+        </s:Line>
     </s:Group>
 
 </s:Skin>

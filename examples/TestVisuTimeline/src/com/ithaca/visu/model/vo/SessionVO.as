@@ -62,23 +62,23 @@
  */
 package com.ithaca.visu.model.vo
 {
-	import mx.collections.ArrayCollection;
+    import mx.collections.ArrayCollection;
 
-	[RemoteClass(alias="com.lyon2.visu.domain.model.Session")]
-	[Bindable]	
-	public class SessionVO
-	{
-			public var duration_session:int;
-			public var id_session:int;
-			public var id_user:int;
-			public var theme:String;
-			public var date_session:Date;
-			public var isModel:Boolean;
-			public var description:String;
-			public var start_recording:Date;
-			public var status_session:int;
-			public var id_currentActivity:int;
-			public var listUser:Array;
-			public var attendeeIds:Array;
-	}
+    [RemoteClass(alias="com.lyon2.visu.domain.model.Session")]
+    [Bindable]    
+    public class SessionVO
+    {
+            public var duration_session:int;
+            public var id_session:int;
+            public var id_user:int;
+            public var theme:String;
+            public var date_session:Date;
+            public var isModel:Boolean;
+            public var description:String;
+            public var start_recording:Date;
+            public var status_session:int;
+            public var id_currentActivity:int;
+            public var listUser:Array;
+            public var attendeeIds:Array;
+    }
 }

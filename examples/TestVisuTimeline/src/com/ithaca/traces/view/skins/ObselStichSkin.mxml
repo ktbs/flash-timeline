@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
-		xmlns:s="library://ns.adobe.com/flex/spark"
-		xmlns:mx="library://ns.adobe.com/flex/mx" width="2">
-	<!-- host component -->
-	<fx:Metadata>
-		[HostComponent("com.ithaca.traces.view.ObselStich")]
-	</fx:Metadata>
-	<s:states>
-		<s:State name="stich" />
-		<s:State name="label" />
-	</s:states>
-	<s:Line top="0" left="1" bottom="0" >
-		<s:stroke>
-			<s:SolidColorStroke color="0x232323" weight="1" joints="miter"/>
-		</s:stroke>
-	</s:Line>
-	<s:Group width="100%" height="100%">
-		<s:Label id="timeLabel" bottom="-10" left="4" maxDisplayedLines="1" text="00:23:45" includeIn="label" fontSize="10"/>
-	</s:Group>
+        xmlns:s="library://ns.adobe.com/flex/spark"
+        xmlns:mx="library://ns.adobe.com/flex/mx" width="2">
+    <!-- host component -->
+    <fx:Metadata>
+        [HostComponent("com.ithaca.traces.view.ObselStich")]
+    </fx:Metadata>
+    <s:states>
+        <s:State name="stich" />
+        <s:State name="label" />
+    </s:states>
+    <s:Line top="0" left="1" bottom="0" >
+        <s:stroke>
+            <s:SolidColorStroke color="0x232323" weight="1" joints="miter"/>
+        </s:stroke>
+    </s:Line>
+    <s:Group width="100%" height="100%">
+        <s:Label id="timeLabel" bottom="-10" left="4" maxDisplayedLines="1" text="00:23:45" includeIn="label" fontSize="10"/>
+    </s:Group>
 </s:Skin>

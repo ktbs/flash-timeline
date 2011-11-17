@@ -62,34 +62,34 @@
  */
 package com.ithaca.visu.model
 {
-	public class FluxActivity
-	{
-		[Bindable]
-		public var pathImage:String;
-		
-		[Bindable]
-		public var userId:int;
-		
-		[Bindable]
-		public var firstname:String;
+    public class FluxActivity
+    {
+        [Bindable]
+        public var pathImage:String;
+        
+        [Bindable]
+        public var userId:int;
+        
+        [Bindable]
+        public var firstname:String;
 
-		[Bindable]
-		public var lastname:String;
-		
-		[Bindable]
-		public var message:String;
-		
-		[Bindable]
-		public var time:String;
-		
-		public function FluxActivity( id:int, firstname:String, lastname:String, path:String, message:String, time:String)
-		{
-			this.pathImage = path;
-			this.userId = id;
-			this.firstname = firstname;
-			this.lastname = lastname;
-			this.message = message;
-			this.time = time;
-		}
-	}
+        [Bindable]
+        public var lastname:String;
+        
+        [Bindable]
+        public var message:String;
+        
+        [Bindable]
+        public var time:String;
+        
+        public function FluxActivity( id:int, firstname:String, lastname:String, path:String, message:String, time:String)
+        {
+            this.pathImage = path;
+            this.userId = id;
+            this.firstname = firstname;
+            this.lastname = lastname;
+            this.message = message;
+            this.time = time;
+        }
+    }
 }

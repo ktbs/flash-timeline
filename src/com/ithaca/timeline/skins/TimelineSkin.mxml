@@ -1,103 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin  xmlns:fx="http://ns.adobe.com/mxml/2009"
-				 xmlns:s="library://ns.adobe.com/flex/spark"
-				 xmlns:tl="com.ithaca.timeline.*"
-				 xmlns:tls="com.ithaca.timeline.skins.*"
-				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
-				 width="100%" height="100%"
-				 creationComplete="creationCompleteHandler(event)">
-	<fx:Declarations>
-		
-		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
-	</fx:Declarations>
-	
-	<fx:Metadata>[HostComponent("com.ithaca.timeline.Timeline")]</fx:Metadata>
-	
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace tl "com.ithaca.timeline.*";
-		@namespace tls "com.ithaca.timeline.skins.*";
-		@namespace mx "library://ns.adobe.com/flex/mx";
-		@namespace skins "com.ithaca.timeline.skins.*";
-		
-		#linkCursor
-		{
-			upIcon: Embed(source='../images/curseurLockOff.png');
-			overIcon: Embed(source='../images/curseurLockOff.png');
-			downIcon: Embed(source='../images/curseurLockOff.png');
+                 xmlns:s="library://ns.adobe.com/flex/spark"
+                 xmlns:tl="com.ithaca.timeline.*"
+                 xmlns:tls="com.ithaca.timeline.skins.*"
+                 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
+                 width="100%" height="100%"
+                 creationComplete="creationCompleteHandler(event)">
+    <fx:Declarations>
+        
+        <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
+    </fx:Declarations>
+    
+    <fx:Metadata>[HostComponent("com.ithaca.timeline.Timeline")]</fx:Metadata>
+    
+    <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+        @namespace tl "com.ithaca.timeline.*";
+        @namespace tls "com.ithaca.timeline.skins.*";
+        @namespace mx "library://ns.adobe.com/flex/mx";
+        @namespace skins "com.ithaca.timeline.skins.*";
+        
+        #linkCursor
+        {
+            upIcon: Embed(source='../images/curseurLockOff.png');
+            overIcon: Embed(source='../images/curseurLockOff.png');
+            downIcon: Embed(source='../images/curseurLockOff.png');
 
-			selectedUpIcon: Embed(source='../images/curseurLockOn.png');
-			selectedOverIcon: Embed(source='../images/curseurLockOn.png');
-			selectedDownIcon: Embed(source='../images/curseurLockOn.png');
-		}		
-		
-		#globalCursor #tt
-		{
-			showTopArrow : false;
-		}
-	</fx:Style>
-	
-	<fx:Script>
+            selectedUpIcon: Embed(source='../images/curseurLockOn.png');
+            selectedOverIcon: Embed(source='../images/curseurLockOn.png');
+            selectedDownIcon: Embed(source='../images/curseurLockOn.png');
+        }        
+        
+        #globalCursor #tt
+        {
+            showTopArrow : false;
+        }
+    </fx:Style>
+    
+    <fx:Script>
         <![CDATA[
-			
-			import com.ithaca.timeline.Timeline;
-			import flash.events.MouseEvent;
-			
-			[Bindable]
-			public var timeline : Timeline;
-				
-			protected function creationCompleteHandler(event:Event):void
-			{				
-				timeline = hostComponent;	
-				renderGroup.addEventListener(MouseEvent.MOUSE_WHEEL, horizontalScroll, false, 3);
-				contentGroup.addEventListener(MouseEvent.MOUSE_WHEEL, noVerticalScroll, false, 3);
-			}
-		
-			protected function horizontalScroll(event:MouseEvent):void
-			{				
-				zoomContext.shiftContext( -event.delta * zoomContext.cursorRange.duration / 5);					
-			}
-			
-			protected function onCursorLinkClick(event:MouseEvent):void
-			{				
-				timeline.contextFollowCursor 		= linkCursor.selected ;
-				timeline.zoomContext.cursorEditable = !linkCursor.selected || (timeline.getStyle('cursorMode') == 'auto');		
-			}
-			
-			protected function noVerticalScroll(event:MouseEvent):void
-			{					
-				event.preventDefault();
-			}
-		]]>
+            
+            import com.ithaca.timeline.Timeline;
+            import flash.events.MouseEvent;
+            
+            [Bindable]
+            public var timeline : Timeline;
+                
+            protected function creationCompleteHandler(event:Event):void
+            {                
+                timeline = hostComponent;    
+                renderGroup.addEventListener(MouseEvent.MOUSE_WHEEL, horizontalScroll, false, 3);
+                contentGroup.addEventListener(MouseEvent.MOUSE_WHEEL, noVerticalScroll, false, 3);
+            }
+        
+            protected function horizontalScroll(event:MouseEvent):void
+            {                
+                zoomContext.shiftContext( -event.delta * zoomContext.cursorRange.duration / 5);                    
+            }
+            
+            protected function onCursorLinkClick(event:MouseEvent):void
+            {                
+                timeline.contextFollowCursor         = linkCursor.selected ;
+                timeline.zoomContext.cursorEditable = !linkCursor.selected || (timeline.getStyle('cursorMode') == 'auto');        
+            }
+            
+            protected function noVerticalScroll(event:MouseEvent):void
+            {                    
+                event.preventDefault();
+            }
+        ]]>
     </fx:Script>
 
-	<s:states>
+    <s:states>
         <s:State name="normal" />
-		<s:State name="disabled" />
+        <s:State name="disabled" />
     </s:states>
-		
-	<mx:HDividedBox id="hdb" width="100%" height="100%" >
-		<s:Group height="100%" width="200" >			
-				<s:HGroup horizontalAlign="right" width="100%" >
-					<mx:Spacer height="30" width="20" />
-					<tl:PlayPauseButton id="playButton" timeline="{hostComponent}" visible="{timeline.showPlayButton}" />
-					<s:VGroup  height="100%" horizontalAlign="right" width="100%" >
-						<mx:Spacer height="20" width="1" />
-						<mx:CheckBox   id="linkCursor"  selected="{timeline.contextFollowCursor}" click="{onCursorLinkClick(event)}" />
-					</s:VGroup>
-				</s:HGroup>
-				
-			<s:Scroller id="scroller" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >	
-				<s:VGroup id="titleGroup"  gap="5" width="100%"  verticalScrollPosition="{contentGroup.verticalScrollPosition}" />
-			</s:Scroller>				
-		</s:Group>				
-		<s:Group id="renderGroup" width="100%" height="100%">		
-			<s:Scroller id="scroller2" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >
-				<s:VGroup id="contentGroup" y="{zoomContext.height}" maxHeight="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />
-			</s:Scroller>
-			<tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />
-			<tl:Cursor id="contextCursor" timeRuler="{zoomContext.outputTimeRuler}" timeline="{hostComponent}"	y="{scroller2.y }" 	height="{contentGroup.height}" visible="false"  withToolTip="true" />
-			<tl:Cursor id="globalCursor"  timeRuler="{zoomContext.inputTimeRuler}"  timeline="{hostComponent}"	y="{zoomContext.timelinePreview.y-20}" height="{15}" visible="false" withToolTip="true"/>
-		</s:Group>
-	</mx:HDividedBox>	
+        
+    <mx:HDividedBox id="hdb" width="100%" height="100%" >
+        <s:Group height="100%" width="200" >            
+                <s:HGroup horizontalAlign="right" width="100%" >
+                    <mx:Spacer height="30" width="20" />
+                    <tl:PlayPauseButton id="playButton" timeline="{hostComponent}" visible="{timeline.showPlayButton}" />
+                    <s:VGroup  height="100%" horizontalAlign="right" width="100%" >
+                        <mx:Spacer height="20" width="1" />
+                        <mx:CheckBox   id="linkCursor"  selected="{timeline.contextFollowCursor}" click="{onCursorLinkClick(event)}" />
+                    </s:VGroup>
+                </s:HGroup>
+                
+            <s:Scroller id="scroller" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >    
+                <s:VGroup id="titleGroup"  gap="5" width="100%"  verticalScrollPosition="{contentGroup.verticalScrollPosition}" />
+            </s:Scroller>                
+        </s:Group>                
+        <s:Group id="renderGroup" width="100%" height="100%">        
+            <s:Scroller id="scroller2" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >
+                <s:VGroup id="contentGroup" y="{zoomContext.height}" maxHeight="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />
+            </s:Scroller>
+            <tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />
+            <tl:Cursor id="contextCursor" timeRuler="{zoomContext.outputTimeRuler}" timeline="{hostComponent}"    y="{scroller2.y }"     height="{contentGroup.height}" visible="false"  withToolTip="true" />
+            <tl:Cursor id="globalCursor"  timeRuler="{zoomContext.inputTimeRuler}"  timeline="{hostComponent}"    y="{zoomContext.timelinePreview.y-20}" height="{15}" visible="false" withToolTip="true"/>
+        </s:Group>
+    </mx:HDividedBox>    
 </s:Skin >

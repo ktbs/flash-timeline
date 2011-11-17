@@ -61,37 +61,37 @@
  * -- End of licenses
  */
 package  com.ithaca.visu.events
-{	
-	import com.ithaca.traces.Obsel;
-	
-	import flash.events.Event;
-	
-	import mx.collections.ArrayCollection;
-	
-	public class ObselEvent extends Event
-	{
-		// constants
-		static public const ADD_OBSEL : String = 'addObsel';
-		static public const EDIT_OBSEL : String = 'editObsel';
-		static public const CANCEL_EDIT_OBSEL : String = 'cancelEditObsel';
-		static public const DELETE_OBSEL : String = 'deleteObsel';
-		static public const SHOW_WINDOW_EDIT_OBSEL : String = 'showWindowEditObsel';
-		static public const SHOW_WINDOW_EDIT_COMMENT_OBSEL : String = 'showWindowEditCommentObsel';
-		
-		// properties
-		public var obsel : Obsel;
-		public var textObsel:String;
-		public var clickOnButtonAdd:Boolean;
-		public var clickLocalX:Number;
-		
-		// constructor
-		public function ObselEvent(type : String,
-									 bubbles : Boolean = true,
-									 cancelable : Boolean = false)
-		{
-			super(type, bubbles, cancelable);
-		}
-		
-		// methods
-	}
+{    
+    import com.ithaca.traces.Obsel;
+    
+    import flash.events.Event;
+    
+    import mx.collections.ArrayCollection;
+    
+    public class ObselEvent extends Event
+    {
+        // constants
+        static public const ADD_OBSEL : String = 'addObsel';
+        static public const EDIT_OBSEL : String = 'editObsel';
+        static public const CANCEL_EDIT_OBSEL : String = 'cancelEditObsel';
+        static public const DELETE_OBSEL : String = 'deleteObsel';
+        static public const SHOW_WINDOW_EDIT_OBSEL : String = 'showWindowEditObsel';
+        static public const SHOW_WINDOW_EDIT_COMMENT_OBSEL : String = 'showWindowEditCommentObsel';
+        
+        // properties
+        public var obsel : Obsel;
+        public var textObsel:String;
+        public var clickOnButtonAdd:Boolean;
+        public var clickLocalX:Number;
+        
+        // constructor
+        public function ObselEvent(type : String,
+                                     bubbles : Boolean = true,
+                                     cancelable : Boolean = false)
+        {
+            super(type, bubbles, cancelable);
+        }
+        
+        // methods
+    }
 }

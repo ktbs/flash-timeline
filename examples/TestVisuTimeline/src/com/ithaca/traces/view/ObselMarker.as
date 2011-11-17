@@ -62,111 +62,111 @@
  */
 package com.ithaca.traces.view
 {
-	import com.ithaca.traces.Obsel;
-	
-	import flash.events.MouseEvent;
-	
-	import mx.controls.Image;
-	import mx.core.DragSource;
-	import mx.managers.DragManager;
-	
-	import spark.components.SkinnableContainer;
-	
-	[SkinState("normal")]
-	[SkinState("disabled")]
-	[SkinState("open")]
-	
-	public class ObselMarker extends SkinnableContainer implements IObselComponenet
-	{
-		private var _begin:Number;
-		private var _end:Number;
-		
-		private var _source:Class;
-		private var _text:String;
-		private var _backGroundColor:uint;
-		private var _parentObsel:Obsel;
-		private var _order:int;
-		
-		private var open:Boolean;
-		
-		public function ObselMarker()
-		{
-			//TODO: implement function
-			super();
-			this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMoveOverObsel);
-		}
-		
-		public function set source(value:Class):void{_source = value;}
-		public function get source():Class{return this._source}
-		public function set text(value:String):void{_text = value;}
-		public function get text():String{return this._text}
-		public function set backGroundColor(value:uint):void{_backGroundColor = value; invalidateProperties();}
-		public function get backGroundColor():uint{return this._backGroundColor}
-		public function set parentObsel(value:Obsel):void{_parentObsel = value;}
-		public function get parentObsel():Obsel{return this._parentObsel}
-		public function set order(value:int):void{_order = value;}
-		public function get order():int{return this._order}
-		
-		
-		public function setBegin(value:Number):void
-		{
-			this._begin = value;
-		}
-		
-		public function getBegin():Number
-		{
-			return this._begin;
-		}
-		
-		public function setEnd(value:Number):void
-		{
-			this._end = value;
-		}
-		
-		public function getEnd():Number
-		{
-			return this._end;
-		}
-		public function setObselViewVisible(value:Boolean):void
-		{
-			this.visible = value;
-		}
-		override protected function commitProperties():void
-		{
-			super.commitProperties();
-		}
-		override protected function getCurrentSkinState():String
-		{
-			var result:String = !enabled? "disable" : open? "open" : "normal"
-			return result;
-		}
-		
-		private function onMouseMoveOverObsel(event:MouseEvent):void
-		{
-			var ds:DragSource = new DragSource();
-			ds.addData(_parentObsel,"obsel");
-			ds.addData(_text,"textObsel");	
-			var imageProxy:Image = new Image();
-			imageProxy.source = _source;
-			imageProxy.height=this.height*0.75;
-			imageProxy.width=this.width*0.75;
-			DragManager.doDrag(this,ds,event,imageProxy, -15, -15, 1.00);
-		}
-		
-		public function cloneMe():ObselMarker
-		{
-			var result:ObselMarker = new ObselMarker();
-			result._begin = this._begin;
-			result._end = this._end;
-			result.source = this.source;
-			result.toolTip = this.toolTip;
-			result.text = this.text;
-			result.backGroundColor = this.backGroundColor;
-			result._parentObsel = this.parentObsel;
-			result._order = this._order;
-			return result;
-		}
-		
-		
-	}
+    import com.ithaca.traces.Obsel;
+    
+    import flash.events.MouseEvent;
+    
+    import mx.controls.Image;
+    import mx.core.DragSource;
+    import mx.managers.DragManager;
+    
+    import spark.components.SkinnableContainer;
+    
+    [SkinState("normal")]
+    [SkinState("disabled")]
+    [SkinState("open")]
+    
+    public class ObselMarker extends SkinnableContainer implements IObselComponenet
+    {
+        private var _begin:Number;
+        private var _end:Number;
+        
+        private var _source:Class;
+        private var _text:String;
+        private var _backGroundColor:uint;
+        private var _parentObsel:Obsel;
+        private var _order:int;
+        
+        private var open:Boolean;
+        
+        public function ObselMarker()
+        {
+            //TODO: implement function
+            super();
+            this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMoveOverObsel);
+        }
+        
+        public function set source(value:Class):void{_source = value;}
+        public function get source():Class{return this._source}
+        public function set text(value:String):void{_text = value;}
+        public function get text():String{return this._text}
+        public function set backGroundColor(value:uint):void{_backGroundColor = value; invalidateProperties();}
+        public function get backGroundColor():uint{return this._backGroundColor}
+        public function set parentObsel(value:Obsel):void{_parentObsel = value;}
+        public function get parentObsel():Obsel{return this._parentObsel}
+        public function set order(value:int):void{_order = value;}
+        public function get order():int{return this._order}
+        
+        
+        public function setBegin(value:Number):void
+        {
+            this._begin = value;
+        }
+        
+        public function getBegin():Number
+        {
+            return this._begin;
+        }
+        
+        public function setEnd(value:Number):void
+        {
+            this._end = value;
+        }
+        
+        public function getEnd():Number
+        {
+            return this._end;
+        }
+        public function setObselViewVisible(value:Boolean):void
+        {
+            this.visible = value;
+        }
+        override protected function commitProperties():void
+        {
+            super.commitProperties();
+        }
+        override protected function getCurrentSkinState():String
+        {
+            var result:String = !enabled? "disable" : open? "open" : "normal"
+            return result;
+        }
+        
+        private function onMouseMoveOverObsel(event:MouseEvent):void
+        {
+            var ds:DragSource = new DragSource();
+            ds.addData(_parentObsel,"obsel");
+            ds.addData(_text,"textObsel");    
+            var imageProxy:Image = new Image();
+            imageProxy.source = _source;
+            imageProxy.height=this.height*0.75;
+            imageProxy.width=this.width*0.75;
+            DragManager.doDrag(this,ds,event,imageProxy, -15, -15, 1.00);
+        }
+        
+        public function cloneMe():ObselMarker
+        {
+            var result:ObselMarker = new ObselMarker();
+            result._begin = this._begin;
+            result._end = this._end;
+            result.source = this.source;
+            result.toolTip = this.toolTip;
+            result.text = this.text;
+            result.backGroundColor = this.backGroundColor;
+            result._parentObsel = this.parentObsel;
+            result._order = this._order;
+            return result;
+        }
+        
+        
+    }
 }

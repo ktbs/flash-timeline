@@ -62,12 +62,12 @@
  */
 package com.ithaca.visu.ui.utils
 {
-	public class SessionFilterEnum
-	{
-		static public var SESSION_ALL : int = 1;
-		static public var SESSION_WAS : int = 2;
-		static public var SESSION_WILL : int = 3;
-		static public var SESSION_MY : int = 4;
-		static public var SESSION_PLAN : int = 5;
-	}
+    public class SessionFilterEnum
+    {
+        static public var SESSION_ALL : int = 1;
+        static public var SESSION_WAS : int = 2;
+        static public var SESSION_WILL : int = 3;
+        static public var SESSION_MY : int = 4;
+        static public var SESSION_PLAN : int = 5;
+    }
 }

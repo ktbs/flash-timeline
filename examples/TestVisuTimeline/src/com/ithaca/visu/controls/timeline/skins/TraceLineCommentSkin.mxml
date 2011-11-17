@@ -1,114 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
-		xmlns:s="library://ns.adobe.com/flex/spark"
-		xmlns:mx="library://ns.adobe.com/flex/mx"
-		xmlns:timeline="com.ithaca.visu.controls.timeline.*"
-		creationComplete="skin1_creationCompleteHandler(event)"
-		>
-	<!-- host component -->
-	<fx:Metadata>
-		[HostComponent("com.ithaca.visu.controls.timeline.TraceLineComment")]
-	</fx:Metadata>
-	<s:states>
-		<s:State name="normal" />
-		<s:State name="open" />
-		<s:State name="disabled" />
-	</s:states>
-	<fx:Script>
-		<![CDATA[
-			import com.ithaca.visu.ui.utils.IconEnum;
-			
-			import mx.events.FlexEvent;
-			[Bindable]
-			private var LEFT_LABEL:String = "15";
-			[Bindable]
-			private var SIZE_IMAGE_TITLE_TRACELINE:int = 20;
-			[Bindable]
-			private var WIDTH_GROUP_ICON:int = 50;
-			[Bindable]
-			private var LEFT_TRACE_LINE_OBSEL:int = 210;
-			[Bindable]
-			private var DELTA_POSSITION_LINE_VERTICAL_START_SESSION:int = -2;
-			[Bindable]
-			private var VERICAL_CENTER_IMAGE_TITLE_TRACELINE:int = 5;
+        xmlns:s="library://ns.adobe.com/flex/spark"
+        xmlns:mx="library://ns.adobe.com/flex/mx"
+        xmlns:timeline="com.ithaca.visu.controls.timeline.*"
+        creationComplete="skin1_creationCompleteHandler(event)"
+        >
+    <!-- host component -->
+    <fx:Metadata>
+        [HostComponent("com.ithaca.visu.controls.timeline.TraceLineComment")]
+    </fx:Metadata>
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="open" />
+        <s:State name="disabled" />
+    </s:states>
+    <fx:Script>
+        <![CDATA[
+            import com.ithaca.visu.ui.utils.IconEnum;
+            
+            import mx.events.FlexEvent;
+            [Bindable]
+            private var LEFT_LABEL:String = "15";
+            [Bindable]
+            private var SIZE_IMAGE_TITLE_TRACELINE:int = 20;
+            [Bindable]
+            private var WIDTH_GROUP_ICON:int = 50;
+            [Bindable]
+            private var LEFT_TRACE_LINE_OBSEL:int = 210;
+            [Bindable]
+            private var DELTA_POSSITION_LINE_VERTICAL_START_SESSION:int = -2;
+            [Bindable]
+            private var VERICAL_CENTER_IMAGE_TITLE_TRACELINE:int = 5;
 
-			protected function skin1_creationCompleteHandler(event:FlexEvent):void
-			{
-				this.bgFill.color = this.hostComponent.backGroundColor;
-			}
+            protected function skin1_creationCompleteHandler(event:FlexEvent):void
+            {
+                this.bgFill.color = this.hostComponent.backGroundColor;
+            }
 
-		]]>
-	</fx:Script>
-	<!-- SkinParts
-	name=traceTitleLoggedUser, type=spark.components.Group, required=false
-	name=textTitre, type=spark.components.Label, required=false
-	name=buttonAddComment, type=spark.components.Button, required=false
-	-->
-	<s:Group left="0" right="0" top="0" bottom="0"  minWidth="200" minHeight="30"  width="100%">
-		<s:layout>
-			<s:VerticalLayout gap="0"/>
-		</s:layout>
-		<s:Group id="contentGroupTraceLine" left="0" right="0" top="0" bottom="0" minWidth="200" minHeight="30" width="100%"  height="30" verticalCenter="{VERICAL_CENTER_IMAGE_TITLE_TRACELINE}">
-			<s:Rect  left="0" right="0" top="0" bottom="0" bottomLeftRadiusX.normal="5" bottomRightRadiusX.normal="5" topRightRadiusX="5">
-				<s:fill>
-					<!--- @private -->
-					<s:SolidColor id="bgFill" color="#33CCFF"/>
-				</s:fill>
-			</s:Rect>
-			
-			<s:Line  includeIn="open"  bottom="0" left="50" right="2">
-				<!-- Define the border color of the line. -->
-				<s:stroke>
-					<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
-				</s:stroke>
-			</s:Line>
-			<s:Line  includeIn="open"  top="20"  height="5" left="8" >
-				<s:stroke>
-					<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
-				</s:stroke>
-			</s:Line>
-<!-- TITRE -->			
-			<s:Label id="textTitre" text="----"  left="{LEFT_LABEL}"  width="70" top="5" maxWidth="70"  text.normal="Commentaire" width.normal="100" top.normal="10" left.normal="30"/>
-	<!--		<s:Line   bottom="0" top="0"  left="110">
-				<s:stroke>
-					<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
-				</s:stroke>
-			</s:Line>-->
-			
-			<s:Group id="traceLineIcon" left="110" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}" verticalCenter="{VERICAL_CENTER_IMAGE_TITLE_TRACELINE}">
-				<s:layout>
-					<s:HorizontalLayout gap="0"/>
-				</s:layout>
+        ]]>
+    </fx:Script>
+    <!-- SkinParts
+    name=traceTitleLoggedUser, type=spark.components.Group, required=false
+    name=textTitre, type=spark.components.Label, required=false
+    name=buttonAddComment, type=spark.components.Button, required=false
+    -->
+    <s:Group left="0" right="0" top="0" bottom="0"  minWidth="200" minHeight="30"  width="100%">
+        <s:layout>
+            <s:VerticalLayout gap="0"/>
+        </s:layout>
+        <s:Group id="contentGroupTraceLine" left="0" right="0" top="0" bottom="0" minWidth="200" minHeight="30" width="100%"  height="30" verticalCenter="{VERICAL_CENTER_IMAGE_TITLE_TRACELINE}">
+            <s:Rect  left="0" right="0" top="0" bottom="0" bottomLeftRadiusX.normal="5" bottomRightRadiusX.normal="5" topRightRadiusX="5">
+                <s:fill>
+                    <!--- @private -->
+                    <s:SolidColor id="bgFill" color="#33CCFF"/>
+                </s:fill>
+            </s:Rect>
+            
+            <s:Line  includeIn="open"  bottom="0" left="50" right="2">
+                <!-- Define the border color of the line. -->
+                <s:stroke>
+                    <s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+                </s:stroke>
+            </s:Line>
+            <s:Line  includeIn="open"  top="20"  height="5" left="8" >
+                <s:stroke>
+                    <s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+                </s:stroke>
+            </s:Line>
+<!-- TITRE -->            
+            <s:Label id="textTitre" text="----"  left="{LEFT_LABEL}"  width="70" top="5" maxWidth="70"  text.normal="Commentaire" width.normal="100" top.normal="10" left.normal="30"/>
+    <!--        <s:Line   bottom="0" top="0"  left="110">
+                <s:stroke>
+                    <s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+                </s:stroke>
+            </s:Line>-->
+            
+            <s:Group id="traceLineIcon" left="110" width="{WIDTH_GROUP_ICON}" height="{contentGroupTraceLine.height}" verticalCenter="{VERICAL_CENTER_IMAGE_TITLE_TRACELINE}">
+                <s:layout>
+                    <s:HorizontalLayout gap="0"/>
+                </s:layout>
 
-			</s:Group>
-<!--			<s:Line   bottom="0" top="0"  left="160">
-				<s:stroke>
-					<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
-				</s:stroke>
-			</s:Line>-->
-			<s:Line   bottom="0" top="0"  left="{LEFT_TRACE_LINE_OBSEL+DELTA_POSSITION_LINE_VERTICAL_START_SESSION}">
-				<s:stroke>
-					<s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
-				</s:stroke>
-			</s:Line>
-<!-- BUTTON ADD COMMENT -->			
-		<!--	<mx:Button id="buttonAddComment" left="60" verticalCenter="0" left.normal="85" verticalCenter.normal="0"
-					    icon="{IconEnum.getIconByName('commentAdd')}" width.open="120" width.disabled="120" height.normal="26"/>-->
-			<mx:Image id="buttonAddComment" verticalCenter="0" left="120" height="26"  source="{IconEnum.getIconByName('commentAdd')}"  height.normal="20"/>
-			<s:Group  id="traceTitleLoggedUser" left="{LEFT_TRACE_LINE_OBSEL}" right="2" left.normal="{LEFT_TRACE_LINE_OBSEL}" right.normal="2" top.normal="4" height.open="{contentGroupTraceLine.height}" height.disabled="{contentGroupTraceLine.height}" bottom.normal="0">
-				<s:layout>
-					<timeline:TimeLayout id="timeLayoutTitle"/>
-				</s:layout>
-			</s:Group>
-		</s:Group>
-		
+            </s:Group>
+<!--            <s:Line   bottom="0" top="0"  left="160">
+                <s:stroke>
+                    <s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+                </s:stroke>
+            </s:Line>-->
+            <s:Line   bottom="0" top="0"  left="{LEFT_TRACE_LINE_OBSEL+DELTA_POSSITION_LINE_VERTICAL_START_SESSION}">
+                <s:stroke>
+                    <s:SolidColorStroke color="0x000000" weight="1" joints="miter"/>
+                </s:stroke>
+            </s:Line>
+<!-- BUTTON ADD COMMENT -->            
+        <!--    <mx:Button id="buttonAddComment" left="60" verticalCenter="0" left.normal="85" verticalCenter.normal="0"
+                        icon="{IconEnum.getIconByName('commentAdd')}" width.open="120" width.disabled="120" height.normal="26"/>-->
+            <mx:Image id="buttonAddComment" verticalCenter="0" left="120" height="26"  source="{IconEnum.getIconByName('commentAdd')}"  height.normal="20"/>
+            <s:Group  id="traceTitleLoggedUser" left="{LEFT_TRACE_LINE_OBSEL}" right="2" left.normal="{LEFT_TRACE_LINE_OBSEL}" right.normal="2" top.normal="4" height.open="{contentGroupTraceLine.height}" height.disabled="{contentGroupTraceLine.height}" bottom.normal="0">
+                <s:layout>
+                    <timeline:TimeLayout id="timeLayoutTitle"/>
+                </s:layout>
+            </s:Group>
+        </s:Group>
+        
 
-		
+        
 
-		
+        
 
-		
-		
-		
-	</s:Group>
+        
+        
+        
+    </s:Group>
 </s:Skin>

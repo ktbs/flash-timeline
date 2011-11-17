@@ -62,24 +62,24 @@
  */
 package com.ithaca.visu.model
 {
-	public class DocumentActionType
-	{
-		public static const ACTION_DOCUMENT_VIDEO : String = "actionDocumentVideo";
-		public static const ACTION_DOCUMENT_IMAGE : String = "actionDocumentImage";
-			
-		protected var value:int;
-		
-		public static function valueOf(value:String):int
-		{
-			switch (value)
-			{
-				case DocumentActionType.ACTION_DOCUMENT_VIDEO:
-					return 100;
-					break;
-				default:
-					return -1;
-					break;
-			}
-		}
-	}	
+    public class DocumentActionType
+    {
+        public static const ACTION_DOCUMENT_VIDEO : String = "actionDocumentVideo";
+        public static const ACTION_DOCUMENT_IMAGE : String = "actionDocumentImage";
+            
+        protected var value:int;
+        
+        public static function valueOf(value:String):int
+        {
+            switch (value)
+            {
+                case DocumentActionType.ACTION_DOCUMENT_VIDEO:
+                    return 100;
+                    break;
+                default:
+                    return -1;
+                    break;
+            }
+        }
+    }    
 }

@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
-				 xmlns:s="library://ns.adobe.com/flex/spark"
-				 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
-				 creationComplete="creationCompleteHandler(event)"
-				 height="100%">
-	<fx:Declarations>
-		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
-	</fx:Declarations>
-	
-	<fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
-	
-	<fx:Script>
+                 xmlns:s="library://ns.adobe.com/flex/spark"
+                 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
+                 creationComplete="creationCompleteHandler(event)"
+                 height="100%">
+    <fx:Declarations>
+        <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
+    </fx:Declarations>
+    
+    <fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
+    
+    <fx:Script>
         <![CDATA[
-			import com.ithaca.timeline.events.TimelineEvent;
-			import com.ithaca.timeline.TimeRange;
-			import com.ithaca.timeline.TraceLine;
-			import com.ithaca.traces.Obsel;
-			import flash.events.Event;
-			import mx.graphics.SolidColor;
-			
-			public var obsel : Obsel;
-		
-			private static var bgColorIndex : uint = 0;
-			
-			protected function creationCompleteHandler(event:Event):void
-			{
-				obsel = hostComponent.obsel;
-				hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
-				hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
-				updateWidth( null );
-				var fillColors : Array = getStyle( "backgroundColors" ) as Array;	
-				durative.backgroundFill =  new SolidColor( fillColors[ bgColorIndex++ % fillColors.length ]) ;
-				hostComponent.percentHeight = 100;		
-				hostComponent.bottom = hostComponent.traceline.getStyle("rendererGap");
-			}
-			
-			public function updateWidth( event : Event ) :  void
-			{
-				var traceline 		: TraceLine = hostComponent.traceline;
-				var timeRange		: TimeRange = traceline._timeline.zoomContext.cursorRange;
-				var  timeToPositionRatio : Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
-				var startPosition 	: Number 	= timeRange.timeToPosition( Math.max( obsel.begin , timeRange.begin ),	traceline.width );
-				var endPosition 	: Number 	= timeRange.timeToPosition( Math.min( obsel.end , timeRange.end), 	traceline.width );
+            import com.ithaca.timeline.events.TimelineEvent;
+            import com.ithaca.timeline.TimeRange;
+            import com.ithaca.timeline.TraceLine;
+            import com.ithaca.traces.Obsel;
+            import flash.events.Event;
+            import mx.graphics.SolidColor;
+            
+            public var obsel : Obsel;
+        
+            private static var bgColorIndex : uint = 0;
+            
+            protected function creationCompleteHandler(event:Event):void
+            {
+                obsel = hostComponent.obsel;
+                hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
+                hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
+                updateWidth( null );
+                var fillColors : Array = getStyle( "backgroundColors" ) as Array;    
+                durative.backgroundFill =  new SolidColor( fillColors[ bgColorIndex++ % fillColors.length ]) ;
+                hostComponent.percentHeight = 100;        
+                hostComponent.bottom = hostComponent.traceline.getStyle("rendererGap");
+            }
+            
+            public function updateWidth( event : Event ) :  void
+            {
+                var traceline         : TraceLine = hostComponent.traceline;
+                var timeRange        : TimeRange = traceline._timeline.zoomContext.cursorRange;
+                var  timeToPositionRatio : Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
+                var startPosition     : Number     = timeRange.timeToPosition( Math.max( obsel.begin , timeRange.begin ),    traceline.width );
+                var endPosition     : Number     = timeRange.timeToPosition( Math.min( obsel.end , timeRange.end),     traceline.width );
 
-				durative.width  	= (obsel.end - obsel.begin) * timeToPositionRatio;
-			}
-			
-		]]>
+                durative.width      = (obsel.end - obsel.begin) * timeToPositionRatio;
+            }
+            
+        ]]>
     </fx:Script>
-		
-	<s:BorderContainer id="durative" minWidth="1" borderVisible="false" height="100%" />
+        
+    <s:BorderContainer id="durative" minWidth="1" borderVisible="false" height="100%" />
 
 </s:Skin>

@@ -62,11 +62,11 @@
  */
 package com.ithaca.visu.ui.utils
 {
-	public class SharedSatusEnum
-	{
-		static public var SHARED_OK_THIS_TO_OTHER : String = "sharedOkThisToOther";
-		static public var SHARED_OK_OTHER_TO_THIS : String = "sharedOkOtherToThis";
-		static public var SHARED_NON_THIS_TO_OTHER : String = "sharedNonThisToOther";
-		static public var SHARED_NON_OTHER_TO_THIS : String = "sharedNonOtherToThis";
-	}
+    public class SharedSatusEnum
+    {
+        static public var SHARED_OK_THIS_TO_OTHER : String = "sharedOkThisToOther";
+        static public var SHARED_OK_OTHER_TO_THIS : String = "sharedOkOtherToThis";
+        static public var SHARED_NON_THIS_TO_OTHER : String = "sharedNonThisToOther";
+        static public var SHARED_NON_OTHER_TO_THIS : String = "sharedNonOtherToThis";
+    }
 }

@@ -62,139 +62,139 @@
  */
 package  com.ithaca.visu.model
 {
-	import com.ithaca.visu.model.vo.SessionVO;
-	import com.ithaca.visu.model.vo.UserVO;
-	import com.ithaca.visu.ui.utils.ConnectionStatus;
-	
-	import mx.collections.ArrayCollection;
+    import com.ithaca.visu.model.vo.SessionVO;
+    import com.ithaca.visu.model.vo.UserVO;
+    import com.ithaca.visu.ui.utils.ConnectionStatus;
+    
+    import mx.collections.ArrayCollection;
 
-	public class Session
-	{
-		public var id_session:int;
-		
-		[Bindable]
-		public var id_user:int;
+    public class Session
+    {
+        public var id_session:int;
+        
+        [Bindable]
+        public var id_user:int;
 
-		[Bindable]
-		public var theme:String;
+        [Bindable]
+        public var theme:String;
 
-		[Bindable]
-		public var date_session:Date;
-		private var _isModel:Boolean;
+        [Bindable]
+        public var date_session:Date;
+        private var _isModel:Boolean;
 
-		[Bindable]
-		public var description:String;
-		
-		[Bindable]
-		public var participants:ArrayCollection = new ArrayCollection();
-		
-		[Bindable]
-		public var date_start_recording:Date;
-		
-		[Bindable]
-		public var statusSession:int = -1;
-		public var duration_session:int;
+        [Bindable]
+        public var description:String;
+        
+        [Bindable]
+        public var participants:ArrayCollection = new ArrayCollection();
+        
+        [Bindable]
+        public var date_start_recording:Date;
+        
+        [Bindable]
+        public var statusSession:int = -1;
+        public var duration_session:int;
 
-		public function Session(session:SessionVO)
-		{
-			this.id_session = session.id_session;
-			this.id_user = session.id_user;
-			this.theme = session.theme;
-			this.date_session = session.date_session;
-			this._isModel = session.isModel;
-			this.description = session.description;
-			this.date_start_recording = session.start_recording;
-			this.statusSession = session.status_session;
-			// set duration in millisecunds
-			// FIXME debug mode
-			this.duration_session = session.duration_session*1000*60;
-			if(session.listUser != null)
-			{
-				var t:uint = 1;	
-			}
-			var listUserVO:Array = session.listUser;
-			if(listUserVO != null && listUserVO.length > 0)
-			{
-				var listUser:ArrayCollection = new ArrayCollection();
-				for each(var userVO:UserVO in listUserVO)
-				{
-					var user:User = new User(userVO);
-					listUser.addItem(user);
-				}
-				this.participants = listUser;
-			}	
-		}
-		
-		public function getSessionId():int {return this.id_session};
-		public function getSessionDate():Date {return this.date_session};
-		public function getSessionDateStartRecording():Date {return this.date_start_recording};
-		public function getTheme():String {return this.theme};
-		public function getStatusSession():int {return this.statusSession};
-		public function get isModel():Boolean {return this._isModel};
-		public function setModel(value:Boolean){
-			this._isModel = value;
-		}
-		
-		public function setUsers(arUsers:Array):void
-		{
-			var nbrUser:uint = arUsers.length;
-			if(nbrUser == 0)
-			{
-				// TODO MESSAGE
-				return;
-			}
-			// clear list users of this session
-			this.participants.removeAll();
-			for(var nUser:uint = 0; nUser < nbrUser ; nUser++)
-			{
-				var user:User = new User(arUsers[nUser]);
-				this.participants.addItem(user);
-			}
-		}
-		
-		public function checkConnectedUsers(arUsers:ArrayCollection):void{
-			// clear status for all users
-			this.clearStatus();
-			var nbrConnectedUsers:uint = arUsers.length;
-			for(var nConnectedUsers:uint  = 0; nConnectedUsers < nbrConnectedUsers ; nConnectedUsers++){
-				var connectedUser:User = arUsers[nConnectedUsers];
-				var userId:uint = connectedUser.getId();
-				updateStatus(userId, connectedUser.status);
-			}
-		}
-		
-		private function updateStatus(id:uint, status:int):void
-		{
-			var nbrUser:uint = this.participants.length;
-			for(var nUser:uint = 0; nUser < nbrUser; nUser++){
-				var user:User = this.participants[nUser];
-				var userId:uint = user.getId();
-				if(userId == id)
-				{
-				 	user.status = status;	
-				}
-			}
-		}
-		
-		public function hasUser(value:int):Boolean
-		{
-			var nbrUsers:uint = this.participants.length;
-			for(var nUser:uint = 0; nUser < nbrUsers; nUser++)
-			{
-				var userId:uint	= (this.participants[nUser] as User).getId();
-				if(userId == value)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-			
-		private function clearStatus():void{
-			for each(var user:User in this.participants)
-			{
-				user.setStatus(ConnectionStatus.DISCONNECTED);
-			}
-		}		
-	}
+        public function Session(session:SessionVO)
+        {
+            this.id_session = session.id_session;
+            this.id_user = session.id_user;
+            this.theme = session.theme;
+            this.date_session = session.date_session;
+            this._isModel = session.isModel;
+            this.description = session.description;
+            this.date_start_recording = session.start_recording;
+            this.statusSession = session.status_session;
+            // set duration in millisecunds
+            // FIXME debug mode
+            this.duration_session = session.duration_session*1000*60;
+            if(session.listUser != null)
+            {
+                var t:uint = 1;    
+            }
+            var listUserVO:Array = session.listUser;
+            if(listUserVO != null && listUserVO.length > 0)
+            {
+                var listUser:ArrayCollection = new ArrayCollection();
+                for each(var userVO:UserVO in listUserVO)
+                {
+                    var user:User = new User(userVO);
+                    listUser.addItem(user);
+                }
+                this.participants = listUser;
+            }    
+        }
+        
+        public function getSessionId():int {return this.id_session};
+        public function getSessionDate():Date {return this.date_session};
+        public function getSessionDateStartRecording():Date {return this.date_start_recording};
+        public function getTheme():String {return this.theme};
+        public function getStatusSession():int {return this.statusSession};
+        public function get isModel():Boolean {return this._isModel};
+        public function setModel(value:Boolean){
+            this._isModel = value;
+        }
+        
+        public function setUsers(arUsers:Array):void
+        {
+            var nbrUser:uint = arUsers.length;
+            if(nbrUser == 0)
+            {
+                // TODO MESSAGE
+                return;
+            }
+            // clear list users of this session
+            this.participants.removeAll();
+            for(var nUser:uint = 0; nUser < nbrUser ; nUser++)
+            {
+                var user:User = new User(arUsers[nUser]);
+                this.participants.addItem(user);
+            }
+        }
+        
+        public function checkConnectedUsers(arUsers:ArrayCollection):void{
+            // clear status for all users
+            this.clearStatus();
+            var nbrConnectedUsers:uint = arUsers.length;
+            for(var nConnectedUsers:uint  = 0; nConnectedUsers < nbrConnectedUsers ; nConnectedUsers++){
+                var connectedUser:User = arUsers[nConnectedUsers];
+                var userId:uint = connectedUser.getId();
+                updateStatus(userId, connectedUser.status);
+            }
+        }
+        
+        private function updateStatus(id:uint, status:int):void
+        {
+            var nbrUser:uint = this.participants.length;
+            for(var nUser:uint = 0; nUser < nbrUser; nUser++){
+                var user:User = this.participants[nUser];
+                var userId:uint = user.getId();
+                if(userId == id)
+                {
+                     user.status = status;    
+                }
+            }
+        }
+        
+        public function hasUser(value:int):Boolean
+        {
+            var nbrUsers:uint = this.participants.length;
+            for(var nUser:uint = 0; nUser < nbrUsers; nUser++)
+            {
+                var userId:uint    = (this.participants[nUser] as User).getId();
+                if(userId == value)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+            
+        private function clearStatus():void{
+            for each(var user:User in this.participants)
+            {
+                user.setStatus(ConnectionStatus.DISCONNECTED);
+            }
+        }        
+    }
 }

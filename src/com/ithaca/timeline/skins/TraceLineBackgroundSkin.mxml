@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
-		xmlns:s="library://ns.adobe.com/flex/spark"
-		xmlns:tl="com.ithaca.timeline.*"
-		xmlns:mx="library://ns.adobe.com/flex/mx"
-		xmlns:skins="com.ithaca.timeline.skins.*"
-		creationComplete="creationCompleteHandler(event)"
-		resize="onResize(event)"
-		width="100%"
-		height="100%">
+        xmlns:s="library://ns.adobe.com/flex/spark"
+        xmlns:tl="com.ithaca.timeline.*"
+        xmlns:mx="library://ns.adobe.com/flex/mx"
+        xmlns:skins="com.ithaca.timeline.skins.*"
+        creationComplete="creationCompleteHandler(event)"
+        resize="onResize(event)"
+        width="100%"
+        height="100%">
 
-	<fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLine")]</fx:Metadata>
+    <fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLine")]</fx:Metadata>
 
-	<fx:Script>
-		<![CDATA[
-			import com.ithaca.timeline.events.TimelineEvent;
-			import com.ithaca.timeline.LayoutNode;
-			import com.ithaca.timeline.ObselsRenderer;
-			import com.ithaca.timeline.SelectorRegexp;
-			import com.ithaca.timeline.Stylesheet;
-			import com.ithaca.timeline.Timeline;
-			import com.ithaca.timeline.TraceLine;
-			import com.ithaca.timeline.TraceLineGroup;
-			import com.ithaca.timeline.ZoomContext;
-			import com.ithaca.traces.Obsel;
-			import flash.display.DisplayObject;
-			import flash.display.Graphics;
-			import flash.display.Shape;
-			import flash.display.Sprite;
-			import flash.events.Event;
-			import flash.events.MouseEvent;
-			import flash.geom.Point;
-			import mx.collections.ArrayCollection;
-			import mx.controls.Alert;
-			import mx.controls.Menu;
-			import mx.core.UIComponent;
-			import mx.events.CollectionEvent;
-			import mx.events.FlexEvent;
-			import mx.events.MenuEvent;
-			import mx.managers.PopUpManager;
-			
-			[Bindable]
-			public var obselsRenderer:ObselsRenderer;
-			
-			protected function creationCompleteHandler(event:FlexEvent):void
-			{		
-				hostComponent.percentWidth 		= 100;
-				hostComponent.percentHeight		= 100;
-				
-				obselsRenderer 					= new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
-				obselsRenderer.percentHeight	= 100;
-				obselsRenderer.percentWidth 	= 100;
-				obselsRenderer.borderVisible 	= false;		
-				obselsRenderer.left				= Stylesheet.renderersSidePadding;
-				obselsRenderer.width			= hostComponent._timeline.zoomContext.timelinePreview.width;
-				obselsRenderer.obselsCollection = hostComponent._obsels;				
-				obselsRenderer.styleName 		= hostComponent.styleName;		
-				rendererGroup.addElement( obselsRenderer );
-			}
-			
-			protected function onResize(event:Event):void
-			{		
-				if ( obselsRenderer)
-				{
-					obselsRenderer.left			= Stylesheet.renderersSidePadding;
-					obselsRenderer.width		= hostComponent._timeline.zoomContext.timelinePreview.width;
-				}
-			}
-		]]>
-	</fx:Script>
+    <fx:Script>
+        <![CDATA[
+            import com.ithaca.timeline.events.TimelineEvent;
+            import com.ithaca.timeline.LayoutNode;
+            import com.ithaca.timeline.ObselsRenderer;
+            import com.ithaca.timeline.SelectorRegexp;
+            import com.ithaca.timeline.Stylesheet;
+            import com.ithaca.timeline.Timeline;
+            import com.ithaca.timeline.TraceLine;
+            import com.ithaca.timeline.TraceLineGroup;
+            import com.ithaca.timeline.ZoomContext;
+            import com.ithaca.traces.Obsel;
+            import flash.display.DisplayObject;
+            import flash.display.Graphics;
+            import flash.display.Shape;
+            import flash.display.Sprite;
+            import flash.events.Event;
+            import flash.events.MouseEvent;
+            import flash.geom.Point;
+            import mx.collections.ArrayCollection;
+            import mx.controls.Alert;
+            import mx.controls.Menu;
+            import mx.core.UIComponent;
+            import mx.events.CollectionEvent;
+            import mx.events.FlexEvent;
+            import mx.events.MenuEvent;
+            import mx.managers.PopUpManager;
+            
+            [Bindable]
+            public var obselsRenderer:ObselsRenderer;
+            
+            protected function creationCompleteHandler(event:FlexEvent):void
+            {        
+                hostComponent.percentWidth         = 100;
+                hostComponent.percentHeight        = 100;
+                
+                obselsRenderer                     = new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
+                obselsRenderer.percentHeight    = 100;
+                obselsRenderer.percentWidth     = 100;
+                obselsRenderer.borderVisible     = false;        
+                obselsRenderer.left                = Stylesheet.renderersSidePadding;
+                obselsRenderer.width            = hostComponent._timeline.zoomContext.timelinePreview.width;
+                obselsRenderer.obselsCollection = hostComponent._obsels;                
+                obselsRenderer.styleName         = hostComponent.styleName;        
+                rendererGroup.addElement( obselsRenderer );
+            }
+            
+            protected function onResize(event:Event):void
+            {        
+                if ( obselsRenderer)
+                {
+                    obselsRenderer.left            = Stylesheet.renderersSidePadding;
+                    obselsRenderer.width        = hostComponent._timeline.zoomContext.timelinePreview.width;
+                }
+            }
+        ]]>
+    </fx:Script>
 
-	<s:states>
-		<s:State name="normal" />
-		<s:State name="open" />
-		<s:State name="disabled" />
-	</s:states>
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="open" />
+        <s:State name="disabled" />
+    </s:states>
 
-	<s:VGroup width="100%" gap="0" height="100%" >
-		<s:Group id="rendererGroup"  width="100%" height="100%" />		
-	</s:VGroup>
+    <s:VGroup width="100%" gap="0" height="100%" >
+        <s:Group id="rendererGroup"  width="100%" height="100%" />        
+    </s:VGroup>
 </s:Skin>

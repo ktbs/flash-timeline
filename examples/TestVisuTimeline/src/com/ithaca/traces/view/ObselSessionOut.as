@@ -62,69 +62,69 @@
  */
 package com.ithaca.traces.view
 {
-	import com.ithaca.traces.Obsel;
-	
-	import spark.components.SkinnableContainer;
-	
-	public class ObselSessionOut extends SkinnableContainer implements IObselComponenet
-	{
-		private var _begin:Number;
-		private var _end:Number;
-		private var _owner:Number;
-		private var _parentObsel:Obsel;
-		
-		public function ObselSessionOut()
-		{
-			//TODO: implement function
-			super();
-		}
-		
-		public function setBegin(value:Number):void
-		{
-			this._begin = value;
-		}
-		
-		public function getBegin():Number
-		{
-			return this._begin;
-		}
-		
-		public function setEnd(value:Number):void
-		{
-			this._end = value;
-		}
-		
-		public function getEnd():Number
-		{
-			return this._end;
-		}
-		
-		public function setOwner(value:Number):void
-		{
-			this._owner = value;
-		}
-		
-		public function getOwner():Number
-		{
-			return this._owner;
-		}
-		
-		public function setObselViewVisible(value:Boolean):void
-		{
-			this.visible = value;
-		}
-		
-		public function set parentObsel(value:Obsel):void{_parentObsel = value;}
-		public function get parentObsel():Obsel{return this._parentObsel}
-		
-		public function cloneMe():ObselSessionOut
-		{
-			var result:ObselSessionOut = new ObselSessionOut();
-			result._begin = this._begin;
-			result._end = this._end;
-			result._owner =  this._owner;
-			result._parentObsel = this.parentObsel;
-			return result;
-		}
-	}
+    import com.ithaca.traces.Obsel;
+    
+    import spark.components.SkinnableContainer;
+    
+    public class ObselSessionOut extends SkinnableContainer implements IObselComponenet
+    {
+        private var _begin:Number;
+        private var _end:Number;
+        private var _owner:Number;
+        private var _parentObsel:Obsel;
+        
+        public function ObselSessionOut()
+        {
+            //TODO: implement function
+            super();
+        }
+        
+        public function setBegin(value:Number):void
+        {
+            this._begin = value;
+        }
+        
+        public function getBegin():Number
+        {
+            return this._begin;
+        }
+        
+        public function setEnd(value:Number):void
+        {
+            this._end = value;
+        }
+        
+        public function getEnd():Number
+        {
+            return this._end;
+        }
+        
+        public function setOwner(value:Number):void
+        {
+            this._owner = value;
+        }
+        
+        public function getOwner():Number
+        {
+            return this._owner;
+        }
+        
+        public function setObselViewVisible(value:Boolean):void
+        {
+            this.visible = value;
+        }
+        
+        public function set parentObsel(value:Obsel):void{_parentObsel = value;}
+        public function get parentObsel():Obsel{return this._parentObsel}
+        
+        public function cloneMe():ObselSessionOut
+        {
+            var result:ObselSessionOut = new ObselSessionOut();
+            result._begin = this._begin;
+            result._end = this._end;
+            result._owner =  this._owner;
+            result._parentObsel = this.parentObsel;
+            return result;
+        }
+    }
 }

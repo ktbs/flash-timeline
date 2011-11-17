@@ -62,7 +62,7 @@
  */
 package com.ithaca.traces
 {
-	/* For remoting */
+    /* For remoting */
 
     import flash.events.EventDispatcher;
 
@@ -105,34 +105,34 @@ package com.ithaca.traces
         /* If True, automatically synchronize with the KTBS */
         public var autosync: Boolean = true;
 
-		public function twoDigits(n: int): String
-		{
-			if (n < 10)
-				return "0" + n.toString();
-			else
-				return n.toString();
-		}
+        public function twoDigits(n: int): String
+        {
+            if (n < 10)
+                return "0" + n.toString();
+            else
+                return n.toString();
+        }
 
         public function Trace(uid: int = 0, uri: String = ""): void
         {
-			var d: Date = new Date();
-			// FIXME: debug for the moment (since KTBS is not used):
-			if (uri == "")
-				uri = "trace-" + d.fullYear + twoDigits(d.month + 1) + twoDigits(d.date) + twoDigits(d.hours) + twoDigits(d.minutes) + twoDigits(d.seconds) + "-" + uid;
+            var d: Date = new Date();
+            // FIXME: debug for the moment (since KTBS is not used):
+            if (uri == "")
+                uri = "trace-" + d.fullYear + twoDigits(d.month + 1) + twoDigits(d.date) + twoDigits(d.hours) + twoDigits(d.minutes) + twoDigits(d.seconds) + "-" + uid;
             this.uri = uri;
             this.uid = uid;
             this.obsels = new ArrayCollection()
         }
 
-		public static function init_remote(server: String): void
-		{
-			// Initialise RemoteObject
-			traceRemoteObject = new RemoteObject();
-			traceRemoteObject.endpoint=server;
-			traceRemoteObject.destination = "ObselService";
-			traceRemoteObject.makeObjectsBindable=true;
-			traceRemoteObject.showBusyCursor=false;
-		}
+        public static function init_remote(server: String): void
+        {
+            // Initialise RemoteObject
+            traceRemoteObject = new RemoteObject();
+            traceRemoteObject.endpoint=server;
+            traceRemoteObject.destination = "ObselService";
+            traceRemoteObject.makeObjectsBindable=true;
+            traceRemoteObject.showBusyCursor=false;
+        }
 
         public function get remote(): RemoteObject
         {
@@ -156,20 +156,20 @@ package com.ithaca.traces
         }
         public function delObsel(obsel :Obsel):void
         {
-        	obsel.trace = this;
-        	if(this.autosync)
-        	{
-	        	obsel.deleteObselSGBD();
-        	}
+            obsel.trace = this;
+            if(this.autosync)
+            {
+                obsel.deleteObselSGBD();
+            }
         }
         public function updObsel(obsel:Obsel):void
         {
-        	obsel.trace = this;
+            obsel.trace = this;
 
-        	if(this.autosync)
-        	{
-	        	obsel.updateObselSGBD();
-        	}
+            if(this.autosync)
+            {
+                obsel.updateObselSGBD();
+            }
         }
 
         /**
@@ -189,10 +189,10 @@ package com.ithaca.traces
             return result;
         }
 
-		override public function toString(): String
-		{
-			return "Trace with " + this.obsels.length + " element(s)";
-		}
+        override public function toString(): String
+        {
+            return "Trace with " + this.obsels.length + " element(s)";
+        }
 
         /**
          * Returns the Singleton instance of the Trace
@@ -221,10 +221,10 @@ package com.ithaca.traces
 
                 logger.debug("\n===\n" + o.toRDF() + "\n===\n");
             }
-			catch (error:Error)
-			{
-				logger.debug("Exception in trace: " + error);
-			}
+            catch (error:Error)
+            {
+                logger.debug("Exception in trace: " + error);
+            }
             return o;
         }
 

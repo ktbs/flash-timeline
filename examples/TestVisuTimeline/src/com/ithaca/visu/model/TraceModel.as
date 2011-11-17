@@ -62,7 +62,7 @@
  */
 package com.ithaca.visu.model
 {
-	import com.youtube.player.events.PlayerSharedEvent;
+    import com.youtube.player.events.PlayerSharedEvent;
 
     /* Generated code, see below */
     public final class TraceModel
@@ -98,7 +98,7 @@ package com.ithaca.visu.model
         public static const LoseFocus: String = "LoseFocus";
         public static const TakeFocus: String = "TakeFocus";
         public static const TextComment: String = "TextComment";*/
-		
+        
         public static const SET_MARKER: String = "SetMarker";
         public static const RECEIVE_MARKER: String = "ReceiveMarker";
         public static const UPDATE_MARKER: String = "UpdateMarker";
@@ -128,14 +128,14 @@ package com.ithaca.visu.model
         public static const SET_TEXT_COMMENT: String = "SetTextComment";
         public static const DELETE_TEXT_COMMENT: String = "DeleteTextComment";
         public static const UPDATE_TEXT_COMMENT: String = "UpdateTextComment";
-		// get value like name obsel from PlayerSharedEvent
- 	    public static const PLAY_VIDEO: String = PlayerSharedEvent.PLAY;
+        // get value like name obsel from PlayerSharedEvent
+         public static const PLAY_VIDEO: String = PlayerSharedEvent.PLAY;
         public static const PAUSE_VIDEO: String = PlayerSharedEvent.PAUSE;
         public static const END_VIDEO: String = PlayerSharedEvent.END;
         public static const STOP_VIDEO: String = PlayerSharedEvent.STOP;
         public static const PRESS_SLIDER_VIDEO: String = PlayerSharedEvent.SLIDER_PRESS;
         public static const RELEASE_SLIDER_VIDEO: String = PlayerSharedEvent.SLIDER_RELEASE;
-			
+            
         public static const UID: String = "uid";
         public static const SENDER: String = "sender";
         public static const TEXT: String = "text";
@@ -161,13 +161,13 @@ package com.ithaca.visu.model
         public static const IMAGE: String = "image";
         public static const VIDEO: String = "video";
         public static const COMMENT_FOR_USER_ID: String = "commentforuserid";
-		
+        
 // RETROROOM ACTIVITY
-		
+        
         public static const RETRO_PLAY_VIDEO_EVENT: String = "RetroPlayVideo";
         public static const RETRO_PAUSE_VIDEO_EVENT: String = "RetroPauseVideoEvent";
         public static const RETRO_VIEDO_GO_TO_TIME_EVENT: String = "RetroVideoGoToTimeEvent";
-		
+        
         public static const RETRO_EXPLORE_OBSEL_EVENT: String = "RetroExploreObselEvent";
         public static const RETRO_CLICK_BUTTON_START_CREATE_COMMENT_EVENT: String = "RetroClickButtonStartCreateCommentEvent";
         public static const RETRO_DOUBLE_CLICK_TRACE_LINE_START_CREATE_COMMENT_EVENT: String = "RetroDoubleClickTraceLineStartCreateCommentEvent";
@@ -175,8 +175,8 @@ package com.ithaca.visu.model
         public static const RETRO_CANCEL_EDIT_EVENT: String = "RetroCancelEditEvent";
         public static const RETRO_EDIT_TYPE_CANCEL_CREATE: String = "CREATE";
         public static const RETRO_EDIT_TYPE_CANCEL_EDIT: String = "EDIT";
-		
-		
+        
+        
     }
 
 }

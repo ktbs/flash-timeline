@@ -62,44 +62,44 @@
  */
 package com.ithaca.visu.events
 {
-	import com.ithaca.traces.Obsel;
-	
-	import flash.events.Event;
-	
-	import mx.collections.ArrayCollection;
-	
-	public class TraceLineEvent extends Event
-	{
-		// constants
-		static public const REMOVE_TRACE_LINE_ELEMENT : String = 'removeTraceLineElement';
-		static public const ADD_TRACE_LINE_ELEMENT : String = 'addTraceLineElement';
-		static public const ADD_LIST_OBSEL : String = 'addListObsel';
-		static public const REMOVE_LIST_OBSEL : String = 'removeListObsel';
-		static public const ADD_COMMENT_OBSEL : String = 'addCommentObsel';
-		static public const UPDATE_COMMENT_OBSEL : String = 'updateCommentObsel';
-		static public const ADDED_COMMENT_OBSEL : String = 'addedCommentObsel';
-		// properties
-		public var idElement:int;
-		public var userId : int;
-		public var listObsel :ArrayCollection;
+    import com.ithaca.traces.Obsel;
+    
+    import flash.events.Event;
+    
+    import mx.collections.ArrayCollection;
+    
+    public class TraceLineEvent extends Event
+    {
+        // constants
+        static public const REMOVE_TRACE_LINE_ELEMENT : String = 'removeTraceLineElement';
+        static public const ADD_TRACE_LINE_ELEMENT : String = 'addTraceLineElement';
+        static public const ADD_LIST_OBSEL : String = 'addListObsel';
+        static public const REMOVE_LIST_OBSEL : String = 'removeListObsel';
+        static public const ADD_COMMENT_OBSEL : String = 'addCommentObsel';
+        static public const UPDATE_COMMENT_OBSEL : String = 'updateCommentObsel';
+        static public const ADDED_COMMENT_OBSEL : String = 'addedCommentObsel';
+        // properties
+        public var idElement:int;
+        public var userId : int;
+        public var listObsel :ArrayCollection;
 
-		public var traceComment :String;
-		public var traceParent :String;
-		public var typeObsel :String;
-		public var textComment :String;
-		public var beginTime :String;
-		public var endTime :String;
-		public var forUserId :int;
-		public var sessionId :int;
-		public var obsel:Obsel;
-		public var timeStamp:Number;
-		// constructor
-		public function TraceLineEvent(type : String,
-												 bubbles : Boolean = true,
-												 cancelable : Boolean = false)
-		{
-			super(type, bubbles, cancelable);
-			
-		}
-	}
+        public var traceComment :String;
+        public var traceParent :String;
+        public var typeObsel :String;
+        public var textComment :String;
+        public var beginTime :String;
+        public var endTime :String;
+        public var forUserId :int;
+        public var sessionId :int;
+        public var obsel:Obsel;
+        public var timeStamp:Number;
+        // constructor
+        public function TraceLineEvent(type : String,
+                                                 bubbles : Boolean = true,
+                                                 cancelable : Boolean = false)
+        {
+            super(type, bubbles, cancelable);
+            
+        }
+    }
 }

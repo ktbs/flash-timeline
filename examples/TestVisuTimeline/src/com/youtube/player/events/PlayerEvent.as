@@ -62,25 +62,25 @@
  */
 package com.youtube.player.events
 {
-	import flash.events.Event;
-	
-	public final class PlayerEvent extends Event
-	{
-		
-		public function PlayerEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
-		{
-			super(type,bubbles,cancelable);
-		}
-		
-		override public function clone():Event
-		{
-			return new PlayerEvent(type,bubbles,cancelable);
-		}
-		
-		public static const ERROR 			: String = "onError";
-	    public static const READY 			: String = "onReady";
-		public static const STATE_CHANGE 	: String = "onStateChange";
-		public static const QUALITY_CHANGE 	: String = "onPlaybackQualityChange";
-		public static const ERROR_PROPERTY_ADRESSE	: String = "onErrorPropertyAdresse";
-	}
+    import flash.events.Event;
+    
+    public final class PlayerEvent extends Event
+    {
+        
+        public function PlayerEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+        {
+            super(type,bubbles,cancelable);
+        }
+        
+        override public function clone():Event
+        {
+            return new PlayerEvent(type,bubbles,cancelable);
+        }
+        
+        public static const ERROR             : String = "onError";
+        public static const READY             : String = "onReady";
+        public static const STATE_CHANGE     : String = "onStateChange";
+        public static const QUALITY_CHANGE     : String = "onPlaybackQualityChange";
+        public static const ERROR_PROPERTY_ADRESSE    : String = "onErrorPropertyAdresse";
+    }
 }

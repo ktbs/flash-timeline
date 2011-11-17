@@ -62,16 +62,16 @@
  * -- End of licenses
  */package com.ithaca.traces.view
 {
-	import com.ithaca.traces.Obsel;
+    import com.ithaca.traces.Obsel;
 
-	public interface IObselComponenet
-	{
-	 	function setBegin(value:Number):void;
-	 	function getBegin():Number;
-		function setEnd(value:Number):void;
-		function getEnd():Number;	
-		function setObselViewVisible(value:Boolean):void;
-		function set parentObsel(value:Obsel):void;
-		function get parentObsel():Obsel;
-	}
+    public interface IObselComponenet
+    {
+         function setBegin(value:Number):void;
+         function getBegin():Number;
+        function setEnd(value:Number):void;
+        function getEnd():Number;    
+        function setObselViewVisible(value:Boolean):void;
+        function set parentObsel(value:Obsel):void;
+        function get parentObsel():Obsel;
+    }
 }

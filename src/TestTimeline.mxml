@@ -1,385 +1,385 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-			   xmlns:s="library://ns.adobe.com/flex/spark"
-			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   xmlns:tl="com.ithaca.timeline.*"
-			   xmlns:root="*"
-			   width="100%"  height="100%"
-			   preinitialize="onPreinitialize()"
-			   creationComplete="init()" >
-			   	
-	<fx:Script>
-	<![CDATA[
-		import com.ithaca.timeline.Layout;
-		import com.ithaca.timeline.ObselSkin;
-		import com.ithaca.timeline.skins.TimelineSkin;
-		import com.ithaca.timeline.ISelector;
-		import com.ithaca.timeline.LayoutModifier;
-		import com.ithaca.timeline.LayoutNode;
-		import com.ithaca.timeline.Timeline;
-		import com.ithaca.timeline.TraceLine;
-		import com.ithaca.timeline.TraceLineGroup;
-		import com.ithaca.timeline.SelectorRegexp;
-		import com.ithaca.timeline.Stylesheet;
-		import com.ithaca.timeline.events.TimelineEvent;
-		import com.ithaca.timeline.TraceLineGroupTitle;
-		import com.ithaca.timeline.TraceLineTitle;
-		import com.ithaca.traces.Obsel;
-		import com.ithaca.traces.Trace;
-		import spark.events.ElementExistenceEvent;
-		
-		import flash.events.*;
-		import flash.net.FileReference;
-		import flash.display.StageScaleMode;
-		import flash.display.StageAlign;
-		import flash.events.Event;
-		import mx.formatters.DateFormatter;		
-		import mx.collections.ArrayCollection;
-		import mx.collections.XMLListCollection;
-		import mx.styles.StyleManager;
-		import mx.controls.*;
-		import mx.events.*;
-		
-		import gnu.as3.gettext._FxGettext;
-		import gnu.as3.gettext.FxGettext;
-		import gnu.as3.gettext.Locale;
-		import gnu.as3.gettext.ISO_639_1;
-		import gnu.as3.gettext.ISO_3166;
-		import gnu.as3.gettext.services.IGettextService;
-		import gnu.as3.gettext.services.URLLoaderService;
-		[Bindable]
-		private var fxgt:_FxGettext;		
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+               xmlns:tl="com.ithaca.timeline.*"
+               xmlns:root="*"
+               width="100%"  height="100%"
+               preinitialize="onPreinitialize()"
+               creationComplete="init()" >
+                   
+    <fx:Script>
+    <![CDATA[
+        import com.ithaca.timeline.Layout;
+        import com.ithaca.timeline.ObselSkin;
+        import com.ithaca.timeline.skins.TimelineSkin;
+        import com.ithaca.timeline.ISelector;
+        import com.ithaca.timeline.LayoutModifier;
+        import com.ithaca.timeline.LayoutNode;
+        import com.ithaca.timeline.Timeline;
+        import com.ithaca.timeline.TraceLine;
+        import com.ithaca.timeline.TraceLineGroup;
+        import com.ithaca.timeline.SelectorRegexp;
+        import com.ithaca.timeline.Stylesheet;
+        import com.ithaca.timeline.events.TimelineEvent;
+        import com.ithaca.timeline.TraceLineGroupTitle;
+        import com.ithaca.timeline.TraceLineTitle;
+        import com.ithaca.traces.Obsel;
+        import com.ithaca.traces.Trace;
+        import spark.events.ElementExistenceEvent;
+        
+        import flash.events.*;
+        import flash.net.FileReference;
+        import flash.display.StageScaleMode;
+        import flash.display.StageAlign;
+        import flash.events.Event;
+        import mx.formatters.DateFormatter;        
+        import mx.collections.ArrayCollection;
+        import mx.collections.XMLListCollection;
+        import mx.styles.StyleManager;
+        import mx.controls.*;
+        import mx.events.*;
+        
+        import gnu.as3.gettext._FxGettext;
+        import gnu.as3.gettext.FxGettext;
+        import gnu.as3.gettext.Locale;
+        import gnu.as3.gettext.ISO_639_1;
+        import gnu.as3.gettext.ISO_3166;
+        import gnu.as3.gettext.services.IGettextService;
+        import gnu.as3.gettext.services.URLLoaderService;
+        [Bindable]
+        private var fxgt:_FxGettext;        
 
-		import flash.utils.Timer;
-		
-		private var _xmlLayout		: XMLList =  new XMLList();
-		private var _xmlLayoutDP	: XMLListCollection = new XMLListCollection( _xmlLayout );
-		private var layoutTree 		: XML;		
-		private var timer			: Timer;
-		private var timeValue		: Number = 0;
-		public  var firstload : Boolean = true;
-		
-		[Embed(source="images/unknown.jpg")]		
-		public var tlgIcon:Class;
-		
-		private function onPreinitialize():void
-		{
-			fxgt = FxGettext;
-			// we set the locale for the messages category to fr_FR
-			setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
-			var service:IGettextService = new URLLoaderService("..");
-			//service.addEventListener(Event.COMPLETE, onServiceComplete);
-			service.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
-			// You can listen to this event, but it is not required in
-			// MXML files: the labels are automatically updated at startup
-			// and when the locale changes
-			//fxgt.addEventListener(Event.COMPLETE, onComplete);
-			// Binds the messages of the helloword domain to the
-			// default directory (locale)
-			fxgt.bindtextdomain("timeline", null, service);
-			// We select helloworld to be the default domain.
-			fxgt.textdomain("timeline");
-		}		
-		
-		private function onIOError(event:IOErrorEvent):void
-		{
-			// an error occured while loading the catalog
-			// it probably means there is no translations for this locale
-			// or the base path to the translations is incorrect.
-			trace(event);
-		}
-		
-		protected function init() : void
-		{			
-			urlTTL_ti.text = "trace.ttl";
-			layout_ti.text = "layoutVisu2.xml";			
-			loadLayout( layout_ti.text );			
-			allTestLayout.enabled = true;	
-			timeline.addEventListener( TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
-		}		
-		
-		public function onAddLayoutNode( e : TimelineEvent ) : void
-		{		
-			if (e.value is TraceLine)
-				(e.value as TraceLine).titleComponent.addEventListener( MouseEvent.MOUSE_DOWN, onSelect, true);	
-			else if (e.value is TraceLineGroup)
-				(e.value as TraceLineGroup).titleComponent.addEventListener( MouseEvent.MOUSE_DOWN, onSelect,true);	
-		}
-		
-		
-		public function onSelect( e : MouseEvent ) : void
-		{				
-			if ( e.currentTarget is TraceLineTitle )
-			{
-				dg_label.text = (e.currentTarget as TraceLineTitle).tl.title + " : " + (e.currentTarget as TraceLineTitle).tl._obsels.length + " obsels";
-				obselList_dg.dataProvider = (e.currentTarget as TraceLineTitle).tl._obsels;
-			}
-			else if ( e.currentTarget is TraceLineGroupTitle )
-			{
-				dg_label.text = (e.currentTarget as TraceLineGroupTitle).tlg.title + " : " + (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels.length + " obsels";
-				obselList_dg.dataProvider = (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels;
-			}
-		}
-		
-		public function onNewTl( e : TimelineEvent ) : void
-		{
-			//(e.value.traceline as TraceLine).title = "new title"			
-		}
-		
-		
-		public function onRulerClick( e : TimelineEvent ) : void
-		{
-			var df : DateFormatter = new DateFormatter();
-			df.formatString = "JJ:NN:SS.QQ";
-			trace( df.format( new Date(e.value ) ));
-			timeValue = e.value;
-			timeline.currentTime = timeValue;			
-		}
-		
-		protected function browse(event:MouseEvent):void
-		{			
-			var myFileReference :FileReference = new FileReference( );
-			
-			myFileReference.addEventListener(Event.SELECT, selectHandler);
-			myFileReference.browse();		
-		}
-		private function selectHandler(event:Event):void {
-			var file:FileReference = FileReference(event.target);
-			
-			urlTTL_ti.text = "trace/" + file.name;
-		}
-		
-		protected function loadLayout( layoutFilename : String ):void
-		{
-			var loader:URLLoader=new URLLoader();
-			
-			loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
-			loader.load(new URLRequest(layoutFilename));
-			
-			loading.visible = true;
-			loading.label = "Loading Layout...";
-		}
-		
-		protected function saveLayout( ):void
-		{
-			var myFileReference :FileReference = new FileReference( );
-				
-			myFileReference.save(timeline.timelineLayout.getCurrentXmlLayout(), "save.xml");				
-		}	
-		
-		private function onLoadLayoutComplete(event:Event):void
-		{
-			loading.visible = false;	
-			
-			//we init the trace object
-			var loader:URLLoader=event.target as URLLoader;
-			timeline.layoutXML 		= new XML( loader.data );
-			timeline.timelineLayout = new Layout( timeline );		
-				
-			if (firstload )
-			{
-				var tlg : TraceLineGroup = timeline.addTrace( new Trace(0, "comments"), 0, "comments" );	
-				tlg.setStyle( "title", "Comments" );
-				firstload = false;
-			}
-		}
-		
-		
-		protected function loadTTL():void
-		{
-			var loader:URLLoader=new URLLoader();
-			
-			loader.dataFormat=URLLoaderDataFormat.BINARY;
-			loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
-			loader.load(new URLRequest(urlTTL_ti.text));
-			
-			loading.visible = true;		
-			loading.label = "Loading TTL...";
-		}	
-		
-		
-		public function ttlToTrace(ttl:String, theTrace:Trace):void
-		{	
-			//we split the ttl on each "." line (kind of an "end of instruction" in ttl (?))
-			var ar:Array = ttl.split("\n.\n");
-			
-			for each (var l: String in ar)
-			{
-				l = l + "\n.\n"; //we (re)add the "." line at the end of instruction (because the "split function" has not include it)
-				
-				//for each "ttl instruction", we create a new obsel and initialize it with the "ttl insctruction" content
-				var obs:Obsel = new Obsel("temp");
-				obs.updateFromRDF(l);
-				
-				//if the initialization from the ttl chunk is ok, we add the obsel to the trace
-				if(obs.type != "temp")
-					theTrace.addObsel(obs);
-			}
-						
-		}
-		
-		private function onLoadTTLComplete(event:Event):void
-		{	
-			loading.visible = false;
-			
-			//we init the trace object
-			var loader:URLLoader=event.target as URLLoader;
-			var trace_ttl:String = loader.data;
-			
-			var theTrace:Trace = new Trace(421,urlTTL_ti.text); //Dirty
-			theTrace.autosync = false;
-			
-			loading.visible = true;
-			loading.label = "TTL to trace...";
-			ttlToTrace(trace_ttl, theTrace);
-			
-			activityObselsToDurative( theTrace );
-			
-			loading.label = "Adding Trace...";
-			var tlg : TraceLineGroup = timeline.addTrace(theTrace);	
-			tlg.setStyle("title", theTrace.uri.toUpperCase() );
-			tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor( tlg ) );
-			tlg.setStyle("icon", tlgIcon );			
-			
-			timeline.zoomContext.reset();
-			
-			loading.visible = false;
-		}
-		
-		private function activityObselsToDurative( theTrace : Trace ) : void
-		{
-			var activityStart : Obsel = null;
-			for each (var obsel : Obsel in theTrace.obsels)
-			{
-				if (obsel.type == "ActivityStart" || obsel.type == "ActivityStop"  )
-				{
-					if (activityStart)
-						activityStart.end = obsel.begin;
-					
-					if (obsel.type == "ActivityStart" )	
-						activityStart = obsel;
-					else
-						activityStart = null;
-				}
-			}
-		}
-		private function toDate(item:Object, column:DataGridColumn):String
-		{	
-			var df : DateFormatter = new DateFormatter();
-			df.formatString = "JJ:NN:SS.QQ";
-			var n : Number = item[column.dataField]
-			var string : String = df.format( new Date (n) );
-			return string;
-		}
+        import flash.utils.Timer;
+        
+        private var _xmlLayout        : XMLList =  new XMLList();
+        private var _xmlLayoutDP    : XMLListCollection = new XMLListCollection( _xmlLayout );
+        private var layoutTree         : XML;        
+        private var timer            : Timer;
+        private var timeValue        : Number = 0;
+        public  var firstload : Boolean = true;
+        
+        [Embed(source="images/unknown.jpg")]        
+        public var tlgIcon:Class;
+        
+        private function onPreinitialize():void
+        {
+            fxgt = FxGettext;
+            // we set the locale for the messages category to fr_FR
+            setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
+            var service:IGettextService = new URLLoaderService("..");
+            //service.addEventListener(Event.COMPLETE, onServiceComplete);
+            service.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
+            // You can listen to this event, but it is not required in
+            // MXML files: the labels are automatically updated at startup
+            // and when the locale changes
+            //fxgt.addEventListener(Event.COMPLETE, onComplete);
+            // Binds the messages of the helloword domain to the
+            // default directory (locale)
+            fxgt.bindtextdomain("timeline", null, service);
+            // We select helloworld to be the default domain.
+            fxgt.textdomain("timeline");
+        }        
+        
+        private function onIOError(event:IOErrorEvent):void
+        {
+            // an error occured while loading the catalog
+            // it probably means there is no translations for this locale
+            // or the base path to the translations is incorrect.
+            trace(event);
+        }
+        
+        protected function init() : void
+        {            
+            urlTTL_ti.text = "trace.ttl";
+            layout_ti.text = "layoutVisu2.xml";            
+            loadLayout( layout_ti.text );            
+            allTestLayout.enabled = true;    
+            timeline.addEventListener( TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
+        }        
+        
+        public function onAddLayoutNode( e : TimelineEvent ) : void
+        {        
+            if (e.value is TraceLine)
+                (e.value as TraceLine).titleComponent.addEventListener( MouseEvent.MOUSE_DOWN, onSelect, true);    
+            else if (e.value is TraceLineGroup)
+                (e.value as TraceLineGroup).titleComponent.addEventListener( MouseEvent.MOUSE_DOWN, onSelect,true);    
+        }
+        
+        
+        public function onSelect( e : MouseEvent ) : void
+        {                
+            if ( e.currentTarget is TraceLineTitle )
+            {
+                dg_label.text = (e.currentTarget as TraceLineTitle).tl.title + " : " + (e.currentTarget as TraceLineTitle).tl._obsels.length + " obsels";
+                obselList_dg.dataProvider = (e.currentTarget as TraceLineTitle).tl._obsels;
+            }
+            else if ( e.currentTarget is TraceLineGroupTitle )
+            {
+                dg_label.text = (e.currentTarget as TraceLineGroupTitle).tlg.title + " : " + (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels.length + " obsels";
+                obselList_dg.dataProvider = (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels;
+            }
+        }
+        
+        public function onNewTl( e : TimelineEvent ) : void
+        {
+            //(e.value.traceline as TraceLine).title = "new title"            
+        }
+        
+        
+        public function onRulerClick( e : TimelineEvent ) : void
+        {
+            var df : DateFormatter = new DateFormatter();
+            df.formatString = "JJ:NN:SS.QQ";
+            trace( df.format( new Date(e.value ) ));
+            timeValue = e.value;
+            timeline.currentTime = timeValue;            
+        }
+        
+        protected function browse(event:MouseEvent):void
+        {            
+            var myFileReference :FileReference = new FileReference( );
+            
+            myFileReference.addEventListener(Event.SELECT, selectHandler);
+            myFileReference.browse();        
+        }
+        private function selectHandler(event:Event):void {
+            var file:FileReference = FileReference(event.target);
+            
+            urlTTL_ti.text = "trace/" + file.name;
+        }
+        
+        protected function loadLayout( layoutFilename : String ):void
+        {
+            var loader:URLLoader=new URLLoader();
+            
+            loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
+            loader.load(new URLRequest(layoutFilename));
+            
+            loading.visible = true;
+            loading.label = "Loading Layout...";
+        }
+        
+        protected function saveLayout( ):void
+        {
+            var myFileReference :FileReference = new FileReference( );
+                
+            myFileReference.save(timeline.timelineLayout.getCurrentXmlLayout(), "save.xml");                
+        }    
+        
+        private function onLoadLayoutComplete(event:Event):void
+        {
+            loading.visible = false;    
+            
+            //we init the trace object
+            var loader:URLLoader=event.target as URLLoader;
+            timeline.layoutXML         = new XML( loader.data );
+            timeline.timelineLayout = new Layout( timeline );        
+                
+            if (firstload )
+            {
+                var tlg : TraceLineGroup = timeline.addTrace( new Trace(0, "comments"), 0, "comments" );    
+                tlg.setStyle( "title", "Comments" );
+                firstload = false;
+            }
+        }
+        
+        
+        protected function loadTTL():void
+        {
+            var loader:URLLoader=new URLLoader();
+            
+            loader.dataFormat=URLLoaderDataFormat.BINARY;
+            loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
+            loader.load(new URLRequest(urlTTL_ti.text));
+            
+            loading.visible = true;        
+            loading.label = "Loading TTL...";
+        }    
+        
+        
+        public function ttlToTrace(ttl:String, theTrace:Trace):void
+        {    
+            //we split the ttl on each "." line (kind of an "end of instruction" in ttl (?))
+            var ar:Array = ttl.split("\n.\n");
+            
+            for each (var l: String in ar)
+            {
+                l = l + "\n.\n"; //we (re)add the "." line at the end of instruction (because the "split function" has not include it)
+                
+                //for each "ttl instruction", we create a new obsel and initialize it with the "ttl insctruction" content
+                var obs:Obsel = new Obsel("temp");
+                obs.updateFromRDF(l);
+                
+                //if the initialization from the ttl chunk is ok, we add the obsel to the trace
+                if(obs.type != "temp")
+                    theTrace.addObsel(obs);
+            }
+                        
+        }
+        
+        private function onLoadTTLComplete(event:Event):void
+        {    
+            loading.visible = false;
+            
+            //we init the trace object
+            var loader:URLLoader=event.target as URLLoader;
+            var trace_ttl:String = loader.data;
+            
+            var theTrace:Trace = new Trace(421,urlTTL_ti.text); //Dirty
+            theTrace.autosync = false;
+            
+            loading.visible = true;
+            loading.label = "TTL to trace...";
+            ttlToTrace(trace_ttl, theTrace);
+            
+            activityObselsToDurative( theTrace );
+            
+            loading.label = "Adding Trace...";
+            var tlg : TraceLineGroup = timeline.addTrace(theTrace);    
+            tlg.setStyle("title", theTrace.uri.toUpperCase() );
+            tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor( tlg ) );
+            tlg.setStyle("icon", tlgIcon );            
+            
+            timeline.zoomContext.reset();
+            
+            loading.visible = false;
+        }
+        
+        private function activityObselsToDurative( theTrace : Trace ) : void
+        {
+            var activityStart : Obsel = null;
+            for each (var obsel : Obsel in theTrace.obsels)
+            {
+                if (obsel.type == "ActivityStart" || obsel.type == "ActivityStop"  )
+                {
+                    if (activityStart)
+                        activityStart.end = obsel.begin;
+                    
+                    if (obsel.type == "ActivityStart" )    
+                        activityStart = obsel;
+                    else
+                        activityStart = null;
+                }
+            }
+        }
+        private function toDate(item:Object, column:DataGridColumn):String
+        {    
+            var df : DateFormatter = new DateFormatter();
+            df.formatString = "JJ:NN:SS.QQ";
+            var n : Number = item[column.dataField]
+            var string : String = df.format( new Date (n) );
+            return string;
+        }
 
-		private function startTimer( event : TimelineEvent ) : void
-		{	
-			if ( !timer)
-			{
-				timer = new Timer( 100 );
-				timeValue = timeline.zoomContext._timelineRange.begin;	
-				timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );		
-			}
-	
-			timer.start();
-		}
-		
-		private function stopTimer( event : TimelineEvent ) : void
-		{	
-			timer.stop();
-		}
-		
-		public function updateCursorPosition( event : TimerEvent ) : void
-		{			
+        private function startTimer( event : TimelineEvent ) : void
+        {    
+            if ( !timer)
+            {
+                timer = new Timer( 100 );
+                timeValue = timeline.zoomContext._timelineRange.begin;    
+                timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );        
+            }
+    
+            timer.start();
+        }
+        
+        private function stopTimer( event : TimelineEvent ) : void
+        {    
+            timer.stop();
+        }
+        
+        public function updateCursorPosition( event : TimerEvent ) : void
+        {            
             var timer : Timer = event.currentTarget as Timer;
-			timeValue += timer.delay*60;
+            timeValue += timer.delay*60;
 
             timeline.currentTime = timeValue;
-		}	
-		
-		private function onEndAlert( event : TimelineEvent ) : void
-		{	
-			trace(" onEndAlert ");		
-		}
-		
-		private function onEndReached( event : TimelineEvent ) : void
-		{	
-//			trace(" onEndReached ");
-		}
-		
-		private function onPlay( event : Event ) : void
-		{	
-			timeline.isPlaying = true;
-			startTimer(null);
-		}
-		
-		private function onPause( event : Event ) : void
-		{	
-			timeline.isPlaying = false;
-			stopTimer(null);
-		}
-			
-	]]> </fx:Script>
-	
-	<fx:Style source="default.css" />
-	
-	<s:VGroup id="allTestLayout" width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">		
-		
-		<s:HGroup width="100%"  height="50%" gap="10">			
-			<s:VGroup  height="100%" left="10" gap="5">					
-				<!-- Loading  Trace--> 		
-				<s:Group width="100%" >
-					<mx:Label y="2" text="TTL :"/>
-					<mx:TextInput id="urlTTL_ti" x="50"  width="194" text="{urlTTL_ti.text}" enabled="true"/>
-					<mx:Button label="Load" id="loadTTL_btn"  click="loadTTL()" top="1" left="324"/>
-					<s:Button x="250" y="1" label="Browse" click="browse(event)"/>		
-				</s:Group>
-				
-				<!-- Loading Layout-->
-				<s:Group width="100%" >
-					<mx:Label y="2" text="Layout :"/>
-					<mx:TextInput id="layout_ti" x="50"  width="194"  enabled="true"/>
-					<mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" top="1" left="324"/>
-					<s:Button x="250" y="1" label="Save" click="saveLayout()"/>
-				</s:Group>		
-				
-				<!-- Loading Layout-->
-				<s:HGroup width="100%" >					
-					<mx:Button label="Play" id="pause"  click="{onPlay(event)}" />
-					<mx:Button label="Pause" id="play"  click="{onPause(event)}"/>
-				</s:HGroup>	
-				
-			</s:VGroup>
-				
-			<!-- Obsels DataGrid -->
-			<s:Group  width="100%"  height="100%" >
-				<s:Label id="dg_label" />
-				<mx:DataGrid id="obselList_dg" y="16" width="100%" height="100%" fontFamily="Arial" fontSize="10">
-					<mx:columns>
-						<mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
-						<mx:DataGridColumn dataField="uid" headerText="Uid" width="60"/>
-						<mx:DataGridColumn dataField="type" headerText="Type" width="160"/>
-						<mx:DataGridColumn dataField="begin" headerText="Begin" labelFunction="{toDate}" />
-						<mx:DataGridColumn dataField="end" headerText="End" labelFunction="{toDate}"/>
-					</mx:columns>
-				</mx:DataGrid>
-			</s:Group>						
-		</s:HGroup>
-			
-		<tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)"
-					 pauseButtonClick="stopTimer(event)" timeMode="relagtive" timeRulerClick="onRulerClick(event)"
-					 cursorMode="manual"
-					 endAlertBeforeTime="30000"
-					
-					 showPlayButton="true"
-					 endAlert="onEndAlert(event)"
-					 endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
-		
-		<root:version />
-	</s:VGroup>
-	
-	<mx:Box width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-		<mx:ProgressBar id="loading"  horizontalCenter="true" verticalCenter="true" label="Loading..."  labelPlacement="center" indeterminate="true" visible="false" />
-	</mx:Box>
-	
+        }    
+        
+        private function onEndAlert( event : TimelineEvent ) : void
+        {    
+            trace(" onEndAlert ");        
+        }
+        
+        private function onEndReached( event : TimelineEvent ) : void
+        {    
+//            trace(" onEndReached ");
+        }
+        
+        private function onPlay( event : Event ) : void
+        {    
+            timeline.isPlaying = true;
+            startTimer(null);
+        }
+        
+        private function onPause( event : Event ) : void
+        {    
+            timeline.isPlaying = false;
+            stopTimer(null);
+        }
+            
+    ]]> </fx:Script>
+    
+    <fx:Style source="default.css" />
+    
+    <s:VGroup id="allTestLayout" width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">        
+        
+        <s:HGroup width="100%"  height="50%" gap="10">            
+            <s:VGroup  height="100%" left="10" gap="5">                    
+                <!-- Loading  Trace-->         
+                <s:Group width="100%" >
+                    <mx:Label y="2" text="TTL :"/>
+                    <mx:TextInput id="urlTTL_ti" x="50"  width="194" text="{urlTTL_ti.text}" enabled="true"/>
+                    <mx:Button label="Load" id="loadTTL_btn"  click="loadTTL()" top="1" left="324"/>
+                    <s:Button x="250" y="1" label="Browse" click="browse(event)"/>        
+                </s:Group>
+                
+                <!-- Loading Layout-->
+                <s:Group width="100%" >
+                    <mx:Label y="2" text="Layout :"/>
+                    <mx:TextInput id="layout_ti" x="50"  width="194"  enabled="true"/>
+                    <mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" top="1" left="324"/>
+                    <s:Button x="250" y="1" label="Save" click="saveLayout()"/>
+                </s:Group>        
+                
+                <!-- Loading Layout-->
+                <s:HGroup width="100%" >                    
+                    <mx:Button label="Play" id="pause"  click="{onPlay(event)}" />
+                    <mx:Button label="Pause" id="play"  click="{onPause(event)}"/>
+                </s:HGroup>    
+                
+            </s:VGroup>
+                
+            <!-- Obsels DataGrid -->
+            <s:Group  width="100%"  height="100%" >
+                <s:Label id="dg_label" />
+                <mx:DataGrid id="obselList_dg" y="16" width="100%" height="100%" fontFamily="Arial" fontSize="10">
+                    <mx:columns>
+                        <mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
+                        <mx:DataGridColumn dataField="uid" headerText="Uid" width="60"/>
+                        <mx:DataGridColumn dataField="type" headerText="Type" width="160"/>
+                        <mx:DataGridColumn dataField="begin" headerText="Begin" labelFunction="{toDate}" />
+                        <mx:DataGridColumn dataField="end" headerText="End" labelFunction="{toDate}"/>
+                    </mx:columns>
+                </mx:DataGrid>
+            </s:Group>                        
+        </s:HGroup>
+            
+        <tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)"
+                     pauseButtonClick="stopTimer(event)" timeMode="relagtive" timeRulerClick="onRulerClick(event)"
+                     cursorMode="manual"
+                     endAlertBeforeTime="30000"
+                    
+                     showPlayButton="true"
+                     endAlert="onEndAlert(event)"
+                     endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
+        
+        <root:version />
+    </s:VGroup>
+    
+    <mx:Box width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+        <mx:ProgressBar id="loading"  horizontalCenter="true" verticalCenter="true" label="Loading..."  labelPlacement="center" indeterminate="true" visible="false" />
+    </mx:Box>
+    
 </s:Application>

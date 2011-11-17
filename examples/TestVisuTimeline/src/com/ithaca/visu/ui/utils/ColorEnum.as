@@ -62,68 +62,68 @@
  */
 package com.ithaca.visu.ui.utils
 {
-	public class ColorEnum
-	{
-		// color for user was out the session
-		static public var VOID : String = "0xebcbd2";
-		static public var YELLOW : String = "0xefed44";
-		static public var BLUE : String = "0xcedbef";
-		static public var RED : String = "0xf4b1b1";
-		static public var GREEN : String = "0x8df82f";
-		static public var VIOLET : String = "0xef96f5";
-		static public var BLUEMARIN : String = "0xbdf7f6";
-		static public var VOID1 : String = "0xcff795";
-		static public var VOID2 : String = "0xf5cb66";
-		static public var VOID3 : String = "0x6f7bea";
-		static public var VOID4 : String = "0xd879f0";
-		static public var VOID5 : String = "0xebcbd2";
-		
-		public static function getColorByCode(code:String):String
-		{
-			var color:String = "0xffffff";
-			switch (code)
-			{
-				case "0" :
-					color = VOID;
-					break;
-				case "1" :
-					color = YELLOW;
-					break;
-				case "2" :
-					color = BLUE;
-					break;
-				case "3" :
-					color = RED;
-					break;
-				case "4" :
-					color = GREEN;
-					break;
-				case "5" :
-					color = VIOLET;
-					break;
-				case "6" :
-					color = BLUEMARIN;
-					break;
-				case "7" :
-					color = VOID1;
-					break;
-				case "8" :
-					color = VOID2;
-					break;
-				case "9" :
-					color = VOID3;
-					break;
-				case "10" :
-					color = VOID4;
-					break;
-				case "11" :
-					color = VOID5;
-					break;
-				default :
-					break;				
-			}
-			return color;
-		}
-			
-	}
+    public class ColorEnum
+    {
+        // color for user was out the session
+        static public var VOID : String = "0xebcbd2";
+        static public var YELLOW : String = "0xefed44";
+        static public var BLUE : String = "0xcedbef";
+        static public var RED : String = "0xf4b1b1";
+        static public var GREEN : String = "0x8df82f";
+        static public var VIOLET : String = "0xef96f5";
+        static public var BLUEMARIN : String = "0xbdf7f6";
+        static public var VOID1 : String = "0xcff795";
+        static public var VOID2 : String = "0xf5cb66";
+        static public var VOID3 : String = "0x6f7bea";
+        static public var VOID4 : String = "0xd879f0";
+        static public var VOID5 : String = "0xebcbd2";
+        
+        public static function getColorByCode(code:String):String
+        {
+            var color:String = "0xffffff";
+            switch (code)
+            {
+                case "0" :
+                    color = VOID;
+                    break;
+                case "1" :
+                    color = YELLOW;
+                    break;
+                case "2" :
+                    color = BLUE;
+                    break;
+                case "3" :
+                    color = RED;
+                    break;
+                case "4" :
+                    color = GREEN;
+                    break;
+                case "5" :
+                    color = VIOLET;
+                    break;
+                case "6" :
+                    color = BLUEMARIN;
+                    break;
+                case "7" :
+                    color = VOID1;
+                    break;
+                case "8" :
+                    color = VOID2;
+                    break;
+                case "9" :
+                    color = VOID3;
+                    break;
+                case "10" :
+                    color = VOID4;
+                    break;
+                case "11" :
+                    color = VOID5;
+                    break;
+                default :
+                    break;                
+            }
+            return color;
+        }
+            
+    }
 }

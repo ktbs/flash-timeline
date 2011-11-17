@@ -22,28 +22,28 @@
         <s:State name="disabled" />
     </s:states>
 
-	<s:Rect id="fill"
-			left="0" right="0" top="2" bottom="2" minHeight="26">
-		<s:fill>
-			<s:SolidColor id="bgFill"  color="0xFFFFFF"/>
-			<!--<s:LinearGradient rotation="90">
-				<s:GradientEntry color="0xFFFFFF" />
-				<s:GradientEntry color="0xD8D8D8" />
-			</s:LinearGradient>-->
-		</s:fill>
-	</s:Rect>
-	
-	<!--<s:Rect id="border" radiusX="5"
-			left="2" right="2" top="0" bottom="0" >
-		<s:stroke>
-			<s:LinearGradientStroke rotation="90" weight="1">
-				<s:GradientEntry color="0x000000"
-								 alpha="0.5625"/>
-				<s:GradientEntry color="0x000000"
-								 alpha="0.75" />
-			</s:LinearGradientStroke>
-		</s:stroke>
-	</s:Rect>-->
+    <s:Rect id="fill"
+            left="0" right="0" top="2" bottom="2" minHeight="26">
+        <s:fill>
+            <s:SolidColor id="bgFill"  color="0xFFFFFF"/>
+            <!--<s:LinearGradient rotation="90">
+                <s:GradientEntry color="0xFFFFFF" />
+                <s:GradientEntry color="0xD8D8D8" />
+            </s:LinearGradient>-->
+        </s:fill>
+    </s:Rect>
+    
+    <!--<s:Rect id="border" radiusX="5"
+            left="2" right="2" top="0" bottom="0" >
+        <s:stroke>
+            <s:LinearGradientStroke rotation="90" weight="1">
+                <s:GradientEntry color="0x000000"
+                                 alpha="0.5625"/>
+                <s:GradientEntry color="0x000000"
+                                 alpha="0.75" />
+            </s:LinearGradientStroke>
+        </s:stroke>
+    </s:Rect>-->
 
     <!--
         Note: setting the minimum size to 0 here so that changes to the host component's

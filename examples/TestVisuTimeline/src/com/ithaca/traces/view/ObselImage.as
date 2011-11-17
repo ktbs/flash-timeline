@@ -62,77 +62,77 @@
  */
 package com.ithaca.traces.view
 {
-	import com.ithaca.traces.Obsel;
-	
-	import flash.events.MouseEvent;
-	import mx.core.DragSource;
-	import mx.managers.DragManager;
-	
-	import mx.controls.Image;
-	
-	public class ObselImage extends Image implements IObselComponenet
-	{
-		private var _begin:Number;
-		private var _end:Number;
-		private var _parentObsel:Obsel;
-		public function ObselImage()
-		{
-			//TODO: implement function
-			super();
-			this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMoveOverObsel);
-		}
-		
-		public function setBegin(value:Number):void
-		{
-			this._begin = value;
-		}
-		
-		public function getBegin():Number
-		{
-			return this._begin;
-		}
-		
-		public function setEnd(value:Number):void
-		{
-			this._end = value;
-		}
-		
-		public function getEnd():Number
-		{
-			return this._end;
-		}
-		public function setObselViewVisible(value:Boolean):void
-		{
-			this.visible = value;
-		}
-		
-		private function onMouseMoveOverObsel(event:MouseEvent):void
-		{
-			var ds:DragSource = new DragSource();
-			ds.addData(_parentObsel,"obsel");
-			ds.addData(this.toolTip,"textObsel");	
-			var imageProxy:Image = new Image();
-			imageProxy.source = this.source;
-			imageProxy.height=this.height*0.75;
-			imageProxy.width=this.width*0.75;
-			DragManager.doDrag(this,ds,event,imageProxy, -15, -15, 1.00);
-		}
-		
-		
-		public function set parentObsel(value:Obsel):void{_parentObsel = value;}
-		public function get parentObsel():Obsel{return this._parentObsel}
-		
-		public function cloneMe():ObselImage
-		{
-			var result:ObselImage = new ObselImage();
-			result._begin = this._begin;
-			result._end = this._end;
-			result.source = this.source;
-			result.toolTip = this.toolTip;
-			result._parentObsel = this.parentObsel;
-			return result;
-		}
-		
-		
-	}
+    import com.ithaca.traces.Obsel;
+    
+    import flash.events.MouseEvent;
+    import mx.core.DragSource;
+    import mx.managers.DragManager;
+    
+    import mx.controls.Image;
+    
+    public class ObselImage extends Image implements IObselComponenet
+    {
+        private var _begin:Number;
+        private var _end:Number;
+        private var _parentObsel:Obsel;
+        public function ObselImage()
+        {
+            //TODO: implement function
+            super();
+            this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMoveOverObsel);
+        }
+        
+        public function setBegin(value:Number):void
+        {
+            this._begin = value;
+        }
+        
+        public function getBegin():Number
+        {
+            return this._begin;
+        }
+        
+        public function setEnd(value:Number):void
+        {
+            this._end = value;
+        }
+        
+        public function getEnd():Number
+        {
+            return this._end;
+        }
+        public function setObselViewVisible(value:Boolean):void
+        {
+            this.visible = value;
+        }
+        
+        private function onMouseMoveOverObsel(event:MouseEvent):void
+        {
+            var ds:DragSource = new DragSource();
+            ds.addData(_parentObsel,"obsel");
+            ds.addData(this.toolTip,"textObsel");    
+            var imageProxy:Image = new Image();
+            imageProxy.source = this.source;
+            imageProxy.height=this.height*0.75;
+            imageProxy.width=this.width*0.75;
+            DragManager.doDrag(this,ds,event,imageProxy, -15, -15, 1.00);
+        }
+        
+        
+        public function set parentObsel(value:Obsel):void{_parentObsel = value;}
+        public function get parentObsel():Obsel{return this._parentObsel}
+        
+        public function cloneMe():ObselImage
+        {
+            var result:ObselImage = new ObselImage();
+            result._begin = this._begin;
+            result._end = this._end;
+            result.source = this.source;
+            result.toolTip = this.toolTip;
+            result._parentObsel = this.parentObsel;
+            return result;
+        }
+        
+        
+    }
 }

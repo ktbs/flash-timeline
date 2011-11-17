@@ -62,33 +62,33 @@
  */
 package com.youtube.player.events
 {
-	import flash.events.Event;
-	
-	public class PlayerSharedEvent extends Event
-	{
-		// constants
-		static public const PLAY : String = 'PlayDocumentVideo';			
-		static public const PAUSE : String = 'PauseDocumentVideo';			
-		static public const END : String = 'EndDocumentVideo';	
-		// it's miean user walk out from session when use playing the video
-		static public const STOP : String = 'StopDocumentVideo';	
-		static public const SLIDER_PRESS : String = 'SliderPressDocumentVideo';	
-		static public const SLIDER_RELEASE : String = 'SliderReleaseDocumentVideo';	
-		static public const SHARED : String = 'shared';	
-		
-		
-		// properties
-		public var currentTime : Number;
-		public var action : String;
-		
-		// constructor
-		public function PlayerSharedEvent(type : String,
-										 bubbles : Boolean = true,
-										 cancelable : Boolean = false)
-		{
-			super(type, bubbles, cancelable);
-		}
-			
-		// methods
-	}	
+    import flash.events.Event;
+    
+    public class PlayerSharedEvent extends Event
+    {
+        // constants
+        static public const PLAY : String = 'PlayDocumentVideo';            
+        static public const PAUSE : String = 'PauseDocumentVideo';            
+        static public const END : String = 'EndDocumentVideo';    
+        // it's miean user walk out from session when use playing the video
+        static public const STOP : String = 'StopDocumentVideo';    
+        static public const SLIDER_PRESS : String = 'SliderPressDocumentVideo';    
+        static public const SLIDER_RELEASE : String = 'SliderReleaseDocumentVideo';    
+        static public const SHARED : String = 'shared';    
+        
+        
+        // properties
+        public var currentTime : Number;
+        public var action : String;
+        
+        // constructor
+        public function PlayerSharedEvent(type : String,
+                                         bubbles : Boolean = true,
+                                         cancelable : Boolean = false)
+        {
+            super(type, bubbles, cancelable);
+        }
+            
+        // methods
+    }    
 }

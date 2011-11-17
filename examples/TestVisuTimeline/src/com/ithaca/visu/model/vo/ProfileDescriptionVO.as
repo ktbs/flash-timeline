@@ -62,17 +62,17 @@
  */
 package com.ithaca.visu.model.vo
 {
-	[RemoteClass(alias="com.lyon2.visu.domain.model.ProfileDescription")]
-	[Bindable] 	
-	public class ProfileDescriptionVO
-	{
-		public var profile:int;
-		public var short_description:String;
-		public var long_description:String;
-		
-		public function toString():String
-		{
-			return "[Profile : "+short_description+"]";	
-		}
-	}
+    [RemoteClass(alias="com.lyon2.visu.domain.model.ProfileDescription")]
+    [Bindable]     
+    public class ProfileDescriptionVO
+    {
+        public var profile:int;
+        public var short_description:String;
+        public var long_description:String;
+        
+        public function toString():String
+        {
+            return "[Profile : "+short_description+"]";    
+        }
+    }
 }
