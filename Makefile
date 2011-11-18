@@ -1,7 +1,10 @@
 SDKHOME:=$(if $(wildcard ../flex_sdk_4.5.1),../flex_sdk_4.5.1,$(error You must configure SDK path in Makefile))
 SDKBIN:=${SDKHOME}/bin/
+SDKFRAMEWORK:=${SDKHOME}/frameworks/libs
 SWF=bin/Timeline.swf
+SWC=bin/Timeline.swc
 DEPFILES:=$(shell find src -name "*.as" -or -name "*.mxml")
+CLASSES:=$(shell find src/com -name "*.as" -or -name "*.mxml" | sed 's/src\///; s/\.as//; s/\.mxml//; s/\//./g')
 POT=po/timeline.pot
 
 all: $(SWF)
@@ -9,12 +12,14 @@ all: $(SWF)
 $(SWF): src/TestTimeline.mxml $(DEPFILES)
 	"${SDKBIN}mxmlc" -output $@ -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $<
 
+$(SWC): $(DEPFILES)
+	"${SDKBIN}compc" -output $@ -source-path src -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $(CLASSES)
 
 clean:
 	-$(RM) $(SWF)
 
 doc: $(DEPFILES)
-	"${SDKBIN}asdoc" -library-path lib $(SDKHOME)/frameworks/libs -doc-sources src -exclude-sources src/TestTimeline.mxml src/WrapperJsExample.mxml -source-path src -main-title "Generic Timeline API Documentation" -output doc
+	"${SDKBIN}asdoc" -library-path lib $(SDKFRAMEWORK) -doc-sources src -exclude-sources src/TestTimeline.mxml src/WrapperJsExample.mxml -source-path src -main-title "Generic Timeline API Documentation" -output doc
 
 pot: $(POT)
 
