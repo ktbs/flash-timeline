@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
-	<!-- A second version of mini layout. This one contains an OblselsSelectors section -->
+	<!-- A second version of mini layout. This one contains an ObselsSelectors section -->
 	
-	<!-- The OblselsSelectors section defines selectors that are used to set a 'stylename' to obselSkins which match.
+	<!-- The ObselsSelectors section defines selectors that are used to set a 'stylename' to obselSkins which match.
 		This stylename can be used as obselSkins selectors in the CSS file 
 		For example : 
 			timeline|ObselSkin.Message
@@ -10,10 +10,10 @@
 			...
 			}
 		
-		The 'selector' attributes is the class name of a ISelector implementaion.
-		The 'selectorParams' is the list of parameters needed to initialize the selector class in the order defined by the getPrameters/setParameters functions 	
+		The 'selector' attribute is the class name of a ISelector implementaion.
+		The 'selectorParams' is the serialisation of parameters needed to initialize the selector class in the order defined by the getParameters/setParameters functions 	
 		
-		The obsels which don't match any selectors will be rendered with the default ObselSkin.
+		The obsels that don't match any selectors will be rendered with the default ObselSkin.
 	-->		
 	<obselsSelectors>
 		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,Message" />
@@ -28,10 +28,10 @@
 	<layout>
 		<!-- Default and only traceLineGroup definition. Each Trace will use this definition -->
 		<tlg > 			
-			<!-- One traceLine with no selecter ( each obsel will match ) -->
+			<!-- One traceLine with no selector ( every obsel will match ) -->
 			<tl />
 			
-			<!-- there is no traceLine tagged with the 'preview' attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace -->
+			<!-- there is no traceLine tagged with the 'preview' attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that renders the whole trace -->
 		</tlg > 				
 	</layout>
 </root>			
