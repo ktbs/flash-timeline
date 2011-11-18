@@ -121,8 +121,9 @@
         }
         
         protected function init() : void
-        {                        
-            loadLayout( "layoutVisu2.xml" );                    
+        {      
+            // FIXME: should be parameterized
+            loadLayout( "layout.xml" );                    
             initExternalInterface();
         }    
         
