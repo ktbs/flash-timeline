@@ -137,10 +137,19 @@
             var loader:URLLoader=new URLLoader();
             
             loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
+            loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorListener);
             loader.load(new URLRequest(layoutFilename));
             
             loading.visible = true;
             loading.label = "Loading Layout...";
+        }
+
+        private function ioErrorListener(event: Event): void
+        {
+            loading.visible = false;    
+            // Error while loading layout. Use a default one.
+            timeline.layoutXML         = <root> <tlg /> </root> ;
+            timeline.timelineLayout = new Layout( timeline );
         }
         
         private function onLoadLayoutComplete(event:Event):void
@@ -281,7 +290,6 @@
                      endAlertBeforeTime="30000"
                      showPlayButton="true"
                      currentTimeChange="updateTimer(event)" />        
-        <root:version />
     </s:VGroup>
     
     <mx:Box width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
