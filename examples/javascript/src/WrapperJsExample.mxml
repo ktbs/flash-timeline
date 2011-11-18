@@ -149,7 +149,7 @@
         {
             loading.visible = false;
             // Error while loading layout. Use a default one.
-            timeline.layoutXML         = <root> <layout> <tlg /> <layout> </root> ;
+            timeline.layoutXML         = <root> <layout> <tlg /> </layout> </root> ;
             timeline.timelineLayout = new Layout( timeline );
         }
 

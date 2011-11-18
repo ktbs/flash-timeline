@@ -47,6 +47,7 @@
         import gnu.as3.gettext.ISO_3166;
         import gnu.as3.gettext.services.IGettextService;
         import gnu.as3.gettext.services.URLLoaderService;
+
         [Bindable]
         private var fxgt:_FxGettext;
 
@@ -190,13 +191,13 @@
         {
             loading.visible = false;
             // Error while loading layout. Use a default one.
-            timeline.layoutXML         = <root> <layout> <tlg /> <layout> </root> ;
+            timeline.layoutXML         = <root> <layout> <tlg /> </layout> </root> ;
             timeline.timelineLayout = new Layout( timeline );
         }
 
-        protected function loadTTL():void
+        protected function loadTTL(): void
         {
-            var loader:URLLoader=new URLLoader();
+            var loader: URLLoader = new URLLoader();
 
             loader.dataFormat=URLLoaderDataFormat.BINARY;
             loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
