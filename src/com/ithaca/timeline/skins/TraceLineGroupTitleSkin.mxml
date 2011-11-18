@@ -178,7 +178,7 @@
                             selector += "|" + filter.regexpFilter;
                     }
                 }
-                (hostComponent.tlg.getElementAt(0) as TraceLine).selector = new SelectorRegexp( ["type", selector]);
+                (hostComponent.tlg.getElementAt(0) as TraceLine).selector = new SelectorRegexp( "type," + selector );
             }
             
             private function filterTreeChange(evt:MenuEvent):void

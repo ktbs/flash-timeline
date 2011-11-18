@@ -100,9 +100,9 @@ package com.ithaca.timeline
      *            }<br />
      *       <br />
      *        The &#39;selector&#39; attributes is the class name of a ISelector implementaion.<br />
-     *        The &#39;selectorParams&#39; is the list of parameters needed to initialize the selector class in the order defined by the getPrameters/setParameters functions    <br />
+     *        The &#39;selectorParams&#39; is the serialization of parameters needed to initialize the selector class in the order defined by the getParameters/setParameters functions    <br />
      *       <br />
-     *        The obsels which don&#39;t match any selectors will be rendered with the default ObselSkin.<br />
+     *        The obsels that don&#39;t match any selectors will be rendered with the default ObselSkin.<br />
      *    --&gt;        <br />
      *    &lt;obselsSelectors&gt;<br />
      *        &lt;obselSelector id=&#39;Message&#39;       selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message&quot; /&gt;<br />
@@ -198,7 +198,7 @@ package com.ithaca.timeline
      *        &lt;tlg&gt;                                    <br />
      *            &lt;!-- Tracelines can create their own selector in the same way as in the obselsSelectors section<br />
      *                Note : this selector should be changed at runtime to let the user select what he wants<br />
-     *                    =&gt;    traceline.selector = new SelectorRegexp( [&quot;type&quot;, listOfTypes ]);<br />
+     *                    =&gt;    traceline.selector = new SelectorRegexp( &quot;type,&quot; + listOfTypes );<br />
      *           <br />
      *            The &#39;title&#39; attribute defines the default traceline.title property and the traceline.name too. --&gt;            <br />
      *            &lt;tl title=&quot;Synthesis&quot;  selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message|Document|Marker|Instructions|Keyword&quot; &gt;                <br />
@@ -501,10 +501,7 @@ package com.ithaca.timeline
                 
                 if ( xmlSelector.hasOwnProperty('@selectorParams') )
                 {
-                    var str        : String = xmlSelector.@selectorParams ;
-                    var params     : Array = str.split(',');
-
-                    tlSelector.setParameters( params );            
+                    tlSelector.setParameters( xmlSelector.@selectorParams );            
                 }
             }
             

@@ -14,7 +14,7 @@ package com.ithaca.timeline
         
         public var field : String = "";
                 
-        public function SelectorRegexp(  params : Array = null )
+        public function SelectorRegexp(  params : String = null )
         {
             if (params)
                 setParameters( params );
@@ -53,15 +53,17 @@ package com.ithaca.timeline
             return false
         }
         
-        public function getParameters() : Array
+        public function getParameters() : String
         {
-            return [ field, regexp ];
+            return field + "," + regexp;
         }
         
-        public function setParameters( params : Array) : void
+        public function setParameters( params : String) : void
         {
-            this.field = params[0];
-            _regexp = new RegExp( params[1] );            
+            var arr     : Array = params.split(',');
+
+            this.field = arr[0];
+            _regexp = new RegExp( arr[1] );
         }
     }
 }

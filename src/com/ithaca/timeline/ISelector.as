@@ -36,23 +36,23 @@ package com.ithaca.timeline
         
         
         /**
-         * This function return the array of parameters needed to define the Selector.
+         * This function return the parameter serialization needed to define the Selector.
          *
          * <p> It is used to save the current layout in an xml descriptor.</p>
          *         
-         * @return the parameters of the selectors in the same order as the argument of the setParameters method.
+         * @return the serialization of the selector parameters
          *
          * @see #setParameters
          */
-        function getParameters() : Array;
+        function getParameters() : String;
         
         /**
          * Change the parameters of the selector.
          *
-         * @param parameters The array of parameters in the same order as the array returned by the getParameters method.
+         * @param parameters The serialization of the selector parameters
          *
          * @see #getParameters
          */
-        function setParameters(parameters : Array) : void;
+        function setParameters(parameters : String) : void;
     }
 }

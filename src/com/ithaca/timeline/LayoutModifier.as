@@ -53,9 +53,9 @@ package  com.ithaca.timeline
             var selector : ISelector = new SelectorRegexp();
             
             if ( obsel.hasOwnProperty(_splitter) )                
-                selector.setParameters([  _splitter , "^" + obsel[_splitter] +"$" ] );
+                selector.setParameters(_splitter + "," + "^" + obsel[_splitter] +"$");
             else if ( obsel.props.hasOwnProperty(_splitter) )            
-                selector.setParameters( [  _splitter , "^" + obsel.props[_splitter] +"$" ] );
+                selector.setParameters(_splitter + "," + "^" + obsel.props[_splitter] +"$");
             else
                 return null
             
