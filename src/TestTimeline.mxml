@@ -370,7 +370,7 @@
                      pauseButtonClick="stopTimer(event)" timeMode="relagtive" timeRulerClick="onRulerClick(event)"
                      cursorMode="manual"
                      endAlertBeforeTime="30000"
-                    
+                     adminMode="true"
                      showPlayButton="true"
                      endAlert="onEndAlert(event)"
                      endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
