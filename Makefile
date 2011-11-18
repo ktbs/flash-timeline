@@ -38,3 +38,10 @@ update-po:
 		    mv $$lingua.old.po $$lingua.po; \
 		fi \
 	done
+
+.PHONY: locale
+locale:
+	for po in po/*.po; do \
+		lingua=`basename $$po .po`; \
+		msgfmt -o locale/$$lingua/LC_MESSAGES/timeline.mo $$po ;\
+	done
