@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timeline 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-25 10:42+0200\n"
+"POT-Creation-Date: 2011-11-18 09:37+0100\n"
 "PO-Revision-Date: 2011-08-25 10:42+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,74 +17,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:18
-msgid "addTraceLine"
-msgstr "Add a new traceline"
-
-#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:21
-msgid "editTraceLine"
-msgstr "Edit this traceline"
-
-#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:23
-msgid "removeTraceLine"
-msgstr "Remove this traceline"
-
-#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:165
-msgid "removeTraceLineDialog"
-msgstr "Are you really sure to remove this traceline ?"
-
-#: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:45
-msgid "Ok"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:45
-msgid "Cancel"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:39
-msgid "Create / Edit TraceLine"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:45
+#: src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:46
 msgid "Edit obsel"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:63
-msgid "Title :"
+#: src/com/ithaca/timeline/skins/CommentSkin.mxml:58
+msgid "Write your comment"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:67
-msgid "Source :"
+#: src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:40
+msgid "Create / Edit TraceLine"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:77
-msgid "Field / Regexp :"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:238
-msgid "Message"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:239
-msgid "Document"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:240
-msgid "Instructions"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:241
-msgid "Keyword"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleVisu2Skin.mxml:242
-msgid "Marker"
-msgstr ""
-
-#: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:35
+#: src/com/ithaca/timeline/skins/MarkerSkin.mxml:54
+#: src/com/ithaca/timeline/skins/CommentEditDialog.mxml:39
 msgid "Comment Edit"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/CommentSkin.mxml:41
-msgid "Write your comment"
-msgstr ""
+#~ msgid "addTraceLine"
+#~ msgstr "Add a new traceline"
+
+#~ msgid "editTraceLine"
+#~ msgstr "Edit this traceline"
+
+#~ msgid "removeTraceLine"
+#~ msgstr "Remove this traceline"
+
+#~ msgid "removeTraceLineDialog"
+#~ msgstr "Are you really sure to remove this traceline ?"
