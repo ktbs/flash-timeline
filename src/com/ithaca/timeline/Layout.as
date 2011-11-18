@@ -12,45 +12,45 @@ package com.ithaca.timeline
      * Each node of the tree extends the LayoutNode abstract class ( currently TraceLineGroup, TraceLine, LayoutModifier or Timeline ).
      *
      * <p>
-     * The XML descriptor is contained by the _timeline property ( _timeline.layoutXML[LAYOUT] ) which is also the root of the tree (as a LayoutNode).
+     * The XML descriptor is referenced by the _timeline property ( _timeline.layoutXML[LAYOUT] ) which is also the root of the tree (as a LayoutNode).
      * </p>
      * <p>
      * In addition to this definition, the _timeline.layoutXML xml contains a second section to define obsels selectors ( _timeline.layoutXML[OBSELS_SELECTORS] ).
-     * These selectors are used both to create CSS selector for obslesSkin ( in order to use different skins) and to define traceline selectors.
+     * These selectors are used both to create CSS selector for ObselSkins (in order to use different skins) and to define traceline selectors.
      * </p>
      *
      * <p>
-     * The xml element names are define in this class :
+     * The following XML element names are defined in this class :
      * <ul>
      *     <li><strong>layout:</strong>         the layout section</li>
-     *  <li><strong>tlg:</strong>             a tracelinegroup node</li>
+     *  <li><strong>tlg:</strong>             a tracelinegroup node. Attributes:</li>
      *                 <ul>
      *                     <li><em>title : </em> the title and the <code>name</code> of the tracelinegroup  </li>
-     *                     <li><em>style : </em> the stylename of the tracelinegroup. It's used to select the a specific layout ( see examples ) </li>
+     *                     <li><em>style : </em> the stylename of the tracelinegroup. It is used to select a specific layout ( see examples ) </li>
      *                    <li><em>source : </em> layout selector with the URI of the trace</li>
      *                 </ul>
-     *  <li><strong>tl:</strong>             a traceline node . Attributes :
+     *  <li><strong>tl:</strong>             a traceline node. Attributes :
      *                 <ul>
      *                     <li><em>title : </em> the title and the <code>name</code> of the traceline  </li>
-     *                     <li><em>style : </em> the stylename of the traceline. There's two specials stylenames : 'background' to define the traceline in the background of the tracelinegroup and 'contextPreview' to define a preview traceline not in the layout</li>
+     *                     <li><em>style : </em> the stylename of the traceline. There are two specials stylenames : 'background' to define the traceline in the background of the tracelinegroup and 'contextPreview' to define a preview traceline not in the layout</li>
      *                     <li><em>selectorID : </em> a selector defined in the obselsSelectors section</li>
      *                     <li><em>selector : </em>a selector class name (should be followed by a selectorParams attribute)</li>
      *                     <li><em>selectorParams : </em>the selector parameters </li>
      *                     <li><em>autohide : </em>if "true", the traceline is automaticaly hidden or shown if the the traceline is empty or not</li>
      *                    <li><em>preview : </em>if "true", the traceline is used as preview in the zoomContext zone</li>
-     *                    <li><em>source : </em>if "parent", the obsels source of the traceline is the parent layoutNode otherwise this is the whole trace</li>
+     *                    <li><em>source : </em>if "parent", the obsels source of the traceline is the parent layoutNode otherwise it is the whole trace</li>
      *                 </ul>
      *  </li>
      *  <li><strong>modifier:</strong>      a layout modifier node </li>
     *             <ul>
-    *                     <li><em>splitter : </em> the property of the obsel use to split the obsels </li>
-     *                     <li><em>name : </em> the name of the layout modifier. In order to know by who the tracelines are created (when listen the TimelineEvent : GENERATE_NEW_TRACELINE ) </li>
-     *                     <li><em>style : </em> the stylename of the created traceline.</li>
-     *                     <li><em>autohide : </em> the value of the autohide property of the created tracelines </li>
-     *                    <li><em>source : </em>if "parent", the obsels source of the modifier is the parent layoutNode otherwise this is the whole trace</li>
+    *                     <li><em>splitter : </em> the obsel property along which we want to split the obsels </li>
+     *                     <li><em>name : </em> the name of the layout modifier, in order to know by whom the tracelines are created (when listening to the TimelineEvent : GENERATE_NEW_TRACELINE ) </li>
+     *                     <li><em>style : </em> the stylename of the created traceline. // FIXME: this should be renamed (stylename, or stylename->style)</li>
+     *                     <li><em>autohide : </em> the value of the <code>autohide</code> property for the created tracelines </li>
+     *                    <li><em>source : </em>if "parent", the obsels source of the modifier is the parent layoutNode otherwise it is the whole trace</li>
      *                 </ul>
-     *  <li><strong>obselsSelectors:</strong> the obsels selectors section</li>
-     *  <li><strong>obselsSelector:</strong> an obsels selector . Attributes :
+     *  <li><strong>obselsSelectors:</strong> the obsel selectors section</li>
+     *  <li><strong>obselsSelector:</strong> an obsel selector. Attributes :
      *             <ul>
      *                     <li><em>id : </em>the ID of the selector (will be the stylename of matching obselSkins )</li>
      *                     <li><em>selector : </em>a selector class name (should be followed by a selectorParams attribute)</li>
@@ -60,8 +60,15 @@ package com.ithaca.timeline
      * </ul>
      * </p>
      *
+     * <p><strong>Important</strong> When a new trace is dynamically
+     * added to a timeline (with a given stylename), the Layout is
+     * searched for a matching stylename. If no matching stylename is
+     * found, the last TimelineGroup definition is used. It is thus a
+     * good practice to always put a generic TimelineGroup definition
+     * at the end of the Layout.
+     *
      * <p>
-     * Besides the xml driven creation, the Layout class can also be used to modify the tree with low level methods. For example : <br/>
+     * Besides the XML driven creation, the Layout class can also be used to modify the tree with low level methods. For example : <br/>
      * <code>
      *         timeline.timelineLayout.addTraceline( traceline , parentLayoutNode );    
      * </code>
@@ -72,26 +79,26 @@ package com.ithaca.timeline
      *  &lt;root&gt;<br />
      *  &lt;!-- this is the minimal layout definition that allows to see something--&gt;<br />
      *  <br />
-     *   <em>&lt;!--there is no OblselsSelectors definition. That means that all obsels will be rendered with the default obselSkin skin --&gt;</em><br />
+     *   <em>&lt;!--there is no ObselsSelectors definition. That means that all obsels will be rendered with the default obselSkin skin --&gt;</em><br />
      *  <br />
      *  &lt;!-- the layout definition --&gt;<br />
      *  &lt;layout&gt;<br />
      *      &lt;!-- Default and only traceLineGroup definition. Each Trace will use this definition --&gt;<br />
      *      &lt;tlg &gt;   <br />
-     *      &lt;!-- One traceLine with no selecter ( each obsel will match ) --&gt;<br />
+     *      &lt;!-- One traceLine with no selector ( every obsel will match ) --&gt;<br />
      *           &lt;tl /&gt;<br />
      *       <br />
-     *          &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;<br />
+     *          &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that renders the whole trace --&gt;<br />
      *      &lt;/tlg &gt;    <br />
      *  &lt;/layout&gt;<br />
      * &lt;/root&gt;  </p></listing>     
      *
-     * @example  A second version of mini layout. This one contains an OblselsSelectors section
+     * @example  A second version of mini layout. This one contains an ObselsSelectors section
      * <listing version="3.0"> <p>
      * &lt;root&gt;<br />
-     *    &lt;!-- A second version of mini layout. This one contains an OblselsSelectors section --&gt;<br />
+     *    &lt;!-- A second version of mini layout. This one contains an ObselsSelectors section --&gt;<br />
      *    <br />
-     *    &lt;!-- The OblselsSelectors section defines selectors that are used to set a &#39;stylename&#39; to obselSkins which match.<br />
+     *    &lt;!-- The ObselsSelectors section defines selectors that are used to set a &#39;stylename&#39; to obselSkins which match.<br />
      *        This stylename can be used as obselSkins selectors in the CSS file<br />
      *        For example :<br />
      *            timeline|ObselSkin.Message<br />
@@ -99,8 +106,8 @@ package com.ithaca.timeline
      *            ...<br />
      *            }<br />
      *       <br />
-     *        The &#39;selector&#39; attributes is the class name of a ISelector implementaion.<br />
-     *        The &#39;selectorParams&#39; is the serialization of parameters needed to initialize the selector class in the order defined by the getParameters/setParameters functions    <br />
+     *        The &#39;selector&#39; attribute is the class name of a ISelector implementaion.<br />
+     *        The &#39;selectorParams&#39; is the serialisation of parameters needed to initialize the selector class in the order defined by the getParameters/setParameters functions    <br />
      *       <br />
      *        The obsels that don&#39;t match any selectors will be rendered with the default ObselSkin.<br />
      *    --&gt;        <br />
@@ -117,20 +124,20 @@ package com.ithaca.timeline
      *    &lt;layout&gt;<br />
      *        &lt;!-- Default and only traceLineGroup definition. Each Trace will use this definition --&gt;<br />
      *        &lt;tlg &gt;            <br />
-     *            &lt;!-- One traceLine with no selecter ( each obsel will match ) --&gt;<br />
+     *            &lt;!-- One traceLine with no selector ( every obsel will match ) --&gt;<br />
      *            &lt;tl /&gt;<br />
      *           <br />
-     *            &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;<br />
+     *            &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that renders the whole trace --&gt;<br />
      *        &lt;/tlg &gt;                <br />
      *    &lt;/layout&gt;<br />
      * &lt;/root&gt;           </p></listing>
      *
-     * @example  A last version of mini layout. This one contains an OblselsSelectors section and use a LayoutModifier to create Traceline
+     * @example  A last version of mini layout. This one contains an ObselsSelectors section and uses a LayoutModifier to create Traceline
      * <listing version="3.0"> <p>
      * &lt;root&gt;<br />
-     *    &lt;!-- A last version of mini layout. This one contains an OblselsSelectors section and use a LayoutModifier to create Traceline --&gt;<br />
+     *    &lt;!-- A last version of mini layout. This one contains an ObselsSelectors section and uses a LayoutModifier to create Traceline --&gt;<br />
      *    <br />
-     *    &lt;!-- The OblselsSelectors section defines selectors that are used to set a &#39;stylename&#39; to obselSkins which match.<br />
+     *    &lt;!-- The ObselsSelectors section defines selectors that are used to set a &#39;stylename&#39; to obselSkins which match.<br />
      *        This stylename can be used as obselSkins selectors in the CSS file<br />
      *        For example :<br />
      *            timeline|ObselSkin.Message<br />
@@ -138,10 +145,10 @@ package com.ithaca.timeline
      *            ...<br />
      *            }<br />
      *       <br />
-     *        The &#39;selector&#39; attributes is the class name of a ISelector implementaion.<br />
-     *        The &#39;selectorParams&#39; is the list of parameters needed to initialize the selector class in the order defined by the getPrameters/setParameters functions    <br />
+     *        The &#39;selector&#39; attribute is the class name of a ISelector implementaion.<br />
+     *        The &#39;selectorParams&#39; is the serialisation of parameters needed to initialize the selector class in the order defined by the getPrameters/setParameters functions    <br />
      *       <br />
-     *        The obsels which don&#39;t match any selectors will be rendered with the default ObselSkin.<br />
+     *        Obsels that don&#39;t match any selectors will be rendered with the default ObselSkin.<br />
      *    --&gt;        <br />
      *    &lt;obselsSelectors&gt;<br />
      *        &lt;obselSelector id=&#39;Message&#39;       selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message&quot; /&gt;<br />
@@ -158,13 +165,13 @@ package com.ithaca.timeline
      *        &lt;tlg &gt;            <br />
      *            &lt;!-- Instead of a static traceline, a LayoutModifier node could be used.<br />
      *                 Then, tracelines will be dynamicaly generated when needed.<br />
-     *                 At the moment, the only implemented LayoutModifier is the splitter one that creates a new traceline for each value of the obsels property defines by the splitter attribute.<br />
+     *                 At the moment, the only implemented LayoutModifier is the splitter one that creates a new traceline for each value of the obsels property defined by the splitter attribute.<br />
      *                 <br />
      *                 In this example, a new traceline will be created for each different type of Obsel. (see obsel.type )<br />
      *            --&gt;<br />
      *            &lt;modifier splitter=&quot;type&quot; /&gt;                            <br />
      *           <br />
-     *            &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;<br />
+     *            &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that renders the whole trace --&gt;<br />
      *        &lt;/tlg &gt;                <br />
      *    &lt;/layout&gt;<br />
      * &lt;/root&gt;          </p></listing>
@@ -183,7 +190,7 @@ package com.ithaca.timeline
      *            |____ Keyword<br />
      *    --&gt;<br />
      *    <br />
-     *    &lt;!-- The OblselsSelectors section --&gt;        <br />
+     *    &lt;!-- The ObselsSelectors section --&gt;        <br />
      *    &lt;obselsSelectors&gt;<br />
      *        &lt;obselSelector id=&#39;Message&#39;       selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message&quot; /&gt;<br />
      *        &lt;obselSelector id=&#39;Document&#39;       selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Document&quot; /&gt;    <br />
@@ -246,7 +253,7 @@ package com.ithaca.timeline
      *        (... for each user ...)<br />
      *    --&gt;<br />
      *    <br />
-     *    &lt;!-- The OblselsSelectors section --&gt;        <br />
+     *    &lt;!-- The ObselsSelectors section --&gt;        <br />
      *    &lt;obselsSelectors&gt;<br />
      *        &lt;obselSelector id=&#39;Message&#39;       selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message&quot; /&gt;<br />
      *        &lt;obselSelector id=&#39;Document&#39;       selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Document&quot; /&gt;    <br />
@@ -268,14 +275,14 @@ package com.ithaca.timeline
      *                    ....<br />
      *                }<br />
      *       <br />
-     *            The other way to select a TraceLineGroup definition is the use of the URI of the trace and the &#39;source&#39; attribute.<br />
+     *            The other way to select a TraceLineGroup definition is to use the URI of the trace as the &#39;source&#39; attribute.<br />
      *            Example : To use a special definition when trace.uri is &#39;trace-20110112105114-0.ttl&#39;<br />
      *                &lt;tlg source=&quot;trace-20110112105114-0.ttl&quot; &gt;<br />
      *                    ... special tree structure...<br />
      *                &lt;/tlg&gt;            <br />
      *        --&gt;    <br />
      *        &lt;tlg style=&quot;comments&quot; &gt;    <br />
-     *            &lt;!-- A &quot;style&quot; attibute in a TraceLine definition is also used to set the stylename and then to create a CSS selector. --&gt;<br />
+     *            &lt;!-- A &quot;style&quot; attribute in a TraceLine definition is also used to set the stylename and then to create a CSS selector. --&gt;<br />
      *            &lt;tl title=&quot;&quot; style=&quot;comments&quot;&gt;                        <br />
      *            &lt;/tl&gt;                        <br />
      *        &lt;/tlg&gt;    <br />
@@ -283,14 +290,14 @@ package com.ithaca.timeline
      *        &lt;!-- This is the default TraceLineGroup definition because this is the last TraceLineGroup definition --&gt;<br />
      *        &lt;tlg&gt;<br />
      *            &lt;!--<br />
-     *            The &#39;style=&quot;background&quot;&#39; attribute is used to define the traceline to be show in the background of the traceLineGroup.<br />
+     *            The &#39;style=&quot;background&quot;&#39; attribute is used to define the traceline to be shown in the background of the traceLineGroup.<br />
      *            --&gt;<br />
      *            &lt;tl style=&quot;background&quot;    selectorID=&quot;Activity&quot; /&gt;<br />
      *           <br />
      *            &lt;!--<br />
-     *            The &#39;preview=true&#39; attribute is used to define the traceline as preview in the zoomContext.<br />
-     *            Note    : if more than one traceline has a &#39;preview=true&#39; attribute, the next created traceline with &#39;preview=true&#39; overwrites the current one.<br />
-     *            Note 2    : if the wanted traceline don&#39;t exist in the tree structure, it can be created with a &#39;style=&quot;contextPreview&quot;&#39; attribute ( in the same way of the background traceline)<br />
+     *            The &#39;preview=true&#39; attribute is used to define the previewed traceline in the zoomContext.<br />
+     *            Note    : if more than one traceline has a &#39;preview=true&#39; attribute, only the last one will be taken into account.<br />
+     *            Note 2    : if the wanted traceline does not exist in the tree structure, it can be created with a &#39;style=&quot;contextPreview&quot;&#39; attribute ( in the same way of the background traceline)<br />
      *                example : &lt;tl style=&quot;contextPreview&quot; selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message|Document|Marker|Instructions|Keyword|Activity&quot; /&gt;<br />
      *            --&gt;            <br />
      *            &lt;tl title=&quot;Synthesis&quot;  selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message|Document|Marker|Instructions|Keyword&quot; &gt;                <br />
@@ -323,7 +330,7 @@ package com.ithaca.timeline
      *        &lt;obselSelector id=&#39;Comment&#39;       selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,omment&quot; /&gt;<br />
      *    &lt;/obselsSelectors&gt;<br />
      *    <br />
-     *    &lt;!-- The layout section to define the tree structure of the timeline. --&gt;<br />
+     *    &lt;!-- The layout section defines the tree structure of the timeline. --&gt;<br />
      *    &lt;layout&gt;<br />
      *        &lt;!-- This TracelineGroup definition is used when the stylename of the TracelineGroup is &#39;comments&#39;<br />
      *            ( the stylename of TracelineGroup can be set when calling the timeline.addTrace(..) function. ) --&gt;<br />
@@ -364,7 +371,7 @@ package com.ithaca.timeline
      *                &lt;/tl&gt;<br />
      *            &lt;/tl&gt;<br />
      *           <br />
-     *            &lt;!-- Note : There&#39;s no preview attribute in this tracelinegroup, then the preview traceline is the not filtered whole trace --&gt;            <br />
+     *            &lt;!-- Note : There is no preview attribute in this tracelinegroup, then the preview traceline is the not filtered whole trace --&gt;            <br />
      *           <br />
      *        &lt;/tlg&gt;<br />
      *    &lt;/layout&gt;<br />
@@ -374,7 +381,7 @@ package com.ithaca.timeline
     {
     
         /**
-         * the keyword to define  a TraceLineGroup in the xml descriptor
+         * the keyword to define a TraceLineGroup in the xml descriptor
          */
         public static const TRACELINEGROUP    : String = "tlg";
         /**
@@ -425,9 +432,19 @@ package com.ithaca.timeline
         }        
     
         /**
-         * Select an XML descriptor of TraceLineGroup tree in the list of descriptors stored in the <code>_timeline</code> and create the tree structure.
-         * The first TraceLineGroup descriptor of the list that the property 'source' is equal to the URI of <code>trac</code> or that the 'style' property is equal to the optionnal <code>style</code> parameters is selected.
-         * If no such descriptor exist in the list, the last descriptor of the list is used by default.
+         * Create a new TracelineGroup matching the given trace (URI)  or style.
+         *
+         * Select an XML descriptor of TraceLineGroup tree in the list
+         * of descriptors stored in the <code>_timeline</code> and
+         * create the tree structure.
+         *
+         * Select the first TraceLineGroup descriptor whose
+         * property 'source' is equal to the URI of <code>trac</code>
+         * or whose 'style' property is equal to the (optional)
+         * <code>style</code> parameter.
+         *
+         * If no such descriptor exists, the last descriptor of the
+         * list is used by default. // FIXME: or should we create a generic one?
          *
          * @param trac the Trace for which the tree is created
          * @param style an optional stylename used to select the TraceLineGroup definition in the xml descriptor.
@@ -471,7 +488,7 @@ package com.ithaca.timeline
         /**
          * Add a traceline as a child to a LayoutNode
          *
-         * @param traceline The tracelien to add
+         * @param traceline The traceline to add
          * @param parentNode the LayoutNode where you want to add the traceline
          * @param xmlLayout
          * @return the traceline
@@ -590,7 +607,13 @@ package com.ithaca.timeline
         }
         
         /**
-         * Create a tree structure of LayoutNode ( TraceLineGroup, Traceline, ModifierNode) from an xml descriptor and a trace. This is a recursive method. It uses the createTraceLineGroupNode, createTraceLineNode and createModifierNode methods.
+         * Create a tree structure of LayoutNode ( TraceLineGroup,
+         * Traceline, ModifierNode) from an xml descriptor and a
+         * trace. 
+         *
+         * This is a recursive method. It uses the
+         * createTraceLineGroupNode, createTraceLineNode and
+         * createModifierNode methods.
          *
          * @param xmlLayout the xml descriptor of the tree
          * @param trac the trace for which the tree is created
@@ -655,6 +678,7 @@ package com.ithaca.timeline
         }        
     
         /**
+         * Get the current XML Layout
          *
          * @return the xml descriptor of the current tree structure
          */
@@ -669,7 +693,7 @@ package com.ithaca.timeline
         }                
         
         /**
-         * Loads a set of obsels skins selectors from a XML descriptor. It overwrites the current set if one exists.
+         * Load a set of obsels skins selectors from a XML descriptor. It overwrites the current set if one exists.
          *
          * @param xmlSelectors xml descriptor of a set of obsels skins selectors
          */
@@ -691,7 +715,7 @@ package com.ithaca.timeline
         }
         
         /**
-         *     @return  the XML descriptor of the current timeline set of obsels skins selectors.
+         * @return  the XML descriptor of the current timeline set of obsels skins selectors.
          */
         protected function obselsSelectorsToXml ( ) : XML
         {
@@ -717,7 +741,7 @@ package com.ithaca.timeline
         }
         
         /**
-         *     @return  the XML descriptor of the current timeline tree structure.
+         * @return  the XML descriptor of the current timeline tree structure.
          */
         protected function layoutTreeToXml ( ) : XML
         {

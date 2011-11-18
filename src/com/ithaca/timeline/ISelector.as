@@ -10,22 +10,22 @@ package com.ithaca.timeline
     public interface ISelector
     {
         /**
-         * Test if an obsel match the selector
+         * Test if an obsel matches the selector
          * @param  obsel The obsel to test
          * @return true if the obsel is matching, false otherwise.
          */        
         function isObselMatching( obsel : Obsel ) : Boolean ;        
                 
         /**
-         * Select the matching set of obsel from an array of obsels
+         * Select the matching set of obsels from an array of obsels
          * @param    obselsArray the array of obsels to test
          * @return    the array of matching obsels
          */
         function getMatchingObsels ( obselsArray : Array ) : Array ;
         
         /**
-         * Test if another ISelector is the same of this one.
-         * <p>This function is used to test if a selector has already been created by a LayoutModifier in order to know if a new traceline need to be created.</p>
+         * Test if another ISelector is the same as this one.
+         * <p>This function is used to test if a selector has already been created by a LayoutModifier in order to know if a new traceline needs to be created.</p>
          *
          * @see LayoutModifier
          *
@@ -36,7 +36,7 @@ package com.ithaca.timeline
         
         
         /**
-         * This function return the parameter serialization needed to define the Selector.
+         * This function returns the parameter serialization needed to define the Selector.
          *
          * <p> It is used to save the current layout in an xml descriptor.</p>
          *         

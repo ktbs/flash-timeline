@@ -28,7 +28,7 @@ package com.ithaca.timeline
         /**
          * Create a ObselSkin from an Obsel and set a stylename according to the obselsSkinsSelectors array defined in the XML timeline descriptor.
          * @param    obsel The obsel to render
-         * @param    traceline The traceline that's contained the Obsel
+         * @param    traceline The traceline that contains the Obsel
          * @return an ObselSkin
          */
         public function getParameteredSkin( obsel : Obsel, traceline : TraceLine ) :  ObselSkin

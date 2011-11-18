@@ -15,31 +15,34 @@ package com.ithaca.timeline
     import mx.events.ResizeEvent;
     
     /**
-     * This style change the zoomContext cursor behavior.
+     * This style changes the zoomContext cursor behavior.
      * <p>
-     * If set to 'follow', the cursor follow the current time and it cannot be edited until the 'lock/unlock' button is clicked.
-     * If set to 'auto' the cursor follow the current time until this cursor is edited. After editing, the 'lock/unlock' button can be change to restart following.
-     * If set to 'manual' the cursor don't follow the current time and can be freely edited.
+     * If set to 'follow', the cursor follows the current time and cannot be edited until the 'lock/unlock' button is clicked.<br>
+     * If set to 'auto' the cursor follows the current time until it is manually edited. After editing, the 'lock/unlock' button can be toggled to restart following.<br>
+     * If set to 'manual' the cursor does not follow the current time and can be freely edited.
      * </p>
      * @default manual
      */
     [Style(name = "cursorMode",            type = "String", inherit = "no")]
     /**
-     * This style could be used in ths skins to allow layout editing for example
+     * This style is used in skins to allow layout editing for example.
      */
     [Style(name = "adminMode",            type = "Boolean", inherit = "no")]
     /**
-     * if 'relative', the time labels starts from 0 otherwise the time labels start from the beginning of the traces
+     * if 'relative', the time labels starts from 0 otherwise the time labels display absolute times.
      */
     [Style(name = "timeMode",             type = "String", inherit = "no")]
     /**
      * This event is dispatched when the current time change (with 'set currentTime' ).
-     * The current time of the timeline never change internaly, it must be changed by the setter of currentTime.
+     * The current time of the timeline never changes internaly, it must be changed by the setter of currentTime.
      */
     [Event(name = "currentTimeChange",     type = "com.ithaca.timeline.events.TimelineEvent")]
     /**
-     * This event is dispatched when one the two time ruler is clicled. Mostly to indicate that the user want to change the currentTime.
-     * The 'value' property of the TimelineEvent is this the time in milliseconds.
+     * This event is dispatched when one of the two time rulers is clicked.
+     *
+     * It is mostly used to indicate that the user wants to change the
+     * currentTime.  The 'value' property of the TimelineEvent is the
+     * time in milliseconds.
      */
     [Event(name = "timeRulerClick",     type = "com.ithaca.timeline.events.TimelineEvent")]
     /**
@@ -51,7 +54,7 @@ package com.ithaca.timeline
      */
     [Event(name = "pauseButtonClick",     type = "com.ithaca.timeline.events.TimelineEvent")]
     /**
-     * This event is dispatched when the currentTime  exceed the endAlertBeforeTime property milliseconds before the end of the time range of the timeline.
+     * This event is dispatched when the currentTime exceeds the endAlertBeforeTime property milliseconds before the end of the time range of the timeline.
      */
     [Event(name = "endAlert",             type = "com.ithaca.timeline.events.TimelineEvent")]
     /**
@@ -59,11 +62,11 @@ package com.ithaca.timeline
      */
     [Event(name = "endReached",         type = "com.ithaca.timeline.events.TimelineEvent")]
     /**
-     * This event is dispatched when a traceline is created by a layoutModifier
-     * The 'value' property of the TimelineEvent is an object with 3 properties { generator, obsel, traceline } where  :
-     * 'generator' is the LayoutModier,
-     * 'traceline' the created traceline,
-     * and 'obsel' is the obsel for wich we create a new traceline.
+     * This event is dispatched when a traceline is created by a layoutModifier.<br>
+     * The 'value' property of the TimelineEvent is an object with 3 properties { generator, obsel, traceline } where  :<br>
+     * 'generator' is the LayoutModifier,<br>
+     * 'traceline' is the created traceline,<br>
+     * 'obsel' is the obsel for wich we create a new traceline.<br>
      */
     [Event(name = "generateNewTraceline",     type = "com.ithaca.timeline.events.TimelineEvent")]    
     /**
@@ -93,13 +96,13 @@ package com.ithaca.timeline
                 
         [SkinPart(required="true")]
         /**
-         * The cursor that indiquates the current time value         
+         * The cursor that indicates the current time value in the zoom part.
          */
         public  var globalCursor    : Cursor;
         
         [SkinPart(required="true")]
         /**
-         * The cursor that indiquates the current time value     
+         * The cursor that indicates the current time value in the context part.
          */
         public  var contextCursor    : Cursor;
         
@@ -202,7 +205,7 @@ package com.ithaca.timeline
          * @param pTrace the trace to add
          * @param index the position of new Tracelinegroup in the Timeline ( -1 to add it at the end )
          * @param style the style name of the tracelinegroup to create.
-         * @return the TraceLineGroup if the creation successed otherwise return null.
+         * @return the TraceLineGroup if the creation succeeded otherwise return null.
          */
         public function addTrace (  pTrace : Trace, index : int = -1, style : String = null  )  : TraceLineGroup
         {
@@ -239,7 +242,7 @@ package com.ithaca.timeline
         }
         
         /**
-         * Find and return the first TraceLineGroup which the trace has a given URI ; return null if not found.
+         * Find and return the first TraceLineGroup whose trace has a given URI ; return null if not found.
          * @param uri the uri of the trace
          * @return the tracelinegroup if exists. null if not found.
          */
@@ -276,7 +279,7 @@ package com.ithaca.timeline
         }
 
         /**        
-         * @return the Layout object bind to this Timeline
+         * @return the Layout object bound to this Timeline
          * @see Layout
          */
         public function get timelineLayout() : Layout             { return _layout; }
@@ -288,7 +291,7 @@ package com.ithaca.timeline
         {                         
             if (_layout)
             {
-                //the selectors must be load before the _layout because the traceline could be define by using one of them
+                //the selectors must be loaded before the _layout because the traceline could be defined by using one of them
                 _layout.loadObselsSelectors( layoutXML[Layout.OBSELS_SELECTORS] );
                 
                 var traceArray : Array = new Array();
@@ -383,7 +386,12 @@ package com.ithaca.timeline
         }
         
         /**
-         * Modify the current time value. It's the only way to change the current value of the timeline and it's never called in the timeline code (then it must be change from outside)
+         * Modify the current time value.
+         * 
+         * It is the only way to change the current value of the
+         * timeline and it is never called in the timeline code (it
+         * must be changed from outside)
+         *
          * @param timeValue the new time value in milliseconds
          */
         public function set currentTime(  timeValue : Number ) : void
@@ -442,7 +450,7 @@ package com.ithaca.timeline
         }            
         
         /**
-         * @return true if the timeMode style is set to 'relative'. 'true' means that each timeLabels must be shown in relative mode (from 0 to timeline duration)
+         * @return true if the timeMode style is set to 'relative'. 'true' means that timeLabels must be shown in relative mode (from 0 to timeline duration)
          */
         public function get isRelativeTimeMode( ) : Boolean
         {

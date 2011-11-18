@@ -16,12 +16,12 @@ package com.ithaca.timeline
     [Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 
     /**
-     * The ObselSkin class is a skinnable component that represent a com.ithaca.traces.Obsel.
+     * The ObselSkin class is a skinnable component that represents a com.ithaca.traces.Obsel.
      *
-     * <p> There're two steps to assign a skin to an obsel.
+     * <p> There are two steps to assign a skin to an obsel:
      * <ol>
-     *         <li> Create a obselSelector in the obselsSelector section of the xml descriptor. Example : <code> &lt;obselSelector id='Document'        selector="SelectorRegexp" selectorParams="type,Document" /&gt;</code> </li>
-     *         <li> Use the Id in the CSS file to assign the skin : <code> timeline|ObselSkin.Document { .... } </code> </li>
+     *         <li> Create an obselSelector in the <code>obselsSelector</code> section of the xml descriptor. Example : <code> &lt;obselSelector id='Document'        selector="SelectorRegexp" selectorParams="type,Document" /&gt;</code> </li>
+     *         <li> Use the id in the CSS file to assign the skin : <code> timeline|ObselSkin.Document { .... } </code> </li>
      * </ol>
      * </p>
      *
@@ -31,13 +31,13 @@ package com.ithaca.timeline
         
         [SkinPart]
         /*
-         * The leftGrip property is defined here to allow its management when two duratives cover each other.
+         * The leftGrip property is defined here to allow its management when two duratives overlap
          * This is probably not the best solution.....
          */
         public  var leftGrip        : UIComponent;
         [SkinPart]
         /*
-         * The rightGrip property is defined here to allow its management when two duratives cover each other.
+         * The rightGrip property is defined here to allow its management when two duratives overlap
          * This is probably not the best solution.....
          */
         public  var rightGrip        : UIComponent;
@@ -104,7 +104,7 @@ package com.ithaca.timeline
         }
         
         /**
-         *
+         * Popup a generic edit dialog.
          * @param event
          */
         public function editObsel ( event : Event ) : void
@@ -127,7 +127,7 @@ package com.ithaca.timeline
 
         //_____________________________________________________________________
         //
-        // Overriden Methods
+        // Overridden Methods
         //
         //_____________________________________________________________________
         

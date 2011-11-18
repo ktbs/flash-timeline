@@ -4,11 +4,11 @@ package com.ithaca.timeline.events
     import flash.events.Event;
     
     /**
-     * Define the new types of events needed by the timeline.
+     * Define the types of events needed by the timeline.
      * Most of these events are dispatched by the Timeline class.
      *
      * <p>
-     *    There's only one property 'value' which change according to the type of the event :
+     *    There's only one property 'value' which changes according to the type of the event :
      *     <ol>
      *        <li>TIMERULER_CLICK : 'value' contains the time in milliseconds where the user clicked </li>
      *        <li>GENERATE_NEW_TRACELINE : 'value' is an Object with 3 properties : { generator, obsel, traceline } where  : 'generator' is the LayoutModier which just created a Traceline, 'traceline' the new traceline, and 'obsel' is the obsel by which the creation has been triggerered.</li>

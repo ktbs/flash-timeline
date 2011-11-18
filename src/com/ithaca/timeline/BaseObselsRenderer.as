@@ -10,12 +10,12 @@ package com.ithaca.timeline
     
     /**
      * <p>The BaseObselsRenderer is the base class of ObselRenderers.
-     * It's contained by Traceline in both the tree structure and the zoomContext as preview.
-     * Common properties are defined and  handles listenners and callbacks to draw and redraw the obsels when needed. </p>
+     * It is contained by Traceline in both the tree structure and the zoomContext as preview.
+     * Common properties are defined and it handles listeners and callbacks to redraw the obsels when needed. </p>
      *
-     * <p>There're two main instances of this class : SimpleObselsRenderer that draws obsels from scratch and ObselsRenderer which uses skins to render the obsels. </p>
+     * <p>There are two main instances of this class : SimpleObselsRenderer that draws obsels from scratch and ObselsRenderer which uses skins to render the obsels. </p>
      *
-     * <p>It should be an abstract class. The redraw function must be overrided. </p>
+     * <p>It should be an abstract class. The redraw function must be overridden. </p>
      *
      * @see SimpleObselsRenderer
      * @see ObselsRenderer
@@ -33,28 +33,30 @@ package com.ithaca.timeline
         protected var _traceline        : TraceLine;
         /**
          * Reference to the TimeRange.
-         * There's two main possibilities, if the obselRenderer is in the tree structure the timeRange is the zoomContext.contextRange
+         * There are two main possibilities: if the obselRenderer is in the tree structure the timeRange is the zoomContext.contextRange;
          * otherwise the obselRenderer is in the preview zone and the timeRange is the zoomContext.timelineRange
          */
         protected var _timeRange        : TimeRange = null;
         /**
-         *     the obsels collection displayed by this component
+         * the obsels collection displayed by this component
          */
         protected var _obsels             : ArrayCollection = null;
         /**
-         *     Specifies if the borders of the obselsRenderer must be visible or not.
+         * Specifies if the borders of the obselsRenderer should be visible or not.
          */
         public       var borderVisible     : Boolean = true;
             
         /**
          * Constructor
          *
-         * @param tr The TimeRange that
+         * @param tr The associated TimeRange
          * @param traceLine the TraceLine that contains the BaseObselsRenderer
          * @param timeline the Timeline
          */
         public function BaseObselsRenderer( tr : TimeRange, traceLine :  TraceLine, timeline : Timeline )
         {
+            // FIXME: the timeline reference could be obtained through traceLine._timeline.
+            // Here, we have a possibility of conflicting declarations.
             super();                        
             _timeRange = tr;
             _traceline = traceLine;
@@ -85,7 +87,7 @@ package com.ithaca.timeline
         /**
          * The callback used when the TimeRange dispatch a TimelineEvent.TIMERANGES_CHANGE or TimelineEvent.TIMERANGES_SHIFT event.
          *
-         * Should be override to optimise rendering.
+         * Should be overridden to optimise rendering.
          *
          * @param event
          */
@@ -97,9 +99,9 @@ package com.ithaca.timeline
         }
         
         /**
-         * The callback used when the TimeRange dispatch a CollectionEvent.COLLECTION_CHANGE event.
+         * The callback used when the TimeRange dispatches a CollectionEvent.COLLECTION_CHANGE event.
          *
-         * Should be override to optimise rendering.
+         * Should be overridden to optimise rendering.
          *
          * @param event
          */
@@ -109,9 +111,9 @@ package com.ithaca.timeline
         }    
         
         /**
-         * The callback used when the component dispatch a ResizeEvent.RESIZE event.
+         * The callback used when the component dispatches a ResizeEvent.RESIZE event.
          *
-         * Should be override to optimise rendering.
+         * Should be overridden to optimise rendering.
          *
          * @param event
          */
@@ -121,10 +123,10 @@ package com.ithaca.timeline
         }    
         
         /**
-         * MUST BE OVERRIDED. Should do a full render process but do nothing in this base class.
+         * MUST BE OVERRIDDEN. Should do a full render process but do nothing in this base class.
          *
          * <p>
-         * By Default, this function is called by all the callbacks defined in this class and called when an event that requires redrawing is distpatched.
+         * By Default, this function is called by all the callbacks defined in this class and called when an event that requires redrawing is dispatched.
          * To optimise the rendering, different functions should exist to handle the different events.
          * </p>
          *

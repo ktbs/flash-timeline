@@ -3,7 +3,9 @@ package com.ithaca.timeline
     import com.ithaca.traces.Obsel;
     
     /**
-     * The SelectorRegexp class implements the ISelector interface. It is defined by two properties : field (first parameter in the xml definition) and _regexp (second parameter).
+     * The SelectorRegexp class implements the ISelector interface. It
+     * is defined by two properties : field and _regexp.
+     *
      * The selector checks if the obsel property named 'field' is matching the regular expression defined by '_regexp'.
      *
      * @see ISelector
@@ -13,7 +15,17 @@ package com.ithaca.timeline
         private var _regexp : RegExp;
         
         public var field : String = "";
-                
+      
+        /**
+         * Instanciate a new SelectorRegexp
+         *
+         * The parameters syntax is a comma-separated list with two
+         * elements: field and regexp.
+         *
+         * For instance, "type,Message" matches all obsels whose type
+         * attribute contains the string "Message".
+         *
+         */
         public function SelectorRegexp(  params : String = null )
         {
             if (params)

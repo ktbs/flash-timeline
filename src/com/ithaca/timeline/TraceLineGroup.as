@@ -44,6 +44,7 @@ package com.ithaca.timeline
         public var backgroundColor : uint;
                 
         /**
+         * Create a new TracelineGroup
          *
          * @param    tl a reference to the timeline that contains this TraceLineGroup
          * @param    trac the trace displayed by this TraceLineGroup

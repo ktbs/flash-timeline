@@ -13,7 +13,7 @@ package com.ithaca.timeline
     
     
     /**
-     * The ObselsRenderer class extends BaseOselsRender to render obsels with skinned ObselsSkins.
+     * The ObselsRenderer class extends BaseOselsRenderer to render obsels with skinned ObselsSkins.
      */
     public class ObselsRenderer extends BaseObselsRenderer
     {
@@ -79,7 +79,10 @@ package com.ithaca.timeline
         }    
         
         /**
-         * This redraw function is used when the same set of obsels is visible but their positions have changed. That's what happens when the window is resized for example.
+         * This redraw function is used when the same set of obsels is visible but their positions have changed. 
+         *
+         * It happens when the window is resized for example.
+         *
          * @param    event
          */
         public function  updateObselPosition( event : Event = null) : void
@@ -153,8 +156,13 @@ package com.ithaca.timeline
         }
         
         /**
-         * This redraw function is used when the time range has shifted. These are the same obsels at the same position (no resizing of the renderer) but the position of the viwport must change.
-         * That's what happens when the current time change.
+         * This redraw function is used when the time range has shifted.
+         *
+         * These are the same obsels at the same position (no resizing
+         * of the renderer) but the position of the viewport must
+         * change.
+         *
+         * It happens when the current time change.
          * @param    event
          */
         public function  updateViewportPosition( event : Event = null) : void

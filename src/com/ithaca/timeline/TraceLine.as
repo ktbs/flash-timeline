@@ -14,6 +14,7 @@ package com.ithaca.timeline
      */
     [Style(name = "rendererGap", type = "Number", inherit = "no")]    
     [Style(name = "title", type = "String", inherit = "no")]
+
     /**
      * The TraceLine class extends the LayoutNode ; it manages an obsels collection selected from an obsels source and renders them.
      *
@@ -30,6 +31,15 @@ package com.ithaca.timeline
         public var lastRendererGap        : Number;
         public var autohide                : Boolean=false;
         
+        /**
+         * Create a new Traceline
+         * 
+         * @param tl: the timeline containing the traceline
+         * @param tlTitle: the title (and name/id) of the traceline. It is used by CSS selectors.
+         * @param tlSelector: the traceline selector
+         * @param tlSource: the traceline obsel source
+         * @param tlSkinClass: FIXME
+         */
         public function TraceLine( tl : Timeline, tlTitle : String = null, tlSelector : ISelector = null, tlSource : String = null, tlSkinClass : String = null )
         {
             _timeline        = tl;
@@ -42,6 +52,9 @@ package com.ithaca.timeline
             styleName        = tlSkinClass;            
         }
         
+        /**
+         * Sets the title (but not the name) of the Traceline
+         */
         public function set title ( value : String ) : void
         {            
             setStyle('title', value);            
@@ -64,7 +77,7 @@ package com.ithaca.timeline
         }
 
         /**
-         * @return the obsels collection used as source (before selection) by the traceline ; it can be the trace or the obsels collection of the parent node
+         * @return the obsels collection used as source (before selection) by the traceline ; it can be the timeline trace or the obsels collection of the parent node
          */
         public function getCollectionSource() : ArrayCollection
         {
@@ -102,7 +115,7 @@ package com.ithaca.timeline
         }
         
         /**
-         * add an obsel in the obsel collection
+         * Add an obsel in the obsel collection
          * @param    event
          */
         public function addObsel ( obsel : Obsel ) : void
@@ -112,7 +125,7 @@ package com.ithaca.timeline
         }
         
         /**
-         * Remove an  obsel in the obsel collection
+         * Remove an  obsel from the obsel collection
          * @param    event
          */
         public function removeObsel ( obsel : Obsel ) : void
@@ -123,7 +136,7 @@ package com.ithaca.timeline
         };
         
         /**
-         * Rebuild the obsel collection from the source
+         * Rebuild the obsel collection from source
          * @param    event
          */
         override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
@@ -145,7 +158,7 @@ package com.ithaca.timeline
         }        
         
         /**
-         * Handle an obsels collection event that occurs in the source collection
+         * Handle an obsel collection event that occurs in the source collection
          * @param    event
          */
         override public function onSourceChange( event : CollectionEvent ) : void

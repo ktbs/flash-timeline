@@ -7,8 +7,10 @@ package com.ithaca.timeline
     import com.ithaca.timeline.events.TimelineEvent;
     
     /**
-     * The LayoutNode class is a base class for each node in the layout tree; it should be an abstract class.
+     * The LayoutNode class is a base class for each node in the
+     * layout tree; it should be an abstract class.
      *
+     * It is inherited by the following classes:
      * @see Timeline
      * @see TraceLineGroup
      * @see TraceLine
@@ -21,7 +23,7 @@ package com.ithaca.timeline
          */
         private var _layout         : XML ;    
         /**
-         * The visual component used to show the title part of the node. It's a container because titleComponnent contains the titleCOmponent of the children the node.
+         * The visual component used to show the title part of the node. It is a container because titleComponent contains the titleComponent of the node children.
          */
         public  var titleComponent     : SkinnableContainer;    
         /**
@@ -29,7 +31,7 @@ package com.ithaca.timeline
          */
         public  var _timeline        : Timeline;
         /**
-         * A reference to the parent node of this node. The children are browsed using the container method (getElementAt...) but we need this reference to up in the tree.
+         * A reference to the parent node of this node. The children are browsed using the container method (getElementAt...) but we need this reference to walk up the tree.
          */
         public  var parentNode        : LayoutNode;
         

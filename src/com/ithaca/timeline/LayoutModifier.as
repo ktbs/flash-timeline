@@ -3,9 +3,9 @@ package  com.ithaca.timeline
     /**
      * The LayoutModifier is a layout node which dynamicaly creates Tracelines when needed. Tracelines are created at the same layout level as the layoutModifier.
      *
-     * <p>
-     * The only layout modifier implemented is the one that split an obsels source according to an obsel property.     
-     * </p>
+     * <p> The only implemented layout modifier splits creates
+     * Tracelines according to a given obsel property. It is commonly
+     * used with the <code>type</code> property for instance.  </p>
      *
      * @see Layout    
      */
@@ -39,7 +39,7 @@ package  com.ithaca.timeline
         }
         
         /**
-         * @return the propererty used to split the obsels source
+         * @return the property used to split the trace
          */
         public function splitBy ( ) : String     { return _splitter; }
 

@@ -180,8 +180,8 @@ package com.ithaca.timeline
                             
         }
         /**
-         * Handle modification of the TimeRanhe of the Timeline.
-         * @param    e
+         * Handle modification of the TimeRange of the Timeline.
+         * @param    e: the event
          */
         private function onTimelineTimesChange( e : TimelineEvent ) : void
         {            

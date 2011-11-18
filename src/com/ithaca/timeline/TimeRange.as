@@ -6,16 +6,16 @@ package com.ithaca.timeline
     import flash.sampler.NewObjectSample;
     import mx.collections.ArrayCollection;
     /**
-     * The TimeRange class manages times intervals, zoom an time holes.
+     * The TimeRange class manages time intervals, zoom and time holes.
      */
     public class TimeRange extends EventDispatcher
     {    
         /**
-         * The current times intervals ; the limits are stored as a list :( begin1, end1, begin2, end2, ...., beginn, endn)
+         * The current time intervals ; the limits are stored as a list :( begin1, end1, begin2, end2, ...., beginn, endn)
          */
         public  var _ranges     : ArrayCollection;
         /**
-         * The originals times intervals are saved here in order to restore them after making some holes and zoom.
+         * The originals time intervals are saved here in order to restore them after making some holes and zoom.
          */
         private var _originalRanges     : ArrayCollection;
         /**
@@ -35,7 +35,7 @@ package com.ithaca.timeline
          */
         private var _zoom        : Boolean  = false;
         /**
-         * gap between to interval (width of the time hole) ; must be used in each component that render time hole.
+         * gap between two intervals (width of the time hole) ; must be used in each component that render time hole.
          */
         public  var    timeHoleWidth : Number = 10;
         
@@ -70,7 +70,7 @@ package com.ithaca.timeline
          */
         public function get totalDuration()         : Number { return end - begin; }
         /**
-         * The sum of duration of each intervals ( the time holes are taking into account )
+         * The sum of duration of each intervals ( the time holes are taken into account )
          */
         public function get duration()                 : Number { return _duration; }    
         
@@ -298,7 +298,9 @@ package com.ithaca.timeline
         
         /**
          * Changes the begin an the end of the time to consider, but the intervals stay the same.
-         * It's used to make a zoom.
+         *
+         * It is used to make a zoom.
+         *
          * @param    begin
          * @param    end
          */
@@ -313,7 +315,7 @@ package com.ithaca.timeline
         }    
         
         /**
-         * Adds a same time value both to the begin and to the end of the TimeRange
+         * Adds the same time value both to the begin and to the end of the TimeRange
          * @param delta time in milliseconds to add.
          */
         public function shiftLimits ( delta : Number ) : void
@@ -338,7 +340,10 @@ package com.ithaca.timeline
         }    
         
         /**
-         * Restores the intervals and  the begin / end of time to consider from the saved intevals list ; in order to cancel all zooms and time holes for example.    
+         * Restores the intervals and  the begin / end of time to consider from the saved intevals list.
+         *
+         * It is used to cancel all zooms and time holes for example.    
+         *
          */
         public function reset ( ) : void
         {

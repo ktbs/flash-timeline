@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!---
-    This component display a TimeRange as a ruler with equidistant marker line and time labels.
-    There is two TimeRulers in the ZommContext component one to display the whole TimeRange of timeline and the other to display the selected TimeRange.
+    This component displays a TimeRange as a ruler with equidistant time markers and time labels.
+    There are two TimeRulers in the ZoomContext component: one for the whole TimeRange of the timeline (context), and the other for the selected TimeRange (zoom).
 -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
