@@ -154,6 +154,7 @@
             var loader:URLLoader=new URLLoader();
             
             loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
+            loader.addEventListener(IOErrorEvent.IO_ERROR, onLoadLayoutError);
             loader.load(new URLRequest(layoutFilename));
             
             loading.visible = true;
@@ -184,6 +185,13 @@
             }
         }
         
+        private function onLoadLayoutError(event: Event): void
+        {
+            loading.visible = false;    
+            // Error while loading layout. Use a default one.
+            timeline.layoutXML         = <root> <layout> <tlg /> <layout> </root> ;
+            timeline.timelineLayout = new Layout( timeline );
+        }        
         
         protected function loadTTL():void
         {
