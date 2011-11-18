@@ -377,7 +377,7 @@
         </s:HGroup>
 
         <tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)"
-                     pauseButtonClick="stopTimer(event)" timeMode="relagtive" timeRulerClick="onRulerClick(event)"
+                     pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)"
                      cursorMode="manual"
                      endAlertBeforeTime="30000"
                      adminMode="true"
