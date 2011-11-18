@@ -65,7 +65,7 @@ package com.ithaca.timeline
      * searched for a matching stylename. If no matching stylename is
      * found, the last TimelineGroup definition is used. It is thus a
      * good practice to always put a generic TimelineGroup definition
-     * at the end of the Layout.
+     * at the end of the Layout.</p>
      *
      * <p>
      * Besides the XML driven creation, the Layout class can also be used to modify the tree with low level methods. For example : <br/>
