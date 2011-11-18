@@ -6,7 +6,7 @@ package com.ithaca.timeline
     import mx.collections.ArrayCollection;
     import mx.events.CollectionEvent;
     import flash.ui.MouseCursor
-    
+
     /**
      * The Layout class manages the creation of tracelines and tracelinegroups in a tree layout as defined in a XML descriptor.
      * Each node of the tree extends the LayoutNode abstract class ( currently TraceLineGroup, TraceLine, LayoutModifier or Timeline ).
@@ -70,7 +70,7 @@ package com.ithaca.timeline
      * <p>
      * Besides the XML driven creation, the Layout class can also be used to modify the tree with low level methods. For example : <br/>
      * <code>
-     *         timeline.timelineLayout.addTraceline( traceline , parentLayoutNode );    
+     *         timeline.timelineLayout.addTraceline( traceline , parentLayoutNode );
      * </code>
      * </p>
      *
@@ -91,7 +91,7 @@ package com.ithaca.timeline
      *          &lt;!-- there is no traceLine tagged with the &#39;preview&#39; attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that renders the whole trace --&gt;<br />
      *      &lt;/tlg &gt;    <br />
      *  &lt;/layout&gt;<br />
-     * &lt;/root&gt;  </p></listing>     
+     * &lt;/root&gt;  </p></listing>
      *
      * @example  A second version of mini layout. This one contains an ObselsSelectors section
      * <listing version="3.0"> <p>
@@ -375,11 +375,11 @@ package com.ithaca.timeline
      *           <br />
      *        &lt;/tlg&gt;<br />
      *    &lt;/layout&gt;<br />
-     * &lt;/root&gt;       </p></listing>    
+     * &lt;/root&gt;       </p></listing>
      */
     public class Layout
     {
-    
+
         /**
          * the keyword to define a TraceLineGroup in the xml descriptor
          */
@@ -387,11 +387,11 @@ package com.ithaca.timeline
         /**
          * the keyword to define  a TraceLine in the xml descriptor
          */
-        public static const TRACELINE        : String = "tl";        
+        public static const TRACELINE        : String = "tl";
         /**
          * the keyword to define  a ModifierNode in the xml descriptor
          */
-        public static const MODIFIER        : String = "modifier";        
+        public static const MODIFIER        : String = "modifier";
         /**
          * the keyword to define the root of  the xml document
          */
@@ -399,11 +399,11 @@ package com.ithaca.timeline
         /**
          * the keyword to define the layout section in the xml descriptor
          */
-        public static const LAYOUT            : String = "layout";        
+        public static const LAYOUT            : String = "layout";
         /**
          * the keyword to define the obsels skins selectors section in the xml descriptor
          */
-        public static const OBSELS_SELECTORS: String = "obselsSelectors";        
+        public static const OBSELS_SELECTORS: String = "obselsSelectors";
         /**
          * the keyword to define an obsel skin selector in the xml descriptor
          */
@@ -421,16 +421,16 @@ package com.ithaca.timeline
          * The timeline is the root of the tree structure (this is the timeline where the nodes will be created). The timeline also contains the xml descriptor ( _timeline.layoutXML[LAYOUT] )
          */
         private var _timeline : Timeline;
-        
+
         /**
          * Constructor
          * @param tl The Timeline managed by the Layout class.
          */
         public function Layout( tl : Timeline )
-        {            
-            _timeline = tl;            
-        }        
-    
+        {
+            _timeline = tl;
+        }
+
         /**
          * Create a new TracelineGroup matching the given trace (URI)  or style.
          *
@@ -451,25 +451,25 @@ package com.ithaca.timeline
          * @return the created TraceLineGroup tree
          */
         public function createTracelineGroupTree ( trac : Trace, style : String = null ) : TraceLineGroup
-        {    
+        {
             var treeLayout : XML = new XML( TRACELINEGROUP );
-            
+
             for each (var child : XML in _timeline.layoutXML[LAYOUT].children() )
-            {                
+            {
                 if (   ( child.hasOwnProperty('@style') && child.@style == style )
                     || ( child.hasOwnProperty('@source') && child.@source == trac.uri ))
-                {                    
+                {
                     treeLayout = child;
-                    break;                        
-                }                
+                    break;
+                }
                 else
                     treeLayout = child;
             }
-            
-            return  createTree(treeLayout, trac ) as TraceLineGroup;            
+
+            return  createTree(treeLayout, trac ) as TraceLineGroup;
         }
-        
-                
+
+
         /**
          * Create a TracelineGroupNode from a xml descriptor and a trace
          *
@@ -479,12 +479,12 @@ package com.ithaca.timeline
          */
         public function createTraceLineGroupNode(  xmlLayout : XML , trac : Trace ) : TraceLineGroup
         {
-            var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri, xmlLayout.hasOwnProperty('@style')?xmlLayout.@style:null);    
-            newNode.layoutXML = xmlLayout;            
+            var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri, xmlLayout.hasOwnProperty('@style')?xmlLayout.@style:null);
+            newNode.layoutXML = xmlLayout;
 
             return newNode;
         }
-        
+
         /**
          * Add a traceline as a child to a LayoutNode
          *
@@ -498,33 +498,33 @@ package com.ithaca.timeline
             parentNode.addChildAndTitle( traceline );
             return traceline;
         }
-        
+
         private function createSelector( xmlSelector : XML ) : ISelector
         {
             var tlSelector : ISelector;
-            
+
             if ( xmlSelector.hasOwnProperty('@selector') )
             {
                 var selectorClass:Class;
-                
+
                 try {
                     selectorClass = getDefinitionByName( xmlSelector.@selector ) as Class;
                 }
-                catch(error:ReferenceError)    {                
-                    selectorClass = getDefinitionByName( "com.ithaca.timeline::" + xmlSelector.@selector ) as Class;    
+                catch(error:ReferenceError)    {
+                    selectorClass = getDefinitionByName( "com.ithaca.timeline::" + xmlSelector.@selector ) as Class;
                 }
-                
-                tlSelector = new selectorClass( );    
-                
+
+                tlSelector = new selectorClass( );
+
                 if ( xmlSelector.hasOwnProperty('@selectorParams') )
                 {
-                    tlSelector.setParameters( xmlSelector.@selectorParams );            
+                    tlSelector.setParameters( xmlSelector.@selectorParams );
                 }
             }
-            
+
             return tlSelector;
         }
-        
+
         /**
          * Create a Traceline from an xml descriptor
          *
@@ -538,7 +538,7 @@ package com.ithaca.timeline
             var tlClass : String;
             var tlSelector : ISelector;
             var tlSource : String;
-            
+
             if ( xmlLayout.hasOwnProperty('@selectorID') )
             {
                 for (var i: int = 0; i < _timeline.styleSheet.obselsSkinsSelectors.length; i++ )
@@ -546,34 +546,34 @@ package com.ithaca.timeline
                     if (_timeline.styleSheet.obselsSkinsSelectors[i].id == xmlLayout.@selectorID )
                     {
                         tlSelector     = _timeline.styleSheet.obselsSkinsSelectors[i].selector;
-                        tlTitle        = _timeline.styleSheet.obselsSkinsSelectors[i].id;    
-                    }                    
+                        tlTitle        = _timeline.styleSheet.obselsSkinsSelectors[i].id;
+                    }
                 }
-            
+
             }
             else if ( xmlLayout.hasOwnProperty('@selector') )
             {
                 tlSelector     = createSelector( xmlLayout );
-                tlTitle        = xmlLayout.@selector;    
+                tlTitle        = xmlLayout.@selector;
             }
-            
+
             if ( xmlLayout.hasOwnProperty('@title') )
                 tlTitle = xmlLayout.@title;
             if ( xmlLayout.hasOwnProperty('@style') )
                 tlClass = xmlLayout.@style;
             if ( xmlLayout.hasOwnProperty('@source') )
                 tlSource = xmlLayout.@source;
-                            
-            newNode = new TraceLine( _timeline, tlTitle, tlSelector, tlSource, tlClass  );
-            
-            if ( xmlLayout.hasOwnProperty('@autohide') &&  xmlLayout.@autohide =='true')
-                newNode.autohide = true;                
 
-            newNode.layoutXML = xmlLayout;            
-            
+            newNode = new TraceLine( _timeline, tlTitle, tlSelector, tlSource, tlClass  );
+
+            if ( xmlLayout.hasOwnProperty('@autohide') &&  xmlLayout.@autohide =='true')
+                newNode.autohide = true;
+
+            newNode.layoutXML = xmlLayout;
+
             return newNode;
         }
-        
+
         /**
          * Create a LayoutModifier from an xml descriptor
          *
@@ -584,9 +584,9 @@ package com.ithaca.timeline
         {
             var newNode : LayoutModifier = new LayoutModifier ( _timeline );
             newNode.layoutXML = xmlLayout;
-        
-            if ( xmlLayout.hasOwnProperty('@splitter') )                                    
-                newNode._splitter =  xmlLayout.@splitter ;    
+
+            if ( xmlLayout.hasOwnProperty('@splitter') )
+                newNode._splitter =  xmlLayout.@splitter ;
             if ( xmlLayout.hasOwnProperty('@source') )
                 newNode.source = xmlLayout.@source;
             if ( xmlLayout.hasOwnProperty('@autohide') &&  xmlLayout.@autohide =='true' )
@@ -596,7 +596,7 @@ package com.ithaca.timeline
                 var style : String = xmlLayout.@style;
                 newNode.styleName = style;
             }
-            
+
             if ( xmlLayout.hasOwnProperty('@name') )
             {
                 var modName : String = xmlLayout.@name;
@@ -605,11 +605,11 @@ package com.ithaca.timeline
 
             return newNode;
         }
-        
+
         /**
          * Create a tree structure of LayoutNode ( TraceLineGroup,
          * Traceline, ModifierNode) from an xml descriptor and a
-         * trace. 
+         * trace.
          *
          * This is a recursive method. It uses the
          * createTraceLineGroupNode, createTraceLineNode and
@@ -620,32 +620,32 @@ package com.ithaca.timeline
          * @return the root of the tree structure as a LayoutNode
          */
         public function createTree ( xmlLayout : XML , trac : Trace) : LayoutNode
-        {        
+        {
             var newNode : LayoutNode = null;
-            
+
             switch( xmlLayout.localName() )
-            {                
+            {
                 case TRACELINEGROUP :
-                    newNode = createTraceLineGroupNode( xmlLayout, trac );                            
+                    newNode = createTraceLineGroupNode( xmlLayout, trac );
                     break;
-                
+
                 case MODIFIER :
-                    return createModifierNode( xmlLayout );                        
-                
-                case TRACELINE :    
+                    return createModifierNode( xmlLayout );
+
+                case TRACELINE :
                     newNode = createTraceLineNode( xmlLayout );
-                    break;    
-                    
+                    break;
+
                 default:
                     return null;
-            }            
-            
+            }
+
             for each ( var child : XML in xmlLayout.children() )
             {
                 var childTree : LayoutNode = createTree( child, trac );
-                
+
                 if ( child.hasOwnProperty('@style') && child.@style == BACKGROUND_TRACELINE )
-                {            
+                {
                     if (newNode is TraceLineGroup)
                         (newNode as TraceLineGroup).backgroundTraceLine = childTree as TraceLine;
                 }
@@ -654,29 +654,29 @@ package com.ithaca.timeline
                     if (     (child.hasOwnProperty('@style') && child.@style == CONTEXT_PREVIEW_TRACELINE )
                         || ( child.hasOwnProperty('@preview') && child.@preview == 'true' && newNode is TraceLineGroup ))
                         (newNode as TraceLineGroup).contextPreviewTraceLine = childTree as TraceLine;
-                        
-                    newNode.addChildAndTitle( childTree );    
-                }                
-                
-                var collec : ArrayCollection;                
+
+                    newNode.addChildAndTitle( childTree );
+                }
+
+                var collec : ArrayCollection;
                 if (child.hasOwnProperty('@source') && child.@source == "parent" )
                 {
-                    (newNode as TraceLine).sourceStr = xmlLayout.@source;                        
+                    (newNode as TraceLine).sourceStr = xmlLayout.@source;
                     if (newNode is TraceLine)
                         collec = (newNode as TraceLine)._obsels;
                     else if (newNode is TraceLineGroup)
-                        collec = (newNode as TraceLineGroup).trace.obsels;                            
+                        collec = (newNode as TraceLineGroup).trace.obsels;
                 }
-                else                        
-                    collec  = trac.obsels;        
-                        
+                else
+                    collec  = trac.obsels;
+
                 collec.addEventListener( CollectionEvent.COLLECTION_CHANGE , childTree.onSourceChange );
-                childTree.resetObselCollection( collec );            
+                childTree.resetObselCollection( collec );
             }
-                        
+
             return newNode;
-        }        
-    
+        }
+
         /**
          * Get the current XML Layout
          *
@@ -685,13 +685,13 @@ package com.ithaca.timeline
         public function getCurrentXmlLayout ( ) : XML
         {
             var currentXmlLayout : XML = < {ROOT} />;
-            
+
             currentXmlLayout.appendChild( layoutTreeToXml() );
             currentXmlLayout.appendChild( obselsSelectorsToXml() );
-            
+
             return currentXmlLayout;
-        }                
-        
+        }
+
         /**
          * Load a set of obsels skins selectors from a XML descriptor. It overwrites the current set if one exists.
          *
@@ -701,45 +701,45 @@ package com.ithaca.timeline
         {
             _timeline.styleSheet.obselsSkinsSelectors = new Array();
             for each (var selector : XML in xmlSelectors.children() )
-            {    
+            {
                 if ( selector.hasOwnProperty('@selector') )
                 {
                     var obselSelector : ISelector     = createSelector( selector );
-                    if ( selector.hasOwnProperty('@id') )                    
+                    if ( selector.hasOwnProperty('@id') )
                     {
                         var selectorId : String = selector.@id;
-                        _timeline.styleSheet.obselsSkinsSelectors.push( { id:selectorId, selector:obselSelector } );                        
+                        _timeline.styleSheet.obselsSkinsSelectors.push( { id:selectorId, selector:obselSelector } );
                     }
-                }            
+                }
             }
         }
-        
+
         /**
          * @return  the XML descriptor of the current timeline set of obsels skins selectors.
          */
         protected function obselsSelectorsToXml ( ) : XML
         {
             var xmlTree     : XML = <{OBSELS_SELECTORS} />;
-            
-            if ( _timeline.styleSheet && _timeline.styleSheet.obselsSkinsSelectors)    
+
+            if ( _timeline.styleSheet && _timeline.styleSheet.obselsSkinsSelectors)
                 for each (var selector : Object in _timeline.styleSheet.obselsSkinsSelectors )
-                {    
-                    var xmlSelector     : XML = <{OBSELS_SELECTOR} />;                    
-                    
+                {
+                    var xmlSelector     : XML = <{OBSELS_SELECTOR} />;
+
                     if ( selector.id )
                         xmlSelector.@['id'] = selector.id;
-                
+
                     if  (selector.selector)
                     {
                         xmlSelector.@['selector'] = getQualifiedClassName( selector.selector );
                         xmlSelector.@['selectorParams'] = selector.selector.getParameters();
-                    }                        
-                    xmlTree.appendChild( xmlSelector );        
+                    }
+                    xmlTree.appendChild( xmlSelector );
                 }
 
             return xmlTree;
         }
-        
+
         /**
          * @return  the XML descriptor of the current timeline tree structure.
          */
@@ -747,12 +747,12 @@ package com.ithaca.timeline
         {
             var xmlTree     : XML = <{LAYOUT} />;
             var sourceList     : ArrayCollection = new ArrayCollection();
-            
+
             for ( var tlgIndex : uint = 0; tlgIndex < _timeline.numElements; tlgIndex++ )
             {
                 var tlg : TraceLineGroup = _timeline.getElementAt( tlgIndex ) as TraceLineGroup;
                 if ( tlg && sourceList.getItemIndex( tlg.trace.uri ) < 0)
-                {                                    
+                {
                     sourceList.addItem( tlg.trace.uri )
                     var xmlTlg : XML     = < {TRACELINEGROUP} />;
                     xmlTlg.@['source']    = tlg.trace.uri;
@@ -761,38 +761,38 @@ package com.ithaca.timeline
 
                     if ( tlg.title )
                         xmlTlg.@['title'] = tlg.title;
-                        
-                    if ( tlg.backgroundTraceLine )                    
-                        xmlTlg.appendChild( tracelineTreeToXml( tlg.backgroundTraceLine) );                        
-                        
+
+                    if ( tlg.backgroundTraceLine )
+                        xmlTlg.appendChild( tracelineTreeToXml( tlg.backgroundTraceLine) );
+
                     for ( var tlIndex : uint = 0; tlIndex < tlg.numElements; tlIndex++ )
                     {
                         var layoutNode : LayoutNode = tlg.getElementAt( tlIndex ) as LayoutNode;
-                        
-                        if (layoutNode is TraceLine )                                                
-                            xmlTlg.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );    
-                        else if (layoutNode is LayoutModifier )                            
-                            xmlTlg.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );    
-                    }                        
-                        
-                    xmlTree.appendChild( xmlTlg );                            
-                }                
+
+                        if (layoutNode is TraceLine )
+                            xmlTlg.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );
+                        else if (layoutNode is LayoutModifier )
+                            xmlTlg.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );
+                    }
+
+                    xmlTree.appendChild( xmlTlg );
+                }
             }
-            
+
             for each (var child : XML in _timeline.layoutXML[LAYOUT].children() )
-            {        
+            {
                 if ( !child.hasOwnProperty('source') || xmlTree[LAYOUT][TRACELINEGROUP][@['source']== child.@['source']] != null)
-                    xmlTree.appendChild( child );                            
+                    xmlTree.appendChild( child );
             }
             return xmlTree;
         }
-        
-        /**        
+
+        /**
          * @param tl a traceline tree
          * @return the xml descriptor of a given traceline tree structure.
          */
         protected function tracelineTreeToXml ( tl : TraceLine ) : XML
-        {            
+        {
             var xmlTl     : XML = <{TRACELINE} />;
             if ( tl.sourceStr )
                 xmlTl.@['source']    = tl.sourceStr;
@@ -802,34 +802,34 @@ package com.ithaca.timeline
                 xmlTl.@['title'] = tl.title;
             if ( tl.autohide )
                 xmlTl.@['autohide'] = tl.autohide;
-                
+
             if  (tl.selector)
             {
                 xmlTl.@['selector'] = getQualifiedClassName( tl.selector );
                 xmlTl.@['selectorParams'] = tl.selector.getParameters();
             }
-            
+
             for ( var tlIndex : uint = 0; tlIndex < tl.numElements; tlIndex++ )
             {
                 var layoutNode : LayoutNode = tl.getElementAt( tlIndex ) as LayoutNode;
-                
-                if (layoutNode is TraceLine )                                                
-                    xmlTl.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );    
-                else if (layoutNode is LayoutModifier )                            
-                    xmlTl.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );    
-            }            
-            
-            return xmlTl;            
-        }        
-        
-        /**        
+
+                if (layoutNode is TraceLine )
+                    xmlTl.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );
+                else if (layoutNode is LayoutModifier )
+                    xmlTl.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );
+            }
+
+            return xmlTl;
+        }
+
+        /**
          * @param tl a modifier tree
          * @return the xml descriptor of a given modifier tree structure.
          */
         protected function modifierTreeToXml ( modifier : LayoutModifier ) : XML
-        {            
+        {
             var xmlModifier     : XML = <{MODIFIER} />;
-            
+
             if ( modifier.source )
                 xmlModifier.@['source']    = modifier.source;
             if ( modifier.styleName )
@@ -842,14 +842,14 @@ package com.ithaca.timeline
             for ( var tlIndex : uint = 0; tlIndex < modifier.numElements; tlIndex++ )
             {
                 var layoutNode : LayoutNode = modifier.getElementAt( tlIndex ) as LayoutNode;
-                
-                if (layoutNode is TraceLine )                                                
-                    xmlModifier.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );    
-                else if (layoutNode is LayoutModifier )                            
-                    xmlModifier.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );    
-            }            
-            
-            return xmlModifier;            
-        }        
+
+                if (layoutNode is TraceLine )
+                    xmlModifier.appendChild( tracelineTreeToXml( layoutNode as TraceLine) );
+                else if (layoutNode is LayoutModifier )
+                    xmlModifier.appendChild( modifierTreeToXml( layoutNode as LayoutModifier) );
+            }
+
+            return xmlModifier;
+        }
     }
 }

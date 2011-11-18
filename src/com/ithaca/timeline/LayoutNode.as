@@ -3,9 +3,9 @@ package com.ithaca.timeline
     import mx.collections.ArrayCollection;
     import spark.components.SkinnableContainer;
     import mx.events.CollectionEvent;
-    
+
     import com.ithaca.timeline.events.TimelineEvent;
-    
+
     /**
      * The LayoutNode class is a base class for each node in the
      * layout tree; it should be an abstract class.
@@ -21,11 +21,11 @@ package com.ithaca.timeline
         /**
          * The XML descriptor of the sub-layout from this node.
          */
-        private var _layout         : XML ;    
+        private var _layout         : XML ;
         /**
          * The visual component used to show the title part of the node. It is a container because titleComponent contains the titleComponent of the node children.
          */
-        public  var titleComponent     : SkinnableContainer;    
+        public  var titleComponent     : SkinnableContainer;
         /**
          * A reference to the timeline
          */
@@ -34,7 +34,7 @@ package com.ithaca.timeline
          * A reference to the parent node of this node. The children are browsed using the container method (getElementAt...) but we need this reference to walk up the tree.
          */
         public  var parentNode        : LayoutNode;
-        
+
         /**
          * The XML descriptor of the sub-layout from this node.
          */
@@ -50,22 +50,22 @@ package com.ithaca.timeline
          * @param index
          */
         public function addChildAndTitle ( child : LayoutNode, index : int = -1 ) : void
-        {     
+        {
             child.parentNode = this;
-        
+
             if ( index < 0 || index >= numElements)
                 addElement( child );
             else
                 addElementAt( child, index );
-            
+
             if ( titleComponent && child.titleComponent)
             {
                 if ( index < 0 || index >= numElements)
                     titleComponent.addElement( child.titleComponent );
-                else                    
-                    titleComponent.addElementAt( child.titleComponent, index );                
+                else
+                    titleComponent.addElementAt( child.titleComponent, index );
             }
-            
+
             if (_timeline)
             {
                 var event : TimelineEvent = new TimelineEvent( TimelineEvent.LAYOUT_NODE_ADDED );
@@ -73,7 +73,7 @@ package com.ithaca.timeline
                 _timeline.dispatchEvent( event );
             }
         }
-        
+
         /**
          *
          * @return the tracelinegroup containing this node
@@ -81,17 +81,17 @@ package com.ithaca.timeline
         public function getTraceLineGroup() : TraceLineGroup
         {
             var nodeCursor : LayoutNode = this;
-            
+
             while ( nodeCursor && !(nodeCursor is TraceLineGroup) )
                 nodeCursor = nodeCursor.parentNode;
-            
-            if (nodeCursor)            
+
+            if (nodeCursor)
                 return (nodeCursor as TraceLineGroup);
             else
                 return null;
         }
-        
-        /**        
+
+        /**
          * Return the layoutNode of a given name in the subtree of this node
          * @param name
          * @return the first element with a given 'name' in the children of this node
@@ -110,7 +110,7 @@ package com.ithaca.timeline
             }
             return null;
         }
-        
+
         /**
          *
          * @param child
@@ -118,9 +118,9 @@ package com.ithaca.timeline
         public function removeChildAndTitle( child : LayoutNode ) : void
         {
             removeElement( child  );
-            titleComponent.removeElement( child.titleComponent );            
-        }    
-        
+            titleComponent.removeElement( child.titleComponent );
+        }
+
         /**
          * @param event
          */

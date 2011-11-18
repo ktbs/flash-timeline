@@ -1,8 +1,8 @@
 package com.ithaca.timeline
-{    
+{
     import spark.components.SkinnableContainer;
     import spark.components.supportClasses.SkinnableComponent;
-    
+
     /**
      * The TraceLineGroupTitle component is the title part of TraceLineGroup.
      *
@@ -15,7 +15,7 @@ package com.ithaca.timeline
          * The TraceLineGroup for which this component is the title
          */
         public var tlg         : TraceLineGroup;
-                
+
         /**
          * Constructor
          * @param    value The TraceLineGroup for which this component is the title
@@ -23,6 +23,6 @@ package com.ithaca.timeline
         public function TraceLineGroupTitle( value : TraceLineGroup) : void
         {
             tlg = value;
-        }    
+        }
     }
 }

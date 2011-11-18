@@ -11,8 +11,8 @@
 
     <fx:Metadata>
         [HostComponent("com.ithaca.timeline.TraceLine")]
-        [Style(name = "rendererHeight", type = "Number", inherit = "no")]    
-        [Style(name = "rendererGap", type = "Number", inherit = "no")]    
+        [Style(name = "rendererHeight", type = "Number", inherit = "no")]
+        [Style(name = "rendererGap", type = "Number", inherit = "no")]
     </fx:Metadata>
 
     <fx:Script>
@@ -42,88 +42,88 @@
             import mx.events.FlexEvent;
             import mx.events.MenuEvent;
             import mx.managers.PopUpManager;
-            
+
             [Bindable]
             public var forme:Shape = new Shape();
-            
+
             [Bindable]
             public var displayLevel:Number = 0;
             [Bindable]
             public var timeline:Timeline;
-            
+
             [Bindable]
             public var obselsRenderer:ObselsRenderer;
-            
+
             [Bindable]
             public var renderersSidePadding:Number = 0;
-            
+
             private var editMenu:Menu;
-            
+
             protected function creationCompleteHandler(event:FlexEvent):void
-            {        
+            {
                 renderersSidePadding = Stylesheet.renderersSidePadding;
                 hostComponent.percentWidth         = 100;
-                obselsRenderer                     = new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );            
+                obselsRenderer                     = new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
                 obselsRenderer.percentWidth     = 100;
                 obselsRenderer.left            = renderersSidePadding;
                 obselsRenderer.width        = hostComponent._timeline.zoomContext.timelinePreview.width;
-                obselsRenderer.obselsCollection = hostComponent._obsels;            
-                obselsRenderer.styleName = hostComponent.styleName;    
+                obselsRenderer.obselsCollection = hostComponent._obsels;
+                obselsRenderer.styleName = hostComponent.styleName;
                 rendererGroup.addElement( obselsRenderer );
-                timeline = hostComponent._timeline;                
+                timeline = hostComponent._timeline;
                 styleChanged(null);
             }
 
-        
-            
+
+
             protected function onResize(event:Event):void
-            {        
+            {
                 if ( obselsRenderer)
                 {
                     obselsRenderer.left            = renderersSidePadding;
                     obselsRenderer.width        = hostComponent._timeline.zoomContext.timelinePreview.width;
                 }
             }
-            
+
             override public function styleChanged(styleProp:String):void
             {
                 super.styleChanged(styleProp);
-                
+
                 if ( hostComponent.getStyle("hide") == true )
                 {
                     rendererGroup.height = 0;
                     if ( obselsRenderer )
                         obselsRenderer.height = 0;
                     hostComponent.titleComponent.setStyle( 'hide', true);
-                    hostComponent.titleComponent.setStyle( 'title' , getStyle( 'title' ));    
+                    hostComponent.titleComponent.setStyle( 'title' , getStyle( 'title' ));
                     return;
-                }        
-                                
+                }
+
                 if ( obselsRenderer )
-                {                
+                {
                     obselsRenderer.height     = hostComponent.getStyle("rendererHeight") as Number;
                     rendererGroup.height     = obselsRenderer.height + hostComponent.getStyle("rendererGap") as Number;
-                    
+
                     if ( hostComponent.getStyle("borderVisible") != null )
                         obselsRenderer.borderVisible = hostComponent.getStyle("borderVisible");
-                }                
-                
-                if ( hostComponent.titleComponent )                    
+                }
+
+                if ( hostComponent.titleComponent )
                 {
                     if ( styleProp )
-                        hostComponent.titleComponent.setStyle( styleProp, getStyle( styleProp ));                
+                        hostComponent.titleComponent.setStyle( styleProp, getStyle( styleProp ));
                     else
                     {
                         hostComponent.titleComponent.setStyle( 'hide', false );
-                        hostComponent.titleComponent.setStyle( 'title' , getStyle( 'title' ));    
+                        hostComponent.titleComponent.setStyle( 'title' , getStyle( 'title' ));
                         hostComponent.titleComponent.setStyle( 'rendererHeight' , getStyle( 'rendererHeight' ));
-                        hostComponent.titleComponent.setStyle( 'rendererGap' , getStyle( 'rendererGap' ));                        
+                        hostComponent.titleComponent.setStyle( 'rendererGap' , getStyle( 'rendererGap' ));
                     }
                 }
-                    
+
                 invalidateDisplayList();
             }
-            
+
         ]]>
     </fx:Script>
 

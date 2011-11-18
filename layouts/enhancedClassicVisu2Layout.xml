@@ -40,7 +40,7 @@
 	
 	<!-- the layout definition -->
 	<layout>		
-		<!-- This is the  TraceLineGroup definition used when the stylename of the TraceLineGroup is "comments". 
+		<!-- This is the  TraceLineGroup definition used when the stylename of the TraceLineGroup is "comments".
 			The stylename could set when using the timeline.addTrace (  trace, index , stylename ) function.		
 			
 			Of course teh stylename could be use to create CSS selector :
@@ -49,11 +49,11 @@
 					....
 				}
 		
-			The other way to select a TraceLineGroup definition is the use of the URI of the trace and the 'source' attribute. 
+			The other way to select a TraceLineGroup definition is the use of the URI of the trace and the 'source' attribute.
 			Example : To use a special definition when trace.uri is 'trace-20110112105114-0.ttl'
 				<tlg source="trace-20110112105114-0.ttl" >
 					... special tree structure...
-				</tlg>			 
+				</tlg>			
 		-->	
 		<tlg style="comments" > 	
 			<!-- A "style" attibute in a TraceLine definition is also used to set the stylename and then to create a CSS selector. -->
@@ -63,7 +63,7 @@
 		
 		<!-- This is the default TraceLineGroup definition because this is the last TraceLineGroup definition -->
 		<tlg>
-			<!-- 
+			<!--
 			The 'style="background"' attribute is used to define the traceline to be show in the background of the traceLineGroup.
 			-->
 			<tl style="background" 	selectorID="Activity" />
@@ -75,7 +75,7 @@
 				example : <tl style="contextPreview" selector="SelectorRegexp" selectorParams="type,Message|Document|Marker|Instructions|Keyword|Activity" />
 			-->			
 			<tl title="Synthesis"  selector="SelectorRegexp" selectorParams="type,Message|Document|Marker|Instructions|Keyword" > 				
-				<!-- 
+				<!--
 					the autohide='true' attribute is used to automaticaly show/hide tracelines if the traceline is empty or not.
 				-->			
 				<tl title="Message" selectorID="Message"  autohide='true'/>

@@ -5,11 +5,11 @@
                xmlns:tl="com.ithaca.timeline.*"
                close="onCancel(event)"
                creationComplete="onCreationComplete(event)">
-    
+
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
-    
+
     <fx:Script>
         <![CDATA[
             import com.ithaca.timeline.SelectorRegexp;
@@ -21,43 +21,43 @@
             import mx.managers.PopUpManager;
             import com.ithaca.timeline.TraceLine;
             import spark.components.HGroup;
-            
+
             import gnu.as3.gettext._FxGettext;
             import gnu.as3.gettext.FxGettext;
             [Bindable]
-            private var fxgt:_FxGettext;        
-                        
+            private var fxgt:_FxGettext;
+
             private var _obsel : ObselSkin;
-            
+
             [Bindable]
-            public var tracelineTitle : String;            
+            public var tracelineTitle : String;
             [Bindable]
             public var tracelineSource : Number = 0;
             [Bindable]
             public var selectorField : String = "type";
             [Bindable]
             public var selectorRegexp : String;
-            
+
             public var traceline : TraceLine;
-            
+
             private function onCreationComplete(event:Event):void
             {
                 fxgt = FxGettext;
                 this.title = fxgt.gettext("Edit obsel");
-                
+
                 addEditProperty( "type", _obsel.obsel );
                 addEditProperty( "begin", _obsel.obsel);
                 addEditProperty( "end", _obsel.obsel);
-                addEditProperty( "uid", _obsel.obsel);    
-                for (var prop: String in _obsel.obsel.props)                
-                    addEditProperty( prop, _obsel.obsel.props );    
+                addEditProperty( "uid", _obsel.obsel);
+                for (var prop: String in _obsel.obsel.props)
+                    addEditProperty( prop, _obsel.obsel.props );
             }
-            
+
             public function set obsel ( value : ObselSkin ):void
-            {                
-                _obsel = value;                
+            {
+                _obsel = value;
             }
-            
+
             private function addEditProperty( str : String, obj : Object ) : void
             {
                 var hgroup     : HGroup     = new HGroup();
@@ -71,12 +71,12 @@
                 labelPropGroup.addElement( label ) ;
                 tiPropGroup.addElement( ti );
             }
-            
+
             private function onCancel(event:Event):void
             {
                 PopUpManager.removePopUp(this);
             }
-            
+
             private function onValid(event:Event):void
             {
                 PopUpManager.removePopUp(this);

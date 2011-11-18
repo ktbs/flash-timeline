@@ -3,15 +3,15 @@ package com.ithaca.timeline
     import com.ithaca.timeline.skins.ObselGenericEditDialog;
     import com.ithaca.traces.Obsel;
     import com.ithaca.traces.events.ObselEvent;
-    
+
     import flash.events.Event;
     import flash.events.MouseEvent;
-    
+
     import mx.core.UIComponent;
     import mx.managers.PopUpManager;
-    
+
     import spark.components.supportClasses.SkinnableComponent;
-    
+
     [Style(name = "icon", type = "Class", inherit = "no")]
     [Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 
@@ -28,7 +28,7 @@ package com.ithaca.timeline
      */
     public class ObselSkin extends SkinnableComponent
     {
-        
+
         [SkinPart]
         /*
          * The leftGrip property is defined here to allow its management when two duratives overlap
@@ -46,23 +46,23 @@ package com.ithaca.timeline
          * The traceline that contains the obsel
          */
         public var traceline : TraceLine;
-        
+
         /**
          * The obsel represented by the ObselSkin
          */
         private var _obsel : Obsel;
-        
+
         /**
          * Specifies if the obsel is editable or not.
          */
         public var editable : Boolean;
-        
+
         /**
          * TODO : comment
-         */ 
+         */
         private var _dragArea:UIComponent = null;
         private var dragAreaChange:Boolean;
-        
+
         /**
          *
          * @param o The obsel represented by the ObselSkin
@@ -76,19 +76,19 @@ package com.ithaca.timeline
             _obsel = o;
             doubleClickEnabled = true;
             toolTip = obsel.toString();
-            
+
             this.setStyle("dragEnabled", "true");
             this.setStyle("dragMoveEnabled", "true");
         }
-        
-        /**        
+
+        /**
          * @return The obsel
          */
         public function get obsel () : Obsel
         {
             return _obsel;
         }
-        
+
         /**
          * set drag area of the obsels
          */
@@ -102,7 +102,7 @@ package com.ithaca.timeline
         {
             return _dragArea;
         }
-        
+
         /**
          * Popup a generic edit dialog.
          * @param event
@@ -114,14 +114,14 @@ package com.ithaca.timeline
             PopUpManager.addPopUp(editDialog, UIComponent( parentApplication), true);
             PopUpManager.centerPopUp(editDialog);
         };
-        
+
         private function onMouseDown(event:MouseEvent):void
         {
             // Dispatcher
             var moveObselEvent:ObselEvent = new ObselEvent(ObselEvent.MOUSE_DOWN_OBSEL);
             moveObselEvent.value = this;
             moveObselEvent.event = event;
-            
+
             this.dispatchEvent(moveObselEvent);
         }
 
@@ -130,7 +130,7 @@ package com.ithaca.timeline
         // Overridden Methods
         //
         //_____________________________________________________________________
-        
+
         override protected function commitProperties():void
         {
             super.commitProperties();

@@ -3,8 +3,8 @@
 	<!-- A second version of mini layout. This one contains an ObselsSelectors section -->
 	
 	<!-- The ObselsSelectors section defines selectors that are used to set a 'stylename' to obselSkins which match.
-		This stylename can be used as obselSkins selectors in the CSS file 
-		For example : 
+		This stylename can be used as obselSkins selectors in the CSS file
+		For example :
 			timeline|ObselSkin.Message
 			{
 			...

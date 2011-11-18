@@ -6,9 +6,9 @@
     <fx:Declarations>
         <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
     </fx:Declarations>
-    
+
     <fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
-    
+
     <fx:Script>
         <![CDATA[
             import com.ithaca.traces.Obsel;
@@ -18,21 +18,21 @@
             import flash.filters.GlowFilter;
             import flash.geom.ColorTransform;
             import mx.graphics.SolidColor;
-            
+
             public var obsel : Obsel;
-        
+
             protected function creationCompleteHandler(event:Event):void
             {
                 obsel = hostComponent.obsel;
                 obselIcon.source = hostComponent.getStyle( "icon" );
                 obselText.text     = obsel.props[ hostComponent.getStyle( "textProp" ) ];
-                container.backgroundFill = new SolidColor( hostComponent.getStyle( "backgroundColor" ) );                
+                container.backgroundFill = new SolidColor( hostComponent.getStyle( "backgroundColor" ) );
                 toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
                 obselText.editable = hostComponent.editable;
             }
-            
+
             protected function onTextChange(event:Event):void
-            {                                    
+            {
                 obsel.props[ hostComponent.getStyle( "textProp" ) ] = obselText.text;
                 toolTip     = obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
             }

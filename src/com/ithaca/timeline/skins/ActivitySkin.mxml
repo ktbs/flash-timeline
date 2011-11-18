@@ -7,9 +7,9 @@
     <fx:Declarations>
         <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
     </fx:Declarations>
-    
+
     <fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
-    
+
     <fx:Script>
         <![CDATA[
             import com.ithaca.timeline.events.TimelineEvent;
@@ -18,11 +18,11 @@
             import com.ithaca.traces.Obsel;
             import flash.events.Event;
             import mx.graphics.SolidColor;
-            
+
             public var obsel : Obsel;
-        
+
             private static var bgColorIndex : uint = 0;
-            
+
             protected function creationCompleteHandler(event:Event):void
             {
                 obsel = hostComponent.obsel;
@@ -30,27 +30,27 @@
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
                 hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
                 updateWidth( null );
-                
+
                 toolTip = "";
                 durative.backgroundFill =  new SolidColor( 0xF0F9FF ) ;
-                
-                hostComponent.percentHeight = 100;        
+
+                hostComponent.percentHeight = 100;
                 hostComponent.bottom = hostComponent.traceline.getStyle("rendererGap");
             }
-            
+
             public function updateWidth( event : Event ) :  void
             {
                 var traceline         : TraceLine = hostComponent.traceline;
                 var timeRange        : TimeRange = traceline._timeline.zoomContext.cursorRange;
-                                                
+
                 var startPosition     : Number     = timeRange.timeToPosition( obsel.begin, traceline._timeline.zoomContext.timelinePreview.width );
-                var endPosition     : Number     = timeRange.timeToPosition( obsel.end, traceline._timeline.zoomContext.timelinePreview.width );        
+                var endPosition     : Number     = timeRange.timeToPosition( obsel.end, traceline._timeline.zoomContext.timelinePreview.width );
                 width      = (endPosition - startPosition);
             }
-            
+
         ]]>
     </fx:Script>
-        
+
     <s:BorderContainer id="durative" minWidth="1" width="100%" borderVisible="false" height="100%" />
 
 </s:Skin>

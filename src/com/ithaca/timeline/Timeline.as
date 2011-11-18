@@ -11,9 +11,9 @@ package com.ithaca.timeline
     import mx.core.UIComponent;
     import spark.components.Group;
     import spark.components.supportClasses.SkinnableComponent;
-    import spark.events.ElementExistenceEvent;    
+    import spark.events.ElementExistenceEvent;
     import mx.events.ResizeEvent;
-    
+
     /**
      * This style changes the zoomContext cursor behavior.
      * <p>
@@ -68,12 +68,12 @@ package com.ithaca.timeline
      * 'traceline' is the created traceline,<br>
      * 'obsel' is the obsel for wich we create a new traceline.<br>
      */
-    [Event(name = "generateNewTraceline",     type = "com.ithaca.timeline.events.TimelineEvent")]    
+    [Event(name = "generateNewTraceline",     type = "com.ithaca.timeline.events.TimelineEvent")]
     /**
      * This event is dispatched when a layout node is added as child of another.
      * The 'value' property of the TimelineEvent is this LayoutNode.
      */
-    [Event(name = "layoutNodeAdded",     type = "com.ithaca.timeline.events.TimelineEvent")]    
+    [Event(name = "layoutNodeAdded",     type = "com.ithaca.timeline.events.TimelineEvent")]
 
     /**
      * The main component of the package and the entry point of the API.
@@ -81,37 +81,37 @@ package com.ithaca.timeline
     public class Timeline  extends LayoutNode
     {
         private var _styleSheet     : Stylesheet;
-        private var _layout            : Layout;    
-        
+        private var _layout            : Layout;
+
         public  var range            : TimeRange;
-        
+
         [SkinPart(required="true")]
         /**
          * The container that contains the title part of the TracelineGroups
          */
         public  var titleGroup        : Group;
-        
+
         [SkinPart(required = "true")]
         public  var zoomContext        : ZoomContext;
-                
+
         [SkinPart(required="true")]
         /**
          * The cursor that indicates the current time value in the zoom part.
          */
         public  var globalCursor    : Cursor;
-        
+
         [SkinPart(required="true")]
         /**
          * The cursor that indicates the current time value in the context part.
          */
         public  var contextCursor    : Cursor;
-        
+
         private var _currentTime                : Number = 0;
 
         public  var endAlertBeforeTime            : Number = 30000;
         private var endAlertEventDispatched     : Boolean = false;
         private var endReachedEventDispatched     : Boolean = false;
-        
+
         [Bindable]
         public var    isPlaying : Boolean = false;
         [Bindable]
@@ -127,30 +127,30 @@ package com.ithaca.timeline
         public function Timeline( xmlLayout : XML = null )
         {
             super();
-            if (xmlLayout)            
-                layoutXML = xmlLayout;    
+            if (xmlLayout)
+                layoutXML = xmlLayout;
             else
                 layoutXML = <root> <tlg /> </root>;
-        
+
             _timeline = this;
-            
+
             timelineLayout = new Layout( this ) ;
             _styleSheet = new Stylesheet();
             range = new TimeRange( );
             addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
             range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
         }
-        
+
         override public function styleChanged(styleProp:String):void
         {
             super.styleChanged(styleProp);
-            
+
             if ( zoomContext)
                 if (!styleProp || styleProp == 'cursorMode')
                 {
                     switch( getStyle('cursorMode') )
                     {
-                        case 'auto' :        
+                        case 'auto' :
                             zoomContext.cursorEditable = true;
                             contextFollowCursor = true;
                             break;
@@ -161,45 +161,45 @@ package com.ithaca.timeline
                         case 'manual' :
                             zoomContext.cursorEditable = true;
                             contextFollowCursor = false;
-                            break;                    
+                            break;
                         default :
-                            break;                        
+                            break;
                     }
                 }
         }
-        
+
         override protected function partAdded(partName:String, instance:Object):void
         {
-            super.partAdded(partName, instance);            
+            super.partAdded(partName, instance);
             if ( partName == "zoomContext" )
             {
                 zoomContext.timeline = this;
                 styleChanged('cursorMode');
                 zoomContext.addEventListener(ResizeEvent.RESIZE, changeCursorValue);
                 zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, changeCursorValue);
-                zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, changeCursorValue);    
+                zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, changeCursorValue);
                 zoomContext._timelineRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, changeCursorValue);
-                zoomContext._timelineRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, changeCursorValue);    
+                zoomContext._timelineRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, changeCursorValue);
             }
             if ( partName == "titleGroup" )
             {
-                addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange );                
-                addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);        
+                addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange );
+                addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);
             }
-        }    
-        
+        }
+
         /**
          * Update the titleGroup when the contentGroup which contains the traceLineGroups change.
          * <p> As we work on the contentGroup in the case of TraceLineGroup removal or  TraceLineGroup Drag'n Drop we must update the titleGroup ( they must always stay in the same order ).</p>
          */
         private function onTracelineGroupsChange( event: ElementExistenceEvent ) : void
         {
-            if ( event.type == ElementExistenceEvent.ELEMENT_ADD )        
+            if ( event.type == ElementExistenceEvent.ELEMENT_ADD )
                 titleGroup.addElementAt( (event.element as TraceLineGroup).titleComponent, event.index );
             else if ( event.type == ElementExistenceEvent.ELEMENT_REMOVE )
                 titleGroup.removeElementAt( event.index );
-        }    
-        
+        }
+
         /**
          * Create a new Tracelinegroup from a trace and add it to the Timeline
          * @param pTrace the trace to add
@@ -210,18 +210,18 @@ package com.ithaca.timeline
         public function addTrace (  pTrace : Trace, index : int = -1, style : String = null  )  : TraceLineGroup
         {
             var tlg : TraceLineGroup  =  timelineLayout.createTracelineGroupTree( pTrace, style );
-            
+
             if (tlg)
             {
                 if ( !isNaN(tlg.traceBegin ) && !isNaN(tlg.traceEnd ) )
                 range.addTime( tlg.traceBegin, tlg.traceEnd);
-            
-                addChildAndTitle(  tlg , index );                    
+
+                addChildAndTitle(  tlg , index );
             }
-            
+
             return tlg;
         }
-        
+
         /**
          * Remove the first Tracelinegroup with a given trace
          * @param tr the trace of the TraceLineGroup
@@ -240,7 +240,7 @@ package com.ithaca.timeline
             }
             return false;
         }
-        
+
         /**
          * Find and return the first TraceLineGroup whose trace has a given URI ; return null if not found.
          * @param uri the uri of the trace
@@ -251,13 +251,13 @@ package com.ithaca.timeline
             for (var i : int = 0; i < numElements; i++)
             {
                 var tlg : TraceLineGroup = getElementAt(i) as TraceLineGroup;
-                if ( tlg.trace.uri == uri )                    
+                if ( tlg.trace.uri == uri )
                         return tlg ;
             }
-            
+
             return null;
         }
-                
+
         /**
          * Remove a TraceLineGroup
          * @param tlg the TraceLineGroup to remove.
@@ -265,20 +265,20 @@ package com.ithaca.timeline
         public function removeTraceLineGroup ( tlg : TraceLineGroup ) : void
         {
             if ( tlg )
-                removeElement( tlg );                
+                removeElement( tlg );
         }
-        
+
         /**
          * Change the position of a TraceLineGroup
          * @param fromIndex
          * @param toIndex
          */
         public function moveTraceLineGroup( fromIndex : uint, toIndex : uint) : void
-        {    
-            addElementAt( getElementAt(fromIndex) as TraceLineGroup, toIndex );    
+        {
+            addElementAt( getElementAt(fromIndex) as TraceLineGroup, toIndex );
         }
 
-        /**        
+        /**
          * @return the Layout object bound to this Timeline
          * @see Layout
          */
@@ -288,48 +288,48 @@ package com.ithaca.timeline
          * @param value
          */
         public function set timelineLayout( value:Layout ):void
-        {                         
+        {
             if (_layout)
             {
                 //the selectors must be loaded before the _layout because the traceline could be defined by using one of them
                 _layout.loadObselsSelectors( layoutXML[Layout.OBSELS_SELECTORS] );
-                
+
                 var traceArray : Array = new Array();
-            
+
                 for (var i : uint = 0; i < numElements; i++ )
-                {                    
+                {
                     var tlg : TraceLineGroup = getElementAt(i) as  TraceLineGroup;
                     traceArray.push ( (getElementAt(i) as  TraceLineGroup).trace );
                 }
                 removeAllElements();
-                
+
                 _layout = value;
-                
+
                 while (traceArray.length > 0 )
                     addTrace( traceArray.shift() as Trace );
             }
             else
-                _layout = value;    
-            
-            
+                _layout = value;
+
+
             dispatchEvent( new TimelineEvent( TimelineEvent.LAYOUT_CHANGE  ));
         }
-        
-        /**    
+
+        /**
          * @return the beginning value of the timeline in milliseconds
          */
         public function get begin()                 : Number     { return range.begin; }
-        
+
         /**
          * @return  the ending value of the timeline in milliseconds
          */
         public function get end()                     : Number     { return range.end; }
-        
+
         /**
          * @return  the duration of the timeline in milliseconds
          */
         public function get duration()                 : Number     { return range.duration; }
-        
+
         /**
          * @return
          */
@@ -347,9 +347,9 @@ package com.ithaca.timeline
          */
         public function setTimeRangeLimits( startValue : Number, endValue : Number ) : void
         {
-            range.changeLimits( startValue, endValue );    
+            range.changeLimits( startValue, endValue );
         }
-        
+
         /**
          * Reset the time range limits to the the limits of the loaded traces.
          */
@@ -357,7 +357,7 @@ package com.ithaca.timeline
         {
             range.reset();
         }
-        
+
         /**
          * Make a time hole between the startValue and endValue.
          * @param startValue lower limit of the time hole interval
@@ -367,16 +367,16 @@ package com.ithaca.timeline
         {
             range.makeTimeHole( startValue, endValue);
             zoomContext.setRange( range.begin, range.end );
-        }        
-        
+        }
+
         /**
          * @return the current time value in milliseconds
          */
         public function get currentTime( ) : Number
         {
-            return _currentTime;        
+            return _currentTime;
         }
-        
+
         /**
          * @return the current time value in milliseconds from the beginning of the timeline range
          */
@@ -384,10 +384,10 @@ package com.ithaca.timeline
         {
             return currentTime - range._ranges[0];
         }
-        
+
         /**
          * Modify the current time value.
-         * 
+         *
          * It is the only way to change the current value of the
          * timeline and it is never called in the timeline code (it
          * must be changed from outside)
@@ -398,13 +398,13 @@ package com.ithaca.timeline
         {
             var timerangeEnd     : Number = range._ranges[ range._ranges.length -1 ];
             var timerangeBegin     : Number = range._ranges[ 0 ];
-                            
+
             if ( timeValue > timerangeEnd )
             {
                 dispatchEvent( new TimelineEvent( TimelineEvent.END_REACHED ) );
                 timeValue = timerangeEnd;
             }
-            
+
             if ( timeValue >= timerangeEnd - endAlertBeforeTime )
             {
                 if ( !endAlertEventDispatched )
@@ -415,40 +415,40 @@ package com.ithaca.timeline
             }
             else
                 endAlertEventDispatched = false;
-            
-            _currentTime = timeValue;        
+
+            _currentTime = timeValue;
             dispatchEvent( new TimelineEvent( TimelineEvent.CURRENT_TIME_CHANGE, true) )
         }
-                
+
         private function changeCursorValue( event : Event ) : void
-        {            
+        {
             var timeValue : Number = currentTime;
-            
+
             if ( timeValue >= begin && timeValue <= end )
             {
                 globalCursor.visible = true;
                 globalCursor.x = Stylesheet.renderersSidePadding + zoomContext._timelineRange.timeToPosition(timeValue, zoomContext.timelinePreview.width );
             }
             else
-                globalCursor.visible = false;            
-            
-            
+                globalCursor.visible = false;
+
+
             var minPosition : Number = zoomContext.cursorRange.begin;
             var maxPosition : Number = zoomContext.cursorRange.end      - zoomContext.cursorRange.duration*0.15;
-                
-            if ( contextFollowCursor && !contextCursor.isDragging && ( timeValue > maxPosition || timeValue < minPosition  ))     
-                zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );                                            
-            
-            
+
+            if ( contextFollowCursor && !contextCursor.isDragging && ( timeValue > maxPosition || timeValue < minPosition  ))
+                zoomContext.shiftContext( timeValue - zoomContext.cursorRange.begin );
+
+
             if ( timeValue >= zoomContext.cursorRange.begin && timeValue <= zoomContext.cursorRange.end +1000 )
             {
-                contextCursor.visible = true;                                
+                contextCursor.visible = true;
                 contextCursor. x = Stylesheet.renderersSidePadding + zoomContext.cursorRange.timeToPosition(timeValue, zoomContext.timelinePreview.width );
             }
             else
                 contextCursor.visible = contextCursor.isDragging;
-        }            
-        
+        }
+
         /**
          * @return true if the timeMode style is set to 'relative'. 'true' means that timeLabels must be shown in relative mode (from 0 to timeline duration)
          */

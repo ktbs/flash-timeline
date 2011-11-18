@@ -9,13 +9,13 @@
     <fx:Declarations>
         <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
     </fx:Declarations>
-    
+
     <fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLineGroup")]
-    
+
         [Style(name = "fillColors", type = "Array", format = "Color", inherit = "no")]
         [Style(name = "headerHeight", type = "Number", inherit = "no")]
     </fx:Metadata>
-    
+
     <fx:Script>
         <![CDATA[
             import com.ithaca.timeline.SimpleObselsRenderer;
@@ -25,16 +25,16 @@
             import com.ithaca.timeline.Stylesheet;
             import com.ithaca.timeline.ObselsRenderer;
                 import mx.graphics.SolidColor;
-            
+
             [Bindable]
             public var backgroundColor : uint;
 
             [Bindable]
             public var obselsRenderer:ObselsRenderer;
-            
+
             [Bindable]
             public var renderersSidePadding:Number = 0;
-            
+
             protected function creationCompleteHandler(event:FlexEvent):void
             {
                 hostComponent.percentWidth    = 100;
@@ -42,14 +42,14 @@
                 if ( hostComponent.backgroundTraceLine )
                 {
                     hostComponent.backgroundTraceLine.percentHeight = 100;
-                    backgroundGroup.addElement( hostComponent.backgroundTraceLine );                    
+                    backgroundGroup.addElement( hostComponent.backgroundTraceLine );
                 }
                 styleChanged(null);
             }
-            
+
             override public function styleChanged(styleProp:String):void
             {
-                super.styleChanged(styleProp)            
+                super.styleChanged(styleProp)
 
                 if (!styleProp  || styleProp =="headerHeight")
                 {
@@ -59,51 +59,51 @@
                             backgroundGroup.top     = getStyle("headerHeight");
                         invalidateDisplayList();
                 }
-                
+
                 if (!styleProp  || styleProp =="bottom")
-                {                    
+                {
                         if ( contentGroup )
                             contentGroup.bottom    = getStyle("bottom");
                         if ( backgroundGroup )
                             backgroundGroup.bottom     = getStyle("bottom");
                         invalidateDisplayList();
                 }
-                
+
                 if (!styleProp  || styleProp =="bgColor")
-                {                
+                {
                         tlgContainer.backgroundFill = new SolidColor( getStyle("bgColor") )    ;
                         if ( hostComponent._timeline.zoomContext.timelinePreview.numElements > hostComponent._timeline.getElementIndex( hostComponent ) )
                         {
                             if ( getStyle("previewBgColor") == "auto" || getStyle("previewBgColor") == null)
-                                (hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;                            
+                                (hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;
                         }
                 }
-                
+
                 if (!styleProp  || styleProp =="previewBgColor")
-                {    
+                {
                     if ( hostComponent._timeline.zoomContext.timelinePreview.numElements > hostComponent._timeline.getElementIndex( hostComponent ) )
                         {
                         if ( getStyle("previewBgColor") == "auto" || getStyle("previewBgColor") == null)
-                            (hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;    
+                            (hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;
                         else
                             (hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor =  Number( getStyle("previewBgColor") ) ;
-                            trace(Number( getStyle("previewBgColor") ));        
+                            trace(Number( getStyle("previewBgColor") ));
                         }
                 }
-                    
-                if ( hostComponent.titleComponent )                    
+
+                if ( hostComponent.titleComponent )
                 {
                     if ( styleProp )
-                        hostComponent.titleComponent.setStyle( styleProp, getStyle( styleProp ));                
+                        hostComponent.titleComponent.setStyle( styleProp, getStyle( styleProp ));
                     else
                     {
                         hostComponent.titleComponent.setStyle( 'headerHeight' , getStyle( 'headerHeight' ));
-                        hostComponent.titleComponent.setStyle( 'bottom' , getStyle( 'bottom' ));                        
+                        hostComponent.titleComponent.setStyle( 'bottom' , getStyle( 'bottom' ));
                     }
                 }
-                    
-                invalidateDisplayList();                        
-                    
+
+                invalidateDisplayList();
+
                 if ( !styleProp )
                 {
                     if ( contentGroup)
@@ -120,17 +120,17 @@
                     invalidateDisplayList();
                 }
             }
-            
+
         ]]>
     </fx:Script>
-    
+
     <s:states>
         <s:State name="normal" />
         <s:State name="disabled" />
     </s:states>
-    
+
     <s:BorderContainer id="tlgContainer" height="100%" width="100%" minHeight="32" backgroundColor="{backgroundColor}" >
         <s:Group id="backgroundGroup" width="100%" height="100%" />
-        <s:VGroup id="contentGroup"  width="100%" gap="0" />            
+        <s:VGroup id="contentGroup"  width="100%" gap="0" />
     </s:BorderContainer>
 </s:Skin>

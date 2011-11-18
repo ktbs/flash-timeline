@@ -7,9 +7,9 @@
     <fx:Declarations>
         <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
     </fx:Declarations>
-    
+
     <fx:Metadata>[HostComponent("com.ithaca.timeline.ObselSkin")]</fx:Metadata>
-    
+
     <fx:Script>
         <![CDATA[
             import com.ithaca.traces.Obsel;
@@ -21,14 +21,14 @@
             import mx.events.PropertyChangeEventKind;
             import mx.managers.PopUpManager;
             import mx.events.ToolTipEvent;
-            
+
             import gnu.as3.gettext._FxGettext;
             import gnu.as3.gettext.FxGettext;
             [Bindable]
-            private var fxgt:_FxGettext;    
-            
+            private var fxgt:_FxGettext;
+
             public var obsel : Obsel;
-        
+
             protected function creationCompleteHandler(event:Event):void
             {
                 fxgt = FxGettext;
@@ -38,27 +38,27 @@
                 icon.source = hostComponent.getStyle( "icon" );
                 if ( hostComponent.getStyle( "tooltipProp" ) )
                     icon.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
-                    
+
                 //if ( hostComponent.editable )
                 {
-                    currentState = 'editable';                
+                    currentState = 'editable';
                 }
             }
-            
+
             protected function EditComment( e:MouseEvent ):void
             {
                 this.enabled = false;
 
-                var markerEdit:CommentEditDialog = new CommentEditDialog();            
+                var markerEdit:CommentEditDialog = new CommentEditDialog();
                 markerEdit.commentText = obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
                 markerEdit.title = fxgt.gettext("Comment Edit");
-                
+
                 PopUpManager.addPopUp(markerEdit, this);
                 PopUpManager.centerPopUp(markerEdit);
                 markerEdit.y -= markerEdit.height;
                 markerEdit.addEventListener( Event.REMOVED_FROM_STAGE, onRemoveEditDialog );
             }
-            
+
             private function onRemoveEditDialog(event:Event):void
             {
                 if (event.currentTarget.confirm)
@@ -72,26 +72,26 @@
                 }
                 this.enabled = true;
             }
-            
+
             protected function onObselChange( event : PropertyChangeEvent ) : void
             {
                 icon.source = hostComponent.getStyle( "icon" );
                 if ( hostComponent.getStyle( "tooltipProp" ) )
                     icon.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
             }
-            
+
             protected function onToolTipShow( event : ToolTipEvent ) : void
-            {    
-                event.toolTip.text     =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];                    
+            {
+                event.toolTip.text     =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
             }
         ]]>
     </fx:Script>
-    
+
     <s:states>
-        <s:State name="normal" />        
+        <s:State name="normal" />
         <s:State name="editable" />
     </s:states>
-    
+
     <mx:Image id="icon" />
 
 </s:Skin>

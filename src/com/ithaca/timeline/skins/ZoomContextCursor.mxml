@@ -2,11 +2,11 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
                 xmlns:mx="library://ns.adobe.com/flex/mx" >
-    
+
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
-    
+
         <fx:Script>
         <![CDATA[
             import com.ithaca.timeline.CursorIcons;
@@ -21,47 +21,47 @@
             import mx.events.ResizeEvent;
             import spark.components.BorderContainer;
             import spark.components.supportClasses.SkinnableComponent;
-                         
-            protected     var currentCenterDragingPoint:Point;            
+
+            protected     var currentCenterDragingPoint:Point;
             private     var draggedPart : UIComponent = null;
             public        var minX  :Number;
             public        var maxX  : Number;
-                        
+
             protected function zcStartDrag(e:MouseEvent):void
             {
                 draggedPart = (e.currentTarget as UIComponent);
                 stage.addEventListener( MouseEvent.MOUSE_MOVE,     zcDragging);
                 stage.addEventListener( MouseEvent.MOUSE_UP,    zcStopDrag);
-                    
+
                 currentCenterDragingPoint = new Point(e.localX, e.localY);
             }
-            
+
             protected function zcDragging(e:MouseEvent):void
             {
                 dispatchEvent( new TimelineEvent(TimelineEvent.ZOOM_CONTEXT_MANUAL_CHANGE ));
-                
-                var parentMouse:Point = parent.globalToLocal(new Point(e.stageX, e.stageY));                
+
+                var parentMouse:Point = parent.globalToLocal(new Point(e.stageX, e.stageY));
                 var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
-                
+
                 if (draggedPart == minRange )
                 {
-                    var oldPos : Number = x;                        
-                    if ( newPos < minX  )                        
-                        x = minX ;                        
+                    var oldPos : Number = x;
+                    if ( newPos < minX  )
+                        x = minX ;
                     else if ( newPos + minRange.width > x + maxRange.x - 1 )
                         x =  x + maxRange.x - 1;
                     else
                         x = newPos + minRange.width;
-                    width     -= x - oldPos ;    
+                    width     -= x - oldPos ;
                 }
                 else if (draggedPart == cursor )
                 {
-                    if ( newPos < minX)                        
-                        x  = minX;                        
+                    if ( newPos < minX)
+                        x  = minX;
                     else if ( newPos > maxX - width )
                         x = maxX - width;
                     else
-                        x = newPos;                        
+                        x = newPos;
                 }
                 else if (draggedPart == maxRange )
                 {
@@ -71,30 +71,30 @@
                         maxRange.x = maxX - x;
                     else
                         maxRange.x = newPos - x;
-                        
-                    width = maxRange.x;                
-                }            
+
+                    width = maxRange.x;
+                }
             }
-            
+
             protected function zcStopDrag(e:MouseEvent):void
             {
                 CursorIcons.SetDefaultCursor(e);
-                draggedPart = null;                
+                draggedPart = null;
                 stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
-                stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);        
+                stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
             }
-            
+
         ]]>
     </fx:Script>
-    
-    <s:states>    
+
+    <s:states>
         <s:State name="editable" />
-        <s:State name="fixed" />        
+        <s:State name="fixed" />
     </s:states>
-    
+
     <mx:Image id="minRange"  maintainAspectRatio="false" height="{cursor.height}"  mouseDown.editable="zcStartDrag(event);" x="{-minRange.width}" source="@Embed(source='../images/curseurLeftGrip.png')" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)" />
     <mx:Image id="maxRange"  maintainAspectRatio="false"  height="{cursor.height}"  mouseDown.editable="zcStartDrag(event);" x="{width}" source="@Embed(source='../images/curseurRightGrip.png')" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)" />
-    
+
     <s:BorderContainer id="cursor" borderWeight="2" backgroundAlpha="0.2" backgroundColor="#A8E7FF" minWidth="1" minHeight="1" width="100%" height="100%" mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetHandCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)" />
-            
+
 </s:Group>

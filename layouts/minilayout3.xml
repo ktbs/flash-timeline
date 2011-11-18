@@ -3,8 +3,8 @@
 	<!-- A last version of mini layout. This one contains an ObselsSelectors section and uses a LayoutModifier to create Traceline -->
 	
 	<!-- The ObselsSelectors section defines selectors that are used to set a 'stylename' to obselSkins which match.
-		This stylename can be used as obselSkins selectors in the CSS file 
-		For example : 
+		This stylename can be used as obselSkins selectors in the CSS file
+		For example :
 			timeline|ObselSkin.Message
 			{
 			...
@@ -29,10 +29,10 @@
 		<!-- Default and only traceLineGroup definition. Each Trace will use this definition -->
 		<tlg > 			
 			<!-- Instead of a static traceline, a LayoutModifier node could be used.
-				 Then, tracelines will be dynamicaly generated when needed. 
+				 Then, tracelines will be dynamicaly generated when needed.
 				 At the moment, the only implemented LayoutModifier is the splitter one that creates a new traceline for each value of the obsels property defined by the splitter attribute.
-				 
-				 In this example, a new traceline will be created for each different type of Obsel. (see obsel.type ) 
+				
+				 In this example, a new traceline will be created for each different type of Obsel. (see obsel.type )
 			-->
 			<modifier splitter="type" />							
 			

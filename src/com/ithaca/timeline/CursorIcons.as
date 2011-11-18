@@ -14,7 +14,7 @@ package com.ithaca.timeline
         [Embed(source="images/resize.png")]
 
         static public var Resize:Class;
-        
+
         static private var currentObject:Object = null;
 
         static public function SetResizeCursor(event:MouseEvent) : void
@@ -31,7 +31,7 @@ package com.ithaca.timeline
                     currentObject = null;
             }
         }
-        
+
         static public function SetHandCursor(event:MouseEvent) : void
         {
             if ( !event.buttonDown )
@@ -65,7 +65,7 @@ package com.ithaca.timeline
                 }
                 else
                     currentObject = null;
-            }                
+            }
         }
 
         static public function SetDefaultCursor(event:MouseEvent) : void

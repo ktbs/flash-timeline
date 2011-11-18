@@ -38,28 +38,28 @@
             import mx.events.FlexEvent;
             import mx.events.MenuEvent;
             import mx.managers.PopUpManager;
-            
+
             [Bindable]
             public var obselsRenderer:ObselsRenderer;
-            
+
             protected function creationCompleteHandler(event:FlexEvent):void
-            {        
+            {
                 hostComponent.percentWidth         = 100;
                 hostComponent.percentHeight        = 100;
-                
+
                 obselsRenderer                     = new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
                 obselsRenderer.percentHeight    = 100;
                 obselsRenderer.percentWidth     = 100;
-                obselsRenderer.borderVisible     = false;        
+                obselsRenderer.borderVisible     = false;
                 obselsRenderer.left                = Stylesheet.renderersSidePadding;
                 obselsRenderer.width            = hostComponent._timeline.zoomContext.timelinePreview.width;
-                obselsRenderer.obselsCollection = hostComponent._obsels;                
-                obselsRenderer.styleName         = hostComponent.styleName;        
+                obselsRenderer.obselsCollection = hostComponent._obsels;
+                obselsRenderer.styleName         = hostComponent.styleName;
                 rendererGroup.addElement( obselsRenderer );
             }
-            
+
             protected function onResize(event:Event):void
-            {        
+            {
                 if ( obselsRenderer)
                 {
                     obselsRenderer.left            = Stylesheet.renderersSidePadding;
@@ -76,6 +76,6 @@
     </s:states>
 
     <s:VGroup width="100%" gap="0" height="100%" >
-        <s:Group id="rendererGroup"  width="100%" height="100%" />        
+        <s:Group id="rendererGroup"  width="100%" height="100%" />
     </s:VGroup>
 </s:Skin>

@@ -4,15 +4,15 @@ package com.ithaca.timeline
     import mx.collections.ArrayCollection;
     import mx.events.CollectionEvent;
     import mx.events.CollectionEventKind;
-    
+
     /**
      * The height of the obsel renderer component
      */
-    [Style(name = "rendererHeight", type = "Number", inherit = "no")]    
+    [Style(name = "rendererHeight", type = "Number", inherit = "no")]
     /**
      * The gap under the obsel renderer component
      */
-    [Style(name = "rendererGap", type = "Number", inherit = "no")]    
+    [Style(name = "rendererGap", type = "Number", inherit = "no")]
     [Style(name = "title", type = "String", inherit = "no")]
 
     /**
@@ -22,7 +22,7 @@ package com.ithaca.timeline
      * @see LayoutNode
      */
     public class TraceLine  extends LayoutNode
-    {    
+    {
         //private var _title             : String;
         public var sourceStr             : String;
         private var _selector             : ISelector;
@@ -30,10 +30,10 @@ package com.ithaca.timeline
         public var lastRendererHeight    : Number;
         public var lastRendererGap        : Number;
         public var autohide                : Boolean=false;
-        
+
         /**
          * Create a new Traceline
-         * 
+         *
          * @param tl: the timeline containing the traceline
          * @param tlTitle: the title (and name/id) of the traceline. It is used by CSS selectors.
          * @param tlSelector: the traceline selector
@@ -48,29 +48,29 @@ package com.ithaca.timeline
             if (title)
                 this.name        = title;
             _selector        = tlSelector;
-            sourceStr        = tlSource;        
-            styleName        = tlSkinClass;            
+            sourceStr        = tlSource;
+            styleName        = tlSkinClass;
         }
-        
+
         /**
          * Sets the title (but not the name) of the Traceline
          */
         public function set title ( value : String ) : void
-        {            
-            setStyle('title', value);            
+        {
+            setStyle('title', value);
         }
-        
+
         public function get title (  ) : String
         {
-            return getStyle('title');            
+            return getStyle('title');
         }
-        
+
         public function set selector ( value : ISelector ) : void
-        {            
+        {
             _selector = value;
             resetObselCollection();
         }
-        
+
         public function get selector (  ) : ISelector
         {
             return _selector;
@@ -88,11 +88,11 @@ package com.ithaca.timeline
                     if ( parentNode )
                     {
                         if ( parentNode is TraceLine)
-                            return ( parentNode as TraceLine )._obsels;                    
+                            return ( parentNode as TraceLine )._obsels;
                         if ( parentNode is TraceLineGroup )
-                            return ( parentNode as TraceLineGroup ).trace.obsels;                
+                            return ( parentNode as TraceLineGroup ).trace.obsels;
                     }
-                    return null;            
+                    return null;
                 }
                 default:
                 {
@@ -113,7 +113,7 @@ package com.ithaca.timeline
         {
             return ( !_selector || _selector.isObselMatching( obsel as Obsel ) );
         }
-        
+
         /**
          * Add an obsel in the obsel collection
          * @param    event
@@ -123,7 +123,7 @@ package com.ithaca.timeline
             if ( acceptObsel( obsel ) )
                 _obsels.addItem( obsel );
         }
-        
+
         /**
          * Remove an  obsel from the obsel collection
          * @param    event
@@ -134,29 +134,29 @@ package com.ithaca.timeline
             if ( obselIndex >= 0)
                 _obsels.removeItemAt( obselIndex );
         };
-        
+
         /**
          * Rebuild the obsel collection from source
          * @param    event
          */
         override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
-        {        
+        {
             _obsels.disableAutoUpdate();
             _obsels.removeAll();
-        
+
             if ( obselsCollection == null )
-                obselsCollection = getCollectionSource();                
+                obselsCollection = getCollectionSource();
             if (obselsCollection != null && obselsCollection.length >0)
-            {                    
+            {
                 for each( var obsel :  Obsel in obselsCollection)
-                    addObsel( obsel );                            
-            }            
+                    addObsel( obsel );
+            }
             _obsels.enableAutoUpdate();
-            
+
             if (autohide)
                 SetToVisible( _obsels.length > 0 );
-        }        
-        
+        }
+
         /**
          * Handle an obsel collection event that occurs in the source collection
          * @param    event
@@ -164,34 +164,34 @@ package com.ithaca.timeline
         override public function onSourceChange( event : CollectionEvent ) : void
         {
             _obsels.disableAutoUpdate();
-            
+
             var obsel : Obsel;
             switch (event.kind)
             {
                 case CollectionEventKind.ADD :
-                {                
+                {
                     for each ( obsel in event.items )
                         addObsel( obsel );
                     break;
-                }                
+                }
                 case CollectionEventKind.REMOVE :
-                {                    
+                {
                     for each ( obsel in event.items )
                         removeObsel( obsel );
                     break;
                 }
                 case CollectionEventKind.REPLACE :
                 break;
-                
-                case CollectionEventKind.RESET :    
+
+                case CollectionEventKind.RESET :
                     resetObselCollection();
-                break;                
-                
+                break;
+
                 default:
-            }                        
-                                    
+            }
+
             _obsels.enableAutoUpdate();
-            
+
             if ( autohide )
                 SetToVisible( _obsels.length > 0 );
         }
@@ -208,10 +208,10 @@ package com.ithaca.timeline
             for ( var lnIndex : int = 0; lnIndex < numElements; lnIndex++ )
                 if ( getElementAt(lnIndex) is TraceLine && (getElementAt(lnIndex) as TraceLine).visible )
                     numTl++;
-            
+
             return numTl;
         }
-        
+
         /**
          * Show or hide the traceline and its children according to the parameter.
          * @param    visible if true the TraceLine is visible; otherwise it's hidden.
@@ -220,18 +220,18 @@ package com.ithaca.timeline
         {
             if (this.visible == visible)
                 return;
-            
+
             if ( _timeline.getStyle( "adminMode" ) != true)
             {
                 this.visible                         = visible;
                 titleComponent.visible                = visible;
                 if ((titleComponent as TraceLineTitle).OpenButton)
                     (titleComponent as TraceLineTitle).OpenButton.visible = visible && (getVisibleChildrenNumber() > 0);
-                    
+
                 if (parentNode is TraceLine && parentNode.visible && parentNode.titleComponent && ((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton)
                     ((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton.visible = ((parentNode as TraceLine).getVisibleChildrenNumber() > 0 );
-                            
-                setStyle( 'hide', !visible )                    
+
+                setStyle( 'hide', !visible )
             }
         }
     }

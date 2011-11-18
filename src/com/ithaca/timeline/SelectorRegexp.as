@@ -1,7 +1,7 @@
 package com.ithaca.timeline
 {
     import com.ithaca.traces.Obsel;
-    
+
     /**
      * The SelectorRegexp class implements the ISelector interface. It
      * is defined by two properties : field and _regexp.
@@ -13,9 +13,9 @@ package com.ithaca.timeline
     public class SelectorRegexp implements ISelector
     {
         private var _regexp : RegExp;
-        
+
         public var field : String = "";
-      
+
         /**
          * Instanciate a new SelectorRegexp
          *
@@ -31,12 +31,12 @@ package com.ithaca.timeline
             if (params)
                 setParameters( params );
         }
-        
+
         public function set regexp(value:String):void
         {
             _regexp = new RegExp( value );
         }
-        
+
         public function get regexp( ):String
         {
             return _regexp.source;
@@ -46,15 +46,15 @@ package com.ithaca.timeline
         {
             return null;
         }
-        
+
         public function isObselMatching(obsel:Obsel):Boolean
-        {    
+        {
             if ( obsel.hasOwnProperty( field ) )
                 return _regexp.test( obsel[field] );
             else
                 return _regexp.test( obsel.props[field] );
         }
-        
+
         public function isEqual( selector : ISelector) : Boolean
         {
             if (selector is SelectorRegexp)
@@ -64,12 +64,12 @@ package com.ithaca.timeline
             }
             return false
         }
-        
+
         public function getParameters() : String
         {
             return field + "," + regexp;
         }
-        
+
         public function setParameters( params : String) : void
         {
             var arr     : Array = params.split(',');

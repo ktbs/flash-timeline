@@ -15,7 +15,7 @@
 	
 	<!-- The layout section to define the tree structure of the timeline. -->
 	<layout>
-		<!-- This TracelineGroup definition is used when the stylename of the TracelineGroup is 'comments' 
+		<!-- This TracelineGroup definition is used when the stylename of the TracelineGroup is 'comments'
 			( the stylename of TracelineGroup can be set when calling the timeline.addTrace(..) function. ) -->
 		<!-- the stylename is used to create CSS selectors -->
 		<tlg style="comments" > 				
@@ -26,9 +26,9 @@
 			</tl>						
 		</tlg> 	
 		
-		<!-- 
-			The default tracelinegroup definition of this layout (because this is the last tracelinegroup definition. 
-			Used for the traces of users. 
+		<!--
+			The default tracelinegroup definition of this layout (because this is the last tracelinegroup definition.
+			Used for the traces of users.
 		-->
 		<tlg> 				
 			<!-- definition of the traceline in the background of the tracelinegroup -->

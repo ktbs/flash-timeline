@@ -5,11 +5,11 @@
                xmlns:tl="com.ithaca.timeline.*"
                creationComplete="creationCompleteHandler(event)"
                close="onCancel(event)" >
-    
+
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
-    
+
     <fx:Script>
         <![CDATA[
             import com.ithaca.timeline.SelectorRegexp;
@@ -17,52 +17,52 @@
             import mx.events.FlexEvent;
             import mx.managers.PopUpManager;
             import com.ithaca.timeline.TraceLine;
-            
+
             import gnu.as3.gettext._FxGettext;
             import gnu.as3.gettext.FxGettext;
             [Bindable]
-            private var fxgt:_FxGettext;        
-            
+            private var fxgt:_FxGettext;
+
             [Bindable]
-            public var tracelineTitle : String;            
+            public var tracelineTitle : String;
             [Bindable]
             public var tracelineSource : Number = 0;
             [Bindable]
             public var selectorField : String = "type";
             [Bindable]
             public var selectorRegexp : String;
-            
+
             public var traceline : TraceLine;
-            
+
             protected function creationCompleteHandler(event:FlexEvent):void
             {
                 fxgt = FxGettext;
                 this.title = fxgt.gettext("Create / Edit TraceLine");
             }
-            
+
             private function onCancel(event:Event):void
             {
                 PopUpManager.removePopUp(this);
             }
-            
+
             private function onValid(event:Event):void
             {
                 traceline.title = titleIT.text;
-                if (traceline.sourceStr != sourceDDL.selectedItem)                        
-                    traceline.sourceStr = sourceDDL.selectedItem;                                
-                if ( fieldIT.text != "" )                
+                if (traceline.sourceStr != sourceDDL.selectedItem)
+                    traceline.sourceStr = sourceDDL.selectedItem;
+                if ( fieldIT.text != "" )
                     traceline.selector = new SelectorRegexp( fieldIT.text + "," + regexpIT.text );
 
                 traceline.resetObselCollection();
-                
+
                 PopUpManager.removePopUp(this);
             }
         ]]>
     </fx:Script>
-    
+
     <mx:VBox paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
         <s:HGroup verticalAlign="bottom" >  <s:Label text='{fxgt.gettext("Title :")}'/> <s:TextInput id="titleIT" text="{tracelineTitle}"/> </s:HGroup>
-        
+
         <mx:Spacer height="10"/>
         <s:HGroup verticalAlign="bottom">
             <s:Label text='{fxgt.gettext("Source :")}' />
@@ -73,12 +73,12 @@
                 </mx:ArrayCollection>
             </s:DropDownList>
         </s:HGroup>
-        
+
         <mx:Spacer height="10"/>
         <s:Label text='{fxgt.gettext("Field / Regexp :")}' />
         <s:HGroup > <s:TextInput text="{selectorField}" width="60" id="fieldIT"/> <s:TextInput text="{selectorRegexp}"  id="regexpIT"/> </s:HGroup>
-        
+
         <mx:Spacer height="10"/>
-        <s:HGroup > <mx:Spacer width="80"/> <s:Button label='{fxgt.gettext("Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.gettext("Cancel")}' click="onCancel(event)" /> </s:HGroup>        
+        <s:HGroup > <mx:Spacer width="80"/> <s:Button label='{fxgt.gettext("Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.gettext("Cancel")}' click="onCancel(event)" /> </s:HGroup>
     </mx:VBox>
 </s:TitleWindow>

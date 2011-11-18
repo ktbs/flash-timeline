@@ -7,7 +7,7 @@ package com.ithaca.timeline
     import mx.events.CollectionEvent;
     import mx.events.CollectionEventKind;
     import mx.events.ResizeEvent;
-    
+
     /**
      * <p>The BaseObselsRenderer is the base class of ObselRenderers.
      * It is contained by Traceline in both the tree structure and the zoomContext as preview.
@@ -20,7 +20,7 @@ package com.ithaca.timeline
      * @see SimpleObselsRenderer
      * @see ObselsRenderer
      */
-    
+
     public class BaseObselsRenderer extends UIComponent
     {
         /**
@@ -45,7 +45,7 @@ package com.ithaca.timeline
          * Specifies if the borders of the obselsRenderer should be visible or not.
          */
         public       var borderVisible     : Boolean = true;
-            
+
         /**
          * Constructor
          *
@@ -57,33 +57,33 @@ package com.ithaca.timeline
         {
             // FIXME: the timeline reference could be obtained through traceLine._timeline.
             // Here, we have a possibility of conflicting declarations.
-            super();                        
+            super();
             _timeRange = tr;
             _traceline = traceLine;
             _timeline = timeline;
             addEventListener( ResizeEvent.RESIZE, onResize );
-            _timeRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimerangeChange);        
+            _timeRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimerangeChange);
             _timeRange.addEventListener( TimelineEvent.TIMERANGES_SHIFT, onTimerangeChange);
         }
-        
+
         /**
          * Change the obsels collection that is displayed by the obsels renderer.
          *
          * @param obsels The new obsels collection.
          */
         public function set obselsCollection( obsels : ArrayCollection ) : void
-        {            
+        {
             if ( _obsels)
                 _obsels.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onObselsCollectionChange);
-            _obsels = obsels;        
-            
+            _obsels = obsels;
+
             _obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE, onObselsCollectionChange);
-            
+
             var e : CollectionEvent = new CollectionEvent( CollectionEvent.COLLECTION_CHANGE);
             e.kind = CollectionEventKind.RESET;
             onObselsCollectionChange( e );
         }
-                
+
         /**
          * The callback used when the TimeRange dispatch a TimelineEvent.TIMERANGES_CHANGE or TimelineEvent.TIMERANGES_SHIFT event.
          *
@@ -94,10 +94,10 @@ package com.ithaca.timeline
         public function  onTimerangeChange( event : TimelineEvent ) : void
         {
             _timeRange = event.currentTarget as TimeRange;
-            
+
             redraw();
         }
-        
+
         /**
          * The callback used when the TimeRange dispatches a CollectionEvent.COLLECTION_CHANGE event.
          *
@@ -108,8 +108,8 @@ package com.ithaca.timeline
         public function  onObselsCollectionChange( event : CollectionEvent ) : void
         {
             redraw();
-        }    
-        
+        }
+
         /**
          * The callback used when the component dispatches a ResizeEvent.RESIZE event.
          *
@@ -120,8 +120,8 @@ package com.ithaca.timeline
         public function  onResize( event : ResizeEvent ) : void
         {
             redraw();
-        }    
-        
+        }
+
         /**
          * MUST BE OVERRIDDEN. Should do a full render process but do nothing in this base class.
          *
@@ -133,7 +133,7 @@ package com.ithaca.timeline
          * @param event
          */
         public function  redraw( event : Event = null) : void
-        {                    
+        {
         }
     }
 }

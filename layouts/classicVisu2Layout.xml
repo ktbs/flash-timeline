@@ -29,7 +29,7 @@
 			
 			The 'title' attribute defines the default traceline.title property and the traceline.name too. -->			
 			<tl title="Synthesis"  selector="SelectorRegexp" selectorParams="type,Message|Document|Marker|Instructions|Keyword" > 				
-				<!-- Tracelines can also use selector ID of already created obselSelector 
+				<!-- Tracelines can also use selector ID of already created obselSelector
 				
 					Note : We cannot use a layoutModifier to split obsels by type because the Message selector, for example, select  obsels with the 'Message' in the obsel.type string
 					but SendMessage and ReceiveMessage types exist, then the splitter would create two differents Tracelines -->			
