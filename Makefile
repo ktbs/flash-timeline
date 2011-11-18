@@ -13,10 +13,11 @@ $(SWF): src/TestTimeline.mxml $(DEPFILES)
 	"${SDKBIN}mxmlc" -output $@ -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $<
 
 $(SWC): $(DEPFILES)
-	"${SDKBIN}compc" -output $@ -source-path src -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $(CLASSES)
+	"${SDKBIN}compc" -output $@ -source-path src -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $(shell find src/images -type f | sed 's/\(src.\)\(.*\)/ -include-file \2 \1\2/') $(CLASSES)
 
 clean:
-	-$(RM) $(SWF)
+	-$(RM) $(SWF) $(SWF).cache
+	-$(RM) $(SWC) $(SWC).cache
 
 doc: $(DEPFILES)
 	"${SDKBIN}asdoc" -library-path lib $(SDKFRAMEWORK) -doc-sources src -exclude-sources src/TestTimeline.mxml src/WrapperJsExample.mxml -source-path src -main-title "Generic Timeline API Documentation" -output doc
