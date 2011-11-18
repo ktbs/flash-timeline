@@ -1,5 +1,5 @@
 SDKHOME:=$(if $(wildcard ../flex_sdk_4.5.1),../flex_sdk_4.5.1/bin/,$(error You must configure SDK path in Makefile))
-SWF=bin/TestTimeline.swf
+SWF=bin/Timeline.swf
 DEPFILES:=$(shell find src -name "*.as" -or -name "*.mxml")
 PLAY:=$(if $(wildcard /usr/bin/play),/usr/bin/play -V0 -q,/usr/bin/true)
 SOUND_ERROR:=/usr/share/sounds/sound-icons/trumpet-1.wav 
