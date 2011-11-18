@@ -1,219 +1,202 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../../override.css" type="text/css"><meta name="keywords" content="Layout,com.ithaca.timeline.Layout,BACKGROUND_TRACELINE,CONTEXT_PREVIEW_TRACELINE,LAYOUT,MODIFIER,OBSELS_SELECTOR,OBSELS_SELECTORS,ROOT,Resize,TRACELINE,TRACELINEGROUP,TimeRulerContainer,ZoomContextInitPercentWidth,_backgroundColor,_durativeColor,_markerColor,_obsels,_obsels,_ranges,_splitter,_text,_timeRange,_timeline,_timeline,_timeline,_timelineRange,_trace,_traceline,autohide,autohide,backgroundColor,backgroundTraceLine,begin,begin,body,bodyText,borderVisible,bottomArrow,contextFollowCursor,contextPreviewTraceLine,currentTime,currrentRelativeTime,cursor,cursorEditable,cursorRange,dateFormater,duration,duration,editable,end,end,endAlertBeforeTime,field,isDragging,isPlaying,isRelativeTimeMode,labelsIntervals,labelsOnTop,lastRendererGap,lastRendererHeight,layoutXML,limitMarkHeight,majorIntervals,majorMarkHeight,maxLabelsGap,maxMarksGap,minLabelsGap,minMarksGap,minorMarkHeight,numIntervals,obsel,obselsCollection,obselsSkinsCollection,obselsSkinsSelectors,parentNode,playPauseButton,range,regexp,renderersSidePadding,ruler,rulerWidth,selector,showBottomArrow,showPlayButton,showTopArrow,source,sourceStr,startPosition,staticEventDispatcher,styleSheet,text,timeHoleWidth,timeLabels,timeOffset,timeRange,timeRuler,timelineLayout,timeline,timeline,timeline,title,title,titleComponent,tl,tlg,topArrow,totalDuration,trace,traceBegin,traceEnd,traceUri,traceline,tt,tt,useLocaleTime,validIntervals,withToolTip,SetButtonCursor,SetDefaultCursor,SetHandCursor,SetIBeamCursor,SetResizeCursor,SetToVisible,acceptObsel,addChildAndTitle,addEventListener,addObsel,addTime,addTrace,addTraceLineGroupPreview,addTraceline,changeLimits,changeRange,clone,createModifierNode,createTraceLineGroupNode,createTraceLineNode,createTracelineGroupTree,createTree,creationCompleteHandler,creationCompleteHandler,creationCompleteHandler,dispatchEvent,editObsel,getCollectionSource,getCurrentXmlLayout,getElementByName,getMatchingObsels,getMatchingObsels,getObselSkinIndex,getParameteredSkin,getParameters,getParameters,getTraceLineGroup,getTraceLineGroupByTraceUri,getTracelineGroupColor,getVisibleChildrenNumber,hasEventListener,isEmpty,isEqual,isEqual,isObselMatching,isObselMatching,layoutTreeToXml,loadObselsSelectors,makeTimeHole,makeTimeHole,modifierTreeToXml,moveTraceLineGroup,obselsSelectorsToXml,onClick,onCurrentTimeChange,onManualChange,onObselsCollectionChange,onObselsCollectionChange,onResize,onResize,onSourceChange,onSourceChange,onSourceChange,onTimeRangeChange,onTimerangeChange,onTimerangeChange,onToolTipShow,onToolTipShow,onTracelineGroupsChange,partAdded,positionToTime,redraw,redraw,redraw,redraw,removeChildAndTitle,removeEventListener,removeObsel,removeTrace,removeTraceLineGroup,removeTraceLineGroupPreviewAt,reset,reset,resetLimits,resetObselCollection,resetObselCollection,resetObselCollection,resetTimeRangeLimits,setParameters,setParameters,setRange,setTimeRangeLimits,shiftContext,shiftLimits,splitBy,styleChanged,styleChanged,timeToPosition,tracelineTreeToXml,updateDisplayLevel,updateObselPosition,updateSkinPositionFromValues,updateValuesFromSkinPosition,updateViewportPosition,willTrigger"><title>com.ithaca.timeline.Layout</title><script src="../../../AC_OETags.js" type="text/javascript"></script></head><body><script language="javascript" type="text/javascript" src="../../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../../help.js"></script><script language="javascript" type="text/javascript" src="../../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../../override.css" type="text/css"><meta name="keywords" content="Layout,com.ithaca.timeline.Layout,BACKGROUND_TRACELINE,CONTEXT_PREVIEW_TRACELINE,LAYOUT,MODIFIER,OBSELS_SELECTOR,OBSELS_SELECTORS,ROOT,Resize,TRACELINE,TRACELINEGROUP,TimeRulerContainer,ZoomContextInitPercentWidth,_backgroundColor,_durativeColor,_markerColor,_obsels,_obsels,_ranges,_splitter,_text,_timeRange,_timeline,_timeline,_timeline,_timelineRange,_trace,_traceline,autohide,autohide,backgroundColor,backgroundColor,backgroundTraceLine,begin,begin,body,bodyText,borderVisible,bottomArrow,contextFollowCursor,contextPreviewTraceLine,currentTime,currrentRelativeTime,cursor,cursorEditable,cursorRange,dateFormater,dragArea,duration,duration,editable,end,end,endAlertBeforeTime,field,isDragging,isPlaying,isRelativeTimeMode,labelsIntervals,labelsOnTop,lastRendererGap,lastRendererHeight,layoutXML,limitMarkHeight,majorIntervals,majorMarkHeight,maxLabelsGap,maxMarksGap,minLabelsGap,minMarksGap,minorMarkHeight,numIntervals,obsel,obselsCollection,obselsSkinsCollection,obselsSkinsSelectors,parentNode,playPauseButton,range,regexp,renderersSidePadding,ruler,rulerWidth,selector,showBottomArrow,showPlayButton,showTopArrow,source,sourceStr,startPosition,staticEventDispatcher,styleSheet,text,timeHoleWidth,timeLabels,timeOffset,timeRange,timeRuler,timelineLayout,timeline,timeline,timeline,title,title,titleComponent,tl,tlg,topArrow,totalDuration,trace,traceBegin,traceEnd,traceUri,traceline,tt,tt,useLocaleTime,validIntervals,withToolTip,SetButtonCursor,SetDefaultCursor,SetHandCursor,SetIBeamCursor,SetResizeCursor,SetToVisible,acceptObsel,addChildAndTitle,addEventListener,addObsel,addTime,addTrace,addTraceLineGroupPreview,addTraceline,changeLimits,changeRange,clone,commitProperties,createModifierNode,createTraceLineGroupNode,createTraceLineNode,createTracelineGroupTree,createTree,creationCompleteHandler,creationCompleteHandler,creationCompleteHandler,dispatchEvent,editObsel,getCollectionSource,getCurrentXmlLayout,getElementByName,getMatchingObsels,getMatchingObsels,getObselSkinIndex,getParameteredSkin,getParameters,getParameters,getTraceLineGroup,getTraceLineGroupByTraceUri,getTracelineGroupColor,getVisibleChildrenNumber,hasEventListener,isEmpty,isEqual,isEqual,isObselMatching,isObselMatching,layoutTreeToXml,loadObselsSelectors,makeTimeHole,makeTimeHole,modifierTreeToXml,moveTraceLineGroup,obselsSelectorsToXml,onClick,onCurrentTimeChange,onManualChange,onObselsCollectionChange,onObselsCollectionChange,onResize,onResize,onSourceChange,onSourceChange,onSourceChange,onTimeRangeChange,onTimerangeChange,onTimerangeChange,onToolTipShow,onToolTipShow,onTracelineGroupsChange,partAdded,positionToTime,redraw,redraw,redraw,redraw,removeChildAndTitle,removeEventListener,removeObsel,removeTrace,removeTraceLineGroup,removeTraceLineGroupPreviewAt,reset,reset,resetLimits,resetObselCollection,resetObselCollection,resetObselCollection,resetTimeRangeLimits,setParameters,setParameters,setRange,setTimeRangeLimits,shiftContext,shiftLimits,splitBy,styleChanged,styleChanged,timeToPosition,tracelineTreeToXml,updateDisplayLevel,updateObselPosition,updateSkinPositionFromValues,updateValuesFromSkinPosition,updateViewportPosition,willTrigger"><title>com.ithaca.timeline.Layout</title><script src="../../../AC_OETags.js" type="text/javascript"></script></head><body><script language="javascript" type="text/javascript" src="../../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../../help.js"></script><script language="javascript" type="text/javascript" src="../../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
 				asdocTitle = 'Layout - API Documentation';
 				var baseRef = '../../../';
 				window.onload = configPage;
 			--></script>
 <script type="text/javascript">
 			scrollToNameAnchor();
-		</script><table class="titleTable" cellpadding="0" cellspacing="0" id="titleTable" style="display:none"><tr><td class="titleTableTitle" align="left">Timeline</td><td class="titleTableTopNav" align="right"><a href="../../../package-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Packages</a>&nbsp;|&nbsp;<a href="../../../class-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Classes</a>&nbsp;|&nbsp;<a href="../../../all-index-A.html" onclick="loadClassListFrame('../../../index-list.html')">Index</a>&nbsp;|&nbsp;<a id="framesLink1" href="../../../index.html?com/ithaca/timeline/Layout.html&amp;com/ithaca/timeline/class-list.html">Frames</a><a id="noFramesLink1" style="display:none" href="" onclick="parent.location=document.location"> No Frames </a></td><td class="titleTableLogo" align="right" rowspan="3"><img src="../../../images/logo.jpg" class="logoImage" alt=" Adobe Logo " title=" Adobe Logo "></td></tr><tr class="titleTableRow2"><td class="titleTableSubTitle" id="subTitle" align="left">Layout</td><td class="titleTableSubNav" id="subNav" align="right"><a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a>&nbsp;| <a href="#includeExamplesSummary">Examples</a></td></tr><tr class="titleTableRow3"><td colspan="3">&nbsp;</td></tr></table><script language="javascript" type="text/javascript" xml:space="preserve">
+		</script><table class="titleTable" cellpadding="0" cellspacing="0" id="titleTable" style="display:none"><tr><td class="titleTableTitle" align="left">Generic Timeline API Documentation</td><td class="titleTableTopNav" align="right"><a href="../../../package-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Packages</a>&nbsp;|&nbsp;<a href="../../../class-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Classes</a>&nbsp;|&nbsp;<a href="../../../all-index-A.html" onclick="loadClassListFrame('../../../index-list.html')">Index</a>&nbsp;|&nbsp;<a id="framesLink1" href="../../../index.html?com/ithaca/timeline/Layout.html&amp;com/ithaca/timeline/class-list.html">Frames</a><a id="noFramesLink1" style="display:none" href="" onclick="parent.location=document.location"> No Frames </a></td><td class="titleTableLogo" align="right" rowspan="3"><img src="../../../images/logo.jpg" class="logoImage" alt=" Adobe Logo " title=" Adobe Logo "></td></tr><tr class="titleTableRow2"><td class="titleTableSubTitle" id="subTitle" align="left">Layout</td><td class="titleTableSubNav" id="subNav" align="right"><a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a>&nbsp;| <a href="#includeExamplesSummary">Examples</a></td></tr><tr class="titleTableRow3"><td colspan="3">&nbsp;</td></tr></table><script language="javascript" type="text/javascript" xml:space="preserve">
 				<!--
 				
 					if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Layout"); titleBar_setSubNav(true,false,false,false,false,false,false,false,true,true,false	,false,false,false,false,false);}	
 				-->
 			</script><div xmlns:fn="http://www.w3.org/2005/xpath-functions" class="MainContent"><table class="classHeaderTable" cellpadding="0" cellspacing="0"><tr><td class="classHeaderTableLabel">Package</td><td><a href="package-detail.html" onclick="javascript:loadClassListFrame('class-list.html')">com.ithaca.timeline</a></td></tr><tr><td class="classHeaderTableLabel">Class</td><td class="classSignature">public  class  Layout</td></tr><tr><td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">Layout  <img src="../../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> Object</td></tr></table><p></p><p></p><p></p>
-	 The Layout class manages the creation of tracelines and tracelinegroups in a tree layout as defined in a XML descriptor. 
-	 Each node of the tree extends the LayoutNode abstract class ( currently TraceLineGroup, TraceLine, LayoutModifier or Timeline ).
-	 
-	 <p> 
-	 The XML descriptor is contained by the _timeline property ( _timeline.layoutXML[LAYOUT] ) which is also the root of the tree (as a LayoutNode).
-	 </p>
-	              <p>
-	 In addition to this definition, the _timeline.layoutXML xml contains a second section to define obsels selectors ( _timeline.layoutXML[OBSELS_SELECTORS] ). 
-	 These selectors are used both to create CSS selector for obslesSkin ( in order to use different skins) and to define traceline selectors.
-	 </p>
-	 
-	              <p>
-	 The xml element names are define in this class :
-	 <ul>
-	 	                  <li>
-                        <b>layout:</b> 		the layout section</li> 
-	                    <li>
-                        <b>tlg:</b>			 a tracelinegroup node</li> 
-	 				               <ul>
-	 					                 <li>
+     The Layout class manages the creation of tracelines and tracelinegroups in a tree layout as defined in a XML descriptor.
+     Each node of the tree extends the LayoutNode abstract class ( currently TraceLineGroup, TraceLine, LayoutModifier or Timeline ).
+          <p>
+     The XML descriptor is contained by the _timeline property ( _timeline.layoutXML[LAYOUT] ) which is also the root of the tree (as a LayoutNode).
+     </p>
+               <p>
+     In addition to this definition, the _timeline.layoutXML xml contains a second section to define obsels selectors ( _timeline.layoutXML[OBSELS_SELECTORS] ).
+     These selectors are used both to create CSS selector for obslesSkin ( in order to use different skins) and to define traceline selectors.
+     </p>
+               <p>
+     The xml element names are define in this class :
+     <ul>
+                     <li>
+                        <b>layout:</b>         the layout section</li>
+                     <li>
+                        <b>tlg:</b>             a tracelinegroup node</li>
+                     <ul>
+                         <li>
                            <i>title : </i> the title and the <code>name</code> of the tracelinegroup  </li>
-	 					                 <li>
+                         <li>
                            <i>style : </i> the stylename of the tracelinegroup. It's used to select the a specific layout ( see examples ) </li>
-	 				                  <li>
+                        <li>
                            <i>source : </i> layout selector with the URI of the trace</li>
-	 				               </ul>
-	                    <li>
-                        <b>tl:</b>			 a traceline node . Attributes :
-	 				<ul>
-	 					                    <li>
+                     </ul>
+                     <li>
+                        <b>tl:</b>             a traceline node . Attributes :
+                     <ul>
+                           <li>
                               <i>title : </i> the title and the <code>name</code> of the traceline  </li>
-	 					                    <li>
+                           <li>
                               <i>style : </i> the stylename of the traceline. There's two specials stylenames : 'background' to define the traceline in the background of the tracelinegroup and 'contextPreview' to define a preview traceline not in the layout</li>
-	 					                    <li>
+                           <li>
                               <i>selectorID : </i> a selector defined in the obselsSelectors section</li>
-	 					                    <li>
+                           <li>
                               <i>selector : </i>a selector class name (should be followed by a selectorParams attribute)</li>
-	 					                    <li>
+                           <li>
                               <i>selectorParams : </i>the selector parameters </li>
-	 					                    <li>
+                           <li>
                               <i>autohide : </i>if "true", the traceline is automaticaly hidden or shown if the the traceline is empty or not</li>
-	 				                     <li>
+                           <li>
                               <i>preview : </i>if "true", the traceline is used as preview in the zoomContext zone</li>
-	 				                     <li>
+                           <li>
                               <i>source : </i>if "parent", the obsels source of the traceline is the parent layoutNode otherwise this is the whole trace</li>
-	 				                  </ul>
-	                    </li> 
-	                    <li>
-                        <b>modifier:</b> 	 a layout modifier node </li>
-				                 <ul>
-						                  <li>
+                        </ul>
+                     </li>
+                     <li>
+                        <b>modifier:</b>      a layout modifier node </li>
+                     <ul>
+                        <li>
                            <i>splitter : </i> the property of the obsel use to split the obsels </li>
-	 					                 <li>
+                         <li>
                            <i>name : </i> the name of the layout modifier. In order to know by who the tracelines are created (when listen the TimelineEvent : GENERATE_NEW_TRACELINE ) </li>
-	 					                 <li>
+                         <li>
                            <i>style : </i> the stylename of the created traceline.</li>
-	 					                 <li>
+                         <li>
                            <i>autohide : </i> the value of the autohide property of the created tracelines </li>
-	 				                  <li>
+                        <li>
                            <i>source : </i>if "parent", the obsels source of the modifier is the parent layoutNode otherwise this is the whole trace</li>
-	 				               </ul>
-	                    <li>
-                        <b>obselsSelectors:</b> the obsels selectors section</li> 
+                     </ul>
+                     <li>
+                        <b>obselsSelectors:</b> the obsels selectors section</li>
                      <li>
                         <b>obselsSelector:</b> an obsels selector . Attributes :
-	 			<ul>
-	 					                    <li>
+                 <ul>
+                           <li>
                               <i>id : </i>the ID of the selector (will be the stylename of matching obselSkins )</li>
-	 					                    <li>
+                           <li>
                               <i>selector : </i>a selector class name (should be followed by a selectorParams attribute)</li>
-	  				                    <li>
+                           <li>
                               <i>selectorParams : </i>the selector parameters </li>
-	 			                   </ul>
-	                    </li>
-	                 </ul>
-	              </p>
-	 
-	              <p>
-	 Besides the xml driven creation, the Layout class can also be used to modify the tree with low level methods. For example :  
-	 <code>
-	 		timeline.timelineLayout.addTraceline( traceline , parentLayoutNode );	
-	 </code>
-	              </p>
-	 
-	           <p></p><p><a href="#includeExamplesSummary">View the examples</a></p><br/><hr></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#Layout()" class="signatureLink">Layout</a>(tl:<a href="../../../com/ithaca/timeline/Timeline.html">Timeline</a>)</div><div class="summaryTableDescription">
-		 Constructor
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#addTraceline()" class="signatureLink">addTraceline</a>(traceline:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a>, parentNode:<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a>, xmlLayout:XML = null):<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></div><div class="summaryTableDescription">
-		 Add a traceline as a child to a LayoutNode
-		 
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createModifierNode()" class="signatureLink">createModifierNode</a>(xmlLayout:XML):<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a></div><div class="summaryTableDescription">
-		 Create a LayoutModifier from an xml descriptor
-		 
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createTraceLineGroupNode()" class="signatureLink">createTraceLineGroupNode</a>(xmlLayout:XML, trac:Trace):<a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></div><div class="summaryTableDescription">
-		 Create a TracelineGroupNode from a xml descriptor and a trace
-		 
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createTracelineGroupTree()" class="signatureLink">createTracelineGroupTree</a>(trac:Trace, style:String = null):<a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></div><div class="summaryTableDescription">
-		 Select an XML descriptor of TraceLineGroup tree in the list of descriptors stored in the _timeline and create the tree structure.</div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createTraceLineNode()" class="signatureLink">createTraceLineNode</a>(xmlLayout:XML):<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></div><div class="summaryTableDescription">
-		 Create a Traceline from an xml descriptor
-		 
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createTree()" class="signatureLink">createTree</a>(xmlLayout:XML, trac:Trace):<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></div><div class="summaryTableDescription">
-		 Create a tree structure of LayoutNode ( TraceLineGroup, Traceline, ModifierNode) from an xml descriptor and a trace.</div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#getCurrentXmlLayout()" class="signatureLink">getCurrentXmlLayout</a>():XML</div><div class="summaryTableDescription">
-		 
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#loadObselsSelectors()" class="signatureLink">loadObselsSelectors</a>(xmlSelectors:XMLList):void</div><div class="summaryTableDescription">
-		 Loads a set of obsels skins selectors from a XML descriptor.</div></td><td class="summaryTableOwnerCol">Layout</td></tr></table></div><a name="protectedMethodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Protected Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableProtectedMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#layoutTreeToXml()" class="signatureLink">layoutTreeToXml</a>():XML</div><div class="summaryTableDescription">
-		 	</div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#modifierTreeToXml()" class="signatureLink">modifierTreeToXml</a>(modifier:<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a>):XML</div><div class="summaryTableDescription">		 
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#obselsSelectorsToXml()" class="signatureLink">obselsSelectorsToXml</a>():XML</div><div class="summaryTableDescription">
-		 	</div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#tracelineTreeToXml()" class="signatureLink">tracelineTreeToXml</a>(tl:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a>):XML</div><div class="summaryTableDescription">		 
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr></table></div><a name="constantSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Constants</div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableConstant"><tr><th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#BACKGROUND_TRACELINE" class="signatureLink">BACKGROUND_TRACELINE</a> : String = background<div class="summaryTableDescription">[static] 
-		 the stylename ( 'style' property ) to indcate that a Traceline must be used as a TracelineGroup background traceline
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#CONTEXT_PREVIEW_TRACELINE" class="signatureLink">CONTEXT_PREVIEW_TRACELINE</a> : String = contextPreview<div class="summaryTableDescription">[static] 
-		 the stylename ( 'style' property ) to indcate that a Traceline must be used as a preview (in the zoomContext preview zone)
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#LAYOUT" class="signatureLink">LAYOUT</a> : String = layout<div class="summaryTableDescription">[static] 
-		 the keyword to define the layout section in the xml descriptor
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#MODIFIER" class="signatureLink">MODIFIER</a> : String = modifier<div class="summaryTableDescription">[static] 
-		 the keyword to define  a ModifierNode in the xml descriptor
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#OBSELS_SELECTOR" class="signatureLink">OBSELS_SELECTOR</a> : String = obselsSelector<div class="summaryTableDescription">[static] 
-		 the keyword to define an obsel skin selector in the xml descriptor
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#OBSELS_SELECTORS" class="signatureLink">OBSELS_SELECTORS</a> : String = obselsSelectors<div class="summaryTableDescription">[static] 
-		 the keyword to define the obsels skins selectors section in the xml descriptor
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#ROOT" class="signatureLink">ROOT</a> : String = root<div class="summaryTableDescription">[static] 
-		 the keyword to define the root of  the xml document
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#TRACELINE" class="signatureLink">TRACELINE</a> : String = tl<div class="summaryTableDescription">[static] 
-		 the keyword to define  a TraceLine in the xml descriptor
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#TRACELINEGROUP" class="signatureLink">TRACELINEGROUP</a> : String = tlg<div class="summaryTableDescription">[static] 
-		 the keyword to define  a TraceLineGroup in the xml descriptor
-		 </div></td><td class="summaryTableOwnerCol">Layout</td></tr></table></div><script language="javascript" type="text/javascript"><!--
+                        </ul>
+                     </li>
+                  </ul>
+               </p>
+               <p>
+     Besides the xml driven creation, the Layout class can also be used to modify the tree with low level methods. For example : 
+     <code>
+             timeline.timelineLayout.addTraceline( traceline , parentLayoutNode );    
+     </code>
+               </p>
+            <p></p><p><a href="#includeExamplesSummary">View the examples</a></p><br/><hr></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#Layout()" class="signatureLink">Layout</a>(tl:<a href="../../../com/ithaca/timeline/Timeline.html">Timeline</a>)</div><div class="summaryTableDescription">
+         Constructor
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#addTraceline()" class="signatureLink">addTraceline</a>(traceline:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a>, parentNode:<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a>, xmlLayout:XML = null):<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></div><div class="summaryTableDescription">
+         Add a traceline as a child to a LayoutNode
+                  </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createModifierNode()" class="signatureLink">createModifierNode</a>(xmlLayout:XML):<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a></div><div class="summaryTableDescription">
+         Create a LayoutModifier from an xml descriptor
+                  </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createTraceLineGroupNode()" class="signatureLink">createTraceLineGroupNode</a>(xmlLayout:XML, trac:Trace):<a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></div><div class="summaryTableDescription">
+         Create a TracelineGroupNode from a xml descriptor and a trace
+                  </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createTracelineGroupTree()" class="signatureLink">createTracelineGroupTree</a>(trac:Trace, style:String = null):<a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></div><div class="summaryTableDescription">
+         Select an XML descriptor of TraceLineGroup tree in the list of descriptors stored in the _timeline and create the tree structure.</div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createTraceLineNode()" class="signatureLink">createTraceLineNode</a>(xmlLayout:XML):<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></div><div class="summaryTableDescription">
+         Create a Traceline from an xml descriptor
+                  </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#createTree()" class="signatureLink">createTree</a>(xmlLayout:XML, trac:Trace):<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></div><div class="summaryTableDescription">
+         Create a tree structure of LayoutNode ( TraceLineGroup, Traceline, ModifierNode) from an xml descriptor and a trace.</div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#getCurrentXmlLayout()" class="signatureLink">getCurrentXmlLayout</a>():XML</div><div class="summaryTableDescription">
+                  </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#loadObselsSelectors()" class="signatureLink">loadObselsSelectors</a>(xmlSelectors:XMLList):void</div><div class="summaryTableDescription">
+         Loads a set of obsels skins selectors from a XML descriptor.</div></td><td class="summaryTableOwnerCol">Layout</td></tr></table></div><a name="protectedMethodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Protected Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableProtectedMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#layoutTreeToXml()" class="signatureLink">layoutTreeToXml</a>():XML</div><div class="summaryTableDescription">
+             </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#modifierTreeToXml()" class="signatureLink">modifierTreeToXml</a>(modifier:<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a>):XML</div><div class="summaryTableDescription">        
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#obselsSelectorsToXml()" class="signatureLink">obselsSelectorsToXml</a>():XML</div><div class="summaryTableDescription">
+             </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#tracelineTreeToXml()" class="signatureLink">tracelineTreeToXml</a>(tl:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a>):XML</div><div class="summaryTableDescription">        
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr></table></div><a name="constantSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Constants</div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableConstant"><tr><th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#BACKGROUND_TRACELINE" class="signatureLink">BACKGROUND_TRACELINE</a> : String = background<div class="summaryTableDescription">[static] 
+         the stylename ( 'style' property ) to indcate that a Traceline must be used as a TracelineGroup background traceline
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#CONTEXT_PREVIEW_TRACELINE" class="signatureLink">CONTEXT_PREVIEW_TRACELINE</a> : String = contextPreview<div class="summaryTableDescription">[static] 
+         the stylename ( 'style' property ) to indcate that a Traceline must be used as a preview (in the zoomContext preview zone)
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#LAYOUT" class="signatureLink">LAYOUT</a> : String = layout<div class="summaryTableDescription">[static] 
+         the keyword to define the layout section in the xml descriptor
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#MODIFIER" class="signatureLink">MODIFIER</a> : String = modifier<div class="summaryTableDescription">[static] 
+         the keyword to define  a ModifierNode in the xml descriptor
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#OBSELS_SELECTOR" class="signatureLink">OBSELS_SELECTOR</a> : String = obselsSelector<div class="summaryTableDescription">[static] 
+         the keyword to define an obsel skin selector in the xml descriptor
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#OBSELS_SELECTORS" class="signatureLink">OBSELS_SELECTORS</a> : String = obselsSelectors<div class="summaryTableDescription">[static] 
+         the keyword to define the obsels skins selectors section in the xml descriptor
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#ROOT" class="signatureLink">ROOT</a> : String = root<div class="summaryTableDescription">[static] 
+         the keyword to define the root of  the xml document
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#TRACELINE" class="signatureLink">TRACELINE</a> : String = tl<div class="summaryTableDescription">[static] 
+         the keyword to define  a TraceLine in the xml descriptor
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#TRACELINEGROUP" class="signatureLink">TRACELINEGROUP</a> : String = tlg<div class="summaryTableDescription">[static] 
+         the keyword to define  a TraceLineGroup in the xml descriptor
+         </div></td><td class="summaryTableOwnerCol">Layout</td></tr></table></div><script language="javascript" type="text/javascript"><!--
 										showHideInherited();
 										--></script><div class="MainContent"><a name="constructorDetail"></a><div class="detailSectionHeader">Constructor Detail</div><a name="Layout()"></a><a name="Layout(com.ithaca.timeline.Timeline)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">Layout</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">Constructor</td></tr></table><div class="detailBody"><code>public function Layout(tl:<a href="../../../com/ithaca/timeline/Timeline.html">Timeline</a>)</code><p></p><p>
-		 Constructor
-		 </p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">tl</span>:<a href="../../../com/ithaca/timeline/Timeline.html">Timeline</a></code> &mdash; The Timeline managed by the Layout class.
-		 </td></tr></table></div><a name="methodDetail"></a><div class="detailSectionHeader">Method Detail</div><a name="addTraceline()"></a><a name="addTraceline(com.ithaca.timeline.TraceLine,com.ithaca.timeline.LayoutNode,XML)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">addTraceline</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td></tr></table><div class="detailBody"><code> public function addTraceline(traceline:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a>, parentNode:<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a>, xmlLayout:XML = null):<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code><p></p><p></p><p>
-		 Add a traceline as a child to a LayoutNode
-		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">traceline</span>:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></code> &mdash; The tracelien to add
-		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">parentNode</span>:<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code> &mdash; the LayoutNode where you want to add the traceline
-		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> (default = <code>null</code>)<code></code></td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code> &mdash; the traceline
-		 </td></tr></table></div><a name="createModifierNode()"></a><a name="createModifierNode(XML)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createModifierNode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createModifierNode(xmlLayout:XML):<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a></code><p></p><p></p><p>
-		 Create a LayoutModifier from an xml descriptor
-		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> &mdash; an xml descriptor of the LayoutModifier
-		 </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a></code> &mdash; the created LayoutModifier
-		 </td></tr></table></div><a name="createTraceLineGroupNode()"></a><a name="createTraceLineGroupNode(XML,com.ithaca.traces.Trace)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createTraceLineGroupNode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createTraceLineGroupNode(xmlLayout:XML, trac:Trace):<a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></code><p></p><p></p><p>
-		 Create a TracelineGroupNode from a xml descriptor and a trace
-		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> &mdash; The XML descriptor of the TraceLineGroup
-		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">trac</span>:Trace</code> &mdash; The trace used to create the TraceLineGroup
-		 </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></code> &mdash; the TraceLineGroup node
-		 </td></tr></table></div><a name="createTracelineGroupTree()"></a><a name="createTracelineGroupTree(com.ithaca.traces.Trace,String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createTracelineGroupTree</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createTracelineGroupTree(trac:Trace, style:String = null):<a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></code><p></p><p></p><p>
-		 Select an XML descriptor of TraceLineGroup tree in the list of descriptors stored in the <code>_timeline</code> and create the tree structure.
-		 The first TraceLineGroup descriptor of the list that the property 'source' is equal to the URI of <code>trac</code> or that the 'style' property is equal to the optionnal <code>style</code> parameters is selected. 
-		 If no such descriptor exist in the list, the last descriptor of the list is used by default.
-		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">trac</span>:Trace</code> &mdash; the Trace for which the tree is created
-		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">style</span>:String</code> (default = <code>null</code>)<code></code> &mdash; an optional stylename used to select the TraceLineGroup definition in the xml descriptor.
-		 </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></code> &mdash; the created TraceLineGroup tree
-		 </td></tr></table></div><a name="createTraceLineNode()"></a><a name="createTraceLineNode(XML)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createTraceLineNode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createTraceLineNode(xmlLayout:XML):<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></code><p></p><p></p><p>
-		 Create a Traceline from an xml descriptor
-		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> &mdash; an xml descriptor of the traceline
-		 </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></code> &mdash; the created traceline
-		 </td></tr></table></div><a name="createTree()"></a><a name="createTree(XML,com.ithaca.traces.Trace)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createTree</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createTree(xmlLayout:XML, trac:Trace):<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code><p></p><p></p><p>
-		 Create a tree structure of LayoutNode ( TraceLineGroup, Traceline, ModifierNode) from an xml descriptor and a trace. This is a recursive method. It uses the createTraceLineGroupNode, createTraceLineNode and createModifierNode methods.
-		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> &mdash; the xml descriptor of the tree
-		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">trac</span>:Trace</code> &mdash; the trace for which the tree is created
-		 </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code> &mdash; the root of the tree structure as a LayoutNode
-		 </td></tr></table></div><a name="getCurrentXmlLayout()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">getCurrentXmlLayout</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function getCurrentXmlLayout():XML</code><p></p><p></p><p>
-		 
-		 </p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the xml descriptor of the current tree structure 
-		 </td></tr></table></div><a name="layoutTreeToXml()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">layoutTreeToXml</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> protected function layoutTreeToXml():XML</code><p></p><p></p><p>
-		 	</p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the XML descriptor of the current timeline tree structure.
-		 </td></tr></table></div><a name="loadObselsSelectors()"></a><a name="loadObselsSelectors(XMLList)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">loadObselsSelectors</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function loadObselsSelectors(xmlSelectors:XMLList):void</code><p></p><p></p><p>
-		 Loads a set of obsels skins selectors from a XML descriptor. It overwrites the current set if one exists.
-		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlSelectors</span>:XMLList</code> &mdash; xml descriptor of a set of obsels skins selectors
-		 </td></tr></table></p></div><a name="modifierTreeToXml()"></a><a name="modifierTreeToXml(com.ithaca.timeline.LayoutModifier)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">modifierTreeToXml</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> protected function modifierTreeToXml(modifier:<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a>):XML</code><p></p><p></p><p>		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">modifier</span>:<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a></code> &mdash; a modifier tree
-		 </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the xml descriptor of a given modifier tree structure.
-		 </td></tr></table></div><a name="obselsSelectorsToXml()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">obselsSelectorsToXml</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> protected function obselsSelectorsToXml():XML</code><p></p><p></p><p>
-		 	</p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the XML descriptor of the current timeline set of obsels skins selectors.
-		 </td></tr></table></div><a name="tracelineTreeToXml()"></a><a name="tracelineTreeToXml(com.ithaca.timeline.TraceLine)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">tracelineTreeToXml</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> protected function tracelineTreeToXml(tl:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a>):XML</code><p></p><p></p><p>		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">tl</span>:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></code> &mdash; a traceline tree
-		 </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the xml descriptor of a given traceline tree structure.
-		 </td></tr></table></div><div class="detailSectionHeader">Constant Detail</div><a name="constantDetail"></a><a name="BACKGROUND_TRACELINE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">BACKGROUND_TRACELINE</td><td class="detailHeaderType">Constant</td></tr></table><div class="detailBody"><code>public static const BACKGROUND_TRACELINE:String = background</code><p></p><p></p><p>
-		 the stylename ( 'style' property ) to indcate that a Traceline must be used as a TracelineGroup background traceline
-		 </p></div><a name="constantDetail"></a><a name="CONTEXT_PREVIEW_TRACELINE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">CONTEXT_PREVIEW_TRACELINE</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const CONTEXT_PREVIEW_TRACELINE:String = contextPreview</code><p></p><p></p><p>
-		 the stylename ( 'style' property ) to indcate that a Traceline must be used as a preview (in the zoomContext preview zone)
-		 </p></div><a name="constantDetail"></a><a name="LAYOUT"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">LAYOUT</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const LAYOUT:String = layout</code><p></p><p></p><p>
-		 the keyword to define the layout section in the xml descriptor
-		 </p></div><a name="constantDetail"></a><a name="MODIFIER"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">MODIFIER</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const MODIFIER:String = modifier</code><p></p><p></p><p>
-		 the keyword to define  a ModifierNode in the xml descriptor
-		 </p></div><a name="constantDetail"></a><a name="OBSELS_SELECTOR"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">OBSELS_SELECTOR</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const OBSELS_SELECTOR:String = obselsSelector</code><p></p><p></p><p>
-		 the keyword to define an obsel skin selector in the xml descriptor
-		 </p></div><a name="constantDetail"></a><a name="OBSELS_SELECTORS"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">OBSELS_SELECTORS</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const OBSELS_SELECTORS:String = obselsSelectors</code><p></p><p></p><p>
-		 the keyword to define the obsels skins selectors section in the xml descriptor
-		 </p></div><a name="constantDetail"></a><a name="ROOT"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">ROOT</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const ROOT:String = root</code><p></p><p></p><p>
-		 the keyword to define the root of  the xml document
-		 </p></div><a name="constantDetail"></a><a name="TRACELINE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">TRACELINE</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const TRACELINE:String = tl</code><p></p><p></p><p>
-		 the keyword to define  a TraceLine in the xml descriptor
-		 </p></div><a name="constantDetail"></a><a name="TRACELINEGROUP"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">TRACELINEGROUP</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const TRACELINEGROUP:String = tlg</code><p></p><p></p><p>
-		 the keyword to define  a TraceLineGroup in the xml descriptor
-		 </p></div><a name="includeExamplesSummary"></a><div class="detailSectionHeader">Examples</div><div class="detailBody">The minimal Layout definition that allows to see something
-	 <div class="listing" version="3.0"><pre> 
+         Constructor
+         </p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">tl</span>:<a href="../../../com/ithaca/timeline/Timeline.html">Timeline</a></code> &mdash; The Timeline managed by the Layout class.
+         </td></tr></table></div><a name="methodDetail"></a><div class="detailSectionHeader">Method Detail</div><a name="addTraceline()"></a><a name="addTraceline(com.ithaca.timeline.TraceLine,com.ithaca.timeline.LayoutNode,XML)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">addTraceline</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td></tr></table><div class="detailBody"><code> public function addTraceline(traceline:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a>, parentNode:<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a>, xmlLayout:XML = null):<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code><p></p><p></p><p>
+         Add a traceline as a child to a LayoutNode
+                  </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">traceline</span>:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></code> &mdash; The tracelien to add
+         </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">parentNode</span>:<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code> &mdash; the LayoutNode where you want to add the traceline
+         </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> (default = <code>null</code>)<code></code></td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code> &mdash; the traceline
+         </td></tr></table></div><a name="createModifierNode()"></a><a name="createModifierNode(XML)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createModifierNode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createModifierNode(xmlLayout:XML):<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a></code><p></p><p></p><p>
+         Create a LayoutModifier from an xml descriptor
+                  </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> &mdash; an xml descriptor of the LayoutModifier
+         </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a></code> &mdash; the created LayoutModifier
+         </td></tr></table></div><a name="createTraceLineGroupNode()"></a><a name="createTraceLineGroupNode(XML,com.ithaca.traces.Trace)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createTraceLineGroupNode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createTraceLineGroupNode(xmlLayout:XML, trac:Trace):<a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></code><p></p><p></p><p>
+         Create a TracelineGroupNode from a xml descriptor and a trace
+                  </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> &mdash; The XML descriptor of the TraceLineGroup
+         </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">trac</span>:Trace</code> &mdash; The trace used to create the TraceLineGroup
+         </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></code> &mdash; the TraceLineGroup node
+         </td></tr></table></div><a name="createTracelineGroupTree()"></a><a name="createTracelineGroupTree(com.ithaca.traces.Trace,String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createTracelineGroupTree</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createTracelineGroupTree(trac:Trace, style:String = null):<a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></code><p></p><p></p><p>
+         Select an XML descriptor of TraceLineGroup tree in the list of descriptors stored in the <code>_timeline</code> and create the tree structure.
+         The first TraceLineGroup descriptor of the list that the property 'source' is equal to the URI of <code>trac</code> or that the 'style' property is equal to the optionnal <code>style</code> parameters is selected.
+         If no such descriptor exist in the list, the last descriptor of the list is used by default.
+                  </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">trac</span>:Trace</code> &mdash; the Trace for which the tree is created
+         </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">style</span>:String</code> (default = <code>null</code>)<code></code> &mdash; an optional stylename used to select the TraceLineGroup definition in the xml descriptor.
+         </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/TraceLineGroup.html">TraceLineGroup</a></code> &mdash; the created TraceLineGroup tree
+         </td></tr></table></div><a name="createTraceLineNode()"></a><a name="createTraceLineNode(XML)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createTraceLineNode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createTraceLineNode(xmlLayout:XML):<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></code><p></p><p></p><p>
+         Create a Traceline from an xml descriptor
+                  </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> &mdash; an xml descriptor of the traceline
+         </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></code> &mdash; the created traceline
+         </td></tr></table></div><a name="createTree()"></a><a name="createTree(XML,com.ithaca.traces.Trace)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">createTree</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function createTree(xmlLayout:XML, trac:Trace):<a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code><p></p><p></p><p>
+         Create a tree structure of LayoutNode ( TraceLineGroup, Traceline, ModifierNode) from an xml descriptor and a trace. This is a recursive method. It uses the createTraceLineGroupNode, createTraceLineNode and createModifierNode methods.
+                  </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlLayout</span>:XML</code> &mdash; the xml descriptor of the tree
+         </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">trac</span>:Trace</code> &mdash; the trace for which the tree is created
+         </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../../com/ithaca/timeline/LayoutNode.html">LayoutNode</a></code> &mdash; the root of the tree structure as a LayoutNode
+         </td></tr></table></div><a name="getCurrentXmlLayout()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">getCurrentXmlLayout</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function getCurrentXmlLayout():XML</code><p></p><p></p><p>
+                  </p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the xml descriptor of the current tree structure
+         </td></tr></table></div><a name="layoutTreeToXml()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">layoutTreeToXml</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> protected function layoutTreeToXml():XML</code><p></p><p></p><p>
+             </p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the XML descriptor of the current timeline tree structure.
+         </td></tr></table></div><a name="loadObselsSelectors()"></a><a name="loadObselsSelectors(XMLList)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">loadObselsSelectors</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function loadObselsSelectors(xmlSelectors:XMLList):void</code><p></p><p></p><p>
+         Loads a set of obsels skins selectors from a XML descriptor. It overwrites the current set if one exists.
+                  </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">xmlSelectors</span>:XMLList</code> &mdash; xml descriptor of a set of obsels skins selectors
+         </td></tr></table></p></div><a name="modifierTreeToXml()"></a><a name="modifierTreeToXml(com.ithaca.timeline.LayoutModifier)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">modifierTreeToXml</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> protected function modifierTreeToXml(modifier:<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a>):XML</code><p></p><p></p><p>        
+         </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">modifier</span>:<a href="../../../com/ithaca/timeline/LayoutModifier.html">LayoutModifier</a></code> &mdash; a modifier tree
+         </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the xml descriptor of a given modifier tree structure.
+         </td></tr></table></div><a name="obselsSelectorsToXml()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">obselsSelectorsToXml</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> protected function obselsSelectorsToXml():XML</code><p></p><p></p><p>
+             </p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the XML descriptor of the current timeline set of obsels skins selectors.
+         </td></tr></table></div><a name="tracelineTreeToXml()"></a><a name="tracelineTreeToXml(com.ithaca.timeline.TraceLine)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">tracelineTreeToXml</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> protected function tracelineTreeToXml(tl:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a>):XML</code><p></p><p></p><p>        
+         </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">tl</span>:<a href="../../../com/ithaca/timeline/TraceLine.html">TraceLine</a></code> &mdash; a traceline tree
+         </td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>XML</code> &mdash; the xml descriptor of a given traceline tree structure.
+         </td></tr></table></div><div class="detailSectionHeader">Constant Detail</div><a name="constantDetail"></a><a name="BACKGROUND_TRACELINE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">BACKGROUND_TRACELINE</td><td class="detailHeaderType">Constant</td></tr></table><div class="detailBody"><code>public static const BACKGROUND_TRACELINE:String = background</code><p></p><p></p><p>
+         the stylename ( 'style' property ) to indcate that a Traceline must be used as a TracelineGroup background traceline
+         </p></div><a name="constantDetail"></a><a name="CONTEXT_PREVIEW_TRACELINE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">CONTEXT_PREVIEW_TRACELINE</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const CONTEXT_PREVIEW_TRACELINE:String = contextPreview</code><p></p><p></p><p>
+         the stylename ( 'style' property ) to indcate that a Traceline must be used as a preview (in the zoomContext preview zone)
+         </p></div><a name="constantDetail"></a><a name="LAYOUT"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">LAYOUT</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const LAYOUT:String = layout</code><p></p><p></p><p>
+         the keyword to define the layout section in the xml descriptor
+         </p></div><a name="constantDetail"></a><a name="MODIFIER"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">MODIFIER</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const MODIFIER:String = modifier</code><p></p><p></p><p>
+         the keyword to define  a ModifierNode in the xml descriptor
+         </p></div><a name="constantDetail"></a><a name="OBSELS_SELECTOR"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">OBSELS_SELECTOR</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const OBSELS_SELECTOR:String = obselsSelector</code><p></p><p></p><p>
+         the keyword to define an obsel skin selector in the xml descriptor
+         </p></div><a name="constantDetail"></a><a name="OBSELS_SELECTORS"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">OBSELS_SELECTORS</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const OBSELS_SELECTORS:String = obselsSelectors</code><p></p><p></p><p>
+         the keyword to define the obsels skins selectors section in the xml descriptor
+         </p></div><a name="constantDetail"></a><a name="ROOT"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">ROOT</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const ROOT:String = root</code><p></p><p></p><p>
+         the keyword to define the root of  the xml document
+         </p></div><a name="constantDetail"></a><a name="TRACELINE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">TRACELINE</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const TRACELINE:String = tl</code><p></p><p></p><p>
+         the keyword to define  a TraceLine in the xml descriptor
+         </p></div><a name="constantDetail"></a><a name="TRACELINEGROUP"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">TRACELINEGROUP</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const TRACELINEGROUP:String = tlg</code><p></p><p></p><p>
+         the keyword to define  a TraceLineGroup in the xml descriptor
+         </p></div><a name="includeExamplesSummary"></a><div class="detailSectionHeader">Examples</div><div class="detailBody">The minimal Layout definition that allows to see something
+     <div class="listing" version="3.0"><pre> 
       &lt;root&gt;
       &lt;!-- this is the minimal layout definition that allows to see something--&gt;
       
@@ -229,10 +212,9 @@
               &lt;!-- there is no traceLine tagged with the 'preview' attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;
           &lt;/tlg &gt;    
       &lt;/layout&gt;
-     &lt;/root&gt;  </pre></div> 	 
-	 
-	 </div><div class="detailBody">A second version of mini layout. This one contains an OblselsSelectors section
-	 <div class="listing" version="3.0"><pre> 
+     &lt;/root&gt;  </pre></div>     
+          </div><div class="detailBody">A second version of mini layout. This one contains an OblselsSelectors section
+     <div class="listing" version="3.0"><pre> 
      &lt;root&gt;
         &lt;!-- A second version of mini layout. This one contains an OblselsSelectors section --&gt;
         
@@ -268,10 +250,9 @@
                 &lt;!-- there is no traceLine tagged with the 'preview' attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;
             &lt;/tlg &gt;                
         &lt;/layout&gt;
-     &lt;/root&gt;           </pre></div> 
-	 
-	 </div><div class="detailBody">A last version of mini layout. This one contains an OblselsSelectors section and use a LayoutModifier to create Traceline
-	 <div class="listing" version="3.0"><pre> 
+     &lt;/root&gt;           </pre></div>
+          </div><div class="detailBody">A last version of mini layout. This one contains an OblselsSelectors section and use a LayoutModifier to create Traceline
+     <div class="listing" version="3.0"><pre> 
      &lt;root&gt;
         &lt;!-- A last version of mini layout. This one contains an OblselsSelectors section and use a LayoutModifier to create Traceline --&gt;
         
@@ -312,11 +293,9 @@
                 &lt;!-- there is no traceLine tagged with the 'preview' attribute. Then, this Tracelinegroup preview (in the zoomContext part) is a traceline that render the whole trace --&gt;
             &lt;/tlg &gt;                
         &lt;/layout&gt;
-     &lt;/root&gt;          </pre></div> 
-     
-	 
-	 	</div><div class="detailBody">A basic layout definition of the old version of Visu2 with a static definition of the tree structure.
-	 <div class="listing" version="3.0"><pre> 
+     &lt;/root&gt;          </pre></div>
+                   </div><div class="detailBody">A basic layout definition of the old version of Visu2 with a static definition of the tree structure.
+     <div class="listing" version="3.0"><pre> 
      &lt;root&gt;
         &lt;!-- A basic layout definition of the old version of Visu2 with a static definition of the tree structure.
         We want something like that :
@@ -360,9 +339,8 @@
             &lt;/tlg&gt;        
         &lt;/layout&gt;
      &lt;/root&gt;       </pre></div>
-	 
-	 	</div><div class="detailBody">An enhanced layout definition of the old version of Visu2.
-	 <div class="listing" version="3.0"><pre> 
+              </div><div class="detailBody">An enhanced layout definition of the old version of Visu2.
+     <div class="listing" version="3.0"><pre> 
      &lt;root&gt;
         &lt;!-- An enhanced layout definition of the old version of Visu2. ( see classicVisu2Layout.xml )
         
@@ -405,9 +383,9 @@
         &lt;!-- the layout definition --&gt;
         &lt;layout&gt;        
             &lt;!-- This is the  TraceLineGroup definition used when the stylename of the TraceLineGroup is "comments".
-                The stylename could set when using the timeline.addTrace (  trace, index , stylename ) function.        
+                The stylename can be set when using the timeline.addTrace (  trace, index , stylename ) function.        
                
-                Of course teh stylename could be use to create CSS selector :
+                Of course the stylename could be used to create a CSS selector :
                     timeline|TraceLineGroup.comments
                     {
                         ....
@@ -451,9 +429,8 @@
             &lt;/tlg&gt;        
         &lt;/layout&gt;
      &lt;/root&gt;   </pre></div>
-	 
-	 	</div><div class="detailBody">New version of the Visu2 layout.
-	 <div class="listing" version="3.0"><pre> 
+              </div><div class="detailBody">New version of the Visu2 layout.
+     <div class="listing" version="3.0"><pre> 
      &lt;root&gt;
         &lt;!-- The obselsSelectors section defines the selectors used to create ObselSkin CSS selectors to use different skins.--&gt;        
         &lt;!-- The selectors defined in this section can also be used in the layout section as selector for Tracelines --&gt;        
@@ -513,5 +490,5 @@
                
             &lt;/tlg&gt;
         &lt;/layout&gt;
-     &lt;/root&gt;       </pre></div>	
-	 </div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Jeudi Octobre 27 2011, 08:49 AM +02:00  </center></div></body></html><!--<br/>Jeudi Octobre 27 2011, 08:49 AM +02:00  -->
+     &lt;/root&gt;       </pre></div>    
+     </div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Fri Nov 18 2011, 12:04 PM +01:00  </center></div></body></html><!--<br/>Fri Nov 18 2011, 12:04 PM +01:00  -->
