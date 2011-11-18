@@ -11,8 +11,7 @@
     implements="mx.core.IToolTip"
     borderSkin="{null}"
     horizontalAlign="center"
-    borderColor="0"
-    dropShadowVisible="false">    
+    borderColor="0" >
     
     <fx:Metadata>
         [Style(name = "showTopArrow", type = "Boolean", inherit = "no")]
