@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
-	<tlg> 	
-		<tl title="bg" skinClass="background" selector="SelectorRegexp" field="type" regexp="Activity" />		
+	<tlg>
+		<tl title="bg" skinClass="background" selector="SelectorRegexp" selectorParams="type,Activity" />
 		<tl title="Traceline1"  >
-			<tl selector="SelectorRegexp"   skinClass="viewMsgText"	field="type" regexp="Message">
-				<tl selector="SelectorRegexp" 	field="type" regexp="Send" />
-				<tl selector="SelectorRegexp" 	field="type" regexp="Receive" source="parent" title="Receive source parent"/>
-				<tl selector="SelectorRegexp" 	field="type" regexp="Receive" title="Receive source trace"/>
-				<tl selector="SelectorRegexp" 	field="type" regexp="Document" />
+			<tl selector="SelectorRegexp"   skinClass="viewMsgText"	selectorParams="type,Message">
+				<tl selector="SelectorRegexp" 	selectorParams="type,Send" />
+				<tl selector="SelectorRegexp" 	selectorParams="type,Receive" source="parent" title="Receive source parent"/>
+				<tl selector="SelectorRegexp" 	selectorParams="type,Receive" title="Receive source trace"/>
+				<tl selector="SelectorRegexp" 	selectorParams="type,Document" />
 			</tl>
-			<tl selector="SelectorRegexp" field="type" regexp="Document" />
-			<tl selector="SelectorRegexp" field="type" regexp="Marker" />
-			<tl selector="SelectorRegexp" field="type" regexp="Instructions" />
-			<tl selector="SelectorRegexp" field="type" regexp="Keyword" />
+			<tl selector="SelectorRegexp" selectorParams="type,Document" />
+			<tl selector="SelectorRegexp" selectorParams="type,Marker" />
+			<tl selector="SelectorRegexp" selectorParams="type,Instructions" />
+			<tl selector="SelectorRegexp" selectorParams="type,Keyword" />
 		</tl>
 	</tlg>
-</root>			
+</root>
