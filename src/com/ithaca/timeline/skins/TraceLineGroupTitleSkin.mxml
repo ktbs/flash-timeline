@@ -186,7 +186,7 @@
                 var traceLine:TraceLine             = ((hostComponent.tlg.getElementAt(0) as LayoutNode).getElementByName( ( evt.item as Object ).name ) as TraceLine );
                 if ( traceLine )
                 {
-                    traceLine.SetToVisible( (evt.item as Object ).toggled );
+                    traceLine.setToVisible( (evt.item as Object ).toggled );
                 }
             }
 

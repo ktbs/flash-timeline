@@ -154,7 +154,7 @@ package com.ithaca.timeline
             _obsels.enableAutoUpdate();
 
             if (autohide)
-                SetToVisible( _obsels.length > 0 );
+                setToVisible( _obsels.length > 0 );
         }
 
         /**
@@ -193,7 +193,7 @@ package com.ithaca.timeline
             _obsels.enableAutoUpdate();
 
             if ( autohide )
-                SetToVisible( _obsels.length > 0 );
+                setToVisible( _obsels.length > 0 );
         }
 
         /**
@@ -216,7 +216,7 @@ package com.ithaca.timeline
          * Show or hide the traceline and its children according to the parameter.
          * @param    visible if true the TraceLine is visible; otherwise it's hidden.
          */
-        public function SetToVisible( visible: Boolean ) : void
+        public function setToVisible( visible: Boolean ) : void
         {
             if (this.visible == visible)
                 return;
