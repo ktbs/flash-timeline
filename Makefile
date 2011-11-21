@@ -9,11 +9,13 @@ POT=po/timeline.pot
 
 all: $(SWF)
 
+swc: $(SWC)
+
 $(SWF): src/TestTimeline.mxml $(DEPFILES)
-	"${SDKBIN}mxmlc" -output $@ -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $<
+	"${SDKBIN}mxmlc" -swf-version 11 -output $@ -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $<
 
 $(SWC): $(DEPFILES)
-	"${SDKBIN}compc" -output $@ -source-path src -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $(shell find src/images -type f | sed 's/\(src.\)\(.*\)/ -include-file \2 \1\2/') $(CLASSES)
+	"${SDKBIN}compc" -swf-version 11 -output $@ -source-path src -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $(shell find src/images -type f | sed 's/\(src.\)\(.*\)/ -include-file \2 \1\2/') $(CLASSES)
 
 clean:
 	-$(RM) $(SWF) $(SWF).cache
