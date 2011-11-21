@@ -802,6 +802,8 @@ package com.ithaca.timeline
                 xmlTl.@['title'] = tl.title;
             if ( tl.autohide )
                 xmlTl.@['autohide'] = tl.autohide;
+            if ( tl.isOpen() )
+                xmlTl.@['expanded'] = "";
 
             if  (tl.selector)
             {

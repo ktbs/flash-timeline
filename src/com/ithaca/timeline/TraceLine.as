@@ -213,6 +213,15 @@ package com.ithaca.timeline
         }
 
         /**
+         * Indicate wether the Traceline is open/expanded or not.
+         * @return true if the traceline is open
+         */
+        public function isOpen(): Boolean
+        {
+            return (currentState == "open");
+        }
+
+        /**
          * Show or hide the traceline and its children according to the parameter.
          * @param    visible if true the TraceLine is visible; otherwise it's hidden.
          */
