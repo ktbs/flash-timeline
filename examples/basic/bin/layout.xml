@@ -12,8 +12,10 @@
 	<!-- the layout definition -->
 	<layout>
 		<!-- Default and only traceLineGroup definition. Each Trace will use this definition -->
-		<tlg > 			
-			<modifier splitter="type" />							
+		<tlg >
+          <tl preview="true" title="All obsels" selector="SelectorRegexp" selectorParams="type,.*">
+            <modifier splitter="type" />
+          </tl>
 		</tlg > 				
 	</layout>
 </root>			
