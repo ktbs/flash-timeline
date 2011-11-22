@@ -4,6 +4,7 @@
                xmlns:mx="library://ns.adobe.com/flex/mx"
                xmlns:tl="com.ithaca.timeline.*"
                xmlns:root="*"
+               xmlns:kapit="fr.kapit.*"
                width="100%"  height="100%"
                preinitialize="onPreinitialize()"
                creationComplete="init()" >
@@ -390,5 +391,9 @@
     <mx:Box width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
         <mx:ProgressBar id="loading"  horizontalCenter="true" verticalCenter="true" label="Loading..."  labelPlacement="center" indeterminate="true" visible="false" />
     </mx:Box>
+
+    <fx:Declarations>
+<!--      <kapit:KapInspect /> -->
+    </fx:Declarations> 
 
 </s:Application>
