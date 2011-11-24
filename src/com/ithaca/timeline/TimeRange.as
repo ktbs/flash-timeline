@@ -340,7 +340,7 @@ package com.ithaca.timeline
         }
 
         /**
-         * Restores the intervals and  the begin / end of time to consider from the saved intevals list.
+         * Restores the intervals and  the begin / end of time to consider from the saved intervals list.
          *
          * It is used to cancel all zooms and time holes for example.
          *
