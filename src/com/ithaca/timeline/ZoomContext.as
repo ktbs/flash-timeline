@@ -213,8 +213,7 @@ package com.ithaca.timeline
             }
 
             cursorRange.clone( _timelineRange );
-            cursorRange.changeLimits(begin, begin + duration);
-            updateSkinPositionFromValues();
+            setRange(begin, begin + duration);
         }
 
         /**
@@ -226,8 +225,7 @@ package com.ithaca.timeline
             var duration     : Number     = ( _timelineRange.end - _timelineRange.begin )*Stylesheet.ZoomContextInitPercentWidth / 100;
 
             cursorRange.clone( _timelineRange );
-            cursorRange.changeLimits(begin, begin + duration);
-            updateSkinPositionFromValues();
+            setRange(begin, begin + duration);
         }
 
         /**
