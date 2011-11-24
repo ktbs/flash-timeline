@@ -327,7 +327,7 @@ package com.ithaca.timeline
         }
 
         /**
-         * Restores the begin and the end of time to consider from the intevals list ; in order to cancel a zoom for example.
+         * Restores the begin and the end of time to consider from the intervals list ; in order to cancel a zoom for example.
          */
         public function resetLimits ( ) : void
         {
