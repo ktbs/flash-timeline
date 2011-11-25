@@ -7,6 +7,8 @@ package com.ithaca.timeline
 
     import flash.events.Event;
     import flash.events.MouseEvent;
+    import mx.events.ToolTipEvent;
+    import mx.events.DragEvent;
 
     import mx.core.UIComponent;
     import mx.managers.PopUpManager;
@@ -78,9 +80,13 @@ package com.ithaca.timeline
             doubleClickEnabled = true;
             toolTip = obsel.toString();
 
-            this.addEventListener(MouseEvent.ROLL_OVER, function(event: Event) 
+            this.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, function(event: Event): void
                                   { 
-                                      TraceManager.trace("timeline", "ObselMouseOver", { uri: _obsel.uri, tooltip: toolTip });
+                                      TraceManager.trace("timeline", "ObselMouseOver", { uri: _obsel.uri, tooltip: (event as ToolTipEvent).toolTip.text });
+                                  });
+            this.addEventListener(DragEvent.DRAG_START, function(event: Event): void
+                                  { 
+                                      TraceManager.trace("timeline", "ObselStartDrag", { uri: _obsel.uri });
                                   });
             this.setStyle("dragEnabled", "true");
             this.setStyle("dragMoveEnabled", "true");

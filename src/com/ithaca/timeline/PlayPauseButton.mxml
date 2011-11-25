@@ -20,6 +20,7 @@
         <![CDATA[
             import com.ithaca.timeline.Timeline;
             import com.ithaca.timeline.events.TimelineEvent;
+            import com.ithaca.traces.TraceManager;
             import flash.events.Event;
             import flash.events.MouseEvent;
             import mx.formatters.DateFormatter;
@@ -43,12 +44,16 @@
             {
                 dispatchEvent(new TimelineEvent( TimelineEvent.PLAY, true ));
                 setCurrentState("pause");
+                TraceManager.trace("timeline", "PlayerResume", { position: timeline.currentTime,
+                                                                 origin: "button" });
             }
 
             private function Pause ( event : MouseEvent ) : void
             {
                 dispatchEvent(new TimelineEvent( TimelineEvent.PAUSE, true ));
                 setCurrentState("play");
+                TraceManager.trace("timeline", "PlayerPause", { position: timeline.currentTime,
+                                                                origin: "button" });
             }
 
             public function onCurrentTimeChange( event: TimelineEvent ) : void

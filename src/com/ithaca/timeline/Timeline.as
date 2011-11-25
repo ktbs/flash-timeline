@@ -141,6 +141,9 @@ package com.ithaca.timeline
             _styleSheet = new Stylesheet();
             range = new TimeRange( );
             addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
+            addEventListener(TimelineEvent.TIMERULER_CLICK, function(event: Event): void { 
+                TraceManager.trace("timeline", "RulerClick", { position: (event as TimelineEvent).value });
+            });
             range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
             TraceManager.trace("timeline", "TimelineStart");
         }
