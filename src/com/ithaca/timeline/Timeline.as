@@ -232,6 +232,8 @@ package com.ithaca.timeline
                 range.addTime( tlg.traceBegin, tlg.traceEnd);
 
                 addChildAndTitle(  tlg , index );
+                TraceManager.trace("timeline", "AddTracelineGroup", { group: tlg.title, 
+                                                                      new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
 
             TraceManager.trace("timeline", "AddTrace", { uri: pTrace.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
@@ -282,7 +284,11 @@ package com.ithaca.timeline
         public function removeTraceLineGroup ( tlg : TraceLineGroup ) : void
         {
             if ( tlg )
+            {
                 removeElement( tlg );
+                TraceManager.trace("timeline", "DeleteTracelineGroup", { group: tlg.title,
+                                                                         new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+            }
         }
 
         /**
@@ -293,6 +299,8 @@ package com.ithaca.timeline
         public function moveTraceLineGroup( fromIndex : uint, toIndex : uint) : void
         {
             addElementAt( getElementAt(fromIndex) as TraceLineGroup, toIndex );
+            TraceManager.trace("timeline", "MoveTracelineGroup", { group: (getElementAt(toIndex) as TraceLineGroup).title,
+                                                                   new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
         }
 
         /**
@@ -328,7 +336,7 @@ package com.ithaca.timeline
             else
                 _layout = value;
 
-
+            TraceManager.trace("timeline", "LayoutUpdate", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             dispatchEvent( new TimelineEvent( TimelineEvent.LAYOUT_CHANGE  ));
         }
 
