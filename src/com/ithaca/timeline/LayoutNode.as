@@ -77,8 +77,8 @@ package com.ithaca.timeline
         public function moveTraceline(child: LayoutNode, index: int = -1 ): void
         {
             addChildAndTitle(child, index);
-            TraceManager.trace("timeline", "MoveTraceline", { traceline: (child as TraceLine).title,
-                                                              new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
+            _timeline.activity.trace("MoveTraceline", { traceline: (child as TraceLine).title,
+                                                        new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
         }
 
         /**
@@ -128,8 +128,8 @@ package com.ithaca.timeline
             titleComponent.removeElement( child.titleComponent );
             if (child is TraceLine)
             {
-                TraceManager.trace("timeline", "DeleteTraceline", { traceline: (child as TraceLine).title,
-                                                                    new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
+                _timeline.activity.trace("DeleteTraceline", { traceline: (child as TraceLine).title,
+                                                              new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
         }
 

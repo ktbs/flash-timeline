@@ -3,7 +3,6 @@ package com.ithaca.timeline
     import com.ithaca.timeline.events.TimelineEvent;
     import com.ithaca.timeline.PlayPauseButton;
     import com.ithaca.traces.Trace;
-    import com.ithaca.traces.TraceManager;
     import flash.events.Event;
     import flash.events.TimerEvent;
     import flash.utils.Timer;
@@ -81,10 +80,14 @@ package com.ithaca.timeline
      */
     public class Timeline  extends LayoutNode
     {
-        private var _styleSheet     : Stylesheet;
-        private var _layout            : Layout;
+        private var _styleSheet      : Stylesheet;
+        private var _layout          : Layout;
 
         public  var range            : TimeRange;
+        /**
+         * Activity trace
+         */
+        public var activity          : Trace;
 
         [SkinPart(required="true")]
         /**
@@ -127,7 +130,8 @@ package com.ithaca.timeline
          */
         public function Timeline( xmlLayout : XML = null )
         {
-            TraceManager.initTrace("timeline");
+            /* FIXME: get appropriate uid/uri info */
+            activity = new Trace();
 
             super();
             if (xmlLayout)
@@ -142,10 +146,10 @@ package com.ithaca.timeline
             range = new TimeRange( );
             addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
             addEventListener(TimelineEvent.TIMERULER_CLICK, function(event: Event): void { 
-                TraceManager.trace("timeline", "RulerClick", { position: (event as TimelineEvent).value });
+                activity.trace("RulerClick", { position: (event as TimelineEvent).value });
             });
             range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
-            TraceManager.trace("timeline", "TimelineStart");
+            activity.trace("TimelineStart");
         }
 
         override public function styleChanged(styleProp:String):void
@@ -184,14 +188,14 @@ package com.ithaca.timeline
                 styleChanged('cursorMode');
                 zoomContext.addEventListener(ResizeEvent.RESIZE, changeCursorValue);
                 zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function(event: Event):void {
-                    TraceManager.trace("timeline", "EndSlideScaleChange", { begin: zoomContext.cursorRange.begin,
+                    activity.trace("EndSlideScaleChange", { begin: zoomContext.cursorRange.begin,
                                                                             end: zoomContext.cursorRange.end,
                                                                             ratio: zoomContext.cursorRange.duration / zoomContext._timelineRange.duration
                                                                           });
                     changeCursorValue(event);
                 });
                 zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, function(event: Event):void {
-                    TraceManager.trace("timeline", "EndSlidePositionChange", { begin: zoomContext.cursorRange.begin,
+                    activity.trace("EndSlidePositionChange", { begin: zoomContext.cursorRange.begin,
                                                                                end: zoomContext.cursorRange.end
                                                                              });
                     changeCursorValue(event);
@@ -235,11 +239,11 @@ package com.ithaca.timeline
                 range.addTime( tlg.traceBegin, tlg.traceEnd);
 
                 addChildAndTitle(  tlg , index );
-                TraceManager.trace("timeline", "AddTracelineGroup", { group: tlg.title, 
+                activity.trace("AddTracelineGroup", { group: tlg.title, 
                                                                       new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
 
-            TraceManager.trace("timeline", "AddTrace", { uri: pTrace.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+            activity.trace("AddTrace", { uri: pTrace.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             return tlg;
         }
 
@@ -256,7 +260,7 @@ package com.ithaca.timeline
                 if ( tlg.trace == tr )
                     {
                         removeTraceLineGroup ( tlg );
-                        TraceManager.trace("timeline", "DeleteTrace", { uri: tr.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+                        activity.trace("DeleteTrace", { uri: tr.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
                         return true;
                     }
             }
@@ -289,7 +293,7 @@ package com.ithaca.timeline
             if ( tlg )
             {
                 removeElement( tlg );
-                TraceManager.trace("timeline", "DeleteTracelineGroup", { group: tlg.title,
+                activity.trace("DeleteTracelineGroup", { group: tlg.title,
                                                                          new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
         }
@@ -302,7 +306,7 @@ package com.ithaca.timeline
         public function moveTraceLineGroup( fromIndex : uint, toIndex : uint) : void
         {
             addElementAt( getElementAt(fromIndex) as TraceLineGroup, toIndex );
-            TraceManager.trace("timeline", "MoveTracelineGroup", { group: (getElementAt(toIndex) as TraceLineGroup).title,
+            activity.trace("MoveTracelineGroup", { group: (getElementAt(toIndex) as TraceLineGroup).title,
                                                                    new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
         }
 
@@ -339,7 +343,7 @@ package com.ithaca.timeline
             else
                 _layout = value;
 
-            TraceManager.trace("timeline", "LayoutUpdate", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+            activity.trace("LayoutUpdate", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             dispatchEvent( new TimelineEvent( TimelineEvent.LAYOUT_CHANGE  ));
         }
 

@@ -497,8 +497,8 @@ package com.ithaca.timeline
         public function addTraceline(  traceline : TraceLine , parentNode : LayoutNode , xmlLayout : XML = null ) :  LayoutNode
         {
             parentNode.addChildAndTitle( traceline );
-            TraceManager.trace("timeline", "AddTraceline", { traceline: traceline.title, 
-                                                             new_layout: getCurrentXmlLayout().toXMLString() });
+            _timeline.activity.trace("AddTraceline", { traceline: traceline.title, 
+                                                       new_layout: getCurrentXmlLayout().toXMLString() });
             return traceline;
         }
 

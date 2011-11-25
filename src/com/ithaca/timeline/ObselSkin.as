@@ -88,11 +88,11 @@ package com.ithaca.timeline
 
         private function handle_tooltip_event(event: ToolTipEvent): void
         {
-            TraceManager.trace("timeline", "ObselMouseOver", { uri: obsel.uri, tooltip: event.toolTip.text });            
+            traceline._timeline.activity.trace("ObselMouseOver", { uri: obsel.uri, tooltip: event.toolTip.text });            
         }
         private function handle_drag_start_event(event: DragEvent): void
         {
-            TraceManager.trace("timeline", "ObselStartDrag", { uri: obsel.uri });
+            traceline._timeline.activity.trace("ObselStartDrag", { uri: obsel.uri });
         }
 
         /**
@@ -136,7 +136,7 @@ package com.ithaca.timeline
             moveObselEvent.value = this;
             moveObselEvent.event = event;
 
-            TraceManager.trace("timeline", "ObselClick",  { uri: _obsel.uri });
+            traceline._timeline.activity.trace("ObselClick",  { uri: _obsel.uri });
             this.dispatchEvent(moveObselEvent);
         }
 

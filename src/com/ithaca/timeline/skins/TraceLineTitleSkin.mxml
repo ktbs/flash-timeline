@@ -202,13 +202,13 @@
                 {
                     hostComponent.tl.skin.setCurrentState("open");
                     setCurrentState("open");
-                    TraceManager.trace("timeline", "UnfoldTraceline", { traceline: hostComponent.tl.title });
+                    timeline.activity.trace("UnfoldTraceline", { traceline: hostComponent.tl.title });
                 }
                 else
                 {
                     hostComponent.tl.skin.setCurrentState("normal");
                     setCurrentState("normal");
-                    TraceManager.trace("timeline", "Foldtraceline", { traceline: hostComponent.tl.title });
+                    timeline.activity.trace("Foldtraceline", { traceline: hostComponent.tl.title });
                 }
             }
 

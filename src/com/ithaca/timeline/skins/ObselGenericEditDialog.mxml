@@ -80,7 +80,7 @@
 
             private function onValid(event:Event):void
             {
-                TraceManager.trace("timeline", "ObselModify", { uri: _obsel.obsel.uri });
+                traceline._timeline.activity.trace("ObselModify", { uri: _obsel.obsel.uri });
                 PopUpManager.removePopUp(this);
             }
         ]]>

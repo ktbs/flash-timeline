@@ -44,7 +44,7 @@
             {
                 dispatchEvent(new TimelineEvent( TimelineEvent.PLAY, true ));
                 setCurrentState("pause");
-                TraceManager.trace("timeline", "PlayerResume", { position: timeline.currentTime,
+                timeline.activity.trace("PlayerResume", { position: timeline.currentTime,
                                                                  origin: "button" });
             }
 
@@ -52,7 +52,7 @@
             {
                 dispatchEvent(new TimelineEvent( TimelineEvent.PAUSE, true ));
                 setCurrentState("play");
-                TraceManager.trace("timeline", "PlayerPause", { position: timeline.currentTime,
+                timeline.activity.trace("PlayerPause", { position: timeline.currentTime,
                                                                 origin: "button" });
             }
 
