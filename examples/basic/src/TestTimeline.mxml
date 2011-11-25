@@ -183,10 +183,13 @@
 
             if (firstload )
             {
-                var tlg : TraceLineGroup = timeline.addTrace( TraceManager.getTrace("timeline"), 0, "timeline" );
-                tlg.setStyle( "title", "Timeline" );
-                /* Assume a default session time of n minutes, so that the initial display is meaningful */
-                timeline.range.addTime( tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000);
+                if (timeline.activity !== null)
+                {
+                    var tlg : TraceLineGroup = timeline.addTrace( timeline.activity, 0, "timeline" );
+                    tlg.setStyle( "title", "Timeline" );
+                    /* Assume a default session time of n minutes, so that the initial display is meaningful */
+                    timeline.range.addTime( tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000);
+                }
                 firstload = false;
             }
         }
