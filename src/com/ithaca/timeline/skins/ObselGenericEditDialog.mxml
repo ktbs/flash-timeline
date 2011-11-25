@@ -14,6 +14,7 @@
         <![CDATA[
             import com.ithaca.timeline.SelectorRegexp;
             import com.ithaca.traces.Obsel;
+            import com.ithaca.traces.TraceManager;
             import com.ithaca.timeline.ObselSkin;
             import mx.controls.Label;
             import mx.controls.TextInput;
@@ -79,6 +80,7 @@
 
             private function onValid(event:Event):void
             {
+                TraceManager.trace("timeline", "ObselModify", { uri: _obsel.obsel.uri });
                 PopUpManager.removePopUp(this);
             }
         ]]>

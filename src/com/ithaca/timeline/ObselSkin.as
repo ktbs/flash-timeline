@@ -2,6 +2,7 @@ package com.ithaca.timeline
 {
     import com.ithaca.timeline.skins.ObselGenericEditDialog;
     import com.ithaca.traces.Obsel;
+    import com.ithaca.traces.TraceManager;
     import com.ithaca.traces.events.ObselEvent;
 
     import flash.events.Event;
@@ -77,6 +78,10 @@ package com.ithaca.timeline
             doubleClickEnabled = true;
             toolTip = obsel.toString();
 
+            this.addEventListener(MouseEvent.ROLL_OVER, function(event: Event) 
+                                  { 
+                                      TraceManager.trace("timeline", "ObselMouseOver", { uri: _obsel.uri, tooltip: toolTip });
+                                  });
             this.setStyle("dragEnabled", "true");
             this.setStyle("dragMoveEnabled", "true");
         }
@@ -122,6 +127,7 @@ package com.ithaca.timeline
             moveObselEvent.value = this;
             moveObselEvent.event = event;
 
+            TraceManager.trace("timeline", "ObselClick",  { uri: _obsel.uri });
             this.dispatchEvent(moveObselEvent);
         }
 
