@@ -3,6 +3,7 @@ package com.ithaca.timeline
     import com.ithaca.timeline.events.TimelineEvent;
     import com.ithaca.timeline.PlayPauseButton;
     import com.ithaca.traces.Trace;
+    import com.ithaca.traces.TraceManager;
     import flash.events.Event;
     import flash.events.TimerEvent;
     import flash.utils.Timer;
@@ -126,6 +127,8 @@ package com.ithaca.timeline
          */
         public function Timeline( xmlLayout : XML = null )
         {
+            TraceManager.initTrace("timeline");
+
             super();
             if (xmlLayout)
                 layoutXML = xmlLayout;
@@ -139,6 +142,7 @@ package com.ithaca.timeline
             range = new TimeRange( );
             addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
             range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
+            TraceManager.trace("timeline", "TimelineStart");
         }
 
         override public function styleChanged(styleProp:String):void
@@ -176,8 +180,19 @@ package com.ithaca.timeline
                 zoomContext.timeline = this;
                 styleChanged('cursorMode');
                 zoomContext.addEventListener(ResizeEvent.RESIZE, changeCursorValue);
-                zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, changeCursorValue);
-                zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, changeCursorValue);
+                zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function(event: Event):void {
+                    TraceManager.trace("timeline", "EndSlideScaleChange", { begin: zoomContext.cursorRange.begin,
+                                                                            end: zoomContext.cursorRange.end,
+                                                                            ratio: zoomContext.cursorRange.duration / zoomContext._timelineRange.duration
+                                                                          });
+                    changeCursorValue(event);
+                });
+                zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, function(event: Event):void {
+                    TraceManager.trace("timeline", "EndSlidePositionChange", { begin: zoomContext.cursorRange.begin,
+                                                                               end: zoomContext.cursorRange.end
+                                                                             });
+                    changeCursorValue(event);
+                });
                 zoomContext._timelineRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, changeCursorValue);
                 zoomContext._timelineRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, changeCursorValue);
             }
@@ -219,6 +234,7 @@ package com.ithaca.timeline
                 addChildAndTitle(  tlg , index );
             }
 
+            TraceManager.trace("timeline", "AddTrace", { uri: pTrace.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             return tlg;
         }
 
@@ -235,6 +251,7 @@ package com.ithaca.timeline
                 if ( tlg.trace == tr )
                     {
                         removeTraceLineGroup ( tlg );
+                        TraceManager.trace("timeline", "DeleteTrace", { uri: tr.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
                         return true;
                     }
             }
