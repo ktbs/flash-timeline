@@ -3,7 +3,7 @@ package com.ithaca.timeline
     import mx.collections.ArrayCollection;
     import spark.components.SkinnableContainer;
     import mx.events.CollectionEvent;
-
+    import com.ithaca.traces.TraceManager;
     import com.ithaca.timeline.events.TimelineEvent;
 
     /**
@@ -74,6 +74,13 @@ package com.ithaca.timeline
             }
         }
 
+        public function moveTraceline(child: LayoutNode, index: int = -1 ): void
+        {
+            addChildAndTitle(child, index);
+            TraceManager.trace("timeline", "MoveTraceline", { traceline: (child as TraceLine).title,
+                                                              new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
+        }
+
         /**
          *
          * @return the tracelinegroup containing this node
@@ -112,13 +119,18 @@ package com.ithaca.timeline
         }
 
         /**
-         *
+         * Remove a child (mostly Traceline)
          * @param child
          */
         public function removeChildAndTitle( child : LayoutNode ) : void
         {
             removeElement( child  );
             titleComponent.removeElement( child.titleComponent );
+            if (child is TraceLine)
+            {
+                TraceManager.trace("timeline", "DeleteTraceline", { traceline: (child as TraceLine).title,
+                                                                    new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
+            }
         }
 
         /**

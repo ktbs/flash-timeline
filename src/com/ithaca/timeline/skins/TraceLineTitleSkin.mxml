@@ -245,7 +245,7 @@
                     else
                     {
                         var toIndex : Number = hostComponent.tl.parentNode.getElementIndex( hostComponent.tl );
-                         hostComponent.tl.parentNode.addChildAndTitle( traceline, toIndex );
+                        hostComponent.tl.parentNode.moveTraceline( traceline, toIndex );
                     }
                     (traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
                 }

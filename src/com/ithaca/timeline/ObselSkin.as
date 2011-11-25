@@ -78,18 +78,21 @@ package com.ithaca.timeline
             traceline = tl;
             _obsel = o;
             doubleClickEnabled = true;
-            toolTip = obsel.toString();
+            toolTip = _obsel.toString();
 
-            this.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, function(event: Event): void
-                                  { 
-                                      TraceManager.trace("timeline", "ObselMouseOver", { uri: _obsel.uri, tooltip: (event as ToolTipEvent).toolTip.text });
-                                  });
-            this.addEventListener(DragEvent.DRAG_START, function(event: Event): void
-                                  { 
-                                      TraceManager.trace("timeline", "ObselStartDrag", { uri: _obsel.uri });
-                                  });
+            this.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, handle_tooltip_event);
+            this.addEventListener(DragEvent.DRAG_START, handle_drag_start_event);
             this.setStyle("dragEnabled", "true");
             this.setStyle("dragMoveEnabled", "true");
+        }
+
+        private function handle_tooltip_event(event: ToolTipEvent): void
+        {
+            TraceManager.trace("timeline", "ObselMouseOver", { uri: obsel.uri, tooltip: event.toolTip.text });            
+        }
+        private function handle_drag_start_event(event: DragEvent): void
+        {
+            TraceManager.trace("timeline", "ObselStartDrag", { uri: obsel.uri });
         }
 
         /**

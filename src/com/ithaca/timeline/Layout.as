@@ -6,6 +6,7 @@ package com.ithaca.timeline
     import mx.collections.ArrayCollection;
     import mx.events.CollectionEvent;
     import flash.ui.MouseCursor
+    import com.ithaca.traces.TraceManager;
 
     /**
      * The Layout class manages the creation of tracelines and tracelinegroups in a tree layout as defined in a XML descriptor.
@@ -496,6 +497,8 @@ package com.ithaca.timeline
         public function addTraceline(  traceline : TraceLine , parentNode : LayoutNode , xmlLayout : XML = null ) :  LayoutNode
         {
             parentNode.addChildAndTitle( traceline );
+            TraceManager.trace("timeline", "AddTraceline", { traceline: traceline.title, 
+                                                             new_layout: getCurrentXmlLayout().toXMLString() });
             return traceline;
         }
 
