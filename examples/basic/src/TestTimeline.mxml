@@ -27,6 +27,7 @@
         import com.ithaca.timeline.TraceLineTitle;
         import com.ithaca.traces.Obsel;
         import com.ithaca.traces.Trace;
+        import com.ithaca.traces.TraceManager;
         import spark.events.ElementExistenceEvent;
 
         import flash.events.*;
@@ -182,8 +183,10 @@
 
             if (firstload )
             {
-                var tlg : TraceLineGroup = timeline.addTrace( new Trace(0, "comments"), 0, "comments" );
-                tlg.setStyle( "title", "Comments" );
+                var tlg : TraceLineGroup = timeline.addTrace( TraceManager.getTrace("timeline"), 0, "timeline" );
+                tlg.setStyle( "title", "Timeline" );
+                /* Assume a default session time of n minutes, so that the initial display is meaningful */
+                timeline.range.addTime( tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000);
                 firstload = false;
             }
         }
