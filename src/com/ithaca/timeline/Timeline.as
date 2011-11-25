@@ -87,7 +87,7 @@ package com.ithaca.timeline
         /**
          * Activity trace
          */
-        public var activity          : Trace;
+        public var activity          : Trace = null;
 
         [SkinPart(required="true")]
         /**
@@ -146,10 +146,12 @@ package com.ithaca.timeline
             range = new TimeRange( );
             addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
             addEventListener(TimelineEvent.TIMERULER_CLICK, function(event: Event): void { 
-                activity.trace("RulerClick", { position: (event as TimelineEvent).value });
+                if (activity !== null)
+                    activity.trace("RulerClick", { position: (event as TimelineEvent).value });
             });
             range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
-            activity.trace("TimelineStart");
+            if (activity !== null)
+                activity.trace("TimelineStart");
         }
 
         override public function styleChanged(styleProp:String):void
@@ -188,6 +190,7 @@ package com.ithaca.timeline
                 styleChanged('cursorMode');
                 zoomContext.addEventListener(ResizeEvent.RESIZE, changeCursorValue);
                 zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function(event: Event):void {
+                    if (activity !== null)
                     activity.trace("EndSlideScaleChange", { begin: zoomContext.cursorRange.begin,
                                                                             end: zoomContext.cursorRange.end,
                                                                             ratio: zoomContext.cursorRange.duration / zoomContext._timelineRange.duration
@@ -195,6 +198,7 @@ package com.ithaca.timeline
                     changeCursorValue(event);
                 });
                 zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, function(event: Event):void {
+                    if (activity !== null)
                     activity.trace("EndSlidePositionChange", { begin: zoomContext.cursorRange.begin,
                                                                                end: zoomContext.cursorRange.end
                                                                              });
@@ -239,10 +243,12 @@ package com.ithaca.timeline
                 range.addTime( tlg.traceBegin, tlg.traceEnd);
 
                 addChildAndTitle(  tlg , index );
+                if (activity !== null)
                 activity.trace("AddTracelineGroup", { group: tlg.title, 
                                                                       new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
 
+            if (activity !== null)
             activity.trace("AddTrace", { uri: pTrace.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             return tlg;
         }
@@ -260,6 +266,7 @@ package com.ithaca.timeline
                 if ( tlg.trace == tr )
                     {
                         removeTraceLineGroup ( tlg );
+                        if (activity !== null)
                         activity.trace("DeleteTrace", { uri: tr.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
                         return true;
                     }
@@ -293,6 +300,7 @@ package com.ithaca.timeline
             if ( tlg )
             {
                 removeElement( tlg );
+                if (activity !== null)
                 activity.trace("DeleteTracelineGroup", { group: tlg.title,
                                                                          new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
@@ -306,6 +314,7 @@ package com.ithaca.timeline
         public function moveTraceLineGroup( fromIndex : uint, toIndex : uint) : void
         {
             addElementAt( getElementAt(fromIndex) as TraceLineGroup, toIndex );
+            if (activity !== null)
             activity.trace("MoveTracelineGroup", { group: (getElementAt(toIndex) as TraceLineGroup).title,
                                                                    new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
         }
@@ -343,6 +352,7 @@ package com.ithaca.timeline
             else
                 _layout = value;
 
+            if (activity !== null)
             activity.trace("LayoutUpdate", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             dispatchEvent( new TimelineEvent( TimelineEvent.LAYOUT_CHANGE  ));
         }

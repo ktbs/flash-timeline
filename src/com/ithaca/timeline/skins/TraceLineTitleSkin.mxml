@@ -202,13 +202,15 @@
                 {
                     hostComponent.tl.skin.setCurrentState("open");
                     setCurrentState("open");
-                    timeline.activity.trace("UnfoldTraceline", { traceline: hostComponent.tl.title });
+                    if (timeline.activity !== null)
+                        timeline.activity.trace("UnfoldTraceline", { traceline: hostComponent.tl.title });
                 }
                 else
                 {
                     hostComponent.tl.skin.setCurrentState("normal");
                     setCurrentState("normal");
-                    timeline.activity.trace("Foldtraceline", { traceline: hostComponent.tl.title });
+                    if (timeline.activity !== null)
+                        timeline.activity.trace("Foldtraceline", { traceline: hostComponent.tl.title });
                 }
             }
 

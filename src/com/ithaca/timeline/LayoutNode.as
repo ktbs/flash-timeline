@@ -77,7 +77,8 @@ package com.ithaca.timeline
         public function moveTraceline(child: LayoutNode, index: int = -1 ): void
         {
             addChildAndTitle(child, index);
-            _timeline.activity.trace("MoveTraceline", { traceline: (child as TraceLine).title,
+            if (_timeline.activity !== null)
+                _timeline.activity.trace("MoveTraceline", { traceline: (child as TraceLine).title,
                                                         new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
         }
 
@@ -128,8 +129,9 @@ package com.ithaca.timeline
             titleComponent.removeElement( child.titleComponent );
             if (child is TraceLine)
             {
-                _timeline.activity.trace("DeleteTraceline", { traceline: (child as TraceLine).title,
-                                                              new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
+                if (_timeline.activity !== null)
+                    _timeline.activity.trace("DeleteTraceline", { traceline: (child as TraceLine).title,
+                                                            new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
         }
 

@@ -44,16 +44,18 @@
             {
                 dispatchEvent(new TimelineEvent( TimelineEvent.PLAY, true ));
                 setCurrentState("pause");
-                timeline.activity.trace("PlayerResume", { position: timeline.currentTime,
-                                                                 origin: "button" });
+                if (timeline.activity !== null)
+                    timeline.activity.trace("PlayerResume", { position: timeline.currentTime,
+                                                        origin: "button" });
             }
 
             private function Pause ( event : MouseEvent ) : void
             {
                 dispatchEvent(new TimelineEvent( TimelineEvent.PAUSE, true ));
                 setCurrentState("play");
-                timeline.activity.trace("PlayerPause", { position: timeline.currentTime,
-                                                                origin: "button" });
+                if (timeline.activity !== null)
+                    timeline.activity.trace("PlayerPause", { position: timeline.currentTime,
+                                                       origin: "button" });
             }
 
             public function onCurrentTimeChange( event: TimelineEvent ) : void
