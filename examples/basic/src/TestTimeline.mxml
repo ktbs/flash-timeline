@@ -42,6 +42,8 @@
         import mx.styles.StyleManager;
         import mx.controls.*;
         import mx.events.*;
+        import mx.logging.Log;
+        import mx.logging.targets.TraceTarget;
 
         import gnu.as3.gettext._FxGettext;
         import gnu.as3.gettext.FxGettext;
@@ -83,6 +85,7 @@
             fxgt.bindtextdomain("timeline", null, service);
             // We select helloworld to be the default domain.
             fxgt.textdomain("timeline");
+            Log.addTarget(new TraceTarget());
         }
 
         private function onIOError(event:IOErrorEvent):void
