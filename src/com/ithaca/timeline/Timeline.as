@@ -128,11 +128,8 @@ package com.ithaca.timeline
          * Timeline constructor
          * @param xmlLayout an xml definition of the timeline layout
          */
-        public function Timeline( xmlLayout : XML = null )
+        public function Timeline( xmlLayout : XML = null, tracing: Boolean = false )
         {
-            /* FIXME: get appropriate uid/uri info */
-            activity = new Trace();
-
             super();
             if (xmlLayout)
                 layoutXML = xmlLayout;
@@ -150,8 +147,24 @@ package com.ithaca.timeline
                     activity.trace("RulerClick", { position: (event as TimelineEvent).value });
             });
             range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
-            if (activity !== null)
-                activity.trace("TimelineStart");
+            if (tracing)
+                // FIXME: uid parameter ?
+                this.startActivityTracing();
+        }
+
+        /**
+         * Start tracing activity.
+         *
+         * @return The activity trace
+         */
+        public function startActivityTracing(uid: int = 0): Trace
+        {
+            if (activity === null)
+            {
+                activity = new Trace(uid);
+                activity.trace("TracingStart", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+            }
+            return activity;
         }
 
         override public function styleChanged(styleProp:String):void
@@ -315,8 +328,8 @@ package com.ithaca.timeline
         {
             addElementAt( getElementAt(fromIndex) as TraceLineGroup, toIndex );
             if (activity !== null)
-            activity.trace("MoveTracelineGroup", { group: (getElementAt(toIndex) as TraceLineGroup).title,
-                                                                   new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+                activity.trace("MoveTracelineGroup", { group: (getElementAt(toIndex) as TraceLineGroup).title,
+                                                       new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
         }
 
         /**
