@@ -35,6 +35,7 @@
         import flash.display.StageScaleMode;
         import flash.display.StageAlign;
         import flash.events.Event;
+        import mx.events.ListEvent;
         import mx.formatters.DateFormatter;
         import mx.collections.ArrayCollection;
         import mx.collections.XMLListCollection;
@@ -315,6 +316,10 @@
             stopTimer(null);
         }
 
+        private function obselSelectEvent(event:ListEvent):void {
+            preview_ta.text = event.target.selectedItem.toString();
+        }
+
     ]]> </fx:Script>
 
     <fx:Style source="default.css" />
@@ -345,12 +350,17 @@
                     <mx:Button label="Pause" id="play"  click="{onPause(event)}"/>
                 </s:HGroup>
 
+                <!-- Obsel preview -->
+                <mx:Label text="Obsel preview" />
+                <s:TextArea id="preview_ta" width="100%" height="100%" bottom="0" editable="false">
+                </s:TextArea>
             </s:VGroup>
 
             <!-- Obsels DataGrid -->
             <s:Group  width="100%"  height="100%" >
                 <s:Label id="dg_label" />
-                <mx:DataGrid id="obselList_dg" y="16" width="100%" height="100%" fontFamily="Arial" fontSize="10">
+                <mx:DataGrid id="obselList_dg" y="16" width="100%" height="100%" fontFamily="Arial" fontSize="10"
+                             change="obselSelectEvent(event);">
                     <mx:columns>
                         <mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
                         <mx:DataGridColumn dataField="uid" headerText="Uid" width="60"/>
