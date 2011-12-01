@@ -214,27 +214,6 @@
             loading.label = "Loading TTL...";
         }
 
-
-        public function ttlToTrace(ttl:String, theTrace:Trace):void
-        {
-            //we split the ttl on each "." line (kind of an "end of instruction" in ttl (?))
-            var ar:Array = ttl.split("\n.\n");
-
-            for each (var l: String in ar)
-            {
-                l = l + "\n.\n"; //we (re)add the "." line at the end of instruction (because the "split function" has not include it)
-
-                //for each "ttl instruction", we create a new obsel and initialize it with the "ttl insctruction" content
-                var obs:Obsel = new Obsel("temp");
-                obs.updateFromRDF(l);
-
-                //if the initialization from the ttl chunk is ok, we add the obsel to the trace
-                if(obs.type != "temp")
-                    theTrace.addObsel(obs);
-            }
-
-        }
-
         private function onLoadTTLComplete(event:Event):void
         {
             loading.visible = false;
@@ -243,12 +222,12 @@
             var loader:URLLoader=event.target as URLLoader;
             var trace_ttl:String = loader.data;
 
-            var theTrace:Trace = new Trace(421,urlTTL_ti.text); //Dirty
+            var theTrace:Trace = new Trace(421, urlTTL_ti.text); //Dirty
             theTrace.autosync = false;
 
             loading.visible = true;
             loading.label = "TTL to trace...";
-            ttlToTrace(trace_ttl, theTrace);
+            theTrace.updateFromRDF(trace_ttl);
 
             activityObselsToDurative( theTrace );
 
