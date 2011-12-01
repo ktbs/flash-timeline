@@ -104,6 +104,7 @@
             loadLayout( layout_ti.text );
             allTestLayout.enabled = true;
             timeline.addEventListener( TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
+            timeline.startActivityTracing();
         }
 
         public function onAddLayoutNode( e : TimelineEvent ) : void
