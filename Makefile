@@ -17,7 +17,7 @@ clean:
 	-$(RM) $(SWC) $(SWC).cache
 
 doc: $(DEPFILES)
-	"${SDKBIN}asdoc" -library-path lib $(SDKFRAMEWORK) -doc-sources src -exclude-sources src/TestTimeline.mxml src/WrapperJsExample.mxml -source-path src -main-title "Generic Timeline API Documentation" -output doc
+	mkdir -p doc && "${SDKBIN}asdoc" -library-path lib $(SDKFRAMEWORK) -doc-sources src -source-path src -main-title "Generic Timeline API Documentation" -output doc
 
 pot: $(POT)
 
