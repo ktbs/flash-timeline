@@ -17,7 +17,7 @@ clean:
 	-$(RM) $(SWC) $(SWC).cache
 
 doc: $(DEPFILES)
-	mkdir -p doc && "${SDKBIN}asdoc" -library-path lib $(SDKFRAMEWORK) -doc-sources src -source-path src -main-title "Generic Timeline API Documentation" -output doc
+	mkdir -p doc && "${SDKBIN}asdoc" -external-library-path+=$(SDKFRAMEWORK)/mx/mx.swc -library-path lib $(SDKFRAMEWORK) -exclude-dependencies=true -source-path src -main-title "Generic Timeline API Documentation" -output doc -doc-classes $(CLASSES)
 
 pot: $(POT)
 
