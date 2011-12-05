@@ -155,15 +155,24 @@ package com.ithaca.timeline
         /**
          * Start tracing activity.
          *
+         * If a Trace is passed as parameter, it will be used to store
+         * the activity trace, even if another trace was already
+         * defined.
+         * Else, a new, empty trace will be created.
+         *
          * @return The activity trace
          */
-        public function startActivityTracing(uid: int = 0): Trace
+        public function startActivityTracing(tr: Trace = null): Trace
         {
-            if (activity === null)
+            if (tr !== null)
             {
-                activity = new Trace(uid);
-                activity.trace("TracingStart", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+                activity = tr;
             }
+            else if (activity === null)
+            {
+                activity = new Trace();
+            }
+            activity.trace("TracingStart", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             return activity;
         }
 
