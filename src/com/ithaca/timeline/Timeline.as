@@ -128,7 +128,7 @@ package com.ithaca.timeline
          * Timeline constructor
          * @param xmlLayout an xml definition of the timeline layout
          */
-        public function Timeline( xmlLayout : XML = null, tracing: Boolean = false )
+        public function Timeline(xmlLayout : XML = null)
         {
             super();
             if (xmlLayout)
@@ -147,9 +147,6 @@ package com.ithaca.timeline
                     activity.trace("RulerClick", { position: (event as TimelineEvent).value });
             });
             range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; } );
-            if (tracing)
-                // FIXME: uid parameter ?
-                this.startActivityTracing();
         }
 
         /**
