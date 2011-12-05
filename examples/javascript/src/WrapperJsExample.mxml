@@ -65,11 +65,11 @@
 
             if (ExternalInterface.available)
             {
-                 ExternalInterface.addCallback("loadTTL", loadTTL );
-                 ExternalInterface.addCallback("onPlay", onPlay );
-                 ExternalInterface.addCallback("onPause", onPause );
-                 ExternalInterface.addCallback("loadLayout", loadLayout );
-                 ExternalInterface.addCallback("saveLayout", timeline.timelineLayout.getCurrentXmlLayout );
+                 ExternalInterface.addCallback("loadTTL", loadTTL);
+                 ExternalInterface.addCallback("onPlay", onPlay);
+                 ExternalInterface.addCallback("onPause", onPause);
+                 ExternalInterface.addCallback("loadLayout", loadLayout);
+                 ExternalInterface.addCallback("saveLayout", timeline.timelineLayout.getCurrentXmlLayout);
             }
         }
 
@@ -78,14 +78,14 @@
          *
          * Example of calling a Javascript function from Flex.
          */
-        private function updateTimer( event : TimelineEvent ) : void
+        private function updateTimer(event: TimelineEvent): void
         {
-            var df : DateFormatter = new DateFormatter();
+            var df: DateFormatter = new DateFormatter();
             df.formatString = "JJ:NN:SS.QQ";
-            var string : String = df.format( new Date (timeline.currentTime) );
+            var string: String = df.format(new Date(timeline.currentTime));
 
-            // Calling the javascript function : function updateTimer( string )
-            ExternalInterface.call("updateTimer", string );
+            // Calling the javascript function: function updateTimer( string)
+            ExternalInterface.call("updateTimer", string);
         }
 
         /* ************************************ */
@@ -93,19 +93,19 @@
         /* ************************************ */
 
         [Bindable]
-        private var fxgt:_FxGettext;
+        private var fxgt: _FxGettext;
 
         private var _xmlLayout        : XMLList =  new XMLList();
-        private var _xmlLayoutDP    : XMLListCollection = new XMLListCollection( _xmlLayout );
-        private var layoutTree         : XML;
-        private var timer            : Timer;
-        private var timeValue        : Number = 0;
+        private var _xmlLayoutDP      : XMLListCollection = new XMLListCollection(_xmlLayout);
+        private var layoutTree        : XML;
+        private var timer             : Timer;
+        private var timeValue         : Number = 0;
         public  var firstload         : Boolean = true;
-        public  var ttlName            : String ;
+        public  var ttlName           : String ;
 
         [Embed(source="images/unknown.jpg")]
-        public var tlgIcon:Class;
-        private function onPreinitialize():void
+        public var tlgIcon: Class;
+        private function onPreinitialize(): void
         {
             fxgt = FxGettext;
             setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
@@ -115,27 +115,27 @@
             fxgt.textdomain("timeline");
         }
 
-        private function onIOError(event:IOErrorEvent):void
+        private function onIOError(event: IOErrorEvent): void
         {
             trace(event);
         }
 
-        protected function init() : void
+        protected function init(): void
         {
             // FIXME: should be parameterized
-            loadLayout( "layout.xml" );
+            loadLayout("layout.xml");
             initExternalInterface();
         }
 
-        public function onRulerClick( e : TimelineEvent ) : void
+        public function onRulerClick(e: TimelineEvent): void
         {
             timeValue = e.value;
             timeline.currentTime = timeValue;
         }
 
-        protected function loadLayout( layoutFilename : String ):void
+        protected function loadLayout(layoutFilename: String): void
         {
-            var loader:URLLoader=new URLLoader();
+            var loader: URLLoader = new URLLoader();
 
             loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
             loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorListener);
@@ -149,132 +149,91 @@
         {
             loading.visible = false;
             // Error while loading layout. Use a default one.
-            timeline.layoutXML         = <root> <layout> <tlg /> </layout> </root> ;
-            timeline.timelineLayout = new Layout( timeline );
+            timeline.layoutXML = <root> <layout> <tlg> <tl title="All"> <modifier splitter="type" /> </tl> </tlg> </layout> </root> ;
+            timeline.timelineLayout = new Layout(timeline);
         }
 
-        private function onLoadLayoutComplete(event:Event):void
+        private function onLoadLayoutComplete(event: Event): void
         {
             loading.visible = false;
 
             //we init the trace object
-            var loader:URLLoader=event.target as URLLoader;
-            timeline.layoutXML         = new XML( loader.data );
-            timeline.timelineLayout = new Layout( timeline );
+            var loader: URLLoader   = event.target as URLLoader;
+            timeline.layoutXML      = new XML(loader.data);
+            timeline.timelineLayout = new Layout(timeline);
         }
 
-
-        public function loadTTL( url : String ):void
+        public function loadTTL(url: String): void
         {
-            var loader:URLLoader = new URLLoader();
+            var loader: URLLoader = new URLLoader();
 
             ttlName = url;
 
             loader.dataFormat=URLLoaderDataFormat.BINARY;
             loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
-            loader.load(new URLRequest( url));
+            // FIXME: handle error
+            loader.load(new URLRequest(url));
 
             loading.visible = true;
             loading.label = "Loading TTL...";
         }
 
-
-        public function ttlToTrace(ttl:String, theTrace:Trace):void
-        {
-            //we split the ttl on each "." line (kind of an "end of instruction" in ttl (?))
-            var ar:Array = ttl.split("\n.\n");
-
-            for each (var l: String in ar)
-            {
-                l = l + "\n.\n"; //we (re)add the "." line at the end of instruction (because the "split function" has not include it)
-
-                //for each "ttl instruction", we create a new obsel and initialize it with the "ttl insctruction" content
-                var obs:Obsel = new Obsel("temp");
-                obs.updateFromRDF(l);
-
-                //if the initialization from the ttl chunk is ok, we add the obsel to the trace
-                if(obs.type != "temp")
-                    theTrace.addObsel(obs);
-            }
-        }
-
-        private function onLoadTTLComplete(event:Event):void
+        private function onLoadTTLComplete(event: Event):void
         {
             loading.visible = false;
 
             //we init the trace object
-            var loader : URLLoader = event.target as URLLoader;
-            var trace_ttl:String = loader.data;
+            var loader: URLLoader = event.target as URLLoader;
+            var trace_ttl: String = loader.data;
 
-            var theTrace:Trace = new Trace(421, ttlName ); //Dirty
+            var theTrace: Trace = new Trace();
             theTrace.autosync = false;
 
             loading.visible = true;
             loading.label = "TTL to trace...";
-            ttlToTrace(trace_ttl, theTrace);
-
-            activityObselsToDurative( theTrace );
+            theTrace.updateFromRDF(trace_ttl);
 
             loading.label = "Adding Trace...";
-            var tlg : TraceLineGroup = timeline.addTrace(theTrace);
-            tlg.setStyle("title", theTrace.uri.toUpperCase() );
-            tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor( tlg ) );
-            tlg.setStyle("icon", tlgIcon );
+            var tlg: TraceLineGroup = timeline.addTrace(theTrace);
+            tlg.setStyle("title", theTrace.uri.toUpperCase());
+            tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor(tlg));
+            tlg.setStyle("icon", tlgIcon);
 
             loading.visible = false;
         }
 
-        private function activityObselsToDurative( theTrace : Trace ) : void
+        private function startTimer(): void
         {
-            var activityStart : Obsel = null;
-            for each (var obsel : Obsel in theTrace.obsels)
+            if (!timer)
             {
-                if (obsel.type == "ActivityStart" || obsel.type == "ActivityStop"  )
-                {
-                    if (activityStart)
-                        activityStart.end = obsel.begin;
-
-                    if (obsel.type == "ActivityStart" )
-                        activityStart = obsel;
-                    else
-                        activityStart = null;
-                }
-            }
-        }
-
-        private function startTimer( ) : void
-        {
-            if ( !timer)
-            {
-                timer = new Timer( 100 );
+                timer = new Timer(100);
                 timeValue = timeline.zoomContext._timelineRange.begin;
-                timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );
+                timer.addEventListener(TimerEvent.TIMER, updateCursorPosition);
             }
-
             timer.start();
         }
 
-        private function stopTimer( ) : void
+        private function stopTimer(): void
         {
             timer.stop();
         }
 
-        public function updateCursorPosition( event : TimerEvent ) : void
+        public function updateCursorPosition(event: TimerEvent): void
         {
-            var timer : Timer = event.currentTarget as Timer;
+            var timer: Timer = event.currentTarget as Timer;
             timeValue += timer.delay*60;
 
             timeline.currentTime = timeValue;
         }
 
 
-        private function onPlay( event : Event = null ) : void
+        private function onPlay(event: Event = null): void
         {
             timeline.isPlaying = true;
             startTimer();
         }
 
-        private function onPause( event : Event = null) : void
+        private function onPause(event: Event = null): void
         {
             timeline.isPlaying = false;
             stopTimer();
