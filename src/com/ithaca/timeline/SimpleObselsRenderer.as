@@ -31,7 +31,7 @@ package com.ithaca.timeline
                 return;
 
 			while(numElements > 0 )
-				removeElementAt(0);			
+				removeElementAt(0);
 
 			var lastShapeInterval : Group = null;
 
@@ -44,8 +44,8 @@ package com.ithaca.timeline
                 var intervalEnd         : Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
                 var intervalDuration     : Number = intervalEnd - intervalStart;
 				var shapeStart			: Number = _timeRange.timeToPosition( intervalStart, width );
-				var shapeEnd			: Number = _timeRange.timeToPosition( intervalEnd, width );			
-			
+				var shapeEnd			: Number = _timeRange.timeToPosition( intervalEnd, width );
+
 				var shape : Group = new Group();
                 // drawing interval background
                 shape.graphics.beginFill(_backgroundColor);
@@ -74,7 +74,7 @@ package com.ithaca.timeline
                         else if (obsel.begin == obsel.end )
                         {
                             shape.graphics.lineStyle(0, _markerColor);
-							var x : Number = _timeRange.timeToPosition( obsel.begin, width) - shapeStart; 
+							var x : Number = _timeRange.timeToPosition( obsel.begin, width) - shapeStart;
                             shape.graphics.moveTo( x, 0 );
                             shape.graphics.lineTo( x, height );
                         }
@@ -83,7 +83,7 @@ package com.ithaca.timeline
 
                 if (lastShapeInterval)
                     shape.x = lastShapeInterval.x + lastShapeInterval.width + _timeRange.timeHoleWidth;
-				
+
 				addElement( shape );
                 lastShapeInterval = shape;
             }

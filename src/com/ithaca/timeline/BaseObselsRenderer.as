@@ -21,7 +21,7 @@ package com.ithaca.timeline
      * @see ObselsRenderer
      */
 
-	public class BaseObselsRenderer extends Group 
+	public class BaseObselsRenderer extends Group
     {
         /**
          * Reference to the Timeline

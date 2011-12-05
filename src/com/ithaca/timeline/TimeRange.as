@@ -25,7 +25,7 @@ package com.ithaca.timeline
         /**
          * The end of the range
          */
-		private var _end		: Number;		
+		private var _end		: Number;
 		/**
 		 * The number of intervals between _start and _end
 		 */
@@ -94,8 +94,8 @@ package com.ithaca.timeline
          */
         public function timeToPosition( timeValue : Number, width : Number ) : Number
         {
-			var usableWidth:Number =  width  - timeHoleWidth * (numIntervals - 1); 
-			
+			var usableWidth:Number =  width  - timeHoleWidth * (numIntervals - 1);
+
             var position : Number = 0;
 
 			if ( duration > 0 )
@@ -104,7 +104,7 @@ package com.ithaca.timeline
 					if ( begin <= _ranges[i]  )
                     {
 						var rangeStart : Number = Math.max( begin, _ranges[i - 1] );
-					
+
 						//if timeValue is in a time hole
                         if ( i % 2 == 0)
                             position += timeHoleWidth;
@@ -113,8 +113,8 @@ package com.ithaca.timeline
 							position += ( timeValue - rangeStart ) * usableWidth / duration;
 							break;
 						}
-						else				
-							position +=  (( _ranges[i] - rangeStart) * usableWidth / duration);					
+						else
+							position +=  (( _ranges[i] - rangeStart) * usableWidth / duration);
                     }
 			}
 
@@ -129,8 +129,8 @@ package com.ithaca.timeline
          */
         public function positionToTime( positionValue : Number, width : Number ) : Number
         {
-			var usableWidth :Number =  width - timeHoleWidth * (numIntervals - 1); 
-			
+			var usableWidth :Number =  width - timeHoleWidth * (numIntervals - 1);
+
             var time : Number = 0;
             var currentPostion: Number = 0;
             if ( positionValue <= 0 )
@@ -163,7 +163,7 @@ package com.ithaca.timeline
 				{
                     _duration += Math.min(_ranges[i + 1], _end) - Math.max( _ranges[i], _start);
 					_numIntervals++;
-				}		
+				}
         }
 
 
@@ -316,16 +316,16 @@ package com.ithaca.timeline
             _start = begin;
             _end = end;
             _zoom = true ;
-			
+
 			var lastDuration : Number = duration;
             updateDuration();
 
 			if (duration > 0)
 			{
 				if ( lastDuration == duration )
-					dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_SHIFT, true ) ); 
-				else	
-					dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE, true ) ); 	
+					dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_SHIFT, true ) );
+				else
+					dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_CHANGE, true ) );
 			}
         }
 
@@ -336,7 +336,7 @@ package com.ithaca.timeline
         public function shiftLimits ( delta : Number ) : void
         {
             _start     += delta;
-			_end 	+= delta;		
+			_end 	+= delta;
 
             dispatchEvent( new TimelineEvent( TimelineEvent.TIMERANGES_SHIFT , true ));
         }

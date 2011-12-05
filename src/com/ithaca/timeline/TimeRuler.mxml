@@ -81,7 +81,7 @@
         public var backgroundColor         : Number = 0xF5F5F5;
 
         protected function creationCompleteHandler() : void
-		{							
+		{
             dateFormater.formatString = "JJ:NN:SS" ;
             ruler.addChild(new Shape);
               ToolTipManager.showDelay = 0;
@@ -104,11 +104,11 @@
         }
 
         private function getBestMarkerInterval( duration : Number, nb : Number ) : Object
-		{	
+		{
             for ( var  i : int = 0; i < validIntervals.length; i++ )
-				if ( duration / nb < validIntervals[i] )				
+				if ( duration / nb < validIntervals[i] )
                     break;
-			
+
             if ( i < validIntervals.length)
 				return { mark : validIntervals[i], major : majorIntervals[i], label : labelsIntervals[i] };
             else
@@ -116,8 +116,8 @@
         }
 
         private function drawRuler () : Shape
-		{		
-		//	var usableRulerWidth : Number = rulerWidth - timeRange.timeHoleWidth * (timeRange.numIntervals - 1); 
+		{
+		//	var usableRulerWidth : Number = rulerWidth - timeRange.timeHoleWidth * (timeRange.numIntervals - 1);
 
             var shape            : Shape  = new Shape();
             var rulerDuration   : Number = timeRange.duration;
@@ -126,8 +126,8 @@
 
             shape.graphics.lineStyle( 1, 0x000000 );
 
-			var xStart 		: Number =  startPosition + timeRange.timeToPosition( Math.ceil( timeRange.begin / interval.mark) * interval.mark, rulerWidth);			
-					
+			var xStart 		: Number =  startPosition + timeRange.timeToPosition( Math.ceil( timeRange.begin / interval.mark) * interval.mark, rulerWidth);
+
 
             var x             : Number     = xStart;
             var lastLabel     : Label     = null;
@@ -135,12 +135,12 @@
             {
                 var tBegin : Number = Math.max( timeRange._ranges[i],         timeRange.begin );
                 var tEnd   : Number = Math.min( timeRange._ranges[i + 1],     timeRange.end );
-				
+
                 if ( tBegin < timeRange._ranges[i + 1] && tEnd > timeRange._ranges[i] )
-				{			
-					var xStep 		: Number = timeRange.timeToPosition( tBegin+interval.mark, rulerWidth  ) - timeRange.timeToPosition( tBegin , rulerWidth  );		
+				{
+					var xStep 		: Number = timeRange.timeToPosition( tBegin+interval.mark, rulerWidth  ) - timeRange.timeToPosition( tBegin , rulerWidth  );
 					if ( lastLabel==null )
-					{						
+					{
                         drawMark( shape,  startPosition,  limitMarkHeight );
                         lastLabel = addLabel( tBegin,  startPosition );
                     }
@@ -152,23 +152,23 @@
 
                     lastLabel.setStyle('fontSize', '11');
 
-					x 	 =  startPosition + timeRange.timeToPosition( Math.ceil( tBegin / interval.mark) * interval.mark, rulerWidth);										
+					x 	 =  startPosition + timeRange.timeToPosition( Math.ceil( tBegin / interval.mark) * interval.mark, rulerWidth);
                     for(var t : Number  = Math.ceil( tBegin /interval.mark)*interval.mark; t < tEnd; t += interval.mark )
                     {
-						drawMark( shape, x,  ( t % interval.major)? minorMarkHeight : majorMarkHeight);											
+						drawMark( shape, x,  ( t % interval.major)? minorMarkHeight : majorMarkHeight);
 
 						if ( t % interval.label == 0 && t % interval.major == 0)
                         {
                             if( x - lastLabel.x - LABEL_SIZE / 2 > minLabelsGap )
-								lastLabel = addLabel( timeRange.positionToTime( x - startPosition, rulerWidth), x, labelsOnTop?5:0 );							
+								lastLabel = addLabel( timeRange.positionToTime( x - startPosition, rulerWidth), x, labelsOnTop?5:0 );
                         }
                         x += xStep;
                     }
 
 					x = startPosition + timeRange.timeToPosition( tEnd, rulerWidth);
-					
+
                     if( x - lastLabel.x - LABEL_SIZE / 2 < 50 )
-						timeLabels.removeElement(lastLabel);							
+						timeLabels.removeElement(lastLabel);
                     drawMark( shape, Math.min(x, startPosition + rulerWidth),  limitMarkHeight );
                     if (i < timeRange._ranges.length - 2)
 						lastLabel = addLabel( tEnd, Math.min(x, startPosition + rulerWidth), labelsOnTop? -8:-2);
@@ -199,7 +199,7 @@
         {
             var label : Label = new Label();
             var date  : Date  = new Date( time - timeOffset );
-						
+
             if (useLocaleTime )
                 label.text     = dateFormater.format( date );
             else
@@ -228,7 +228,7 @@
         }
 
         public function onTimeRangeChange( e : TimelineEvent) :void
-		{			
+		{
             changeRange( e.currentTarget as TimeRange );
         }
 
@@ -253,7 +253,7 @@
         protected function onToolTipShow( event : MouseEvent ) : void
         {
             var dateFormatter : DateFormatter = new DateFormatter();
-			dateFormatter.formatString = "JJ:NN:SS";  
+			dateFormatter.formatString = "JJ:NN:SS";
 
             var point : Point = TimeRulerContainer.globalToLocal(new Point(event.stageX, event.stageY));
 
@@ -283,7 +283,7 @@
 	<s:Group  width="100%">
         <s:BorderContainer id="TimeRulerContainer" backgroundColor="{backgroundColor}"  width="100%"  minHeight="10" borderAlpha="0"  horizontalCenter="true" click="onClick( event )">
                 <s:SpriteVisualElement  id="ruler" width="100%"  />
-				<s:Group id="timeLabels" height="11" />				
+				<s:Group id="timeLabels" height="11" />
         </s:BorderContainer>
     </s:Group>
     <tl:TimeToolTip id="tt" y="-5" visible="false" borderColor="0x000000"  mouseMove="{onToolTipShow(event)}"/>

@@ -142,7 +142,7 @@ package com.ithaca.timeline
             _styleSheet = new Stylesheet();
             range = new TimeRange( );
             addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue );
-            addEventListener(TimelineEvent.TIMERULER_CLICK, function(event: Event): void { 
+            addEventListener(TimelineEvent.TIMERULER_CLICK, function(event: Event): void {
                 if (activity !== null)
                     activity.trace("RulerClick", { position: (event as TimelineEvent).value });
             });
@@ -257,7 +257,7 @@ package com.ithaca.timeline
 
                 addChildAndTitle(  tlg , index );
                 if (activity !== null)
-                activity.trace("AddTracelineGroup", { group: tlg.title, 
+                activity.trace("AddTracelineGroup", { group: tlg.title,
                                                                       new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
 
