@@ -121,7 +121,7 @@
             <timeline:TimeRuler id="inputTimeRuler"  width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" labelsOnTop="true" />
 
             <s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  minHeight="20"   width="{width-timeRulerSidePadding*2}"   resize="inputTimeRuler.redraw(event)">
-                <s:layout><s:VerticalLayout gap="0" ></s:VerticalLayout></s:layout>
+				<s:layout ><s:VerticalLayout paddingLeft="1" gap="0" ></s:VerticalLayout></s:layout>
             </s:Group>
 
             <s:Group id="funnel" height="15" minHeight="1" y="{cursor.y+cursor.height}" />

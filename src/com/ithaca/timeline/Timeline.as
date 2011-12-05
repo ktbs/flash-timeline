@@ -201,7 +201,7 @@ package com.ithaca.timeline
             {
                 zoomContext.timeline = this;
                 styleChanged('cursorMode');
-                zoomContext.addEventListener(ResizeEvent.RESIZE, changeCursorValue);
+                // zoomContext.addEventListener(ResizeEvent.RESIZE, changeCursorValue);
                 zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function(event: Event):void {
                     if (activity !== null)
                     activity.trace("EndSlideScaleChange", { begin: zoomContext.cursorRange.begin,

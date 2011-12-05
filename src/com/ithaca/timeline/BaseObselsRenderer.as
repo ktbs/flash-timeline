@@ -3,10 +3,10 @@ package com.ithaca.timeline
     import com.ithaca.timeline.events.TimelineEvent;
     import flash.events.Event;
     import mx.collections.ArrayCollection;
-    import mx.core.UIComponent;
     import mx.events.CollectionEvent;
     import mx.events.CollectionEventKind;
     import mx.events.ResizeEvent;
+	import spark.components.Group;
 
     /**
      * <p>The BaseObselsRenderer is the base class of ObselRenderers.
@@ -21,7 +21,7 @@ package com.ithaca.timeline
      * @see ObselsRenderer
      */
 
-    public class BaseObselsRenderer extends UIComponent
+	public class BaseObselsRenderer extends Group 
     {
         /**
          * Reference to the Timeline

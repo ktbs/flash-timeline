@@ -3,6 +3,7 @@ package com.ithaca.timeline
     import com.ithaca.traces.Obsel;
     import flash.display.Shape;
     import flash.events.Event;
+	import spark.components.Group;
 
     /**
      * The SimpleObselRenderer class extends BaseOselsRenderer to render obsels with lines and rect (durative obsel) in a Shape component.
@@ -29,10 +30,10 @@ package com.ithaca.timeline
             if ( !_timeRange)
                 return;
 
-            while(numChildren > 0 )
-                removeChildAt(0);
+			while(numElements > 0 )
+				removeElementAt(0);			
 
-            var lastShapeInterval : Shape = null;
+			var lastShapeInterval : Group = null;
 
             for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
             {
@@ -42,14 +43,16 @@ package com.ithaca.timeline
                 var intervalStart         : Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);
                 var intervalEnd         : Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
                 var intervalDuration     : Number = intervalEnd - intervalStart;
-                var shapeWidth            : Number = intervalDuration * (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
-
-                var shape : Shape = new Shape();
+				var shapeStart			: Number = _timeRange.timeToPosition( intervalStart, width );
+				var shapeEnd			: Number = _timeRange.timeToPosition( intervalEnd, width );			
+			
+				var shape : Group = new Group();
                 // drawing interval background
                 shape.graphics.beginFill(_backgroundColor);
                 if (borderVisible)
                     shape.graphics.lineStyle(1);
-                shape.graphics.drawRect( 0, 0, shapeWidth, height);
+				shape.width = shapeEnd - shapeStart;
+				shape.graphics.drawRect( 0, 0, shape.width, height);
                 shape.graphics.endFill();
 
                 //drawing obsels
@@ -64,14 +67,14 @@ package com.ithaca.timeline
                             shape.graphics.lineStyle();
                             var beginDurative : Number = Math.max( obsel.begin, intervalStart );
                             var widthDurative : Number = Math.min( obsel.end,   intervalEnd ) - beginDurative;
-                            shape.graphics.drawRect( (beginDurative - intervalStart ) * shapeWidth / intervalDuration , 0, widthDurative * shapeWidth / intervalDuration, height);
+							shape.graphics.drawRect( (beginDurative - intervalStart ) * shape.width / intervalDuration , 0, widthDurative * shape.width / intervalDuration, height);
                             shape.graphics.endFill();
                         }
                         // non durative
                         else if (obsel.begin == obsel.end )
                         {
                             shape.graphics.lineStyle(0, _markerColor);
-                            var x : Number = (obsel.begin - intervalStart) * shapeWidth / intervalDuration;
+							var x : Number = _timeRange.timeToPosition( obsel.begin, width) - shapeStart; 
                             shape.graphics.moveTo( x, 0 );
                             shape.graphics.lineTo( x, height );
                         }
@@ -80,7 +83,8 @@ package com.ithaca.timeline
 
                 if (lastShapeInterval)
                     shape.x = lastShapeInterval.x + lastShapeInterval.width + _timeRange.timeHoleWidth;
-                addChild( shape );
+				
+				addElement( shape );
                 lastShapeInterval = shape;
             }
         }

@@ -66,7 +66,7 @@ package com.ithaca.timeline
             cursorRange     = new TimeRange();
 
             timelinePreview.addEventListener( Event.RESIZE, updateSkinPositionFromValues );
-            _timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );
+			_timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimelineTimesChange );			
             _timelineRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, inputTimeRuler.onTimeRangeChange);
             _timeline.addEventListener( ElementExistenceEvent.ELEMENT_ADD, onTracelineGroupsChange);
             _timeline.addEventListener( ElementExistenceEvent.ELEMENT_REMOVE, onTracelineGroupsChange);
@@ -111,15 +111,14 @@ package com.ithaca.timeline
          */
         public function updateValuesFromSkinPosition( e: Event = null ) : void
         {
-            switch (e.type)
-            {
-                case MoveEvent.MOVE :
+			if ( _timelineRange.numIntervals == 1 && e.type==MoveEvent.MOVE )
+			{							
                     var oldPos     : Number     = _timelineRange.positionToTime( (e as MoveEvent).oldX - timelinePreview.x, timelinePreview.width );
                     var newPos     : Number     = _timelineRange.positionToTime( cursor.x - timelinePreview.x, timelinePreview.width );
                     cursorRange.shiftLimits( newPos - oldPos );
-                break;
-                default:
-                    var begin     : Number     = _timelineRange.positionToTime( cursor.x  - timelinePreview.x, timelinePreview.width );
+			}
+			else
+			{		var begin 	: Number 	= _timelineRange.positionToTime( cursor.x  - timelinePreview.x, timelinePreview.width );
                     var end     : Number     = _timelineRange.positionToTime( cursor.x  + cursor.width  - timelinePreview.x, timelinePreview.width );
                     cursorRange.changeLimits(begin, end);
             }
@@ -141,8 +140,7 @@ package com.ithaca.timeline
                 simpleObselsRenderer.obselsCollection     = tlg.trace.obsels;
 
             _timeline.addEventListener( TimelineEvent.TIMERANGES_CHANGE, simpleObselsRenderer.onTimerangeChange );
-            simpleObselsRenderer.percentWidth     = 100;
-
+			simpleObselsRenderer.percentWidth 	= 100;			
             simpleObselsRenderer.percentHeight     = 100;
             simpleObselsRenderer.maxHeight         = 6;
             simpleObselsRenderer.minHeight         = 2;
@@ -151,7 +149,7 @@ package com.ithaca.timeline
             if (index < 0 )
                 timelinePreview.addElement( simpleObselsRenderer );
             else
-                timelinePreview.addElementAt(simpleObselsRenderer, index );
+				timelinePreview.addElementAt(simpleObselsRenderer, index );			
         }
 
         /**

@@ -59,6 +59,8 @@
                 toolTip = commentLabel.text;
                 UpdateResizeGripHeight();
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
+				hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
+				hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
 
                 updateWidth( null );
                 hostComponent.obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
@@ -92,9 +94,10 @@
             }
 
             protected function zcDragging(e:MouseEvent):void
-            {
-                minX = (hostComponent.parent as Group).horizontalScrollPosition;
-                maxX = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.timelinePreview.width;
+			{	
+				var timeIntervalPosition  : Number = ((hostComponent.parent as Group).parent as Group ).horizontalScrollPosition - (hostComponent.parent as Group).x;
+				minX = timeIntervalPosition;
+				maxX = timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.timelinePreview.width;				
 
                 var parentMouse:Point = hostComponent.parent.globalToLocal(new Point(e.stageX, e.stageY));
                 var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
@@ -163,8 +166,9 @@
                 stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
                 stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
 
-                var begin     : Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x- (hostComponent.parent as Group).horizontalScrollPosition,         hostComponent.traceline._timeline.zoomContext.timelinePreview.width );
-                var end     : Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width- (hostComponent.parent as Group).horizontalScrollPosition, hostComponent.traceline._timeline.zoomContext.timelinePreview.width );
+				var timeIntervalPosition  : Number = ((hostComponent.parent as Group).parent as Group ).horizontalScrollPosition - (hostComponent.parent as Group).x
+				var begin 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x- timeIntervalPosition,		 hostComponent.traceline._timeline.zoomContext.timelinePreview.width );
+				var end 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width- timeIntervalPosition, hostComponent.traceline._timeline.zoomContext.timelinePreview.width );				
 
                 if (draggedPart == leftGrip )
                     hostComponent.obsel.begin  = begin ;
@@ -213,8 +217,9 @@
 
             protected function onObselChange( event : PropertyChangeEvent ) : void
             {
-                var y : Number     = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.end , (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
-                hostComponent.x = (hostComponent.parent as Group).horizontalScrollPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.begin, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
+				var timeIntervalPosition : Number = ((hostComponent.parent as Group).parent as Group ).horizontalScrollPosition - (hostComponent.parent as Group).x
+				var y : Number 	= timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.end , (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );				
+				hostComponent.x = timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.begin, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
                 rightGrip.x     = width     = y - hostComponent.x ;
 
                 commentLabel.text = toolTip =  hostComponent.obsel.props[ 'text' ];

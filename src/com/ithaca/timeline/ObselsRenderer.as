@@ -23,62 +23,90 @@ package com.ithaca.timeline
         {
             super( tr, tl, tl._timeline);
             obselsSkinsCollection = new ArrayCollection();
+			clipAndEnableScrolling 	= true;
         }
+
+		private function  updateHorizontalScrollPosition( ) : void
+		{
+			var begin : Number
+			for ( var i : int = 0; i < _timeline.range._ranges.length; i++ )
+				if ( _timeRange.begin <= _timeline.range._ranges[i] )
+			{
+				begin = (i%2)? _timeRange.begin:_timeline.range._ranges[i];
+					break;
+			}
+			horizontalScrollPosition = _timeline.range.timeToPosition( begin, width* _timeline.duration / _timeRange.duration );
+		}
+
+		private function  updateIntervalGroup( intervalGroup : Group , i :int  ) : void
+		{
+			if (_timeRange.duration > 0)
+			{
+				var intervalStart 		: Number = Math.max(_timeline.range._ranges[i], _timeline.begin);
+				var intervalEnd 		: Number = Math.min(_timeline.range._ranges[i + 1], _timeline.end);
+
+				intervalGroup.width =  	 _timeline.range.timeToPosition( intervalEnd, 	width * _timeline.range.duration / _timeRange.duration )
+										- _timeline.range.timeToPosition( intervalStart, 		width * _timeline.range.duration / _timeRange.duration );
+
+				if ( i < _timeline.range._ranges.length - 2 )
+					intervalGroup.width += 1;
+
+				if (borderVisible)
+				{
+					intervalGroup.graphics.clear();
+					intervalGroup.graphics.lineStyle( 1 );
+					intervalGroup.graphics.drawRect( 0, 0, intervalGroup.width-1, height -1);
+				}
+				else
+					intervalGroup.graphics.clear();
+			}
+		}
+
         /**
          * Full redraw of the obsels renderer.
          * @param    event
          */
         override public function  redraw( event : Event = null) : void
         {
-            if ( !_timeRange)
-                return;
+			if ( !_timeRange || !_timeRange.duration)
+				return;
 
-            while(numChildren > 0 )
-                removeChildAt(0);
+			while(numElements > 0 )
+				removeElementAt(0);
 
-            var lastIntervalGroup : Group = null;
+			updateHorizontalScrollPosition();
 
-            var  timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
+			var lastIntervalGroup		: Group  = null;
+			for (var i :int = 0; i < _timeline.range._ranges.length; i+=2)
+			{
+				var intervalStart 		: Number = Math.max(_timeline.range._ranges[i], _timeline.begin);
+				var intervalEnd 		: Number = Math.min(_timeline.range._ranges[i + 1], _timeline.end);
+				var intervalDuration 	: Number = intervalEnd - intervalStart;
 
-            if (isNaN(timeToPositionRatio))
-                timeToPositionRatio = 0;
+				var intervalGroup : Group 	= new Group();
+				intervalGroup.height 		= height;
+				intervalGroup.clipAndEnableScrolling 	= true;
 
-            for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
-            {
-                if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
-                    continue;
+				updateIntervalGroup( intervalGroup, i );
 
-                var intervalStart         : Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);
-                var intervalEnd         : Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
-                var intervalDuration     : Number = intervalEnd - intervalStart;
+				if ( lastIntervalGroup )
+					intervalGroup.x = lastIntervalGroup.x + lastIntervalGroup.width + _timeRange.timeHoleWidth -1;
+				lastIntervalGroup = intervalGroup;
 
-                var intervalGroup : Group     = new Group();
-                intervalGroup.width         = intervalDuration * timeToPositionRatio;
-                intervalGroup.height         = height;
-                intervalGroup.clipAndEnableScrolling     = true;
-                intervalGroup.horizontalScrollPosition = timeToPositionRatio * (intervalStart - _timeRange._ranges[i]);
+				addElement( intervalGroup );
 
-                if (borderVisible)
-                {
-                    intervalGroup.graphics.lineStyle( 1 );
-                    intervalGroup.graphics.drawRect( 0, 0,(_timeRange._ranges[i+1] - _timeRange._ranges[i])*timeToPositionRatio-1, height -1);
-                }
-                else
-                    intervalGroup.graphics.clear();
+				//drawing obsels
+				for each (var obselSkin : ObselSkin in obselsSkinsCollection)
+				{
+					var obsel : Obsel =  obselSkin.obsel;
 
-                //drawing obsels
-                for each (var obselSkin : ObselSkin in obselsSkinsCollection)
-                {
-                    var obsel : Obsel =  obselSkin.obsel;
-                    obselSkin.x = (obsel.begin - _timeRange._ranges[i]) * timeToPositionRatio;
-                    intervalGroup.addElement( obselSkin ) ;
-                }
-
-                if ( lastIntervalGroup )
-                    intervalGroup.x = lastIntervalGroup.x + lastIntervalGroup.width + _timeRange.timeHoleWidth;
-                addChild( intervalGroup );
-                lastIntervalGroup = intervalGroup;
-            }
+					if ( (obsel.end > _timeRange._ranges[i]) && (obsel.begin < _timeRange._ranges[i+1]))
+					{
+						obselSkin.x =  _timeline.range.timeToPosition( obsel.begin, width * _timeline.duration / _timeRange.duration ) - intervalGroup.x;
+						intervalGroup.addElement( obselSkin ) ;
+					}
+				}
+			}
         }
 
         /**
@@ -89,43 +117,34 @@ package com.ithaca.timeline
          * @param    event
          */
         public function  updateObselPosition( event : Event = null) : void
-        {
-            var lastIntervalGroup : Group = null;
-            var timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
-            var indexIG : Number = 0;
-            for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
-            {
-                if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
-                    continue;
+		{
+			if (_timeline.range.numIntervals != numChildren)
+			{
+				redraw();
+				return;
+			}
 
-                var intervalStart         : Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);
-                var intervalEnd         : Number =  Math.min(_timeRange._ranges[i + 1], _timeRange.end);
-                var intervalDuration     : Number = intervalEnd - intervalStart;
+			updateHorizontalScrollPosition();
+
+            var lastIntervalGroup : Group = null;
+            var indexIG : Number = 0;
+			for (var i :int = 0; i < _timeline.range._ranges.length; i+=2)
+            {
+				var intervalStart 		: Number = Math.max(_timeline.range._ranges[i], _timeline.begin);
+				var intervalEnd 		: Number = Math.min(_timeline.range._ranges[i + 1], _timeline.end);
+				var intervalDuration 	: Number = intervalEnd - intervalStart;
 
                 var intervalGroup : Group     = getChildAt( indexIG++) as Group;
-                intervalGroup.width         = intervalDuration * timeToPositionRatio;
-                intervalGroup.height         = height;
-                intervalGroup.horizontalScrollPosition = timeToPositionRatio * (intervalStart - _timeRange._ranges[i]);
-
-                if (borderVisible)
-                {
-                    intervalGroup.graphics.clear();
-                    intervalGroup.graphics.lineStyle( 1 );
-                    intervalGroup.graphics.drawRect( 0, 0,(_timeRange._ranges[i+1] - _timeRange._ranges[i])*timeToPositionRatio-1, height -1);
-                }
-                else
-                    intervalGroup.graphics.clear();
+				updateIntervalGroup( intervalGroup, i );
+				if ( lastIntervalGroup )
+					intervalGroup.x = lastIntervalGroup.x + lastIntervalGroup.width + _timeRange.timeHoleWidth;
+				lastIntervalGroup = intervalGroup;
 
                 for (var obselSkinIndex : int = 0; obselSkinIndex < intervalGroup.numElements;obselSkinIndex++ )
                 {
                     var obselSkin : ObselSkin = intervalGroup.getElementAt( obselSkinIndex) as ObselSkin;
-                    var obsel : Obsel =  obselSkin.obsel;
-                    obselSkin.x = (obsel.begin - _timeRange._ranges[i]) * timeToPositionRatio;
+					obselSkin.x =  _timeline.range.timeToPosition( obselSkin.obsel.begin, width* _timeline.duration / _timeRange.duration ) - intervalGroup.x;
                 }
-
-                if ( lastIntervalGroup )
-                    intervalGroup.x = lastIntervalGroup.x + lastIntervalGroup.width + _timeRange.timeHoleWidth;
-                lastIntervalGroup = intervalGroup;
             }
         }
 
@@ -134,7 +153,7 @@ package com.ithaca.timeline
          */
         override public function  onResize( event : ResizeEvent ) : void
         {
-            updateObselPosition();
+			redraw();
         }
 
         /**
@@ -145,12 +164,12 @@ package com.ithaca.timeline
         {
             _timeRange = event.currentTarget as TimeRange;
 
-            if ( numChildren > 0 )
+			if ( numElements > 0 )
             {
                 if ( event.type == TimelineEvent.TIMERANGES_SHIFT)
-                    updateViewportPosition();
-                else if ( _timeRange._ranges.length/2 <= numChildren )
-                    updateObselPosition() ;
+					updateViewportPosition();
+				else if ( _timeline.range.numIntervals <= numElements )
+					updateObselPosition() ;
                 else
                     redraw();
             }
@@ -169,21 +188,10 @@ package com.ithaca.timeline
          * @param    event
          */
         public function  updateViewportPosition( event : Event = null) : void
-        {
+		{
             if ( !_timeRange)
                 return;
-
-            var timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
-            var index : Number = 0;
-            for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
-            {
-                if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
-                    continue;
-
-                var intervalStart         : Number =  Math.max(_timeRange._ranges[i], _timeRange.begin);
-                var intervalGroup         : Group  = getChildAt(index++) as Group;
-                intervalGroup.horizontalScrollPosition = timeToPositionRatio * (intervalStart - _timeRange._ranges[i]);
-            }
+			updateHorizontalScrollPosition();
         }
 
         /**
