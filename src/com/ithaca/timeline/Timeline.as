@@ -134,7 +134,13 @@ package com.ithaca.timeline
             if (xmlLayout)
                 layoutXML = xmlLayout;
             else
-                layoutXML = <root> <tlg /> </root>;
+                layoutXML = <root>
+                              <tlg>
+                                <tl preview="true" title="All obsels" selector="SelectorRegexp" selectorParams="type,.*">
+                                  <modifier splitter="type" />
+                                </tl>
+                              </tlg>
+                            </root>;
 
             _timeline = this;
 
