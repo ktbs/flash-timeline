@@ -40,6 +40,9 @@ package com.ithaca.timeline
 
             var  timeToPositionRatio : Number = (width - _timeRange.timeHoleWidth*(_timeRange.numIntervals-1)) / _timeRange.duration ;
 
+            if (isNaN(timeToPositionRatio))
+                timeToPositionRatio = 0;
+
             for (var i :int = 0; i < _timeRange._ranges.length; i+=2)
             {
                 if ( _timeRange.begin >= _timeRange._ranges[i + 1] ||  _timeRange.end <= _timeRange._ranges[i])
