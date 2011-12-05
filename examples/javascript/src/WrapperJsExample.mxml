@@ -28,6 +28,7 @@
         import flash.display.StageScaleMode;
         import flash.events.*;
         import flash.events.Event;
+        import flash.events.TimerEvent;
         import flash.external.ExternalInterface;
         import flash.net.FileReference;
         import flash.net.URLLoader;
@@ -100,24 +101,49 @@
         private var layoutTree        : XML;
         private var timer             : Timer;
         private var timeValue         : Number = 0;
+        private var statusBarTimer    : Timer = new Timer(4000, 1);
         public  var firstload         : Boolean = true;
         public  var ttlName           : String ;
 
         [Embed(source="images/unknown.jpg")]
         public var tlgIcon: Class;
+
         private function onPreinitialize(): void
         {
             fxgt = FxGettext;
-            setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
-            var service:IGettextService = new URLLoaderService("..");
+            setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR, ISO_3166.FR));
+            var service: IGettextService = new URLLoaderService("..");
             service.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
             fxgt.bindtextdomain("timeline", null, service);
             fxgt.textdomain("timeline");
+            statusBarTimer.addEventListener(TimerEvent.TIMER, function(): void {
+                hideStatus.end();
+                hideStatus.play();
+            });
+        }
+
+        public function statusMessage(msg: String = "", color: String = null): void
+        {
+            // FIXME: allow to pass a javascript callback method for sending error messages
+            if (color === null)
+                color = '#ffff60';
+            if (msg != "")
+            {
+                statusBar.visible = true;
+                statusBar.setStyle('backgroundColor', color);
+                statusBar.text = msg;
+
+                showStatus.end();
+                showStatus.play();
+                statusBarTimer.reset();
+                statusBarTimer.start();
+            }
         }
 
         private function onIOError(event: IOErrorEvent): void
         {
             trace(event);
+            statusMessage("Error: " + event.toString(), "#ffcccc");
         }
 
         protected function init(): void
@@ -138,16 +164,17 @@
             var loader: URLLoader = new URLLoader();
 
             loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
-            loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorListener);
+            loader.addEventListener(IOErrorEvent.IO_ERROR, onLoadLayoutError);
             loader.load(new URLRequest(layoutFilename));
 
             loading.visible = true;
             loading.label = "Loading Layout...";
         }
 
-        private function ioErrorListener(event: Event): void
+        private function onLoadLayoutError(event: Event): void
         {
             loading.visible = false;
+            statusMessage("Error when loading layout: " + event.toString(), "#ffcccc");
             // Error while loading layout. Use a default one.
             timeline.layoutXML = <root> <layout> <tlg> <tl title="All"> <modifier splitter="type" /> </tl> </tlg> </layout> </root> ;
             timeline.timelineLayout = new Layout(timeline);
@@ -171,7 +198,7 @@
 
             loader.dataFormat=URLLoaderDataFormat.BINARY;
             loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
-            // FIXME: handle error
+            loader.addEventListener(IOErrorEvent.IO_ERROR, onTTLioError);
             loader.load(new URLRequest(url));
 
             loading.visible = true;
@@ -202,6 +229,12 @@
             loading.visible = false;
         }
 
+        private function onTTLioError(event: Event): void
+        {
+            statusMessage("Error when loading TTL: " + event.toString(), "#ffcccc");
+            loading.visible = false;
+        }
+
         private function startTimer(): void
         {
             if (!timer)
@@ -226,7 +259,6 @@
             timeline.currentTime = timeValue;
         }
 
-
         private function onPlay(event: Event = null): void
         {
             timeline.isPlaying = true;
@@ -243,7 +275,24 @@
 
     <fx:Style source="default.css" />
 
+    <fx:Declarations>
+        <s:Resize id="showStatus" 
+            target="{statusBar}"
+            heightTo="30"/>
+
+        <s:Resize id="hideStatus" 
+            target="{statusBar}"
+            heightTo="0"/>
+    </fx:Declarations>
+
     <s:VGroup  width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">
+
+        <s:Label id="statusBar" width="100%" height="0" visible="true" backgroundColor="0xffff60" color="0x0" fontWeight="bold" textAlign="center" verticalAlign="middle" text="Application started" />
+    
+<!--
+        <s:Label id="statusBar2" width="100%" height="30" visible="true" backgroundColor="0xffaaaa" color="0x0" fontWeight="bold" textAlign="center" verticalAlign="middle" text="FOO"/>
+-->
+
         <tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer()"
                      pauseButtonClick="stopTimer()" timeRulerClick="onRulerClick(event)"
                      cursorMode="auto"
