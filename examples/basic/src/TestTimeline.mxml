@@ -98,10 +98,20 @@
 
         protected function init() : void
         {
-            // FIXME: these references should be definable in the swf parameters
-            urlTTL_ti.text = "trace.ttl";
-            layout_ti.text = "layout.xml";
-            loadLayout( layout_ti.text );
+            if ("layout" in this.parameters)
+            {
+                layout_ti.text = this.parameters["layout"];
+                loadLayout(this.parameters["layout"]);
+            }
+            else
+            {
+                loadLayout( layout_ti.text );
+            }
+            if ("ttl" in this.parameters)
+            {
+                urlTTL_ti.text = this.parameters["ttl"];
+                loadTTL(this.parameters["ttl"]);
+            }
             allTestLayout.enabled = true;
             timeline.addEventListener( TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
         }
@@ -206,13 +216,13 @@
             timeline.timelineLayout = new Layout( timeline );
         }
 
-        protected function loadTTL(): void
+        protected function loadTTL(url: String): void
         {
             var loader: URLLoader = new URLLoader();
 
             loader.dataFormat=URLLoaderDataFormat.BINARY;
             loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
-            loader.load(new URLRequest(urlTTL_ti.text));
+            loader.load(new URLRequest(url));
 
             loading.visible = true;
             loading.label = "Loading TTL...";
@@ -345,15 +355,15 @@
                 <!-- Loading  Trace-->
                 <s:HGroup width="100%" >
                     <mx:Label text="TTL :"/>
-                    <mx:TextInput id="urlTTL_ti" text="{urlTTL_ti.text}" enter="loadTTL()" enabled="true" width="100%" />
-                    <mx:Button label="Load" id="loadTTL_btn"  click="loadTTL()" />
+                    <mx:TextInput id="urlTTL_ti" text="trace.ttl" enter="{loadTTL(urlTTL_ti.text)}" enabled="true" width="100%" />
+                    <mx:Button label="Load" id="loadTTL_btn"  click="{loadTTL(urlTTL_ti.text)}" />
                     <s:Button label="Own trace" id="ownTTL_btn"  click="ownTrace()" />
                 </s:HGroup>
 
                 <!-- Loading Layout-->
                 <s:HGroup width="100%" >
                     <mx:Label text="Layout :"/>
-                    <mx:TextInput id="layout_ti" width="100%"  enter="{loadLayout(layout_ti.text)}" enabled="true"/>
+                    <mx:TextInput id="layout_ti" width="100%"  enter="{loadLayout(layout_ti.text)}" enabled="true" text="layout.xml"/>
                     <mx:Button label="Load" id="loadLayout_btn"  click="{loadLayout(layout_ti.text)}" />
                     <s:Button label="Save" click="saveLayout()"/>
                 </s:HGroup>
