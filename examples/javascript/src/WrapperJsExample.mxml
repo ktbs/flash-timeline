@@ -147,6 +147,8 @@
 
         protected function loadLayout(layoutFilename: String): void
         {
+            if (layoutFilename == "")
+                return;
             var loader: URLLoader = new URLLoader();
 
             loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
@@ -178,6 +180,8 @@
 
         public function loadTTL(url: String): void
         {
+            if (url == "")
+                return;
             var loader: URLLoader = new URLLoader();
 
             loader.dataFormat=URLLoaderDataFormat.BINARY;
