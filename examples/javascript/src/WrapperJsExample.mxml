@@ -148,8 +148,14 @@
 
         protected function init(): void
         {
-            // FIXME: should be parameterized
-            loadLayout("layout.xml");
+            if ("layout" in this.parameters)
+            {
+                loadLayout(this.parameters["layout"]);
+            }
+            if ("ttl" in this.parameters)
+            {
+                loadTTL(this.parameters["ttl"]);
+            }
             initExternalInterface();
         }
 
