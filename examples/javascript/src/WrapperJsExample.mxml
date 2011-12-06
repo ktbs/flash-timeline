@@ -143,7 +143,7 @@
         private function onIOError(event: IOErrorEvent): void
         {
             trace(event);
-            statusMessage("Error: " + event.toString(), "#ffcccc");
+            statusMessage("Error: " + event.text, "#ffcccc");
         }
 
         protected function init(): void
@@ -177,10 +177,10 @@
             loading.label = "Loading Layout...";
         }
 
-        private function onLoadLayoutError(event: Event): void
+        private function onLoadLayoutError(event: IOErrorEvent): void
         {
             loading.visible = false;
-            statusMessage("Error when loading layout: " + event.toString(), "#ffcccc");
+            statusMessage("Error when loading layout: " + event.text, "#ffcccc");
             // Error while loading layout. Use a default one.
             timeline.layoutXML = <root> <layout> <tlg> <tl title="All"> <modifier splitter="type" /> </tl> </tlg> </layout> </root> ;
             timeline.timelineLayout = new Layout(timeline);
@@ -235,9 +235,9 @@
             loading.visible = false;
         }
 
-        private function onTTLioError(event: Event): void
+        private function onTTLioError(event: IOErrorEvent): void
         {
-            statusMessage("Error when loading TTL: " + event.toString(), "#ffcccc");
+            statusMessage("Error when loading TTL: " + event.text, "#ffcccc");
             loading.visible = false;
         }
 
