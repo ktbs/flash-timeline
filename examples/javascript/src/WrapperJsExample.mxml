@@ -282,23 +282,22 @@
     <fx:Style source="default.css" />
 
     <fx:Declarations>
-        <s:Resize id="showStatus" 
+        <s:Fade id="showStatus" 
             target="{statusBar}"
-            heightTo="30"/>
+            alphaFrom="0"
+            alphaTo="100"/>
 
-        <s:Resize id="hideStatus" 
+        <s:Fade id="hideStatus" 
             target="{statusBar}"
-            heightTo="0"/>
+            alphaFrom="100"
+            alphaTo="0"/>
+
     </fx:Declarations>
 
     <s:VGroup  width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">
 
-        <s:Label id="statusBar" width="100%" height="0" visible="true" backgroundColor="0xffff60" color="0x0" fontWeight="bold" textAlign="center" verticalAlign="middle" text="Application started" />
+        <s:Label id="statusBar" width="100%" height="30" visible="false" backgroundColor="0xffff60" color="0x0" fontWeight="bold" textAlign="center" verticalAlign="middle" text="Application started" />
     
-<!--
-        <s:Label id="statusBar2" width="100%" height="30" visible="true" backgroundColor="0xffaaaa" color="0x0" fontWeight="bold" textAlign="center" verticalAlign="middle" text="FOO"/>
--->
-
         <tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer()"
                      pauseButtonClick="stopTimer()" timeRulerClick="onRulerClick(event)"
                      cursorMode="auto"
