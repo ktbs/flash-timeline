@@ -11,26 +11,14 @@
     <fx:Script>
     <![CDATA[
         import com.ithaca.timeline.events.TimelineEvent;
-        import com.ithaca.timeline.ISelector;
-        import com.ithaca.timeline.Layout;
-        import com.ithaca.timeline.LayoutModifier;
-        import com.ithaca.timeline.LayoutNode;
-        import com.ithaca.timeline.ObselSkin;
-        import com.ithaca.timeline.SelectorRegexp;
-        import com.ithaca.timeline.skins.TimelineSkin;
-        import com.ithaca.timeline.Stylesheet;
         import com.ithaca.timeline.Timeline;
-        import com.ithaca.timeline.TraceLine;
         import com.ithaca.timeline.TraceLineGroup;
-        import com.ithaca.traces.Obsel;
+        import com.ithaca.timeline.Layout;
+        import com.ithaca.timeline.Stylesheet;
         import com.ithaca.traces.Trace;
-        import flash.display.StageAlign;
-        import flash.display.StageScaleMode;
-        import flash.events.*;
         import flash.events.Event;
         import flash.events.TimerEvent;
         import flash.external.ExternalInterface;
-        import flash.net.FileReference;
         import flash.net.URLLoader;
         import flash.utils.Timer;
         import gnu.as3.gettext._FxGettext;
@@ -40,10 +28,6 @@
         import gnu.as3.gettext.Locale;
         import gnu.as3.gettext.services.IGettextService;
         import gnu.as3.gettext.services.URLLoaderService;
-        import mx.collections.ArrayCollection;
-        import mx.collections.XMLListCollection;
-        import mx.controls.*;
-        import mx.events.*;
         import mx.formatters.DateFormatter;
 
         /*
@@ -96,14 +80,10 @@
         [Bindable]
         private var fxgt: _FxGettext;
 
-        private var _xmlLayout        : XMLList =  new XMLList();
-        private var _xmlLayoutDP      : XMLListCollection = new XMLListCollection(_xmlLayout);
-        private var layoutTree        : XML;
         private var timer             : Timer;
         private var timeValue         : Number = 0;
         private var statusBarTimer    : Timer = new Timer(4000, 1);
         public  var firstload         : Boolean = true;
-        public  var ttlName           : String ;
 
         [Embed(source="images/unknown.jpg")]
         public var tlgIcon: Class;
@@ -199,8 +179,6 @@
         public function loadTTL(url: String): void
         {
             var loader: URLLoader = new URLLoader();
-
-            ttlName = url;
 
             loader.dataFormat=URLLoaderDataFormat.BINARY;
             loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
