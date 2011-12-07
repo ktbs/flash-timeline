@@ -258,6 +258,7 @@
 
             loading.label = "Adding Trace...";
             var tlg : TraceLineGroup = timeline.addTrace(theTrace);
+            timeline.makeTracelineGroupVisible(tlg, false);
             tlg.setStyle("title", theTrace.uri.toUpperCase() );
             tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor( tlg ) );
             tlg.setStyle("icon", tlgIcon );
