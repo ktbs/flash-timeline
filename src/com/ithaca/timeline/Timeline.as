@@ -266,8 +266,7 @@ package com.ithaca.timeline
 
             if (tlg)
             {
-                if ( !isNaN(tlg.traceBegin ) && !isNaN(tlg.traceEnd ) )
-                range.addTime( tlg.traceBegin, tlg.traceEnd);
+                makeTracelineGroupVisible(tlg, false);
 
                 addChildAndTitle(  tlg , index );
                 if (activity !== null)
@@ -278,6 +277,15 @@ package com.ithaca.timeline
             if (activity !== null)
             activity.trace("AddTrace", { uri: pTrace.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             return tlg;
+        }
+
+        /**
+         * Ensure that the TraceLineGroup is visible.
+         */
+        public function makeTracelineGroupVisible(tlg: TraceLineGroup, fillHole: Boolean = true)
+        {
+            if ( !isNaN(tlg.traceBegin ) && !isNaN(tlg.traceEnd ) )
+                range.addTime( tlg.traceBegin, tlg.traceEnd, fillHole);
         }
 
         /**
