@@ -127,7 +127,7 @@ package com.ithaca.timeline
         {
             var editDialog:ObselGenericEditDialog = new ObselGenericEditDialog(  );
             editDialog.obsel = this;
-            PopUpManager.addPopUp(editDialog, UIComponent( parentApplication), true);
+            PopUpManager.addPopUp(editDialog, this, true);
             PopUpManager.centerPopUp(editDialog);
         };
 

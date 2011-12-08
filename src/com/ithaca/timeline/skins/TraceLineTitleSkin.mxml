@@ -145,7 +145,7 @@
                     {
                         var newDialog:TraceLineEditDialog = new TraceLineEditDialog();
                         newDialog.traceline = new TraceLine(timeline);
-                        PopUpManager.addPopUp(newDialog, parentApplication.timeline, true);
+                        PopUpManager.addPopUp(newDialog, timeline, true);
                         PopUpManager.centerPopUp(newDialog);
                         newDialog.addEventListener(Event.REMOVED_FROM_STAGE, onAddTraceLine );
                     }
@@ -161,7 +161,7 @@
                             editDialog.selectorRegexp = (hostComponent.tl.selector as SelectorRegexp).regexp;
                         }
                         editDialog.traceline = hostComponent.tl;
-                        PopUpManager.addPopUp(editDialog, parentApplication.timeline, true);
+                        PopUpManager.addPopUp(editDialog, timeline, true);
                         PopUpManager.centerPopUp(editDialog);
                     }
                         break;
@@ -176,12 +176,6 @@
                         break;
                     default:
                 }
-            }
-
-            protected function onSelect():void
-            {
-                parentApplication.dg_label.text = hostComponent.tl.title + " : " + hostComponent.tl._obsels.length + " obsels";
-                parentApplication.obselList_dg.dataProvider = hostComponent.tl._obsels;
             }
 
             protected function onChildrenChange(event:Event):void

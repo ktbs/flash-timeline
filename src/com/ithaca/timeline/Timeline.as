@@ -280,7 +280,7 @@ package com.ithaca.timeline
         /**
          * Ensure that the TraceLineGroup is visible.
          */
-        public function makeTracelineGroupVisible(tlg: TraceLineGroup, fillHole: Boolean = true)
+        public function makeTracelineGroupVisible(tlg: TraceLineGroup, fillHole: Boolean = true): void
         {
             if ( !isNaN(tlg.traceBegin ) && !isNaN(tlg.traceEnd ) )
                 range.addTime( tlg.traceBegin, tlg.traceEnd, fillHole);
