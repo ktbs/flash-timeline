@@ -58,9 +58,6 @@
 
         import flash.utils.Timer;
 
-        private var _xmlLayout        : XMLList =  new XMLList();
-        private var _xmlLayoutDP    : XMLListCollection = new XMLListCollection( _xmlLayout );
-        private var layoutTree         : XML;
         private var timer            : Timer;
         private var timeValue        : Number = 0;
         public  var firstload : Boolean = true;
@@ -72,7 +69,7 @@
         {
             fxgt = FxGettext;
             // we set the locale for the messages category to fr_FR
-            setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
+            //setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
             var service:IGettextService = new URLLoaderService("..");
             //service.addEventListener(Event.COMPLETE, onServiceComplete);
             service.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
