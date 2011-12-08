@@ -111,8 +111,11 @@ package  com.ithaca.timeline
                 }
                 else
                 {
-                    trac.obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree as TraceLine).onSourceChange );
-                    (newTree as TraceLine ).resetObselCollection( trac.obsels );
+                    if (trac)
+                    {
+                        trac.obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree as TraceLine).onSourceChange );
+                        (newTree as TraceLine ).resetObselCollection( trac.obsels );
+                    }
                 }
 
                 var event : TimelineEvent = new TimelineEvent( TimelineEvent.GENERATE_NEW_TRACELINE );
