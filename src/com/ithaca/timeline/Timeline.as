@@ -266,16 +266,14 @@ package com.ithaca.timeline
 
             if (tlg)
             {
-                makeTracelineGroupVisible(tlg, false);
-
-                addChildAndTitle(  tlg , index );
+                addChildAndTitle(tlg , index);
                 if (activity !== null)
-                activity.trace("AddTracelineGroup", { group: tlg.title,
-                                                                      new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+                    activity.trace("AddTracelineGroup", { group: tlg.title,
+                                                          new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
 
             if (activity !== null)
-            activity.trace("AddTrace", { uri: pTrace.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
+                activity.trace("AddTrace", { uri: pTrace.uri, new_layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             return tlg;
         }
 
