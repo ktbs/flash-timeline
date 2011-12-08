@@ -21,6 +21,7 @@
             import com.ithaca.timeline.TraceLineGroup;
             import com.ithaca.timeline.TraceLineGroupTitle;
             import com.ithaca.timeline.TraceLineTitle;
+            import com.ithaca.timeline.events.TimelineEvent;
             import com.ithaca.traces.Obsel;
             import flash.events.MouseEvent;
             import mx.core.DragSource;
@@ -109,7 +110,7 @@
 
             protected function addCommentObsel() : void
             {
-                hostComponent.tlg.trace.addObsel( new Obsel( "comment",0,null,  hostComponent.tlg._timeline.currentTime, hostComponent.tlg._timeline.currentTime + 20000  ) );
+				dispatchEvent(new TimelineEvent(TimelineEvent.PRE_ADD_COMMENT_OBSEL));
             }
 
         ]]>

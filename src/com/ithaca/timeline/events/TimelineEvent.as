@@ -35,6 +35,7 @@ package com.ithaca.timeline.events
         static public const ZOOM_CONTEXT_MANUAL_CHANGE : String = "zoomContextManualChange";
         static public const GENERATE_NEW_TRACELINE : String = "generateNewTraceline";
         static public const LAYOUT_NODE_ADDED :  String = "layoutNodeAdded";
+		static public const PRE_ADD_COMMENT_OBSEL : String = 'preAddCommentObsel';
 
         // properties
         public var value : *;
