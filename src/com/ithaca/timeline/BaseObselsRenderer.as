@@ -77,6 +77,7 @@ package com.ithaca.timeline
                 _obsels.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onObselsCollectionChange);
             _obsels = obsels;
 
+            // FIXME: issue if obsels == null?
             _obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE, onObselsCollectionChange);
 
             var e : CollectionEvent = new CollectionEvent( CollectionEvent.COLLECTION_CHANGE);

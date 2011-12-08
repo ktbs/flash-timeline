@@ -218,17 +218,17 @@ package com.ithaca.timeline
                 // zoomContext.addEventListener(ResizeEvent.RESIZE, changeCursorValue);
                 zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function(event: Event):void {
                     if (activity !== null)
-                    activity.trace("EndSlideScaleChange", { begin: zoomContext.cursorRange.begin,
-                                                                            end: zoomContext.cursorRange.end,
-                                                                            ratio: zoomContext.cursorRange.duration / zoomContext._timelineRange.duration
-                                                                          });
+                        activity.trace("EndSlideScaleChange", { begin: zoomContext.cursorRange.begin,
+                                                                end: zoomContext.cursorRange.end,
+                                                                ratio: zoomContext.cursorRange.duration / zoomContext._timelineRange.duration
+                                                              });
                     changeCursorValue(event);
                 });
                 zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, function(event: Event):void {
                     if (activity !== null)
-                    activity.trace("EndSlidePositionChange", { begin: zoomContext.cursorRange.begin,
-                                                                               end: zoomContext.cursorRange.end
-                                                                             });
+                        activity.trace("EndSlidePositionChange", { begin: zoomContext.cursorRange.begin,
+                                                                   end: zoomContext.cursorRange.end
+                                                                 });
                     changeCursorValue(event);
                 });
                 zoomContext._timelineRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, changeCursorValue);

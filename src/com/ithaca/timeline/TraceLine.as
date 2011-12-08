@@ -24,12 +24,12 @@ package com.ithaca.timeline
     public class TraceLine  extends LayoutNode
     {
         //private var _title             : String;
-        public var sourceStr             : String;
-        private var _selector             : ISelector;
-        public var _obsels                 : ArrayCollection = new ArrayCollection();
+        public var sourceStr             : String = "trace";
+        private var _selector            : ISelector;
+        public var _obsels               : ArrayCollection = new ArrayCollection();
         public var lastRendererHeight    : Number;
-        public var lastRendererGap        : Number;
-        public var autohide                : Boolean=false;
+        public var lastRendererGap       : Number;
+        public var autohide              : Boolean=false;
 
         /**
          * Create a new Traceline
