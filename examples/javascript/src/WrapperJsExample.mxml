@@ -136,6 +136,10 @@
             {
                 loadTTL(this.parameters["ttl"]);
             }
+            if ("playbutton" in this.parameters)
+            {
+                timeline.showPlayButton = true;
+            }
             initExternalInterface();
         }
 
@@ -210,7 +214,7 @@
 
             loading.label = "Adding Trace...";
             var tlg: TraceLineGroup = timeline.addTrace(theTrace);
-            tlg.makeTracelineGroupVisible(tlg, false);
+            timeline.makeTracelineGroupVisible(tlg, false);
             tlg.setStyle("title", theTrace.uri.toUpperCase());
             tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor(tlg));
             tlg.setStyle("icon", tlgIcon);
@@ -285,7 +289,7 @@
                      pauseButtonClick="stopTimer()" timeRulerClick="onRulerClick(event)"
                      cursorMode="auto"
                      endAlertBeforeTime="30000"
-                     showPlayButton="true"
+                     showPlayButton="false"
                      currentTimeChange="updateTimer(event)" />
     </s:VGroup>
 
