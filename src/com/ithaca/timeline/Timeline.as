@@ -177,6 +177,9 @@ package com.ithaca.timeline
             {
                 activity = new Trace();
             }
+            /* Configure trace */
+            activity.addFusionedType("EndSlideScaleChange");
+            activity.addFusionedType("EndSlidePositionChange");
             activity.trace("TracingStart", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
             return activity;
         }
