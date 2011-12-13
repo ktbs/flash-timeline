@@ -14,7 +14,7 @@ package com.ithaca.timeline
      * @see Timeline
      * @see TraceLineGroup
      * @see TraceLine
-     * @see LayouModifier
+     * @see LayoutModifier
      */
     public class LayoutNode extends SkinnableContainer
     {
