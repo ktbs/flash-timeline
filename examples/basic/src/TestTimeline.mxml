@@ -28,6 +28,9 @@
         import com.ithaca.traces.Obsel;
         import com.ithaca.traces.Trace;
         import com.ithaca.traces.TraceManager;
+        import com.ithaca.tales.Context;
+        import com.ithaca.tales.TALESUtil;
+        import com.ithaca.tales.PathNotFoundException;
         import spark.events.ElementExistenceEvent;
 
         import flash.events.*;
@@ -44,6 +47,7 @@
         import mx.events.*;
         import mx.logging.Log;
         import mx.logging.targets.TraceTarget;
+        import mx.utils.StringUtil;
 
         import gnu.as3.gettext._FxGettext;
         import gnu.as3.gettext.FxGettext;
@@ -342,6 +346,28 @@
             preview_ta.text = event.target.selectedItem.toString();
         }
 
+        private function evaluateTales(expr: String): void 
+        {
+            var res: String;
+            var ctx: Context = new Context(this);
+            try
+            {
+                res = ctx.evaluate(expr);
+                preview_ta.text = res;
+            }
+            catch (e: PathNotFoundException)
+            {
+                preview_ta.text = "Error: " + e.message + "\n" + e.getStackTrace();
+            }
+
+        }
+
+        private function onTALESTextInput(event: TextEvent): void
+        {
+            TALESUtil.onTALESTextInput(event, this, function (msg: String): void
+                                  { preview_ta.text = msg; });
+        }
+
     ]]> </fx:Script>
 
     <fx:Style source="default.css" />
@@ -370,6 +396,7 @@
                 <s:HGroup width="100%" >
                     <mx:Button label="Play" id="pause"  click="{onPlay(event)}" />
                     <mx:Button label="Pause" id="play"  click="{onPause(event)}"/>
+                    <s:TextInput id="tales_ti" width="100%"  enter="{evaluateTales(tales_ti.text)}" textInput="onTALESTextInput(event)" enabled="true" text="this"/>
                 </s:HGroup>
 
                 <!-- Obsel preview -->
