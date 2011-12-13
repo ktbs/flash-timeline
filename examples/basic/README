@@ -1,0 +1,11 @@
+Basic example
+=============
+
+This basic example provides a working demo of the Timeline
+component. It provides a datagrid and an obsel preview component, to
+explore traces.
+
+To compile this demo, the following components must be copied in lib:
+* Traces.swc from http://github.com/oaubert/astraces1
+* Timeline.swc from http://github.com/ktbs/flash-timeline
+* TALES.swc from http://github.com/oaubert/tales4as
