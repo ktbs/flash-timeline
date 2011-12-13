@@ -394,8 +394,7 @@
 
                 <!-- Loading Layout-->
                 <s:HGroup width="100%" >
-                    <mx:Button label="Play" id="pause"  click="{onPlay(event)}" />
-                    <mx:Button label="Pause" id="play"  click="{onPause(event)}"/>
+                    <mx:Label text="TALES expr:" />
                     <s:TextInput id="tales_ti" width="100%"  enter="{evaluateTales(tales_ti.text)}" textInput="onTALESTextInput(event)" enabled="true" text="this"/>
                 </s:HGroup>
 
