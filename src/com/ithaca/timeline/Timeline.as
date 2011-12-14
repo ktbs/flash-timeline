@@ -534,5 +534,21 @@ package com.ithaca.timeline
         {
             return getStyle('timeMode') == 'relative';
         }
+        
+        /**
+         * Get the currently displayed traces
+         */
+        public function getCurrentTraces(): Array
+        {
+            var current: Array = new Array();
+
+            for (var tlgIndex : uint = 0; tlgIndex < this.numElements; tlgIndex++)
+            {
+                var tlg: TraceLineGroup = this.getElementAt(tlgIndex) as TraceLineGroup;
+                current.push(tlg.trace);
+            }
+            return current;
+        }
+
     }
 }
