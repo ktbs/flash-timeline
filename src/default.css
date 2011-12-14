@@ -14,7 +14,7 @@ timeline|TraceLineGroup
 	fillColors : #FFA6A8, #C6FFC9, #AED7FF, #FAFFB7, #FFDFB0, #E1B7F9 ;
 	headerHeight : 15;
 	bottom 		 : 1;
-	bgColor		:#FFA6A8;
+	bgColor	   : #FFA6A8;
 }
 
 timeline|TraceLineGroupTitle
@@ -89,27 +89,6 @@ timeline|ObselSkin.Document
 	tooltipProp : 'text';
 }
 
-timeline|ObselSkin.PlayDocumentVideo
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon : Embed("images/chatMessageVisu1.png");
-	tooltipProp : 'text';
-}
-
-timeline|ObselSkin.Instructions
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon :Embed("images/consigneVisu1.png");
-	tooltipProp : 'instructions';
-}
-
-timeline|ObselSkin.Keyword
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon : Embed("images/motCleVisu1.png");
-	tooltipProp : 'keyword';
-}
-
 timeline|ObselSkin.Activity
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.ActivitySkin");	
@@ -127,4 +106,11 @@ timeline|ObselSkin.Marker
 	skin-class	: ClassReference("com.ithaca.timeline.skins.MarkerSkin");	
 	icon 		: Embed("images/marqueurBlanc-bas-20px.png");
 	tooltipProp : 'text';	
+}
+
+timeline|ObselSkin.Durative
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");
+    bgColor: #FFA6A8;
+    tooltipProp : 'text';
 }
