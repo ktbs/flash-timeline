@@ -421,7 +421,7 @@ package com.ithaca.timeline
         /**
          * The timeline is the root of the tree structure (this is the timeline where the nodes will be created). The timeline also contains the xml descriptor ( _timeline.layoutXML[LAYOUT] )
          */
-        private var _timeline : Timeline;
+        public var _timeline : Timeline;
 
         /**
          * Constructor
