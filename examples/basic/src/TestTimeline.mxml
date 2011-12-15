@@ -365,7 +365,20 @@
             preview_ta.text = event.target.selectedItem.toString();
         }
 
-        private function evaluateTales(expr: String): void 
+        /**
+         * Save the trace displayed in the table.
+         */
+        private function saveTraceToTSV(): void
+        {
+            var fr: FileReference = new FileReference();
+            /* We build a temporary trace from the displayed obsels */
+            var temp: Trace = new Trace();
+
+            temp.obsels = (obselList_dg.dataProvider as ArrayCollection);
+            fr.save(temp.toTSV());
+        }
+
+        private function evaluateTales(expr: String): void
         {
             var res: String;
             var ctx: Context = new Context(this);
@@ -436,6 +449,9 @@
                         <mx:DataGridColumn dataField="end" headerText="End" labelFunction="{toDate}"/>
                     </mx:columns>
                 </mx:DataGrid>
+                <s:HGroup>
+                   <mx:Button label="Save trace to TSV" click="{saveTraceToTSV()}" />
+                </s:HGroup>
             </s:VGroup>
         </s:HGroup>
 
