@@ -9,20 +9,12 @@
                  dragEnter="dragEnterHandler(event);" dragDrop="dragDropHandler(event);" >
     <fx:Declarations>
         <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
-            <fx:Array id="filtersSynthesisArray">
+            <fx:Array id="popupMenuArray">
                 <fx:Object label='{fxgt.gettext("Message")}' type="check" toggled="true" regexpFilter="Message"/>
                 <fx:Object label='{fxgt.gettext("Document")}' type="check" toggled="true" regexpFilter="Document"/>
                 <fx:Object label='{fxgt.gettext("Instructions")}' type="check" toggled="true" regexpFilter="Instructions"/>
                 <fx:Object label='{fxgt.gettext("Keyword")}' type="check" toggled="true" regexpFilter="Keyword"/>
                 <fx:Object label='{fxgt.gettext("Marker")}' type="check" toggled="true" regexpFilter="Marker"/>
-            </fx:Array>
-
-            <fx:Array id="filtersTreeArray">
-                <fx:Object label='{fxgt.gettext("Message")}' type="check" toggled="true" name="Messages"/>
-                <fx:Object label='{fxgt.gettext("Document")}' type="check" toggled="true" name="Documents"/>
-                <fx:Object label='{fxgt.gettext("Instructions")}' type="check" toggled="true" name="Instructions"/>
-                <fx:Object label='{fxgt.gettext("Keyword")}' type="check" toggled="true" name="Mots-Clefs"/>
-                <fx:Object label='{fxgt.gettext("Marker")}' type="check" toggled="true" name="Marqueurs"/>
             </fx:Array>
     </fx:Declarations>
 
@@ -57,9 +49,9 @@
             private var fxgt:_FxGettext;
 
             [Bindable]
-            private var backgroundColor : uint;
-            private var filterSynthesisMenu:Menu;
-            private var filterTreeMenu:Menu;
+            private var backgroundColor: uint;
+            private var popupMenu: Menu;
+            public var timeline: Timeline = null;
 
             private function mouseDownHandler( event:MouseEvent ) : void
             {
@@ -86,37 +78,31 @@
             // The dragDrop event handler for the Canvas container sets the Image control's position by "dropping" it in its new location.
             private function dragDropHandler( event:DragEvent ) : void
             {
-                var tl : Timeline = hostComponent.tlg._timeline as Timeline;
                 if ( event.dragInitiator is TraceLineGroupTitle )
-                    tl.moveTraceLineGroup( tl.getElementIndex( (event.dragInitiator as TraceLineGroupTitle).tlg), tl.getElementIndex(hostComponent.tlg));
+                    timeline.moveTraceLineGroup( timeline.getElementIndex( (event.dragInitiator as TraceLineGroupTitle).tlg), timeline.getElementIndex(hostComponent.tlg));
             }
 
-            protected function creationCompleteHandler(event:FlexEvent):void
+            protected function creationCompleteHandler(event: FlexEvent): void
             {
+                timeline = hostComponent.tlg._timeline;
                 fxgt = FxGettext;
                 hostComponent.percentWidth = 100;
                 contentGroup.top     = hostComponent.tlg.getStyle("headerHeight");
                 contentGroup.bottom = hostComponent.tlg.getStyle("bottom");
-                //traceLineGroupTitle.text = hostComponent.tlg.title;
                 backgroundColor = hostComponent.tlg.backgroundColor;
                 stage.addEventListener( MouseEvent.MOUSE_UP,    zcStopDrag);
 
-          /*      filterSynthesisMenu = new Menu();
-                filterSynthesisMenu.variableRowHeight = true;
-                filterSynthesisMenu.dataProvider = filtersSynthesisArray;
-                filterSynthesisMenu.addEventListener(MenuEvent.CHANGE, filterSynthesisChange);
-                filterSynthesisButton.popUp = filterSynthesisMenu;
-
-                filterTreeMenu = new Menu();
-                filterTreeMenu.variableRowHeight = true;
-                filterTreeMenu.dataProvider = filtersTreeArray;
-                filterTreeMenu.addEventListener(MenuEvent.CHANGE, filterTreeChange);
-                filterTreeButton.popUp = filterTreeMenu;*/
+                popupMenu = new Menu();
+                popupMenu.variableRowHeight = true;
+                popupMenu.dataProvider = popupMenuArray;
+                //popupMenu.addEventListener(MenuEvent.CHANGE, popupMenuChange);
+                popupMenuButton.popUp = popupMenu;
+                popupMenuButton.setStyle("visible", timeline.getStyle("adminMode"));
             }
 
             protected function closeTracelineGroup( ) : void
             {
-                (hostComponent.tlg._timeline as Timeline).removeTraceLineGroup( hostComponent.tlg );
+                timeline.removeTraceLineGroup( hostComponent.tlg );
             }
 
             override public function styleChanged(styleProp:String):void
@@ -165,10 +151,10 @@
                 }
             }
 
-            private function filterSynthesisChange(evt:MenuEvent):void
+            private function popupMenuChange(evt:MenuEvent):void
             {
                 var selector:String = "##################";
-                for each( var filter:Object in filtersSynthesisArray)
+                for each( var filter:Object in popupMenuArray)
                 {
                     if ( filter.toggled )
                     {
@@ -202,10 +188,9 @@
 
         <s:Label id="traceLineGroupTitle" fontSize="11" color="#000000" fontWeight="bold" height="20" width="100%"  x="32" y="5" mouseDown="mouseDownHandler(event)" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
         <mx:Image id="traceLineGroupTitleIcon" height="25" width="25" right="5" top="0"/>
-<!--        <mx:PopUpButton id="filterTreeButton"         openAlways="true" skin="@Embed(source='../images/tree.png')" width="16" top="0" right="30" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
-        <mx:PopUpButton id="filterSynthesisButton"     openAlways="true" skin="@Embed(source='../images/eye.png')" width="16" top="0" right="14" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
+        <mx:PopUpButton id="popupMenuButton" openAlways="true" skin="@Embed(source='../images/eye.png')" width="16" top="0" right="14" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)" />
         <mx:Button  skin="@Embed(source='../images/BlackCross.png')" downSkin="@Embed(source='../images/BlackCrossClick.png')" overSkin="@Embed(source='../images/BlackCrossOver.png')" right="1" top="2" click="closeTracelineGroup()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
--->
+
         <s:Group id="contentGroup" left="10" right="4" width="100%" >
             <s:layout> <s:VerticalLayout gap="0"/> </s:layout>
         </s:Group>
