@@ -368,14 +368,17 @@
         /**
          * Save the trace displayed in the table.
          */
-        private function saveTraceToTSV(): void
+        private function saveTraceTo(format: String = "tsv"): void
         {
             var fr: FileReference = new FileReference();
             /* We build a temporary trace from the displayed obsels */
             var temp: Trace = new Trace();
 
             temp.obsels = (obselList_dg.dataProvider as ArrayCollection);
-            fr.save(temp.toTSV());
+            if (format == "ttl")
+                fr.save(temp.toTTL());
+            else
+                fr.save(temp.toTSV());
         }
 
         private function evaluateTales(expr: String): void
@@ -450,7 +453,8 @@
                     </mx:columns>
                 </mx:DataGrid>
                 <s:HGroup>
-                   <mx:Button label="Save trace to TSV" click="{saveTraceToTSV()}" />
+                   <mx:Button label="Save trace to TSV" click="{saveTraceTo('tsv')}" />
+                   <mx:Button label="Save trace to TTL" click="{saveTraceTo('ttl')}" />
                 </s:HGroup>
             </s:VGroup>
         </s:HGroup>
