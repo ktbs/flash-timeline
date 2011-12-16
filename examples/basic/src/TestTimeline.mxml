@@ -69,14 +69,14 @@
         public var activityTimeline: Timeline = null;
 
         [Embed(source="images/unknown.jpg")]
-        public var tlgIcon:Class;
+        public var tlgIcon: Class;
 
-        private function onPreinitialize():void
+        private function onPreinitialize(): void
         {
             fxgt = FxGettext;
             // we set the locale for the messages category to fr_FR
             //setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
-            var service:IGettextService = new URLLoaderService("..");
+            var service: IGettextService = new URLLoaderService("..");
             //service.addEventListener(Event.COMPLETE, onServiceComplete);
             service.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
             // You can listen to this event, but it is not required in
@@ -91,7 +91,7 @@
             Log.addTarget(new TraceTarget());
         }
 
-        private function onIOError(event:IOErrorEvent):void
+        private function onIOError(event: IOErrorEvent): void
         {
             // an error occured while loading the catalog
             // it probably means there is no translations for this locale
@@ -99,7 +99,7 @@
             trace(event);
         }
 
-        protected function init() : void
+        protected function init(): void
         {
             if ("layout" in this.parameters)
             {
@@ -108,7 +108,7 @@
             }
             else
             {
-                loadLayout( layout_ti.text );
+                loadLayout(layout_ti.text);
             }
             if ("ttl" in this.parameters)
             {
@@ -116,63 +116,63 @@
                 loadTTL(this.parameters["ttl"]);
             }
             allTestLayout.enabled = true;
-            timeline.addEventListener( TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
+            timeline.addEventListener(TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
         }
 
-        public function onAddLayoutNode( e : TimelineEvent ) : void
+        public function onAddLayoutNode(e: TimelineEvent): void
         {
             if (e.value is TraceLine)
-                (e.value as TraceLine).titleComponent.addEventListener( MouseEvent.MOUSE_DOWN, onSelect, true);
+                (e.value as TraceLine).titleComponent.addEventListener(MouseEvent.MOUSE_DOWN, onSelect, true);
             else if (e.value is TraceLineGroup)
-                (e.value as TraceLineGroup).titleComponent.addEventListener( MouseEvent.MOUSE_DOWN, onSelect,true);
+                (e.value as TraceLineGroup).titleComponent.addEventListener(MouseEvent.MOUSE_DOWN, onSelect,true);
         }
 
 
-        public function onSelect( e : MouseEvent ) : void
+        public function onSelect(e: MouseEvent): void
         {
-            if ( e.currentTarget is TraceLineTitle )
+            if (e.currentTarget is TraceLineTitle)
             {
                 dg_label.text = (e.currentTarget as TraceLineTitle).tl.title + " : " + (e.currentTarget as TraceLineTitle).tl._obsels.length + " obsels";
                 obselList_dg.dataProvider = (e.currentTarget as TraceLineTitle).tl._obsels;
             }
-            else if ( e.currentTarget is TraceLineGroupTitle )
+            else if (e.currentTarget is TraceLineGroupTitle)
             {
                 dg_label.text = (e.currentTarget as TraceLineGroupTitle).tlg.title + " : " + (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels.length + " obsels";
                 obselList_dg.dataProvider = (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels;
             }
         }
 
-        public function onNewTl( e : TimelineEvent ) : void
+        public function onNewTl(e: TimelineEvent): void
         {
             //(e.value.traceline as TraceLine).title = "new title"
         }
 
 
-        public function onRulerClick( e : TimelineEvent ) : void
+        public function onRulerClick(e: TimelineEvent): void
         {
-            var df : DateFormatter = new DateFormatter();
+            var df: DateFormatter = new DateFormatter();
             df.formatString = "JJ:NN:SS.QQ";
-            trace( df.format( new Date(e.value ) ));
+            trace(df.format(new Date(e.value)));
             timeValue = e.value;
             timeline.currentTime = timeValue;
         }
 
-        protected function browse(event:MouseEvent):void
+        protected function browse(event: MouseEvent): void
         {
-            var myFileReference :FileReference = new FileReference( );
+            var myFileReference: FileReference = new FileReference();
 
             myFileReference.addEventListener(Event.SELECT, selectHandler);
             myFileReference.browse();
         }
-        private function selectHandler(event:Event):void {
-            var file:FileReference = FileReference(event.target);
+        private function selectHandler(event: Event): void {
+            var file: FileReference = FileReference(event.target);
 
             urlTTL_ti.text = "trace/" + file.name;
         }
 
-        protected function loadLayout( layoutFilename : String ):void
+        protected function loadLayout(layoutFilename: String): void
         {
-            var loader:URLLoader=new URLLoader();
+            var loader: URLLoader=new URLLoader();
 
             loader.addEventListener(Event.COMPLETE, onLoadLayoutComplete);
             loader.addEventListener(IOErrorEvent.IO_ERROR, onLoadLayoutError);
@@ -182,30 +182,30 @@
             loading.label = "Loading Layout...";
         }
 
-        protected function saveLayout( ):void
+        protected function saveLayout(): void
         {
-            var myFileReference :FileReference = new FileReference( );
+            var myFileReference: FileReference = new FileReference();
 
             myFileReference.save(timeline.timelineLayout.getCurrentXmlLayout(), "save.xml");
         }
 
-        private function onLoadLayoutComplete(event:Event):void
+        private function onLoadLayoutComplete(event: Event): void
         {
             loading.visible = false;
 
             //we init the trace object
-            var loader:URLLoader=event.target as URLLoader;
-            timeline.layoutXML         = new XML( loader.data );
-            timeline.timelineLayout = new Layout( timeline );
+            var loader: URLLoader=event.target as URLLoader;
+            timeline.layoutXML         = new XML(loader.data);
+            timeline.timelineLayout = new Layout(timeline);
 
-            if (firstload )
+            if (firstload)
             {
                 if (timeline.activity !== null)
                 {
-                    var tlg : TraceLineGroup = timeline.addTrace( timeline.activity, 0, "timeline" );
-                    tlg.setStyle( "title", "Timeline" );
+                    var tlg: TraceLineGroup = timeline.addTrace(timeline.activity, 0, "timeline");
+                    tlg.setStyle("title", "Timeline");
                     /* Assume a default session time of n minutes, so that the initial display is meaningful */
-                    timeline.range.addTime( tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000);
+                    timeline.range.addTime(tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000);
                 }
                 firstload = false;
             }
@@ -216,7 +216,7 @@
             loading.visible = false;
             // Error while loading layout. Use a default one.
             timeline.layoutXML         = <root> <layout> <tlg /> </layout> </root> ;
-            timeline.timelineLayout = new Layout( timeline );
+            timeline.timelineLayout = new Layout(timeline);
         }
 
         protected function loadTTL(url: String): void
@@ -253,115 +253,116 @@
                 tabnavigator.addElement(content);
             }
 
-            var tlg : TraceLineGroup = activityTimeline.addTrace( timeline.activity, 0, "timeline" );
-            tlg.setStyle( "title", "Timeline" );
+            var tlg: TraceLineGroup = activityTimeline.addTrace(timeline.activity, 0, "timeline");
+            tlg.setStyle("title", "Timeline");
             /* Assume a default session time of n minutes, so that the initial display is meaningful */
-            activityTimeline.range.addTime( tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000, false);
+            activityTimeline.range.addTime(tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000, false);
         }
 
-        private function onLoadTTLComplete(event:Event):void
+        private function onLoadTTLComplete(event: Event): void
         {
             loading.visible = false;
 
             //we init the trace object
-            var loader:URLLoader=event.target as URLLoader;
-            var trace_ttl:String = loader.data;
+            var loader: URLLoader = event.target as URLLoader;
+            var trace_ttl: String = loader.data;
 
-            var theTrace:Trace = new Trace(421, urlTTL_ti.text); //Dirty
+            var theTrace: Trace = new Trace(421, urlTTL_ti.text); //Dirty
             theTrace.autosync = false;
 
             loading.visible = true;
             loading.label = "TTL to trace...";
+            trace("TTL File loaded");
             theTrace.updateFromRDF(trace_ttl);
 
-            activityObselsToDurative( theTrace );
+            activityObselsToDurative(theTrace);
 
             loading.label = "Adding Trace...";
-            var tlg : TraceLineGroup = timeline.addTrace(theTrace);
+            var tlg: TraceLineGroup = timeline.addTrace(theTrace);
             timeline.makeTracelineGroupVisible(tlg, false);
-            tlg.setStyle("title", theTrace.uri.toUpperCase() );
-            tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor( tlg ) );
-            tlg.setStyle("icon", tlgIcon );
+            tlg.setStyle("title", theTrace.uri.toUpperCase());
+            tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor(tlg));
+            tlg.setStyle("icon", tlgIcon);
 
             timeline.zoomContext.reset();
 
             loading.visible = false;
         }
 
-        private function activityObselsToDurative( theTrace : Trace ) : void
+        private function activityObselsToDurative(theTrace: Trace): void
         {
-            var activityStart : Obsel = null;
-            for each (var obsel : Obsel in theTrace.obsels)
+            var activityStart: Obsel = null;
+            for each (var obsel: Obsel in theTrace.obsels)
             {
-                if (obsel.type == "ActivityStart" || obsel.type == "ActivityStop"  )
+                if (obsel.type == "ActivityStart" || obsel.type == "ActivityStop" )
                 {
                     if (activityStart)
                         activityStart.end = obsel.begin;
 
-                    if (obsel.type == "ActivityStart" )
+                    if (obsel.type == "ActivityStart")
                         activityStart = obsel;
                     else
                         activityStart = null;
                 }
             }
         }
-        private function toDate(item:Object, column:DataGridColumn):String
+        private function toDate(item: Object, column: DataGridColumn): String
         {
-            var df : DateFormatter = new DateFormatter();
+            var df: DateFormatter = new DateFormatter();
             df.formatString = "JJ:NN:SS.QQ";
-            var n : Number = item[column.dataField]
-            var string : String = df.format( new Date (n) );
+            var n: Number = item[column.dataField]
+            var string: String = df.format(new Date (n));
             return string;
         }
 
-        private function startTimer( event : TimelineEvent ) : void
+        private function startTimer(event: TimelineEvent): void
         {
-            if ( !timer)
+            if (!timer)
             {
-                timer = new Timer( 100 );
+                timer = new Timer(100);
                 timeValue = timeline.zoomContext._timelineRange.begin;
-                timer.addEventListener(TimerEvent.TIMER, updateCursorPosition );
+                timer.addEventListener(TimerEvent.TIMER, updateCursorPosition);
             }
 
             timer.start();
         }
 
-        private function stopTimer( event : TimelineEvent ) : void
+        private function stopTimer(event: TimelineEvent): void
         {
             timer.stop();
         }
 
-        public function updateCursorPosition( event : TimerEvent ) : void
+        public function updateCursorPosition(event: TimerEvent): void
         {
-            var timer : Timer = event.currentTarget as Timer;
+            var timer: Timer = event.currentTarget as Timer;
             timeValue += timer.delay*60;
 
             timeline.currentTime = timeValue;
         }
 
-        private function onEndAlert( event : TimelineEvent ) : void
+        private function onEndAlert(event: TimelineEvent): void
         {
             trace(" onEndAlert ");
         }
 
-        private function onEndReached( event : TimelineEvent ) : void
+        private function onEndReached(event: TimelineEvent): void
         {
 //            trace(" onEndReached ");
         }
 
-        private function onPlay( event : Event ) : void
+        private function onPlay(event: Event): void
         {
             timeline.isPlaying = true;
             startTimer(null);
         }
 
-        private function onPause( event : Event ) : void
+        private function onPause(event: Event): void
         {
             timeline.isPlaying = false;
             stopTimer(null);
         }
 
-        private function obselSelectEvent(event:ListEvent):void {
+        private function obselSelectEvent(event: ListEvent): void {
             preview_ta.text = event.target.selectedItem.toString();
         }
 
