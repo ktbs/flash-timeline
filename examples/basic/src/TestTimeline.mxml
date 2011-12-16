@@ -66,6 +66,8 @@
         private var timeValue        : Number = 0;
         public  var firstload : Boolean = true;
 
+        public var activityTimeline: Timeline = null;
+
         [Embed(source="images/unknown.jpg")]
         public var tlgIcon:Class;
 
@@ -234,10 +236,27 @@
             if (timeline.activity === null)
                 timeline.startActivityTracing();
 
-            var tlg : TraceLineGroup = timeline.addTrace( timeline.activity, 0, "timeline" );
+            if (activityTimeline === null)
+            {
+                /* Add a new Timeline to the Navigator */
+                var content: spark.components.NavigatorContent = new spark.components.NavigatorContent();
+                content.label = "Timeline activity";
+                activityTimeline = new Timeline();
+                activityTimeline.percentWidth = 100;
+                activityTimeline.percentHeight = 100;
+                activityTimeline.setStyle("timeMode", "relative");
+                activityTimeline.setStyle("cursorMode", "manual");
+                activityTimeline.setStyle("adminMode", true);
+                activityTimeline.setStyle("showPlayButton", false);
+                activityTimeline.addEventListener(TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
+                content.addElement(activityTimeline);
+                tabnavigator.addElement(content);
+            }
+
+            var tlg : TraceLineGroup = activityTimeline.addTrace( timeline.activity, 0, "timeline" );
             tlg.setStyle( "title", "Timeline" );
             /* Assume a default session time of n minutes, so that the initial display is meaningful */
-            timeline.range.addTime( tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000, false);
+            activityTimeline.range.addTime( tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000, false);
         }
 
         private function onLoadTTLComplete(event:Event):void
@@ -346,7 +365,23 @@
             preview_ta.text = event.target.selectedItem.toString();
         }
 
-        private function evaluateTales(expr: String): void 
+        /**
+         * Save the trace displayed in the table.
+         */
+        private function saveTraceTo(format: String = "tsv"): void
+        {
+            var fr: FileReference = new FileReference();
+            /* We build a temporary trace from the displayed obsels */
+            var temp: Trace = new Trace();
+
+            temp.obsels = (obselList_dg.dataProvider as ArrayCollection);
+            if (format == "ttl")
+                fr.save(temp.toTTL());
+            else
+                fr.save(temp.toTSV());
+        }
+
+        private function evaluateTales(expr: String): void
         {
             var res: String;
             var ctx: Context = new Context(this);
@@ -400,14 +435,14 @@
 
                 <!-- Obsel preview -->
                 <mx:Label text="Obsel preview" />
-                <s:TextArea id="preview_ta" width="100%" height="100%" bottom="0" editable="false">
+                <s:TextArea id="preview_ta" width="100%" height="100%" bottom="0" editable="true">
                 </s:TextArea>
             </s:VGroup>
 
             <!-- Obsels DataGrid -->
-            <s:Group  width="100%"  height="100%" >
+            <s:VGroup  width="100%"  height="100%" >
                 <s:Label id="dg_label" />
-                <mx:DataGrid id="obselList_dg" y="16" width="100%" height="100%" fontFamily="Arial" fontSize="10"
+                <mx:DataGrid id="obselList_dg" width="100%" height="100%" fontFamily="Arial" fontSize="10"
                              change="obselSelectEvent(event);">
                     <mx:columns>
                         <mx:DataGridColumn dataField="trace.uri" headerText="TraceUri" width="160"/>
@@ -417,17 +452,25 @@
                         <mx:DataGridColumn dataField="end" headerText="End" labelFunction="{toDate}"/>
                     </mx:columns>
                 </mx:DataGrid>
-            </s:Group>
+                <s:HGroup>
+                   <mx:Button label="Save trace to TSV" click="{saveTraceTo('tsv')}" />
+                   <mx:Button label="Save trace to TTL" click="{saveTraceTo('ttl')}" />
+                </s:HGroup>
+            </s:VGroup>
         </s:HGroup>
 
-        <tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer(event)"
-                     pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)"
-                     cursorMode="manual"
-                     endAlertBeforeTime="30000"
-                     adminMode="true"
-                     showPlayButton="true"
-                     endAlert="onEndAlert(event)"
-                     endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
+        <mx:TabNavigator id="tabnavigator" width="100%" height="50%">
+          <s:NavigatorContent label="Loaded traces">
+            <tl:Timeline id="timeline" width="100%" height="100%" playButtonClick="startTimer(event)"
+                         pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)"
+                         cursorMode="manual"
+                         endAlertBeforeTime="30000"
+                         adminMode="true"
+                         showPlayButton="true"
+                         endAlert="onEndAlert(event)"
+                         endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
+          </s:NavigatorContent>
+        </mx:TabNavigator>
 
     </s:VGroup>
 
@@ -437,6 +480,6 @@
 
     <fx:Declarations>
 <!--      <kapit:KapInspect /> -->
-    </fx:Declarations> 
+    </fx:Declarations>
 
 </s:Application>

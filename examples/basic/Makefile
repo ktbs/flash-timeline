@@ -5,8 +5,8 @@ DEPFILES:=src/TestTimeline.mxml
 
 all: $(SWF)
 
-$(SWF): $(DEPFILES)
-	"${SDKBIN}mxmlc" -output $@ -strict=true -compiler.incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $<
+$(SWF): src/default.css $(DEPFILES)
+	"${SDKBIN}mxmlc" -output $@ -strict=true -compiler.incremental -debug=true -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $(DEPFILES)
 
 clean:
 	-$(RM) $(SWF) $(SWF).cache
