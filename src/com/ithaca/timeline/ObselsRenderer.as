@@ -93,8 +93,6 @@ package com.ithaca.timeline
 					intervalGroup.x = lastIntervalGroup.x + lastIntervalGroup.width + _timeRange.timeHoleWidth -1;
 				lastIntervalGroup = intervalGroup;
 
-				addElement( intervalGroup );
-
 				//drawing obsels
 				for each (var obselSkin : ObselSkin in obselsSkinsCollection)
 				{
@@ -106,6 +104,9 @@ package com.ithaca.timeline
 						intervalGroup.addElement( obselSkin ) ;
 					}
 				}
+                
+				addElement( intervalGroup );
+                
 			}
         }
 
