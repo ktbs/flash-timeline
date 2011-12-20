@@ -404,6 +404,45 @@
                                   { preview_ta.text = msg; });
         }
 
+        public function debug(): void
+        {
+            /* Create a timeline, add it to stage. Then load a layout
+             * and on layout load complete, use it. */
+            var content: spark.components.NavigatorContent = new spark.components.NavigatorContent();
+            content.label = "Debug";
+            var tl: Timeline = new Timeline();
+            tl.percentWidth = 100;
+            tl.percentHeight = 100;
+            tl.setStyle("timeMode", "relative");
+            tl.setStyle("cursorMode", "manual");
+            tl.setStyle("adminMode", true);
+            tl.setStyle("showPlayButton", false);
+            tl.addEventListener(TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
+            content.addElement(tl);
+            tabnavigator.addElement(content);
+            
+            var loader: URLLoader=new URLLoader();
+            loader.addEventListener(Event.COMPLETE, function (event: Event): void
+                                    {
+                                        onDebugLoadLayoutComplete(event, tl);
+                                    });
+            loader.load(new URLRequest(layout_ti.text));
+        }
+        
+        private function onDebugLoadLayoutComplete(event: Event, tl: Timeline = null): void
+        {
+            var loader: URLLoader = event.target as URLLoader;
+           
+            tl.layoutXML      = new XML(loader.data);
+            tl.timelineLayout = new Layout(tl);
+
+            for each (var t: Trace in timeline.getCurrentTraces())
+            {
+                var tlg: TraceLineGroup = tl.addTrace(t, 0);
+                tl.makeTracelineGroupVisible(tlg, false);
+            }
+        }
+
     ]]> </fx:Script>
 
     <fx:Style source="default.css" />
@@ -456,6 +495,7 @@
                 <s:HGroup>
                    <mx:Button label="Save trace to TSV" click="{saveTraceTo('tsv')}" />
                    <mx:Button label="Save trace to TTL" click="{saveTraceTo('ttl')}" />
+                   <mx:Button label="Debug" click="{debug()}" />
                 </s:HGroup>
             </s:VGroup>
         </s:HGroup>
