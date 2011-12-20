@@ -371,13 +371,7 @@ package com.ithaca.timeline
                 //the selectors must be loaded before the _layout because the traceline could be defined by using one of them
                 _layout.loadObselsSelectors( layoutXML[Layout.OBSELS_SELECTORS] );
 
-                var traceArray : Array = new Array();
-
-                for (var i : uint = 0; i < numElements; i++ )
-                {
-                    var tlg : TraceLineGroup = getElementAt(i) as  TraceLineGroup;
-                    traceArray.push ( (getElementAt(i) as  TraceLineGroup).trace );
-                }
+                var traceArray : Array = this.getCurrentTraces();
                 removeAllElements();
 
                 _layout = value;
