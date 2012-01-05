@@ -147,7 +147,7 @@
                     case "newTraceLine":
                     {
                         var newDialog:TraceLineEditDialog = new TraceLineEditDialog();
-                        newDialog.traceline = new TraceLine(timeline);
+                        newDialog.setTraceLine(new TraceLine(timeline));
                         PopUpManager.addPopUp(newDialog, timeline, true);
                         PopUpManager.centerPopUp(newDialog);
                         newDialog.addEventListener(Event.REMOVED_FROM_STAGE, onAddTraceLine );
@@ -156,14 +156,7 @@
                     case "editTraceLine":
                     {
                         var editDialog:TraceLineEditDialog = new TraceLineEditDialog();
-                        editDialog.tracelineTitle = hostComponent.tl.title;
-                        editDialog.tracelineSource = (hostComponent.tl.sourceStr == "parent") ? 1 : 0;
-                        if (hostComponent.tl.selector is SelectorRegexp)
-                        {
-                            editDialog.selectorField = (hostComponent.tl.selector as SelectorRegexp).field;
-                            editDialog.selectorRegexp = (hostComponent.tl.selector as SelectorRegexp).regexp;
-                        }
-                        editDialog.traceline = hostComponent.tl;
+                        editDialog.setTraceLine(hostComponent.tl);
                         PopUpManager.addPopUp(editDialog, timeline, true);
                         PopUpManager.centerPopUp(editDialog);
                     }
