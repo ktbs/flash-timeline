@@ -9,3 +9,12 @@ To compile this demo, the following components must be copied in lib:
 * Traces.swc from http://github.com/oaubert/astraces1
 * Timeline.swc from http://github.com/ktbs/flash-timeline
 * TALES.swc from http://github.com/oaubert/tales4as
+
+Syntax
+======
+
+The component can be given the following parameters:
+
+ttl: URL of a .ttl file to load a trace from.
+
+layout: URL of a layout .xml file
