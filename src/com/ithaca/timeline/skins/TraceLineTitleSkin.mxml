@@ -103,7 +103,10 @@
                 editMenu.labelField = "@label";
                 editMenu.addEventListener(MenuEvent.ITEM_CLICK, menuHandler);
 
-                editMenu.show(position.x - 50, position.y);
+                // FIXME: the Menu.measure function is not available,
+                // so we cannot know the menu height in advance
+                // (except if we show it first). Use a hardcoded 100 value for now.
+                editMenu.show(position.x - 50, Math.min(position.y, root.height - 100));
             }
 
             protected function zcStopDrag(e:MouseEvent):void
