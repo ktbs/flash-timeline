@@ -40,6 +40,20 @@
                 this.title = fxgt.gettext("Create / Edit TraceLine");
             }
 
+            public function setTraceLine(tl: TraceLine)
+            {
+                this.tracelineTitle = tl.title;
+                // FIXME: this is fragile: if we change the order in
+                // the definition of sourceDDL, it will break
+                this.tracelineSource = (tl.sourceStr == "parent") ? 1 : 0;
+                if (tl.selector is SelectorRegexp)
+                {
+                    this.selectorField = (tl.selector as SelectorRegexp).field;
+                    this.selectorRegexp = (tl.selector as SelectorRegexp).regexp;
+                }
+                this.traceline = tl;
+            }
+
             private function onCancel(event:Event):void
             {
                 PopUpManager.removePopUp(this);
@@ -48,8 +62,7 @@
             private function onValid(event:Event):void
             {
                 traceline.title = titleIT.text;
-                if (traceline.sourceStr != sourceDDL.selectedItem)
-                    traceline.sourceStr = sourceDDL.selectedItem;
+                traceline.sourceStr = sourceDDL.selectedItem;
                 if ( fieldIT.text != "" )
                     traceline.selector = new SelectorRegexp( fieldIT.text + "," + regexpIT.text );
 
