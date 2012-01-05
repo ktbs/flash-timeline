@@ -136,6 +136,10 @@
             private function onAddTraceLine(evt:Event):void
             {
                 timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.tl);
+                // resetObselCollection is called in the onValid
+                // method of the dialod, but since the Traceline is
+                // not yet displayed, it has no effect. Call it here.
+                evt.currentTarget.traceline.resetObselCollection();
             }
 
             private function menuHandler(evt:MenuEvent):void
