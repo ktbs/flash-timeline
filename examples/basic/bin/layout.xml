@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
 	<obselsSelectors>
-		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,Message" />
-		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,Document" />	
-		<obselSelector id='Instructions'  selector="SelectorRegexp" selectorParams="type,Instructions" />
-		<obselSelector id='Marker'  	  selector="SelectorRegexp" selectorParams="type,Marker" />
-		<obselSelector id='Keyword'  	  selector="SelectorRegexp" selectorParams="type,Keyword" />
-		<obselSelector id='Comment'  	  selector="SelectorRegexp" selectorParams="type,omment" />
+		<obselSelector id='Durative'  	  selector="SelectorRegexp" selectorParams="type,Fusioned.*" />
 	</obselsSelectors>
 	
 	<!-- the layout definition -->
