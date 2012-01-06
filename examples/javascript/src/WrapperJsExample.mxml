@@ -16,6 +16,7 @@
         import com.ithaca.timeline.Layout;
         import com.ithaca.timeline.Stylesheet;
         import com.ithaca.traces.Trace;
+        import com.ithaca.traces.events.TraceEvent;
         import flash.events.Event;
         import flash.events.TimerEvent;
         import flash.external.ExternalInterface;
@@ -210,7 +211,31 @@
 
             loading.visible = true;
             loading.label = "TTL to trace...";
-            theTrace.updateFromRDF(trace_ttl);
+            /* Setup event listeners before calling updateFromRDF: for
+             * small files, the events will be fired quickly */
+            theTrace.addEventListener(TraceEvent.PARSING_PROGRESS, TTLParsingProgress);
+            theTrace.addEventListener(TraceEvent.PARSING_DONE, TTLParsingDone);
+            trace("Parsing file");
+            if (! theTrace.updateFromRDF(trace_ttl))
+            {
+                theTrace.removeEventListener(TraceEvent.PARSING_PROGRESS, TTLParsingProgress);
+                theTrace.removeEventListener(TraceEvent.PARSING_DONE, TTLParsingDone);
+            }
+        }
+
+        private function TTLParsingProgress(event: TraceEvent): void
+        {
+            trace("Parsing progress ", event.value, " ", event.message);
+            loading.label = event.message;
+            loading.setProgress((event.value as Number) * 1000, 1000);
+        }
+
+        private function TTLParsingDone(event: TraceEvent): void
+        {
+            var theTrace: Trace = event.currentTarget as Trace;
+
+            theTrace.removeEventListener(TraceEvent.PARSING_PROGRESS, TTLParsingProgress);
+            theTrace.removeEventListener(TraceEvent.PARSING_DONE, TTLParsingDone);
 
             loading.label = "Adding Trace...";
             var tlg: TraceLineGroup = timeline.addTrace(theTrace);
@@ -218,6 +243,8 @@
             tlg.setStyle("title", theTrace.uri.toUpperCase());
             tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor(tlg));
             tlg.setStyle("icon", tlgIcon);
+
+            timeline.zoomContext.reset();
 
             loading.visible = false;
         }
@@ -269,12 +296,12 @@
     <fx:Style source="default.css" />
 
     <fx:Declarations>
-        <s:Fade id="showStatus" 
+        <s:Fade id="showStatus"
             target="{statusBar}"
             alphaFrom="0"
             alphaTo="100"/>
 
-        <s:Fade id="hideStatus" 
+        <s:Fade id="hideStatus"
             target="{statusBar}"
             alphaFrom="100"
             alphaTo="0"/>
@@ -284,7 +311,7 @@
     <s:VGroup  width="100%" height="100%" left="10" right="10" top="10" bottom="10" gap="20">
 
         <s:Label id="statusBar" width="100%" height="30" visible="false" backgroundColor="0xffff60" color="0x0" fontWeight="bold" textAlign="center" verticalAlign="middle" text="Application started" />
-    
+
         <tl:Timeline id="timeline" width="100%" height="50%" playButtonClick="startTimer()"
                      pauseButtonClick="stopTimer()" timeRulerClick="onRulerClick(event)"
                      cursorMode="auto"

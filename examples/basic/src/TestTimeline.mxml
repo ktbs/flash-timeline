@@ -27,6 +27,7 @@
         import com.ithaca.timeline.TraceLineTitle;
         import com.ithaca.traces.Obsel;
         import com.ithaca.traces.Trace;
+        import com.ithaca.traces.events.TraceEvent;
         import com.ithaca.traces.TraceManager;
         import com.ithaca.tales.Context;
         import com.ithaca.tales.TALESUtil;
@@ -273,9 +274,31 @@
             loading.visible = true;
             loading.label = "TTL to trace...";
             trace("TTL File loaded");
-            theTrace.updateFromRDF(trace_ttl);
+            /* Setup event listeners before calling updateFromRDF: for
+             * small files, the events will be fired quickly */
+            theTrace.addEventListener(TraceEvent.PARSING_PROGRESS, TTLParsingProgress);
+            theTrace.addEventListener(TraceEvent.PARSING_DONE, TTLParsingDone);
+            trace("Parsing file");
+            if (! theTrace.updateFromRDF(trace_ttl))
+            {
+                theTrace.removeEventListener(TraceEvent.PARSING_PROGRESS, TTLParsingProgress);
+                theTrace.removeEventListener(TraceEvent.PARSING_DONE, TTLParsingDone);
+            }
+        }
+        
+        private function TTLParsingProgress(event: TraceEvent): void
+        {
+            trace("Parsing progress ", event.value, " ", event.message);
+            loading.label = event.message;
+            loading.setProgress((event.value as Number) * 1000, 1000);
+        }
 
-            activityObselsToDurative(theTrace);
+        private function TTLParsingDone(event: TraceEvent): void
+        {
+            var theTrace: Trace = event.currentTarget as Trace;
+
+            theTrace.removeEventListener(TraceEvent.PARSING_PROGRESS, TTLParsingProgress);
+            theTrace.removeEventListener(TraceEvent.PARSING_DONE, TTLParsingDone);
 
             loading.label = "Adding Trace...";
             var tlg: TraceLineGroup = timeline.addTrace(theTrace);
