@@ -75,47 +75,6 @@ timeline|ObselSkin
 	icon 			: Embed("images/iconInfo_16x16.png");	
 }
 
-timeline|ObselSkin.Message
-{
-	skin-class		: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon 			: Embed("images/chatMessageVisu1.png");	
-	tooltipProp 	: 'content';
-}
-
-timeline|ObselSkin.Document
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon : Embed("images/fichierVisu1.png");
-	tooltipProp : 'text';
-}
-
-timeline|ObselSkin.PlayDocumentVideo
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon : Embed("images/chatMessageVisu1.png");
-	tooltipProp : 'text';
-}
-
-timeline|ObselSkin.Instructions
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon :Embed("images/consigneVisu1.png");
-	tooltipProp : 'instructions';
-}
-
-timeline|ObselSkin.Keyword
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon : Embed("images/motCleVisu1.png");
-	tooltipProp : 'keyword';
-}
-
-timeline|ObselSkin.Activity
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.ActivitySkin");	
-	backgroundColors : #F4FA29, #3355F7, #D134E2, #1CFD81 ;
-}
-
 timeline|ObselSkin.Comment
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");	
@@ -127,4 +86,11 @@ timeline|ObselSkin.Marker
 	skin-class	: ClassReference("com.ithaca.timeline.skins.MarkerSkin");	
 	icon 		: Embed("images/marqueurBlanc-bas-20px.png");
 	tooltipProp : 'text';	
+}
+
+timeline|ObselSkin.Durative
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");
+    backgroundColor : #aaaaff;
+	tooltipProp : 'text';
 }
