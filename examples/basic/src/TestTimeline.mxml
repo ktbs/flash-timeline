@@ -34,7 +34,7 @@
         import com.ithaca.tales.PathNotFoundException;
         import spark.events.ElementExistenceEvent;
 
-        import flash.events.*;
+        import flash.events.Event;
         import flash.net.FileReference;
         import flash.display.StageScaleMode;
         import flash.display.StageAlign;
@@ -44,8 +44,6 @@
         import mx.collections.ArrayCollection;
         import mx.collections.XMLListCollection;
         import mx.styles.StyleManager;
-        import mx.controls.*;
-        import mx.events.*;
         import mx.logging.Log;
         import mx.logging.targets.TraceTarget;
         import mx.utils.StringUtil;
@@ -63,9 +61,12 @@
 
         import flash.utils.Timer;
 
+        /* Timer used for play/pause emulation */
         private var timer            : Timer;
         private var timeValue        : Number = 0;
         public  var firstload : Boolean = true;
+
+        private var statusBarTimer    : Timer = new Timer(4000, 1);
 
         public var activityTimeline: Timeline = null;
 
@@ -90,6 +91,27 @@
             // We select helloworld to be the default domain.
             fxgt.textdomain("timeline");
             Log.addTarget(new TraceTarget());
+            statusBarTimer.addEventListener(TimerEvent.TIMER, function(): void {
+                hideStatus.end();
+                hideStatus.play();
+            });
+        }
+
+        public function statusMessage(msg: String = "", color: String = null): void
+        {
+            if (color === null)
+                color = '#ffff60';
+            if (msg != "")
+            {
+                statusBar.visible = true;
+                statusBar.setStyle('backgroundColor', color);
+                statusBar.text = msg.replace("\n", "  ");
+
+                showStatus.end();
+                showStatus.play();
+                statusBarTimer.reset();
+                statusBarTimer.start();
+            }
         }
 
         private function onIOError(event: IOErrorEvent): void
@@ -98,6 +120,7 @@
             // it probably means there is no translations for this locale
             // or the base path to the translations is incorrect.
             trace(event);
+            statusMessage("Error: " + event.text, "#ffcccc");
         }
 
         protected function init(): void
@@ -212,9 +235,10 @@
             }
         }
 
-        private function onLoadLayoutError(event: Event): void
+        private function onLoadLayoutError(event: IOErrorEvent): void
         {
             loading.visible = false;
+            statusMessage("Error when loading layout: " + event.text, "#ffcccc");
             // Error while loading layout. Use a default one.
             timeline.layoutXML         = <root> <layout> <tlg /> </layout> </root> ;
             timeline.timelineLayout = new Layout(timeline);
@@ -226,10 +250,17 @@
 
             loader.dataFormat=URLLoaderDataFormat.BINARY;
             loader.addEventListener(Event.COMPLETE, onLoadTTLComplete);
+            loader.addEventListener(IOErrorEvent.IO_ERROR, onTTLioError);
             loader.load(new URLRequest(url));
 
             loading.visible = true;
             loading.label = "Loading TTL...";
+        }
+
+        private function onTTLioError(event: IOErrorEvent): void
+        {
+            statusMessage("Error when loading TTL: " + event.text, "#ffcccc");
+            loading.visible = false;
         }
 
         protected function ownTrace(): void
@@ -308,6 +339,7 @@
             tlg.setStyle("icon", tlgIcon);
 
             timeline.zoomContext.reset();
+            statusMessage("Loaded trace with " + theTrace.obsels.length + " obsels");
 
             loading.visible = false;
         }
@@ -554,11 +586,23 @@
 
     </s:VGroup>
 
+    <s:Label id="statusBar" top="10" right="10" left="10" width="100%" height="30" visible="false" backgroundColor="0xffff60" backgroundAlpha="90" color="0x0" fontWeight="bold" textAlign="center" verticalAlign="middle" text="Application started" />
+
     <mx:Box width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
         <mx:ProgressBar id="loading"  horizontalCenter="true" verticalCenter="true" label="Loading..."  labelPlacement="center" indeterminate="true" visible="false" />
     </mx:Box>
 
     <fx:Declarations>
+        <s:Fade id="showStatus"
+            target="{statusBar}"
+            alphaFrom="0"
+            alphaTo="100"/>
+
+        <s:Fade id="hideStatus"
+            target="{statusBar}"
+            alphaFrom="100"
+            alphaTo="0"/>
+
 <!--      <kapit:KapInspect /> -->
     </fx:Declarations>
 
