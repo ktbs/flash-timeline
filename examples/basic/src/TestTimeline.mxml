@@ -593,15 +593,17 @@
     </mx:Box>
 
     <fx:Declarations>
-        <s:Fade id="showStatus"
+        <s:Resize id="showStatus"
             target="{statusBar}"
-            alphaFrom="0"
-            alphaTo="100"/>
+            heightTo="30"
+            widthTo="{this.stage.width}"
+            />
 
-        <s:Fade id="hideStatus"
+        <s:Resize id="hideStatus"
             target="{statusBar}"
-            alphaFrom="100"
-            alphaTo="0"/>
+            heightTo="0"
+            widthTo="{this.stage.width}"
+        />
 
 <!--      <kapit:KapInspect /> -->
     </fx:Declarations>
