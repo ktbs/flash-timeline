@@ -13,6 +13,7 @@
     <fx:Script>
         <![CDATA[
             import com.ithaca.traces.Obsel;
+            import com.ithaca.tales.Context;
             import flash.filters.BlurFilter;
             import flash.filters.ColorMatrixFilter;
             import flash.filters.GlowFilter;
@@ -29,15 +30,15 @@
 
             public var obsel : Obsel;
 
-            protected function creationCompleteHandler(event:Event):void
+            protected function creationCompleteHandler(event: Event):void
             {
                 fxgt = FxGettext;
                 obsel = hostComponent.obsel;
-                obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
+                obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
                 icon.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, onToolTipShow);
-                icon.source = hostComponent.getStyle( "icon" );
-                if ( hostComponent.getStyle( "tooltipProp" ) )
-                    icon.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
+
+                // Update icon source and tooltip
+                onObselChange();
 
                 //if ( hostComponent.editable )
                 {
@@ -50,7 +51,16 @@
                 this.enabled = false;
 
                 var markerEdit:CommentEditDialog = new CommentEditDialog();
-                markerEdit.commentText = obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
+
+                if (hostComponent.getStyle("tooltipExpression"))
+                {
+                    var ctx: Context = new Context(obsel);
+                    markerEdit.commentText = ctx.evaluate("string:" + hostComponent.getStyle("tooltipExpression"));
+                }
+                else if (hostComponent.getStyle("tooltipProp"))
+                {
+                    markerEdit.commentText = obsel.props[hostComponent.getStyle("tooltipProp")];
+                }
                 markerEdit.title = fxgt.gettext("Comment Edit");
 
                 PopUpManager.addPopUp(markerEdit, this);
@@ -63,26 +73,50 @@
             {
                 if (event.currentTarget.confirm)
                 {
-                    //TODO : il faut ecrire dans hostComponent.obsel.prop .... et pas dans le skin
-                    obsel.props[ hostComponent.getStyle( "tooltipProp" ) ] = event.currentTarget.commentTextInput.text;
-                    var propChange : PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
-                    propChange.property = "props";
-                    obsel.dispatchEvent( propChange );
-                    icon.toolTip = event.currentTarget.commentTextInput.text;
+                    if (hostComponent.getStyle("tooltipProp"))
+                    {
+                        obsel.props[hostComponent.getStyle( "tooltipProp")] = event.currentTarget.commentTextInput.text;
+
+                        var propChange : PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
+                        propChange.property = "props";
+                        obsel.dispatchEvent(propChange);
+                        icon.toolTip = event.currentTarget.commentTextInput.text;
+                    }
                 }
                 this.enabled = true;
             }
 
-            protected function onObselChange( event : PropertyChangeEvent ) : void
+            protected function onObselChange(event: PropertyChangeEvent = null): void
             {
-                icon.source = hostComponent.getStyle( "icon" );
-                if ( hostComponent.getStyle( "tooltipProp" ) )
-                    icon.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
+                var ctx: Context;
+                if (hostComponent.getStyle("iconExpression"))
+                {
+                    ctx = new Context(obsel);
+                    ctx.locals['obsel'] = obsel;
+                    ctx.locals['trace'] = obsel.trace;
+                    icon.source = ctx.evaluate("string:" + hostComponent.getStyle("iconExpression"));
+                }
+                else if (hostComponent.getStyle("icon"))
+                {
+                    icon.source = hostComponent.getStyle( "icon" );
+                }
+
+                if (hostComponent.getStyle("tooltipExpression"))
+                {
+                    ctx = new Context(obsel);
+                    ctx.locals['obsel'] = obsel;
+                    ctx.locals['trace'] = obsel.trace;
+                    icon.toolTip = ctx.evaluate("string:" + hostComponent.getStyle("tooltipExpression"));
+                }
+                else if (hostComponent.getStyle("tooltipProp"))
+                {
+                    icon.toolTip =  obsel.props[hostComponent.getStyle("tooltipProp")];
+                }
             }
 
             protected function onToolTipShow( event : ToolTipEvent ) : void
             {
-                event.toolTip.text     =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
+                event.toolTip.text     =  icon.toolTip;
             }
         ]]>
     </fx:Script>

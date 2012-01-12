@@ -12,6 +12,8 @@
     <fx:Script>
         <![CDATA[
             import com.ithaca.traces.Obsel;
+            import com.ithaca.tales.Context;
+            import mx.events.PropertyChangeEvent;
             import flash.filters.BlurFilter;
             import flash.filters.ColorMatrixFilter;
             import flash.filters.GlowFilter;
@@ -22,14 +24,44 @@
             protected function creationCompleteHandler(event:Event):void
             {
                 obsel = hostComponent.obsel;
-                icon.source = hostComponent.getStyle( "icon" );
-                if ( hostComponent.getStyle( "tooltipProp" )  )
-                    hostComponent.toolTip =  obsel.props[ hostComponent.getStyle( "tooltipProp" ) ];
-                // (hostComponent.getStyle( "toolTip" ) as String).valueOf();
-            //    var myColorTransform:ColorTransform = new ColorTransform(1,1,1,1,+128,0,0);
-            //    myColorTransform.color = 0xE6A360;
-//                icon.transform.colorTransform = myColorTransform;
+                obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
+                // Update icon source and tooltip
+                onObselChange();
             }
+
+            protected function onObselChange(event: PropertyChangeEvent = null): void
+            {
+                var ctx: Context = null;
+                
+                if (hostComponent.getStyle("iconExpression"))
+                {
+                    if (ctx === null) {
+                        ctx = new Context(obsel);
+                        ctx.locals['obsel'] = obsel;
+                        ctx.locals['trace'] = obsel.trace;
+                    }
+                    icon.source = ctx.evaluate("string:" + hostComponent.getStyle("iconExpression"));
+                }
+                else if (hostComponent.getStyle("icon"))
+                {
+                    icon.source = hostComponent.getStyle( "icon" );
+                }
+
+                if (hostComponent.getStyle("tooltipExpression"))
+                {
+                    if (ctx === null) {
+                        ctx = new Context(obsel);
+                        ctx.locals['obsel'] = obsel;
+                        ctx.locals['trace'] = obsel.trace;
+                    }
+                    icon.toolTip = ctx.evaluate("string:" + hostComponent.getStyle("tooltipExpression"));
+                }
+                else if (hostComponent.getStyle("tooltipProp"))
+                {
+                    icon.toolTip =  obsel.props[hostComponent.getStyle("tooltipProp")];
+                }
+            }
+
         ]]>
     </fx:Script>
 
