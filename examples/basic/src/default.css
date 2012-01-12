@@ -92,5 +92,17 @@ timeline|ObselSkin.Durative
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");
     backgroundColor : #aaaaff;
-	tooltipProp : 'text';
+	tooltipExpression : "Duratif: ${this/props/text}";
+}
+
+timeline|ObselSkin.Message
+{
+	tooltipExpression: "Message: ${this/props/content}";
+    icon: "images/message.png";
+}
+
+timeline|ObselSkin.Document
+{
+	tooltipExpression: "Document ${this/props/url}";
+    iconExpression: "${this/props/url}";
 }

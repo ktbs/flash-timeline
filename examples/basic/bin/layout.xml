@@ -2,13 +2,16 @@
 <root>
 	<obselsSelectors>
 		<obselSelector id='Durative'  	  selector="SelectorRegexp" selectorParams="type,Fusioned.*" />
+		<obselSelector id='Message'  	  selector="SelectorRegexp" selectorParams="type,.*Message.*" />
+		<obselSelector id='Document'  	  selector="SelectorRegexp" selectorParams="type,.*Document.*" />
 	</obselsSelectors>
 	
 	<!-- the layout definition -->
 	<layout>
 		<!-- Default and only traceLineGroup definition. Each Trace will use this definition -->
 		<tlg >
-          <tl preview="true" title="All obsels" selector="SelectorRegexp" selectorParams="type,.*">
+         <tl title="Messages" selectorID="Message" />
+         <tl preview="true" title="All obsels" selector="SelectorRegexp" selectorParams="type,.*">
             <modifier splitter="type" />
           </tl>
 		</tlg > 				
