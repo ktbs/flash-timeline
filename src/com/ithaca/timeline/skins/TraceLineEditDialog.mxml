@@ -40,7 +40,7 @@
                 this.title = fxgt.gettext("Create / Edit TraceLine");
             }
 
-            public function setTraceLine(tl: TraceLine)
+            public function setTraceLine(tl: TraceLine): void
             {
                 this.tracelineTitle = tl.title;
                 // FIXME: this is fragile: if we change the order in
