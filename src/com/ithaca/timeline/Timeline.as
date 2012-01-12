@@ -377,6 +377,7 @@ package com.ithaca.timeline
                 _layout = value;
 
                 while (traceArray.length > 0 )
+                    // FIXME: we should somehow pass additional parameters (esp. style) to addTrace if necessary
                     addTrace( traceArray.shift() as Trace );
             }
             else
