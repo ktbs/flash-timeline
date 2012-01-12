@@ -480,7 +480,7 @@ package com.ithaca.timeline
          */
         public function createTraceLineGroupNode(  xmlLayout : XML , trac : Trace ) : TraceLineGroup
         {
-            var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.hasOwnProperty('@title')? xmlLayout.@title : trac.uri, xmlLayout.hasOwnProperty('@style')?xmlLayout.@style:null);
+            var newNode : TraceLineGroup = new TraceLineGroup ( _timeline, trac, xmlLayout.@title, xmlLayout.hasOwnProperty('@style')?xmlLayout.@style:null);
             newNode.layoutXML = xmlLayout;
 
             return newNode;
