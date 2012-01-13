@@ -8,7 +8,8 @@
         width="100%"
         height="100%"
         elementAdd="onChildrenChange(event)"
-        dragDrop="dragDropHandler(event);">
+        dragDrop="dragDropHandler(event);"
+         addedToStage="skin1_addedToStageHandler(event)">
 
     <fx:Metadata>[HostComponent("com.ithaca.timeline.TraceLineTitle")]</fx:Metadata>
 
@@ -29,7 +30,6 @@
     <fx:Script>
         <![CDATA[
             import com.ithaca.timeline.CursorIcons;
-            import com.ithaca.timeline.events.TimelineEvent;
             import com.ithaca.timeline.LayoutNode;
             import com.ithaca.timeline.ObselsRenderer;
             import com.ithaca.timeline.SelectorRegexp;
@@ -38,8 +38,10 @@
             import com.ithaca.timeline.TraceLineGroup;
             import com.ithaca.timeline.TraceLineTitle;
             import com.ithaca.timeline.ZoomContext;
+            import com.ithaca.timeline.events.TimelineEvent;
             import com.ithaca.traces.Obsel;
             import com.ithaca.traces.TraceManager;
+            
             import flash.display.DisplayObject;
             import flash.display.DisplayObjectContainer;
             import flash.display.Graphics;
@@ -48,6 +50,10 @@
             import flash.events.Event;
             import flash.events.MouseEvent;
             import flash.geom.Point;
+            
+            import gnu.as3.gettext.FxGettext;
+            import gnu.as3.gettext._FxGettext;
+            
             import mx.collections.ArrayCollection;
             import mx.controls.Alert;
             import mx.controls.Label;
@@ -60,10 +66,8 @@
             import mx.events.MenuEvent;
             import mx.managers.DragManager;
             import mx.managers.PopUpManager;
+            
             import spark.events.ElementExistenceEvent;
-
-            import gnu.as3.gettext._FxGettext;
-            import gnu.as3.gettext.FxGettext;
             [Bindable]
             private var fxgt:_FxGettext;
 
@@ -273,7 +277,15 @@
 
                 invalidateDisplayList();
             }
-
+            /**
+            * Dispatcher added TraceLineTitle on the stage
+            */
+            protected function skin1_addedToStageHandler(event:Event):void
+            {
+              var addTraceLineTitleToStageEvent:TimelineEvent = new TimelineEvent(TimelineEvent.TRACE_LINE_TITLE_ADDED);
+              addTraceLineTitleToStageEvent.value = this;
+             dispatchEvent(addTraceLineTitleToStageEvent);
+            }
         ]]>
     </fx:Script>
 

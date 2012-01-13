@@ -36,6 +36,7 @@ package com.ithaca.timeline.events
         static public const GENERATE_NEW_TRACELINE : String = "generateNewTraceline";
         static public const LAYOUT_NODE_ADDED :  String = "layoutNodeAdded";
 		static public const PRE_ADD_COMMENT_OBSEL : String = 'preAddCommentObsel';
+        static public const TRACE_LINE_TITLE_ADDED :  String = "traceLineTitleAdded";
 
         // properties
         public var value : *;
