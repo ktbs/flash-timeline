@@ -41,7 +41,7 @@
             import com.ithaca.timeline.events.TimelineEvent;
             import com.ithaca.traces.Obsel;
             import com.ithaca.traces.TraceManager;
-            
+
             import flash.display.DisplayObject;
             import flash.display.DisplayObjectContainer;
             import flash.display.Graphics;
@@ -50,10 +50,10 @@
             import flash.events.Event;
             import flash.events.MouseEvent;
             import flash.geom.Point;
-            
+
             import gnu.as3.gettext.FxGettext;
             import gnu.as3.gettext._FxGettext;
-            
+
             import mx.collections.ArrayCollection;
             import mx.controls.Alert;
             import mx.controls.Label;
@@ -66,42 +66,43 @@
             import mx.events.MenuEvent;
             import mx.managers.DragManager;
             import mx.managers.PopUpManager;
-            
+
             import spark.events.ElementExistenceEvent;
-            [Bindable]
-            private var fxgt:_FxGettext;
 
             [Bindable]
-            public var forme:Shape = new Shape();
+            private var fxgt: _FxGettext;
 
             [Bindable]
-            public var displayLevel:Number = 0;
+            public var forme: Shape = new Shape();
 
             [Bindable]
-            public var timeline:Timeline;
+            public var displayLevel: Number = 0;
 
             [Bindable]
-            public var simpleObselsRenderer:ObselsRenderer;
+            public var timeline: Timeline;
 
-            private var bStypePropChanged:Boolean;
-            private var editMenu:Menu;
+            [Bindable]
+            public var simpleObselsRenderer: ObselsRenderer;
 
-            protected function creationCompleteHandler(event:FlexEvent):void
+            private var bStypePropChanged: Boolean;
+            private var editMenu: Menu;
+
+            protected function creationCompleteHandler(event: FlexEvent): void
             {
                 bStypePropChanged    = false;
                 fxgt                 = FxGettext;
                 timeline             = hostComponent.tl._timeline;
                 traceLineTitle.text = hostComponent.tl.title;
                 hostComponent.updateDisplayLevel();
-                hostComponent.addEventListener    ( ElementExistenceEvent.ELEMENT_ADD ,         onChildrenChange);
-                hostComponent.addEventListener    ( ElementExistenceEvent.ELEMENT_REMOVE ,     onChildrenChange);
-            //    stage.addEventListener( MouseEvent.MOUSE_UP,    zcStopDrag);
-                styleChanged( null );
+                hostComponent.addEventListener    (ElementExistenceEvent.ELEMENT_ADD ,         onChildrenChange);
+                hostComponent.addEventListener    (ElementExistenceEvent.ELEMENT_REMOVE ,     onChildrenChange);
+                //    stage.addEventListener(MouseEvent.MOUSE_UP,    zcStopDrag);
+                styleChanged(null);
             }
 
-            protected function showMenu():void
+            protected function showMenu(): void
             {
-                var position:Point = menuButton.localToGlobal(new Point(menuButton.x, menuButton.y));
+                var position: Point = menuButton.localToGlobal(new Point(menuButton.x, menuButton.y));
 
                 editMenu = Menu.createMenu(this, menuContent, false);
                 editMenu.labelField = "@label";
@@ -113,21 +114,21 @@
                 editMenu.show(position.x - 50, Math.min(position.y, root.height - 100));
             }
 
-            protected function zcStopDrag(e:MouseEvent):void
+            protected function zcStopDrag(e: MouseEvent): void
             {
                 CursorIcons.SetDefaultCursor(e);
             }
 
-            private function onRemoveTraceLine(evt:Event):void
+            private function onRemoveTraceLine(evt: Event): void
             {
                 if (evt.currentTarget.confirm)
                 {
-                    var tlParent:LayoutNode = hostComponent.tl.parentNode as LayoutNode;
+                    var tlParent: LayoutNode = hostComponent.tl.parentNode as LayoutNode;
                     if (tlParent)
                     {
-                        for(var i :uint = 0; i < hostComponent.tl.numElements; i++)
+                        for(var i: uint = 0; i < hostComponent.tl.numElements; i++)
                         {
-                            var child:LayoutNode = hostComponent.tl.getElementAt(i) as LayoutNode;
+                            var child: LayoutNode = hostComponent.tl.getElementAt(i) as LayoutNode;
                             tlParent.addChildAndTitle(child);
                             if (child is TraceLine)
                                 (child as TraceLine).resetObselCollection();
@@ -137,7 +138,7 @@
                 }
             }
 
-            private function onAddTraceLine(evt:Event):void
+            private function onAddTraceLine(evt: Event): void
             {
                 timeline.timelineLayout.addTraceline(evt.currentTarget.traceline, hostComponent.tl);
                 // resetObselCollection is called in the onValid
@@ -146,47 +147,46 @@
                 evt.currentTarget.traceline.resetObselCollection();
             }
 
-            private function menuHandler(evt:MenuEvent):void
+            private function menuHandler(evt: MenuEvent): void
             {
 
-                var str:String = evt.item.@eventName;
+                var str: String = evt.item.@eventName;
                 switch (str)
                 {
-                    case "newTraceLine":
+                case "newTraceLine":
                     {
-                        var newDialog:TraceLineEditDialog = new TraceLineEditDialog();
+                        var newDialog: TraceLineEditDialog = new TraceLineEditDialog();
                         newDialog.setTraceLine(new TraceLine(timeline));
                         PopUpManager.addPopUp(newDialog, timeline, true);
                         PopUpManager.centerPopUp(newDialog);
-                        newDialog.addEventListener(Event.REMOVED_FROM_STAGE, onAddTraceLine );
-                    }
+                        newDialog.addEventListener(Event.REMOVED_FROM_STAGE, onAddTraceLine);
                         break;
-                    case "editTraceLine":
+                    }
+                case "editTraceLine":
                     {
-                        var editDialog:TraceLineEditDialog = new TraceLineEditDialog();
+                        var editDialog: TraceLineEditDialog = new TraceLineEditDialog();
                         editDialog.setTraceLine(hostComponent.tl);
                         PopUpManager.addPopUp(editDialog, timeline, true);
                         PopUpManager.centerPopUp(editDialog);
-                    }
                         break;
-                    case "removeTraceLine":
+                    }
+                case "removeTraceLine":
                     {
-                        var removeDialog:ConfirmationDialog = new ConfirmationDialog();
+                        var removeDialog: ConfirmationDialog = new ConfirmationDialog();
                         removeDialog.title = "Do you really want to delete this traceline ?"
                         PopUpManager.addPopUp(removeDialog, this, true);
                         PopUpManager.centerPopUp(removeDialog);
                         removeDialog.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveTraceLine);
-                    }
                         break;
-                    default:
+                    }
                 }
             }
 
-            protected function onChildrenChange(event:Event):void
+            protected function onChildrenChange(event: Event): void
             {
-                if ( visible )
+                if (visible)
                 {
-                    var numTl : Number = hostComponent.tl.getVisibleChildrenNumber();
+                    var numTl: Number = hostComponent.tl.getVisibleChildrenNumber();
 
                     OpenButton.visible = (numTl > 0);
                 }
@@ -194,7 +194,7 @@
                     OpenButton.visible = false;
             }
 
-            protected function onOpenButtonClick():void
+            protected function onOpenButtonClick(): void
             {
                 if (currentState == "normal")
                 {
@@ -212,50 +212,50 @@
                 }
             }
 
-            private function mouseDownHandler( event:MouseEvent ) : void
+            private function mouseDownHandler(event: MouseEvent): void
             {
-                var dragInitiator:TraceLineTitle = hostComponent ;
-                var ds:DragSource = new DragSource();
+                var dragInitiator: TraceLineTitle = hostComponent ;
+                var ds: DragSource = new DragSource();
                 ds.addData(dragInitiator, "traceLine");
                 DragManager.doDrag(dragInitiator, ds, event);
             }
 
-            private function dragEnterHandler( event:DragEvent ) : void
+            private function dragEnterHandler(event: DragEvent): void
             {
-                if ( event.dragSource.hasFormat("traceLine") )
+                if (event.dragSource.hasFormat("traceLine"))
                 {
-                    var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;
+                    var traceline: TraceLine = (event.dragInitiator as TraceLineTitle).tl;
                     // Check if the dragged element come from the same parent
-                    if (     traceline.getTraceLineGroup() == hostComponent.tl.getTraceLineGroup() &&
-                            ( traceline.parentNode == hostComponent.tl.parentNode  || timeline.getStyle( "adminMode" ) == true) )
-                        DragManager.acceptDragDrop( UIComponent( event.currentTarget ) );
+                    if (    traceline.getTraceLineGroup() == hostComponent.tl.getTraceLineGroup() &&
+                            (traceline.parentNode == hostComponent.tl.parentNode  || timeline.getStyle("adminMode") == true))
+                        DragManager.acceptDragDrop(UIComponent(event.currentTarget));
                 }
             }
 
-            private function dragDropHandler( event:DragEvent ) : void
+            private function dragDropHandler(event: DragEvent): void
             {
-                var traceline : TraceLine = (event.dragInitiator as TraceLineTitle).tl;
-                if ( traceline != hostComponent.tl  )
+                var traceline: TraceLine = (event.dragInitiator as TraceLineTitle).tl;
+                if (traceline != hostComponent.tl )
                 {
-                    trace(timeline.getStyle( "adminMode" ));
-                    if ( event.ctrlKey && timeline.getStyle( "adminMode" ) == true  )
+                    trace(timeline.getStyle("adminMode"));
+                    if (event.ctrlKey && timeline.getStyle("adminMode") == true )
                     {
                         timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);
                     }
                     else
                     {
-                        var toIndex : Number = hostComponent.tl.parentNode.getElementIndex( hostComponent.tl );
-                        hostComponent.tl.parentNode.moveTraceline( traceline, toIndex );
+                        var toIndex: Number = hostComponent.tl.parentNode.getElementIndex(hostComponent.tl);
+                        hostComponent.tl.parentNode.moveTraceline(traceline, toIndex);
                     }
                     (traceline.titleComponent as TraceLineTitle).updateDisplayLevel();
                 }
             }
 
-            override public function styleChanged(styleProp:String):void
+            override public function styleChanged(styleProp: String): void
             {
                 super.styleChanged(styleProp);
 
-                if ( hostComponent.getStyle("hide") == true )
+                if (hostComponent.getStyle("hide") == true)
                 {
                     traceLineTitle.height=  titleGroup.height = 0;
                 }
@@ -266,11 +266,11 @@
                     {
                         titleGroup.height     = (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
                         traceLineTitle.height = titleGroup.height;
-                        onChildrenChange( null );
+                        onChildrenChange(null);
                     }
                 }
 
-                if (!styleProp || styleProp=="title" || styleProp=="hide" )
+                if (!styleProp || styleProp=="title" || styleProp=="hide")
                 {
                     traceLineTitle.text = getStyle("title");
                 }
@@ -280,11 +280,11 @@
             /**
             * Dispatcher added TraceLineTitle on the stage
             */
-            protected function skin1_addedToStageHandler(event:Event):void
+            protected function skin1_addedToStageHandler(event: Event): void
             {
-              var addTraceLineTitleToStageEvent:TimelineEvent = new TimelineEvent(TimelineEvent.TRACE_LINE_TITLE_ADDED);
-              addTraceLineTitleToStageEvent.value = this;
-             dispatchEvent(addTraceLineTitleToStageEvent);
+                var addTraceLineTitleToStageEvent: TimelineEvent = new TimelineEvent(TimelineEvent.TRACE_LINE_TITLE_ADDED);
+                addTraceLineTitleToStageEvent.value = this;
+                dispatchEvent(addTraceLineTitleToStageEvent);
             }
         ]]>
     </fx:Script>
@@ -300,7 +300,7 @@
             <mx:Spacer id="hierarchicalSpacer" />
             <mx:Image  id="OpenButton" visible="false" source="@Embed(source='../images/iconPlus.png')" source.open="@Embed(source='../images/iconMinus.png')" click="onOpenButtonClick()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
             <s:Label id="traceLineTitle" baselineShift="-4" fontSize="11" mouseDown="mouseDownHandler(event)" dragEnter="dragEnterHandler(event)" dragDrop="dragDropHandler(event)" mouseOver="CursorIcons.SetHandCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-            <mx:Image id="menuButton"  visible="{timeline.getStyle( 'adminMode' )}" source="@Embed(source='../images/iconOption_16x16.png')" click="showMenu()" />
+            <mx:Image id="menuButton"  visible="{timeline.getStyle('adminMode')}" source="@Embed(source='../images/iconOption_16x16.png')" click="showMenu()" />
         </s:HGroup>
 
         <s:Group id="contentGroup"  includeIn="open" width="100%" >
