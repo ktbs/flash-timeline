@@ -21,20 +21,20 @@
             import gnu.as3.gettext._FxGettext;
             import gnu.as3.gettext.FxGettext;
             [Bindable]
-            private var fxgt:_FxGettext;
+            private var fxgt: _FxGettext;
 
             [Bindable]
-            public var tracelineTitle : String;
+            public var tracelineTitle: String;
             [Bindable]
-            public var tracelineSource : Number = 0;
+            public var tracelineSource: Number = 0;
             [Bindable]
-            public var selectorField : String = "type";
+            public var selectorField: String = "type";
             [Bindable]
-            public var selectorRegexp : String;
+            public var selectorRegexp: String;
 
-            public var traceline : TraceLine;
+            public var traceline: TraceLine;
 
-            protected function creationCompleteHandler(event:FlexEvent):void
+            protected function creationCompleteHandler(event: FlexEvent): void
             {
                 fxgt = FxGettext;
                 this.title = fxgt.gettext("Create / Edit TraceLine");
@@ -54,12 +54,12 @@
                 this.traceline = tl;
             }
 
-            private function onCancel(event:Event):void
+            private function onCancel(event: Event): void
             {
                 PopUpManager.removePopUp(this);
             }
 
-            private function onValid(event:Event):void
+            private function onValid(event: Event): void
             {
                 traceline.title = titleIT.text;
                 traceline.sourceStr = sourceDDL.selectedItem;

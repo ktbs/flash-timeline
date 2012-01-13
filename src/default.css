@@ -33,6 +33,7 @@ timeline|TraceLineGroupTitle.comments
 	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsSkin");
 	icon 		: Embed("images/CommentAddVer1.png");	
 	bgColor		:#FFA6A8;
+    title: "";
 }
 
 timeline|TraceLine.comments
