@@ -34,7 +34,7 @@
             import com.ithaca.timeline.events.TimelineEvent;
             import spark.events.ElementExistenceEvent;
 
-            protected var currentCenterDragingPoint: Point;
+            protected var currentCenterDraggingPoint: Point;
             private var draggedPart: Object = null;
 
             public var allowZoom: Boolean = true;

@@ -44,7 +44,7 @@
             [Bindable]
             private var gripColor: Number = 0;
 
-            protected var currentCenterDragingPoint: Point;
+            protected var currentCenterDraggingPoint: Point;
             private var draggedPart: UIComponent = null;
             public var minX: Number;
             public var maxX: Number;
@@ -89,7 +89,7 @@
                 stage.addEventListener(MouseEvent.MOUSE_MOVE, zcDragging);
                 stage.addEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
 
-                currentCenterDragingPoint = new Point(e.localX, e.localY);
+                currentCenterDraggingPoint = new Point(e.localX, e.localY);
             }
 
             protected function zcDragging(e: MouseEvent): void

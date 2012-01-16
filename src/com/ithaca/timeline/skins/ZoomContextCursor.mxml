@@ -22,7 +22,7 @@
             import spark.components.BorderContainer;
             import spark.components.supportClasses.SkinnableComponent;
 
-            protected var currentCenterDragingPoint: Point;
+            protected var currentCenterDraggingPoint: Point;
             private var draggedPart: UIComponent = null;
             public var minX: Number;
             public var maxX: Number;
@@ -33,7 +33,7 @@
                 stage.addEventListener( MouseEvent.MOUSE_MOVE, zcDragging);
                 stage.addEventListener( MouseEvent.MOUSE_UP, zcStopDrag);
 
-                currentCenterDragingPoint = new Point(e.localX, e.localY);
+                currentCenterDraggingPoint = new Point(e.localX, e.localY);
             }
 
             protected function zcDragging(e: MouseEvent): void
@@ -41,7 +41,7 @@
                 dispatchEvent(new TimelineEvent(TimelineEvent.ZOOM_CONTEXT_MANUAL_CHANGE));
 
                 var parentMouse: Point = parent.globalToLocal(new Point(e.stageX, e.stageY));
-                var newPos: Number = parentMouse.x - currentCenterDragingPoint.x;
+                var newPos: Number = parentMouse.x - currentCenterDraggingPoint.x;
 
                 if (draggedPart == minRange)
                 {
