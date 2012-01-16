@@ -14,9 +14,9 @@
     </fx:Metadata>
 
     <fx:Declarations>
-        <mx:Button id="zoomButton" skin="@Embed(source='../images/magnifier.png')"  downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits( hostComponent.cursorRange.begin ,hostComponent.cursorRange.end  )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-        <mx:Button id="cutButton" skin="@Embed(source='../images/scissors.png')"     downSkin="@Embed(source='../images/scissorsClick.png')"  click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin ,hostComponent.cursorRange.end )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-        <mx:Button id="resetButton" skin="@Embed(source='../images/reset.png')"         downSkin="@Embed(source='../images/resetClick.png')"    click="hostComponent.timeline.resetTimeRangeLimits()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+        <mx:Button id="zoomButton" skin="@Embed(source='../images/magnifier.png')" downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits(hostComponent.cursorRange.begin,hostComponent.cursorRange.end )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+        <mx:Button id="cutButton" skin="@Embed(source='../images/scissors.png')" downSkin="@Embed(source='../images/scissorsClick.png')" click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin,hostComponent.cursorRange.end)" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+        <mx:Button id="resetButton" skin="@Embed(source='../images/reset.png')" downSkin="@Embed(source='../images/resetClick.png')" click="hostComponent.timeline.resetTimeRangeLimits()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
     </fx:Declarations>
 
     <fx:Script>
@@ -34,80 +34,81 @@
             import com.ithaca.timeline.events.TimelineEvent;
             import spark.events.ElementExistenceEvent;
 
-            protected     var currentCenterDragingPoint:Point;
-            private     var draggedPart : Object = null;
+            protected var currentCenterDragingPoint: Point;
+            private var draggedPart: Object = null;
 
-            public var allowZoom : Boolean = true;
-            public var allowCut  : Boolean = true;
+            public var allowZoom: Boolean = true;
+            public var allowCut : Boolean = true;
 
-            public function get minX() :Number { return timelinePreview.x; }
-            public function get maxX() :Number { return timelinePreview.x + timelinePreview.width; }
+            public function get minX(): Number { return timelinePreview.x; }
+            public function get maxX(): Number { return timelinePreview.x + timelinePreview.width; }
 
             [Bindable]
-            protected var  timeRulerSidePadding : Number ;
+            protected var  timeRulerSidePadding: Number ;
 
-            protected function creationCompleteHandler(event:Event):void
+            protected function creationCompleteHandler(event: Event): void
             {
                 timeRulerSidePadding = Stylesheet.renderersSidePadding;
-                hostComponent.cursorRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, outputTimeRuler.onTimeRangeChange);
-                hostComponent.cursorRange.addEventListener( TimelineEvent.TIMERANGES_SHIFT, outputTimeRuler.onTimeRangeChange);
-                cursor.addEventListener( Event.RESIZE, drawFunnel )  ;
-                cursor.addEventListener( Event.RESIZE, hostComponent.updateValuesFromSkinPosition );
-                cursor.addEventListener( MoveEvent.MOVE, drawFunnel )  ;
-                cursor.addEventListener( MoveEvent.MOVE, hostComponent.updateValuesFromSkinPosition );
-                timelinePreview.addEventListener( Event.RESIZE, outputTimeRuler.redraw );
-                timelinePreview.addEventListener( Event.RESIZE, drawFunnel );
-                timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_ADD, updateCursorHeight );
-                timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_REMOVE, updateCursorHeight );
+                hostComponent.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, outputTimeRuler.onTimeRangeChange);
+                hostComponent.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, outputTimeRuler.onTimeRangeChange);
+
+                cursor.addEventListener(Event.RESIZE, drawFunnel)  ;
+                cursor.addEventListener(Event.RESIZE, hostComponent.updateValuesFromSkinPosition);
+                cursor.addEventListener(MoveEvent.MOVE, drawFunnel)  ;
+                cursor.addEventListener(MoveEvent.MOVE, hostComponent.updateValuesFromSkinPosition);
+
+                timelinePreview.addEventListener(Event.RESIZE, outputTimeRuler.redraw);
+                timelinePreview.addEventListener(Event.RESIZE, drawFunnel);
+                timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_ADD, updateCursorHeight);
+                timelinePreview.addEventListener(ElementExistenceEvent.ELEMENT_REMOVE, updateCursorHeight);
             }
 
-            protected function updateCursorHeight (event:Event) : void
+            protected function updateCursorHeight (event: Event): void
             {
                 cursor.height = timelinePreview.height + 6;
             }
 
-
-            override public function styleChanged(styleProp:String):void
+            override public function styleChanged(styleProp: String): void
             {
                 super.styleChanged(styleProp);
 
                 // Check to see if style changed.
-                if (!styleProp || styleProp=="allowZoom" || styleProp=="allowCut" )
+                if (!styleProp || styleProp=="allowZoom" || styleProp=="allowCut")
                 {
-                    allowZoom  = getStyle("allowZoom");
-                    allowCut  = getStyle("allowCut");
+                    allowZoom = getStyle("allowZoom");
+                    allowCut = getStyle("allowCut");
 
                     if (actionsGroup)
                     {
                         actionsGroup.removeAllElements();
-                        if ( allowZoom )
-                            actionsGroup.addElement( zoomButton );
-                        if ( allowCut )
-                            actionsGroup.addElement( cutButton );
-                        if ( allowZoom || allowCut )
-                            actionsGroup.addElement( resetButton );
+                        if (allowZoom)
+                            actionsGroup.addElement(zoomButton);
+                        if (allowCut)
+                            actionsGroup.addElement(cutButton);
+                        if (allowZoom || allowCut)
+                            actionsGroup.addElement(resetButton);
                     }
                 }
             }
 
-            protected function drawFunnel (event:Event) : void
+            protected function drawFunnel (event: Event): void
             {
-                var h : Number = funnel.height -1;
-                var color : uint = 0x9CD2FE;
+                var h: Number = funnel.height -1;
+                var color: uint = 0x9CD2FE;
 
                 funnel.graphics.clear();
                 funnel.graphics.lineStyle(1, color);
-                funnel.graphics.beginFill( color );
-                funnel.graphics.moveTo( cursor.x, 0);
-                funnel.graphics.curveTo( cursor.x , funnel.height * 4/4, outputTimeRuler.startPosition  , h);
-                funnel.graphics.lineTo( cursor.x + cursor.width , h);
-                funnel.graphics.lineTo( cursor.x , 0);
-                funnel.graphics.lineTo( cursor.x + cursor.width, 0);
-                funnel.graphics.curveTo(cursor.x + cursor.width , funnel.height * 4/4, outputTimeRuler.startPosition + outputTimeRuler.rulerWidth  , h);
-                funnel.graphics.lineTo( cursor.x + cursor.width, h);
+                funnel.graphics.beginFill(color);
+                funnel.graphics.moveTo(cursor.x, 0);
+                funnel.graphics.curveTo(cursor.x, funnel.height * 4/4, outputTimeRuler.startPosition, h);
+                funnel.graphics.lineTo(cursor.x + cursor.width, h);
+                funnel.graphics.lineTo(cursor.x, 0);
+                funnel.graphics.lineTo(cursor.x + cursor.width, 0);
+                funnel.graphics.curveTo(cursor.x + cursor.width, funnel.height * 4/4, outputTimeRuler.startPosition + outputTimeRuler.rulerWidth, h);
+                funnel.graphics.lineTo(cursor.x + cursor.width, h);
                 funnel.graphics.endFill();
                 funnel.graphics.lineStyle(1, color);
-                funnel.graphics.moveTo( outputTimeRuler.startPosition, h+1);
+                funnel.graphics.moveTo(outputTimeRuler.startPosition, h+1);
             }
         ]]>
     </fx:Script>
@@ -121,7 +122,7 @@
             <timeline:TimeRuler id="inputTimeRuler"  width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" labelsOnTop="true" />
 
             <s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  minHeight="20"   width="{width-timeRulerSidePadding*2}"   resize="inputTimeRuler.redraw(event)">
-				<s:layout ><s:VerticalLayout paddingLeft="1" gap="0" ></s:VerticalLayout></s:layout>
+                <s:layout ><s:VerticalLayout paddingLeft="1" gap="0" ></s:VerticalLayout></s:layout>
             </s:Group>
 
             <s:Group id="funnel" height="15" minHeight="1" y="{cursor.y+cursor.height}" />

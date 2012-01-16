@@ -214,7 +214,7 @@
 
             private function mouseDownHandler(event: MouseEvent): void
             {
-                var dragInitiator: TraceLineTitle = hostComponent ;
+                var dragInitiator: TraceLineTitle = hostComponent;
                 var ds: DragSource = new DragSource();
                 ds.addData(dragInitiator, "traceLine");
                 DragManager.doDrag(dragInitiator, ds, event);
@@ -226,8 +226,8 @@
                 {
                     var traceline: TraceLine = (event.dragInitiator as TraceLineTitle).tl;
                     // Check if the dragged element come from the same parent
-                    if (    traceline.getTraceLineGroup() == hostComponent.tl.getTraceLineGroup() &&
-                            (traceline.parentNode == hostComponent.tl.parentNode  || timeline.getStyle("adminMode") == true))
+                    if (traceline.getTraceLineGroup() == hostComponent.tl.getTraceLineGroup() &&
+                        (traceline.parentNode == hostComponent.tl.parentNode  || timeline.getStyle("adminMode") == true))
                         DragManager.acceptDragDrop(UIComponent(event.currentTarget));
                 }
             }
@@ -235,10 +235,10 @@
             private function dragDropHandler(event: DragEvent): void
             {
                 var traceline: TraceLine = (event.dragInitiator as TraceLineTitle).tl;
-                if (traceline != hostComponent.tl )
+                if (traceline != hostComponent.tl)
                 {
                     trace(timeline.getStyle("adminMode"));
-                    if (event.ctrlKey && timeline.getStyle("adminMode") == true )
+                    if (event.ctrlKey && timeline.getStyle("adminMode") == true)
                     {
                         timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);
                     }
@@ -264,7 +264,7 @@
                     // Check to see if style changed.
                     if (!styleProp || styleProp=="rendererGap" || styleProp=="rendererHeight" || styleProp=="hide")
                     {
-                        titleGroup.height     = (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number) ;
+                        titleGroup.height     = (hostComponent.tl.getStyle("rendererGap") as Number) + (hostComponent.tl.getStyle("rendererHeight") as Number);
                         traceLineTitle.height = titleGroup.height;
                         onChildrenChange(null);
                     }

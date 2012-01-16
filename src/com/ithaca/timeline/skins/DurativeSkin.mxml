@@ -27,7 +27,7 @@
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
                 hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
                 updateWidth(null);
-                var bgColor: uint = getStyle( "bgColor" );
+                var bgColor: uint = getStyle("bgColor");
                 durative.backgroundFill =  new SolidColor(bgColor);
                 hostComponent.percentHeight = 100;
                 hostComponent.bottom = hostComponent.traceline.getStyle("rendererGap");
@@ -35,13 +35,13 @@
 
             public function updateWidth(event: Event): void
             {
-                var traceline        : TraceLine = hostComponent.traceline;
-                var timeRange        : TimeRange = traceline._timeline.zoomContext.cursorRange;
-                var  timeToPositionRatio : Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
-                var startPosition    : Number     = timeRange.timeToPosition( Math.max( obsel.begin , timeRange.begin ),    traceline.width );
-                var endPosition     : Number     = timeRange.timeToPosition( Math.min( obsel.end , timeRange.end),     traceline.width );
+                var traceline: TraceLine = hostComponent.traceline;
+                var timeRange: TimeRange = traceline._timeline.zoomContext.cursorRange;
+                var  timeToPositionRatio: Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
+                var startPosition: Number = timeRange.timeToPosition(Math.max(obsel.begin , timeRange.begin), traceline.width);
+                var endPosition: Number = timeRange.timeToPosition(Math.min(obsel.end , timeRange.end), traceline.width);
 
-                durative.width      = (obsel.end - obsel.begin) * timeToPositionRatio;
+                durative.width = (obsel.end - obsel.begin) * timeToPositionRatio;
             }
 
         ]]>

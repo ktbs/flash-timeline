@@ -16,7 +16,6 @@
 
         <fx:Script>
         <![CDATA[
-
             import com.ithaca.traces.Obsel;
             import com.ithaca.timeline.events.TimelineEvent;
             import com.ithaca.timeline.TimeRange;
@@ -36,21 +35,21 @@
             import mx.events.PropertyChangeEventKind;
 
             [Bindable]
-            private     var fxgt : _FxGettext;
+            private var fxgt: _FxGettext;
 
-            public         var obsel : Obsel;
+            public var obsel: Obsel;
 
             [Bindable]
-            private     var gripRadius : Number = 8;
+            private var gripRadius: Number = 8;
             [Bindable]
-            private     var gripColor : Number = 0;
+            private var gripColor: Number = 0;
 
-            protected     var currentCenterDragingPoint:Point;
-            private     var draggedPart : UIComponent = null;
-            public        var minX  :Number;
-            public        var maxX  : Number;
+            protected var currentCenterDragingPoint: Point;
+            private var draggedPart: UIComponent = null;
+            public var minX: Number;
+            public var maxX: Number;
 
-            protected function creationCompleteHandler(event:Event):void
+            protected function creationCompleteHandler(event: Event): void
             {
                 fxgt = FxGettext;
                 obsel = hostComponent.obsel;
@@ -59,74 +58,74 @@
                 toolTip = commentLabel.text;
                 UpdateResizeGripHeight();
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
-				hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
-				hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
+                hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
+                hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
 
-                updateWidth( null );
-                hostComponent.obsel.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
-            //    if ( hostComponent.editable )
+                updateWidth(null);
+                hostComponent.obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
+                //    if (hostComponent.editable)
                 {
                     currentState = 'editable';
                 }
             }
 
-        public function updateWidth( event : Event ) :  void
+            public function updateWidth(event: Event): void
             {
-                var traceline         : TraceLine = hostComponent.traceline;
-                var timeRange        : TimeRange = traceline._timeline.zoomContext.cursorRange;
-                var startPosition     : Number     = timeRange.timeToPosition( obsel.begin, traceline._timeline.zoomContext.timelinePreview.width );
-                var endPosition     : Number     = timeRange.timeToPosition( obsel.end, traceline._timeline.zoomContext.timelinePreview.width );
-                width      = (endPosition - startPosition);
+                var traceline: TraceLine = hostComponent.traceline;
+                var timeRange: TimeRange = traceline._timeline.zoomContext.cursorRange;
+                var startPosition: Number = timeRange.timeToPosition(obsel.begin, traceline._timeline.zoomContext.timelinePreview.width);
+                var endPosition: Number = timeRange.timeToPosition(obsel.end, traceline._timeline.zoomContext.timelinePreview.width);
+                width = (endPosition - startPosition);
             }
 
-            protected function zcStartDrag(e:MouseEvent):void
+            protected function zcStartDrag(e: MouseEvent): void
             {
                 onSelect(null);
 
-                if ( e.currentTarget == icon )
+                if (e.currentTarget == icon)
                     draggedPart = cursor;
                 else
                     draggedPart = (e.currentTarget as UIComponent);
-                stage.addEventListener( MouseEvent.MOUSE_MOVE,     zcDragging );
-                stage.addEventListener( MouseEvent.MOUSE_UP,    zcStopDrag );
+                stage.addEventListener(MouseEvent.MOUSE_MOVE, zcDragging);
+                stage.addEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
 
                 currentCenterDragingPoint = new Point(e.localX, e.localY);
             }
 
-            protected function zcDragging(e:MouseEvent):void
-			{
-				var timeIntervalPosition  : Number = ((hostComponent.parent as Group).parent as Group ).horizontalScrollPosition - (hostComponent.parent as Group).x;
-				minX = timeIntervalPosition;
-				maxX = timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.timelinePreview.width;
+            protected function zcDragging(e: MouseEvent): void
+            {
+                var timeIntervalPosition : Number = ((hostComponent.parent as Group).parent as Group).horizontalScrollPosition - (hostComponent.parent as Group).x;
+                minX = timeIntervalPosition;
+                maxX = timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.timelinePreview.width;
 
-                var parentMouse:Point = hostComponent.parent.globalToLocal(new Point(e.stageX, e.stageY));
-                var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
+                var parentMouse: Point = hostComponent.parent.globalToLocal(new Point(e.stageX, e.stageY));
+                var newPos: Number = parentMouse.x - currentCenterDraggingPoint.x;
 
-                if (draggedPart == leftGrip )
+                if (draggedPart == leftGrip)
                 {
-                    var oldPos : Number = hostComponent.x;
-                    if ( newPos < minX  )
+                    var oldPos: Number = hostComponent.x;
+                    if (newPos < minX)
                         hostComponent.x = minX ;
-                    else if ( newPos + leftGrip.width > hostComponent.x + rightGrip.x - 1 )
+                    else if (newPos + leftGrip.width > hostComponent.x + rightGrip.x - 1)
                         hostComponent.x =  hostComponent.x + rightGrip.x - 1;
                     else
                         hostComponent.x = newPos + leftGrip.width;
-                    width     -= hostComponent.x - oldPos ;
+                    width -= hostComponent.x - oldPos ;
                 }
-                else if (draggedPart == cursor )
+                else if (draggedPart == cursor)
                 {
-                    if ( newPos < minX)
-                        hostComponent.x  = minX;
-                    else if ( newPos > maxX - width )
+                    if (newPos < minX)
+                        hostComponent.x = minX;
+                    else if (newPos > maxX - width)
                         hostComponent.x = maxX - width;
                     else
                         hostComponent.x = newPos;
                 }
-                else if (draggedPart == rightGrip )
+                else if (draggedPart == rightGrip)
                 {
-                    if ( newPos < hostComponent.x + 1 )
+                    if (newPos < hostComponent.x + 1)
                         rightGrip.x =  1;
-                    else if (newPos > maxX )
+                    else if (newPos > maxX)
                         rightGrip.x = maxX - hostComponent.x;
                     else
                         rightGrip.x = newPos - hostComponent.x;
@@ -138,91 +137,92 @@
 
             protected function UpdateResizeGripHeight(): void
             {
-                var commentsGroup:Group = (hostComponent.parent as Group);
-                for ( var i:int = 0; i < commentsGroup.numChildren; i ++ )
+                var commentsGroup: Group = (hostComponent.parent as Group);
+                for (var i: int = 0; i < commentsGroup.numChildren; i ++)
                 {
-                    var currentComment:ObselSkin = (commentsGroup.getElementAt(i) as ObselSkin );
-                    var nbCommentsOver:int = GetNbCommentsOver ( currentComment.x, currentComment.width, i );
+                    var currentComment: ObselSkin = (commentsGroup.getElementAt(i) as ObselSkin);
+                    var nbCommentsOver: int = GetNbCommentsOver (currentComment.x, currentComment.width, i);
                     currentComment.rightGrip.y = currentComment.leftGrip.y = cursor.y - 8 - 4 * nbCommentsOver;
                     currentComment.rightGrip.height = currentComment.leftGrip.height = (cursor.y +cursor.height) - currentComment.leftGrip.y;
                 }
             }
 
-            protected function GetNbCommentsOver( x:int, width:int, beginIndex:int ) : int
+            protected function GetNbCommentsOver(x: int, width: int, beginIndex: int): int
             {
-                var nbCommentsOver:int = 0;
-                var commentsGroup:Group = (hostComponent.parent as Group);
-                for ( var i:int = beginIndex + 1; i < commentsGroup.numChildren; i ++ )
+                var nbCommentsOver: int = 0;
+                var commentsGroup: Group = (hostComponent.parent as Group);
+                for (var i: int = beginIndex + 1; i < commentsGroup.numChildren; i ++)
                 {
-                    if ( ((commentsGroup.getElementAt(i) as ObselSkin ).x <= x + width ) && ((commentsGroup.getElementAt(i) as ObselSkin ).x + (commentsGroup.getElementAt(i) as ObselSkin ).width >= x ))
+                    if (((commentsGroup.getElementAt(i) as ObselSkin).x <= x + width)
+                        && ((commentsGroup.getElementAt(i) as ObselSkin).x + (commentsGroup.getElementAt(i) as ObselSkin).width >= x))
                         nbCommentsOver ++;
                 }
                 return nbCommentsOver;
             }
 
-            protected function zcStopDrag(e:MouseEvent):void
+            protected function zcStopDrag(e: MouseEvent): void
             {
 
                 stage.removeEventListener(MouseEvent.MOUSE_MOVE,zcDragging);
                 stage.removeEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
 
-				var timeIntervalPosition  : Number = ((hostComponent.parent as Group).parent as Group ).horizontalScrollPosition - (hostComponent.parent as Group).x
-				var begin 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x- timeIntervalPosition,		 hostComponent.traceline._timeline.zoomContext.timelinePreview.width );
-				var end 	: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime( hostComponent.x + cursor.width- timeIntervalPosition, hostComponent.traceline._timeline.zoomContext.timelinePreview.width );
+                var timeIntervalPosition: Number = ((hostComponent.parent as Group).parent as Group).horizontalScrollPosition - (hostComponent.parent as Group).x
+                var begin: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime(hostComponent.x- timeIntervalPosition,      hostComponent.traceline._timeline.zoomContext.timelinePreview.width);
+                var end: Number = hostComponent.traceline._timeline.zoomContext.cursorRange.positionToTime(hostComponent.x + cursor.width- timeIntervalPosition, hostComponent.traceline._timeline.zoomContext.timelinePreview.width);
 
-                if (draggedPart == leftGrip )
-                    hostComponent.obsel.begin  = begin ;
-                else if (draggedPart == cursor )
+                if (draggedPart == leftGrip)
+                    hostComponent.obsel.begin = begin ;
+                else if (draggedPart == cursor)
                 {
-                    hostComponent.obsel.begin  = begin ;
-                    hostComponent.obsel.end    = end;
+                    hostComponent.obsel.begin = begin ;
+                    hostComponent.obsel.end = end;
                 }
-                else if (draggedPart == rightGrip )
-                    hostComponent.obsel.end    = end;
+                else if (draggedPart == rightGrip)
+                    hostComponent.obsel.end = end;
                     draggedPart = null;
 
                 UpdateResizeGripHeight();
             }
 
-            protected function EditComment( e:MouseEvent ):void
+            protected function EditComment(e: MouseEvent): void
             {
                 this.enabled = false;
 
-                var commentEditDialog:CommentEditDialog = new CommentEditDialog();
+                var commentEditDialog: CommentEditDialog = new CommentEditDialog();
                 commentEditDialog.commentText = commentLabel.text;
                 PopUpManager.addPopUp(commentEditDialog, this);
                 PopUpManager.centerPopUp(commentEditDialog);
                 commentEditDialog.y -= commentEditDialog.height;
-                commentEditDialog.addEventListener( Event.REMOVED_FROM_STAGE, onRemoveEditDialog );
+                commentEditDialog.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveEditDialog);
             }
 
-            private function onRemoveEditDialog(event:Event):void
+            private function onRemoveEditDialog(event: Event): void
             {
                 if (event.currentTarget.confirm)
                 {
-                    hostComponent.obsel.props[ 'text' ] = event.currentTarget.commentTextInput.text;
-                    var propChange : PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
+                    hostComponent.obsel.props['text'] = event.currentTarget.commentTextInput.text;
+                    var propChange: PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
                     propChange.property = "props";
-                    hostComponent.obsel.dispatchEvent( propChange );
+                    hostComponent.obsel.dispatchEvent(propChange);
                     commentLabel.text = toolTip = event.currentTarget.commentTextInput.text;
                 }
                 this.enabled = true;
             }
 
-            private function onSelect(event:Event):void
+            private function onSelect(event: Event): void
             {
-                (hostComponent.parent as Group).addElementAt( hostComponent, (hostComponent.parent as Group).numElements -1);
+                (hostComponent.parent as Group).addElementAt(hostComponent, (hostComponent.parent as Group).numElements -1);
                 UpdateResizeGripHeight();
             }
 
-            protected function onObselChange( event : PropertyChangeEvent ) : void
+            protected function onObselChange(event: PropertyChangeEvent): void
             {
-				var timeIntervalPosition : Number = ((hostComponent.parent as Group).parent as Group ).horizontalScrollPosition - (hostComponent.parent as Group).x
-				var y : Number 	= timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.end , (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
-				hostComponent.x = timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition( hostComponent.obsel.begin, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width ) );
-                rightGrip.x     = width     = y - hostComponent.x ;
+                var timeIntervalPosition: Number = ((hostComponent.parent as Group).parent as Group).horizontalScrollPosition - (hostComponent.parent as Group).x
+                var y: Number = timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition(hostComponent.obsel.end , (hostComponent.traceline._timeline.zoomContext.timelinePreview.width));
+                hostComponent.x = timeIntervalPosition + hostComponent.traceline._timeline.zoomContext.cursorRange.timeToPosition(hostComponent.obsel.begin, (hostComponent.traceline._timeline.zoomContext.timelinePreview.width));
+                rightGrip.x = width = y - hostComponent.x;
 
-                commentLabel.text = toolTip =  hostComponent.obsel.props[ 'text' ];
+                commentLabel.text = toolTip =  hostComponent.obsel.props['text'];
             }
 
         ]]>

@@ -24,14 +24,14 @@
             import gnu.as3.gettext.FxGettext;
 
             [Bindable]
-            private var fxgt:_FxGettext;
+            private var fxgt: _FxGettext;
 
             [Bindable]
-            public var commentText : String;
+            public var commentText: String;
 
-            public var confirm : Boolean = false;
+            public var confirm: Boolean = false;
 
-            protected function creationCompleteHandler(event:FlexEvent):void
+            protected function creationCompleteHandler(event: FlexEvent): void
             {
                 fxgt = FxGettext;
 
@@ -41,14 +41,14 @@
                 commentTextInput.selectAll();
             }
 
-            private function onKeyDown(event:KeyboardEvent):void
+            private function onKeyDown(event: KeyboardEvent): void
             {
-                switch ( event.charCode )
+                switch (event.charCode)
                 {
                     case Keyboard.ENTER:
-                        if ( okButton == getFocus() )
+                        if (okButton == getFocus())
                             onValid(event);
-                        if ( cancelButton == getFocus() )
+                        else if (cancelButton == getFocus())
                             onCancel(event);
                         break;
                     case Keyboard.ESCAPE:
@@ -57,12 +57,12 @@
                 }
             }
 
-            private function onCancel(event:Event):void
+            private function onCancel(event: Event): void
             {
                 PopUpManager.removePopUp(this);
             }
 
-            private function onValid(event:Event):void
+            private function onValid(event: Event): void
             {
                 confirm = true;
                 PopUpManager.removePopUp(this);
@@ -73,8 +73,8 @@
     <s:VGroup bottom="5" top="5" right="5" left="5">
         <s:TextArea id="commentTextInput" text="{commentText}"/>
         <s:HGroup horizontalAlign="right" width="100%" >
-            <s:Button id="okButton"     fontSize="10" label='{fxgt.gettext("Ok")}'         width="60" height="20"    click="onValid(event)" />
-            <s:Button id="cancelButton"    fontSize="10" label='{fxgt.gettext("Cancel")}'     width="60" height="20"    click="onCancel(event)" />
+            <s:Button id="okButton" fontSize="10" label='{fxgt.gettext("Ok")}' width="60" height="20" click="onValid(event)" />
+            <s:Button id="cancelButton" fontSize="10" label='{fxgt.gettext("Cancel")}' width="60" height="20" click="onCancel(event)" />
         </s:HGroup>
     </s:VGroup>
 </mx:TitleWindow>

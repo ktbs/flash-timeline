@@ -40,30 +40,30 @@
             import mx.managers.PopUpManager;
 
             [Bindable]
-            public var obselsRenderer:ObselsRenderer;
+            public var obselsRenderer: ObselsRenderer;
 
-            protected function creationCompleteHandler(event:FlexEvent):void
+            protected function creationCompleteHandler(event: FlexEvent): void
             {
-                hostComponent.percentWidth         = 100;
-                hostComponent.percentHeight        = 100;
+                hostComponent.percentWidth = 100;
+                hostComponent.percentHeight = 100;
 
-                obselsRenderer                     = new ObselsRenderer( hostComponent._timeline.zoomContext.cursorRange, hostComponent );
-                obselsRenderer.percentHeight    = 100;
-                obselsRenderer.percentWidth     = 100;
-                obselsRenderer.borderVisible     = false;
-                obselsRenderer.left                = Stylesheet.renderersSidePadding;
-                obselsRenderer.width            = hostComponent._timeline.zoomContext.timelinePreview.width;
+                obselsRenderer = new ObselsRenderer(hostComponent._timeline.zoomContext.cursorRange, hostComponent);
+                obselsRenderer.percentHeight = 100;
+                obselsRenderer.percentWidth = 100;
+                obselsRenderer.borderVisible = false;
+                obselsRenderer.left = Stylesheet.renderersSidePadding;
+                obselsRenderer.width = hostComponent._timeline.zoomContext.timelinePreview.width;
                 obselsRenderer.obselsCollection = hostComponent._obsels;
-                obselsRenderer.styleName         = hostComponent.styleName;
-                rendererGroup.addElement( obselsRenderer );
+                obselsRenderer.styleName = hostComponent.styleName;
+                rendererGroup.addElement(obselsRenderer);
             }
 
-            protected function onResize(event:Event):void
+            protected function onResize(event: Event): void
             {
-                if ( obselsRenderer)
+                if (obselsRenderer)
                 {
-                    obselsRenderer.left            = Stylesheet.renderersSidePadding;
-                    obselsRenderer.width        = hostComponent._timeline.zoomContext.timelinePreview.width;
+                    obselsRenderer.left = Stylesheet.renderersSidePadding;
+                    obselsRenderer.width = hostComponent._timeline.zoomContext.timelinePreview.width;
                 }
             }
         ]]>

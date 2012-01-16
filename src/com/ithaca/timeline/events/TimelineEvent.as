@@ -22,36 +22,36 @@ package com.ithaca.timeline.events
     public class TimelineEvent extends Event
     {
         // constants
-        static public const TIMERANGES_CHANGE     : String = "timeranges_change";
-        static public const TIMERANGES_SHIFT     : String = "timeranges_shift";
-        static public const TIMES_CHANGE         : String = "times_change";
-        static public const LAYOUT_CHANGE         : String = "layout_change";
-        static public const TIMERULER_CLICK     : String = "timeRulerClick";
-        static public const PLAY                 : String = "playButtonClick";
-        static public const PAUSE                : String = "pauseButtonClick";
-        static public const END_ALERT            : String = "endAlert";
-        static public const END_REACHED            : String = "endReached";
-        static public const CURRENT_TIME_CHANGE    : String = "currentTimeChange";
+        static public const TIMERANGES_CHANGE          : String = "timeranges_change";
+        static public const TIMERANGES_SHIFT           : String = "timeranges_shift";
+        static public const TIMES_CHANGE               : String = "times_change";
+        static public const LAYOUT_CHANGE              : String = "layout_change";
+        static public const TIMERULER_CLICK            : String = "timeRulerClick";
+        static public const PLAY                       : String = "playButtonClick";
+        static public const PAUSE                      : String = "pauseButtonClick";
+        static public const END_ALERT                  : String = "endAlert";
+        static public const END_REACHED                : String = "endReached";
+        static public const CURRENT_TIME_CHANGE        : String = "currentTimeChange";
         static public const ZOOM_CONTEXT_MANUAL_CHANGE : String = "zoomContextManualChange";
-        static public const GENERATE_NEW_TRACELINE : String = "generateNewTraceline";
-        static public const LAYOUT_NODE_ADDED :  String = "layoutNodeAdded";
-		static public const PRE_ADD_COMMENT_OBSEL : String = 'preAddCommentObsel';
-        static public const TRACE_LINE_TITLE_ADDED :  String = "traceLineTitleAdded";
+        static public const GENERATE_NEW_TRACELINE     : String = "generateNewTraceline";
+        static public const LAYOUT_NODE_ADDED          : String = "layoutNodeAdded";
+        static public const PRE_ADD_COMMENT_OBSEL      : String = "preAddCommentObsel";
+        static public const TRACE_LINE_TITLE_ADDED     : String = "traceLineTitleAdded";
 
         // properties
-        public var value : *;
+        public var value: *;
 
-        public function TimelineEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false)
+        public function TimelineEvent(type: String, bubbles: Boolean = false, cancelable: Boolean = false)
         {
             super(type, bubbles, cancelable);
         }
 
-        public override function clone():Event
+        public override function clone(): Event
         {
             return new TimelineEvent(type, bubbles, cancelable);
         }
 
-        public override function toString():String
+        public override function toString(): String
         {
             return formatToString("TimelineEvents", "type", "bubbles", "cancelable", "eventPhase");
         }

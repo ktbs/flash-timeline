@@ -19,9 +19,9 @@
             import flash.filters.GlowFilter;
             import flash.geom.ColorTransform;
 
-            public var obsel : Obsel;
+            public var obsel: Obsel;
 
-            protected function creationCompleteHandler(event:Event):void
+            protected function creationCompleteHandler(event: Event): void
             {
                 obsel = hostComponent.obsel;
                 obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
@@ -32,7 +32,7 @@
             protected function onObselChange(event: PropertyChangeEvent = null): void
             {
                 var ctx: Context = null;
-                
+
                 if (hostComponent.getStyle("iconExpression"))
                 {
                     if (ctx === null) {

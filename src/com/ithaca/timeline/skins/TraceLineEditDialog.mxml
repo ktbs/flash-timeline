@@ -63,8 +63,8 @@
             {
                 traceline.title = titleIT.text;
                 traceline.sourceStr = sourceDDL.selectedItem;
-                if ( fieldIT.text != "" )
-                    traceline.selector = new SelectorRegexp( fieldIT.text + "," + regexpIT.text );
+                if (fieldIT.text != "")
+                    traceline.selector = new SelectorRegexp(fieldIT.text + "," + regexpIT.text);
 
                 traceline.resetObselCollection();
 

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!---
     Cursor that moves according to the current time of the Timeline. Two Cursors are required by skin parts of the Timeline class.
-    <p>The first is bound to the global time ruler ( timeline.globalCursor ) and the second is bound to the selected context time ruler ( timeline.contextCursor ).</p>
+    <p>The first is bound to the global time ruler (timeline.globalCursor) and the second is bound to the selected context time ruler (timeline.contextCursor).</p>
     @see Timeline
 -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:mx="library://ns.adobe.com/flex/halo"
                xmlns:tl="com.ithaca.timeline.*"
-               creationComplete="creationCompleteHandler(event)"  width="1"
+               creationComplete="creationCompleteHandler(event)" width="1"
               >
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -37,47 +37,47 @@
             import com.ithaca.timeline.TimeRuler;
 
             [Bindable]
-            public var timeline : Timeline;
+            public var timeline: Timeline;
 
             [Bindable]
-            public var isDragging : Boolean = false;
+            public var isDragging: Boolean = false;
 
             [Bindable]
-            public var timeRuler : TimeRuler;
+            public var timeRuler: TimeRuler;
 
-            public var withToolTip : Boolean = false;
+            public var withToolTip: Boolean = false;
 
-            private    var dateFormatter : DateFormatter;
+            private    var dateFormatter: DateFormatter;
 
-            private var offsetX:Number;
-            private var offsetY:Number;
+            private var offsetX: Number;
+            private var offsetY: Number;
 
-            protected function creationCompleteHandler( event : Event ) : void
+            protected function creationCompleteHandler(event: Event): void
             {
                 dateFormatter  = new DateFormatter();
                 dateFormatter.formatString = "JJ:NN:SS";
-                if ( withToolTip )
+                if (withToolTip)
                 {
-                    addEventListener(MoveEvent.MOVE, onToolTipShow );
+                    addEventListener(MoveEvent.MOVE, onToolTipShow);
                 }
             }
 
-            protected function onToolTipShow( event : Event ) : void
+            protected function onToolTipShow(event: Event): void
             {
                 tt.visible = true;
                 if (visible && !isDragging)
                 {
-                    if ( timeline.isRelativeTimeMode )
-                        tt.text     = dateFormatter.format( new Date(  timeline.currrentRelativeTime ).toUTCString() );
+                    if (timeline.isRelativeTimeMode)
+                        tt.text = dateFormatter.format(new Date(timeline.currrentRelativeTime).toUTCString());
                     else
-                        tt.text     = dateFormatter.format( new Date(  timeline.currentTime ) );
+                        tt.text = dateFormatter.format(new Date(timeline.currentTime));
                 }
             }
 
         private function startDragging(event:MouseEvent):void
         {
-            offsetX     = event.localX;
-            isDragging     = true;
+            offsetX = event.localX;
+            isDragging = true;
 
             stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCursor);
             stage.addEventListener(MouseEvent.MOUSE_UP, dragCursor);
@@ -87,19 +87,19 @@
         // as long as the mouse button is pressed down.
         private function dragCursor(event:MouseEvent):void
         {
-            var parentMouse:Point = parent.globalToLocal(new Point( event.stageX,  event.stageY));
+            var parentMouse: Point = parent.globalToLocal(new Point(event.stageX, event.stageY));
 
-            var newX : Number =  parentMouse.x - offsetX;
-            if ( newX < 0 )
+            var newX: Number = parentMouse.x - offsetX;
+            if (newX < 0)
                 newX = 0;
-            else if ( newX > timeline.zoomContext.width - Stylesheet.renderersSidePadding )
-                newX = timeline.zoomContext.width - Stylesheet.renderersSidePadding
+            else if (newX > timeline.zoomContext.width - Stylesheet.renderersSidePadding)
+                newX = timeline.zoomContext.width - Stylesheet.renderersSidePadding;
 
-            if ( event.type == MouseEvent.MOUSE_UP )
+            if (event.type == MouseEvent.MOUSE_UP)
             {
-                var tlEvent : TimelineEvent = new TimelineEvent( TimelineEvent.TIMERULER_CLICK, true);
-                tlEvent.value = timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth );
-                dispatchEvent( tlEvent );
+                var tlEvent: TimelineEvent = new TimelineEvent(TimelineEvent.TIMERULER_CLICK, true);
+                tlEvent.value = timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth);
+                dispatchEvent(tlEvent);
 
                 isDragging = false;
 
@@ -107,18 +107,18 @@
                 stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCursor);
                 stage.removeEventListener(MouseEvent.MOUSE_UP, dragCursor);
 
-                if ( withToolTip )
+                if (withToolTip)
                     onToolTipShow(null);
             }
             else
             {
                 x = newX + tt.width / 2 -1 ;
-                if ( withToolTip )
+                if (withToolTip)
                 {
-                    if ( timeline.isRelativeTimeMode )
-                        tt.text     = dateFormatter.format( new Date(  timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth )  - timeline.range._ranges[0] ).toUTCString() );
+                    if (timeline.isRelativeTimeMode)
+                        tt.text     = dateFormatter.format(new Date(timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth) - timeline.range._ranges[0]).toUTCString());
                     else
-                        tt.text     = dateFormatter.format( new Date(  timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth ) ) );
+                        tt.text     = dateFormatter.format(new Date(timeRuler.timeRange.positionToTime(newX, timeRuler.rulerWidth)));
                 }
             }
 

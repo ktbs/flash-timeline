@@ -25,23 +25,24 @@ package com.ithaca.timeline
      */
     public class TraceLineGroup  extends LayoutNode
     {
-        public var title             : String;
-        protected var _trace         : Trace;
-        public var traceBegin         : Number;
-        public var traceEnd          : Number;
+        protected var _trace: Trace;
+
+        public var title: String;
+        public var traceBegin: Number;
+        public var traceEnd: Number;
 
         /**
-         * The traceline used to represent this tracelinegroup in the preview zone. In the XML descriptor, this traceline has the attribute : preview="true".
+         * The traceline used to represent this tracelinegroup in the preview zone. In the XML descriptor, this traceline has the attribute: preview="true".
          * @see ZoomContext
          */
-        public var contextPreviewTraceLine     : TraceLine;
+        public var contextPreviewTraceLine: TraceLine;
 
         /**
-         * The traceline displayed in the background of the TraceLineGroup. In the XML descriptor, this traceline has the attribute : style="background".
+         * The traceline displayed in the background of the TraceLineGroup. In the XML descriptor, this traceline has the attribute: style="background".
          */
-        public var backgroundTraceLine         : TraceLine;
+        public var backgroundTraceLine: TraceLine;
 
-        public var backgroundColor : uint;
+        public var backgroundColor: uint;
 
         /**
          * Create a new TracelineGroup
@@ -51,14 +52,14 @@ package com.ithaca.timeline
          * @param    title the title and the name of the TraceLineGroup.
          * @param    style the styleName of the TraceLineGroup and the TraceLineGroupTitle too.
          */
-        public function TraceLineGroup( tl : Timeline, trac : Trace, title : String = null, style : String = null )
+        public function TraceLineGroup(tl: Timeline, trac: Trace, title: String = null, style: String = null)
         {
             this.title        = title;
-            titleComponent    = new TraceLineGroupTitle( this );
+            titleComponent    = new TraceLineGroupTitle(this);
             this.name         = title;
-            trace            = trac;
+            trace             = trac;
             _timeline         = tl;
-            if ( style )
+            if (style)
             {
                 styleName     = style;
                 titleComponent.styleName = style;
@@ -68,7 +69,7 @@ package com.ithaca.timeline
         /**
          * @return the trace displayed by this TraceLineGroup
          */
-        public function get trace ( ) : Trace
+        public function get trace (): Trace
         {
             return _trace;
         }
@@ -76,19 +77,19 @@ package com.ithaca.timeline
         /**
          * Set the trace displayed by this TraceLineGroup
          */
-        public function set trace ( value : Trace ) : void
+        public function set trace(value: Trace): void
         {
             _trace = value
 
-             if (_trace.obsels && _trace.obsels.length )
+             if (_trace.obsels && _trace.obsels.length)
              {
-                traceBegin      = (_trace.obsels[0] as Obsel).begin;
-                traceEnd      = (_trace.obsels[0] as Obsel).begin;
+                traceBegin = (_trace.obsels[0] as Obsel).begin;
+                traceEnd = (_trace.obsels[0] as Obsel).begin;
 
-                for each ( var obsel :Obsel in _trace.obsels)
+                for each (var obsel:Obsel in _trace.obsels)
                 {
-                    traceBegin     = Math.min( traceBegin, obsel.begin );
-                    traceEnd     = Math.max( traceEnd,     obsel.end );
+                    traceBegin = Math.min(traceBegin, obsel.begin);
+                    traceEnd = Math.max(traceEnd,     obsel.end);
                 }
              }
         }
@@ -96,6 +97,6 @@ package com.ithaca.timeline
         /**
          * @return the URI of the trace displayed by this TraceLineGroup
          */
-        public function get traceUri () : String { return _trace.uri; }
+        public function get traceUri(): String { return _trace.uri; }
     }
 }

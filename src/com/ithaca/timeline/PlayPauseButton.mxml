@@ -26,46 +26,46 @@
             import mx.formatters.DateFormatter;
             import mx.events.PropertyChangeEvent;
 
-            public var timeline : Timeline;
+            public var timeline: Timeline;
 
-            protected function creationCompleteHandler( event : Event ) : void
+            protected function creationCompleteHandler(event: Event): void
             {
-                timeline.addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, onCurrentTimeChange );
-                timeline.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, onTimelineChange );
+                timeline.addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, onCurrentTimeChange);
+                timeline.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onTimelineChange);
             }
 
-            private function onTimelineChange ( event : PropertyChangeEvent ) : void
+            private function onTimelineChange (event: PropertyChangeEvent): void
             {
-                if ( event.property == 'isPlaying' )
+                if (event.property == 'isPlaying')
                     setCurrentState(timeline.isPlaying?"pause":"play");
             }
 
-            private function Play ( event : MouseEvent ) : void
+            private function Play (event: MouseEvent): void
             {
-                dispatchEvent(new TimelineEvent( TimelineEvent.PLAY, true ));
+                dispatchEvent(new TimelineEvent(TimelineEvent.PLAY, true));
                 setCurrentState("pause");
                 if (timeline.activity !== null)
                     timeline.activity.trace("PlayerResume", { position: timeline.currentTime,
                                                         origin: "button" });
             }
 
-            private function Pause ( event : MouseEvent ) : void
+            private function Pause (event: MouseEvent): void
             {
-                dispatchEvent(new TimelineEvent( TimelineEvent.PAUSE, true ));
+                dispatchEvent(new TimelineEvent(TimelineEvent.PAUSE, true));
                 setCurrentState("play");
                 if (timeline.activity !== null)
                     timeline.activity.trace("PlayerPause", { position: timeline.currentTime,
                                                        origin: "button" });
             }
 
-            public function onCurrentTimeChange( event: TimelineEvent ) : void
+            public function onCurrentTimeChange(event: TimelineEvent): void
             {
-                var dateFormatter : DateFormatter = new DateFormatter();
+                var dateFormatter: DateFormatter = new DateFormatter();
                 dateFormatter.formatString = "JJ:NN:SS";
-                if ( timeline.isRelativeTimeMode )
-                    playPauseButton.label = dateFormatter.format( new Date( timeline.currrentRelativeTime ).toUTCString() );
+                if (timeline.isRelativeTimeMode)
+                    playPauseButton.label = dateFormatter.format(new Date(timeline.currrentRelativeTime).toUTCString());
                 else
-                    playPauseButton.label = dateFormatter.format( new Date( timeline.currentTime ) );
+                    playPauseButton.label = dateFormatter.format(new Date(timeline.currentTime));
             }
 
         ]]>

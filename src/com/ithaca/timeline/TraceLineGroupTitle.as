@@ -14,13 +14,13 @@ package com.ithaca.timeline
         /**
          * The TraceLineGroup for which this component is the title
          */
-        public var tlg         : TraceLineGroup;
+        public var tlg: TraceLineGroup;
 
         /**
          * Constructor
          * @param    value The TraceLineGroup for which this component is the title
          */
-        public function TraceLineGroupTitle( value : TraceLineGroup) : void
+        public function TraceLineGroupTitle(value: TraceLineGroup): void
         {
             tlg = value;
         }

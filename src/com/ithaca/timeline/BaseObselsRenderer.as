@@ -6,14 +6,14 @@ package com.ithaca.timeline
     import mx.events.CollectionEvent;
     import mx.events.CollectionEventKind;
     import mx.events.ResizeEvent;
-	import spark.components.Group;
+    import spark.components.Group;
 
     /**
      * <p>The BaseObselsRenderer is the base class of ObselRenderers.
      * It is contained by Traceline in both the tree structure and the zoomContext as preview.
      * Common properties are defined and it handles listeners and callbacks to redraw the obsels when needed. </p>
      *
-     * <p>There are two main instances of this class : SimpleObselsRenderer that draws obsels from scratch and ObselsRenderer which uses skins to render the obsels. </p>
+     * <p>There are two main instances of this class: SimpleObselsRenderer that draws obsels from scratch and ObselsRenderer which uses skins to render the obsels. </p>
      *
      * <p>It should be an abstract class. The redraw function must be overridden. </p>
      *
@@ -21,30 +21,30 @@ package com.ithaca.timeline
      * @see ObselsRenderer
      */
 
-	public class BaseObselsRenderer extends Group
+    public class BaseObselsRenderer extends Group
     {
         /**
          * Reference to the Timeline
          */
-        protected var _timeline            : Timeline;
+        protected var _timeline: Timeline;
         /**
          * Reference to the TraceLine that contains the BaseObselsRenderer
          */
-        protected var _traceline        : TraceLine;
+        protected var _traceline: TraceLine;
         /**
          * Reference to the TimeRange.
          * There are two main possibilities: if the obselRenderer is in the tree structure the timeRange is the zoomContext.contextRange;
          * otherwise the obselRenderer is in the preview zone and the timeRange is the zoomContext.timelineRange
          */
-        protected var _timeRange        : TimeRange = null;
+        protected var _timeRange: TimeRange = null;
         /**
          * the obsels collection displayed by this component
          */
-        protected var _obsels             : ArrayCollection = null;
+        protected var _obsels: ArrayCollection = null;
         /**
          * Specifies if the borders of the obselsRenderer should be visible or not.
          */
-        public       var borderVisible     : Boolean = true;
+        public var borderVisible: Boolean = true;
 
         /**
          * Constructor
@@ -53,7 +53,7 @@ package com.ithaca.timeline
          * @param traceLine the TraceLine that contains the BaseObselsRenderer
          * @param timeline the Timeline
          */
-        public function BaseObselsRenderer( tr : TimeRange, traceLine :  TraceLine, timeline : Timeline )
+        public function BaseObselsRenderer(tr: TimeRange, traceLine: TraceLine, timeline: Timeline)
         {
             // FIXME: the timeline reference could be obtained through traceLine._timeline.
             // Here, we have a possibility of conflicting declarations.
@@ -61,9 +61,9 @@ package com.ithaca.timeline
             _timeRange = tr;
             _traceline = traceLine;
             _timeline = timeline;
-            addEventListener( ResizeEvent.RESIZE, onResize );
-            _timeRange.addEventListener( TimelineEvent.TIMERANGES_CHANGE, onTimerangeChange);
-            _timeRange.addEventListener( TimelineEvent.TIMERANGES_SHIFT, onTimerangeChange);
+            addEventListener(ResizeEvent.RESIZE, onResize);
+            _timeRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, onTimerangeChange);
+            _timeRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, onTimerangeChange);
         }
 
         /**
@@ -71,18 +71,18 @@ package com.ithaca.timeline
          *
          * @param obsels The new obsels collection.
          */
-        public function set obselsCollection( obsels : ArrayCollection ) : void
+        public function set obselsCollection(obsels: ArrayCollection): void
         {
-            if ( _obsels)
+            if (_obsels)
                 _obsels.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onObselsCollectionChange);
             _obsels = obsels;
 
             // FIXME: issue if obsels == null?
-            _obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE, onObselsCollectionChange);
+            _obsels.addEventListener(CollectionEvent.COLLECTION_CHANGE, onObselsCollectionChange);
 
-            var e : CollectionEvent = new CollectionEvent( CollectionEvent.COLLECTION_CHANGE);
+            var e: CollectionEvent = new CollectionEvent(CollectionEvent.COLLECTION_CHANGE);
             e.kind = CollectionEventKind.RESET;
-            onObselsCollectionChange( e );
+            onObselsCollectionChange(e);
         }
 
         /**
@@ -92,7 +92,7 @@ package com.ithaca.timeline
          *
          * @param event
          */
-        public function  onTimerangeChange( event : TimelineEvent ) : void
+        public function onTimerangeChange(event: TimelineEvent): void
         {
             _timeRange = event.currentTarget as TimeRange;
 
@@ -106,7 +106,7 @@ package com.ithaca.timeline
          *
          * @param event
          */
-        public function  onObselsCollectionChange( event : CollectionEvent ) : void
+        public function onObselsCollectionChange(event: CollectionEvent): void
         {
             redraw();
         }
@@ -118,7 +118,7 @@ package com.ithaca.timeline
          *
          * @param event
          */
-        public function  onResize( event : ResizeEvent ) : void
+        public function onResize(event: ResizeEvent): void
         {
             redraw();
         }
@@ -133,7 +133,7 @@ package com.ithaca.timeline
          *
          * @param event
          */
-        public function  redraw( event : Event = null) : void
+        public function redraw(event: Event = null): void
         {
         }
     }

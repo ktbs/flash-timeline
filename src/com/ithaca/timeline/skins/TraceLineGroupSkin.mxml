@@ -24,98 +24,99 @@
             import mx.events.FlexEvent;
             import com.ithaca.timeline.Stylesheet;
             import com.ithaca.timeline.ObselsRenderer;
-                import mx.graphics.SolidColor;
+            import mx.graphics.SolidColor;
 
             [Bindable]
-            public var backgroundColor : uint;
+            public var backgroundColor: uint;
 
             [Bindable]
-            public var obselsRenderer:ObselsRenderer;
+            public var obselsRenderer: ObselsRenderer;
 
             [Bindable]
-            public var renderersSidePadding:Number = 0;
+            public var renderersSidePadding: Number = 0;
 
-            protected function creationCompleteHandler(event:FlexEvent):void
+            protected function creationCompleteHandler(event: FlexEvent): void
             {
-                hostComponent.percentWidth    = 100;
-                backgroundColor             = Stylesheet.getTracelineGroupColor( hostComponent );
-                if ( hostComponent.backgroundTraceLine )
+                hostComponent.percentWidth = 100;
+                backgroundColor = Stylesheet.getTracelineGroupColor(hostComponent);
+                if (hostComponent.backgroundTraceLine)
                 {
                     hostComponent.backgroundTraceLine.percentHeight = 100;
-                    backgroundGroup.addElement( hostComponent.backgroundTraceLine );
+                    backgroundGroup.addElement(hostComponent.backgroundTraceLine);
                 }
                 styleChanged(null);
             }
 
-            override public function styleChanged(styleProp:String):void
+            override public function styleChanged(styleProp: String): void
             {
                 super.styleChanged(styleProp)
 
                 if (!styleProp  || styleProp =="headerHeight")
                 {
-                        if ( contentGroup )
-                            contentGroup.top     = getStyle("headerHeight");
-                        if ( backgroundGroup )
-                            backgroundGroup.top     = getStyle("headerHeight");
-                        invalidateDisplayList();
+                    if (contentGroup)
+                        contentGroup.top = getStyle("headerHeight");
+                    if (backgroundGroup)
+                        backgroundGroup.top = getStyle("headerHeight");
+                    invalidateDisplayList();
                 }
 
                 if (!styleProp  || styleProp =="bottom")
                 {
-                        if ( contentGroup )
-                            contentGroup.bottom    = getStyle("bottom");
-                        if ( backgroundGroup )
-                            backgroundGroup.bottom     = getStyle("bottom");
-                        invalidateDisplayList();
+                    if (contentGroup)
+                        contentGroup.bottom = getStyle("bottom");
+                    if (backgroundGroup)
+                        backgroundGroup.bottom = getStyle("bottom");
+                    invalidateDisplayList();
                 }
 
                 if (!styleProp  || styleProp =="bgColor")
                 {
-                        tlgContainer.backgroundFill = new SolidColor( getStyle("bgColor") )    ;
-                        if ( hostComponent._timeline.zoomContext.timelinePreview.numElements > hostComponent._timeline.getElementIndex( hostComponent ) )
-                        {
-                            if ( getStyle("previewBgColor") == "auto" || getStyle("previewBgColor") == null)
-                                (hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;
-                        }
+                    tlgContainer.backgroundFill = new SolidColor(getStyle("bgColor"));
+                    if (hostComponent._timeline.zoomContext.timelinePreview.numElements > hostComponent._timeline.getElementIndex(hostComponent))
+                    {
+                        if (getStyle("previewBgColor") == "auto" || getStyle("previewBgColor") == null)
+                            (hostComponent._timeline.zoomContext.timelinePreview.getElementAt(hostComponent._timeline.getElementIndex(hostComponent)) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;
+                    }
                 }
-
+                
                 if (!styleProp  || styleProp =="previewBgColor")
                 {
-                    if ( hostComponent._timeline.zoomContext.timelinePreview.numElements > hostComponent._timeline.getElementIndex( hostComponent ) )
-                        {
-                        if ( getStyle("previewBgColor") == "auto" || getStyle("previewBgColor") == null)
-                            (hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;
+                    if (hostComponent._timeline.zoomContext.timelinePreview.numElements > hostComponent._timeline.getElementIndex(hostComponent))
+                    {
+                        if (getStyle("previewBgColor") == "auto" || getStyle("previewBgColor") == null)
+                            (hostComponent._timeline.zoomContext.timelinePreview.getElementAt(hostComponent._timeline.getElementIndex(hostComponent)) as SimpleObselsRenderer)._backgroundColor = getStyle("bgColor") ;
                         else
-                            (hostComponent._timeline.zoomContext.timelinePreview.getElementAt( hostComponent._timeline.getElementIndex( hostComponent ) ) as SimpleObselsRenderer)._backgroundColor =  Number( getStyle("previewBgColor") ) ;
-                            trace(Number( getStyle("previewBgColor") ));
+                            (hostComponent._timeline.zoomContext.timelinePreview.getElementAt(hostComponent._timeline.getElementIndex(hostComponent)) as SimpleObselsRenderer)._backgroundColor =  Number(getStyle("previewBgColor")) ;
+                            trace(Number(getStyle("previewBgColor")));
                         }
                 }
 
-                if ( hostComponent.titleComponent )
+                if (hostComponent.titleComponent)
                 {
-                    if ( styleProp )
-                        hostComponent.titleComponent.setStyle( styleProp, getStyle( styleProp ));
+                    if (styleProp)
+                        hostComponent.titleComponent.setStyle(styleProp, getStyle(styleProp));
                     else
                     {
-                        hostComponent.titleComponent.setStyle( 'headerHeight' , getStyle( 'headerHeight' ));
-                        hostComponent.titleComponent.setStyle( 'bottom' , getStyle( 'bottom' ));
+                        hostComponent.titleComponent.setStyle('headerHeight' , getStyle('headerHeight'));
+                        hostComponent.titleComponent.setStyle('bottom' , getStyle('bottom'));
                     }
                 }
 
                 invalidateDisplayList();
 
-                if ( !styleProp )
+                if (!styleProp)
                 {
-                    if ( contentGroup)
+                    if (contentGroup)
                     {
-                        contentGroup.top     = getStyle("headerHeight");
-                        contentGroup.bottom    = getStyle("bottom");
+                        contentGroup.top = getStyle("headerHeight");
+                        contentGroup.bottom = getStyle("bottom");
                     }
-                    backgroundColor        = getStyle("bgColor");
-                    if ( backgroundGroup )
+                    backgroundColor = getStyle("bgColor");
+
+                    if (backgroundGroup)
                     {
-                        backgroundGroup.bottom     = getStyle("bottom");
-                        backgroundGroup.top     = getStyle("headerHeight");
+                        backgroundGroup.bottom = getStyle("bottom");
+                        backgroundGroup.top = getStyle("headerHeight");
                     }
                     invalidateDisplayList();
                 }

@@ -4,7 +4,7 @@ package com.ithaca.timeline
 
     /**
      * The SelectorRegexp class implements the ISelector interface. It
-     * is defined by two properties : field and _regexp.
+     * is defined by two properties: field and _regexp.
      *
      * The selector checks if the obsel property named 'field' is matching the regular expression defined by '_regexp'.
      *
@@ -12,9 +12,9 @@ package com.ithaca.timeline
      */
     public class SelectorRegexp implements ISelector
     {
-        private var _regexp : RegExp;
+        private var _regexp: RegExp;
 
-        public var field : String = "";
+        public var field: String = "";
 
         /**
          * Instanciate a new SelectorRegexp
@@ -26,56 +26,56 @@ package com.ithaca.timeline
          * attribute contains the string "Message".
          *
          */
-        public function SelectorRegexp(  params : String = null )
+        public function SelectorRegexp(params: String = null)
         {
             if (params)
-                setParameters( params );
+                setParameters(params);
         }
 
-        public function set regexp(value:String):void
+        public function set regexp(value: String): void
         {
-            _regexp = new RegExp( value );
+            _regexp = new RegExp(value);
         }
 
-        public function get regexp( ):String
+        public function get regexp(): String
         {
             return _regexp.source;
         }
 
-        public function getMatchingObsels(obselsArray:Array):Array
+        public function getMatchingObsels(obselsArray: Array): Array
         {
             return null;
         }
 
-        public function isObselMatching(obsel:Obsel):Boolean
+        public function isObselMatching(obsel: Obsel): Boolean
         {
-            if ( obsel.hasOwnProperty( field ) )
-                return _regexp.test( obsel[field] );
+            if (obsel.hasOwnProperty(field))
+                return _regexp.test(obsel[field]);
             else
-                return _regexp.test( obsel.props[field] );
+                return _regexp.test(obsel.props[field]);
         }
 
-        public function isEqual( selector : ISelector) : Boolean
+        public function isEqual(selector: ISelector): Boolean
         {
             if (selector is SelectorRegexp)
             {
-                return ( (selector as SelectorRegexp).field == field)
-                        && ( (selector as SelectorRegexp)._regexp.source == _regexp.source );
+                return ((selector as SelectorRegexp).field == field)
+                        && ((selector as SelectorRegexp)._regexp.source == _regexp.source);
             }
             return false
         }
 
-        public function getParameters() : String
+        public function getParameters(): String
         {
             return field + "," + regexp;
         }
 
-        public function setParameters( params : String) : void
+        public function setParameters(params: String): void
         {
-            var arr     : Array = params.split(',');
+            var arr: Array = params.split(',');
 
             this.field = arr[0];
-            _regexp = new RegExp( arr[1] );
+            _regexp = new RegExp(arr[1]);
         }
     }
 }

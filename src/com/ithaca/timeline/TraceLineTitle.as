@@ -16,26 +16,25 @@ package com.ithaca.timeline
         /**
          * The traceline for which this component is the title
          */
-        public var tl        : TraceLine
-
+        public var tl: TraceLine
 
         [SkinPart(required="true")]
         /**
          * Used to represent the hierarchical level of the traceline in the tree structure.
          */
-        public var hierarchicalSpacer : Spacer;
+        public var hierarchicalSpacer: Spacer;
 
         /**
          * Button used to show or hide the traceline children.
          */
         [SkinPart(required="true")]
-        public var OpenButton : UIComponent;
+        public var OpenButton: UIComponent;
 
         /**
          * Constructor
          * @param    value The TraceLine for which this component is the title
          */
-        public function TraceLineTitle( value : TraceLine) : void
+        public function TraceLineTitle(value: TraceLine): void
         {
             tl = value;
         }
@@ -43,10 +42,10 @@ package com.ithaca.timeline
         /**
          * Used to update the offset of the traceline title to represent the hierarchical level of the traceline in the tree structure.
          */
-        public function updateDisplayLevel():void
+        public function updateDisplayLevel(): void
         {
-            var node            : LayoutNode = tl;
-            var displayLevel     : Number     = -1;
+            var node: LayoutNode = tl;
+            var displayLevel: Number = -1;
             while (node && !(node is TraceLineGroup))
             {
                 node = node.parentNode;

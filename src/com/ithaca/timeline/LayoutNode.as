@@ -21,60 +21,60 @@ package com.ithaca.timeline
         /**
          * The XML descriptor of the sub-layout from this node.
          */
-        private var _layout         : XML ;
+        private var _layout: XML;
         /**
          * The visual component used to show the title part of the node. It is a container because titleComponent contains the titleComponent of the node children.
          */
-        public  var titleComponent     : SkinnableContainer;
+        public var titleComponent: SkinnableContainer;
         /**
          * A reference to the timeline
          */
-        public  var _timeline        : Timeline;
+        public var _timeline: Timeline;
         /**
          * A reference to the parent node of this node. The children are browsed using the container method (getElementAt...) but we need this reference to walk up the tree.
          */
-        public  var parentNode        : LayoutNode;
+        public var parentNode: LayoutNode;
 
         /**
          * The XML descriptor of the sub-layout from this node.
          */
-        public function set layoutXML ( value : XML ) : void { _layout = value; }
+        public function set layoutXML(value: XML): void { _layout = value; }
         /**
          * @return The XML descriptor of the sub-layout from this node.
          */
-        public function get layoutXML ( ) : XML    { return _layout;    }
+        public function get layoutXML(): XML    { return _layout;    }
 
         /**
          *
          * @param child
          * @param index
          */
-        public function addChildAndTitle ( child : LayoutNode, index : int = -1 ) : void
+        public function addChildAndTitle(child: LayoutNode, index: int = -1): void
         {
             child.parentNode = this;
 
-            if ( index < 0 || index >= numElements)
-                addElement( child );
+            if (index < 0 || index >= numElements)
+                addElement(child);
             else
-                addElementAt( child, index );
+                addElementAt(child, index);
 
-            if ( titleComponent && child.titleComponent)
+            if (titleComponent && child.titleComponent)
             {
-                if ( index < 0 || index >= numElements)
-                    titleComponent.addElement( child.titleComponent );
+                if (index < 0 || index >= numElements)
+                    titleComponent.addElement(child.titleComponent);
                 else
-                    titleComponent.addElementAt( child.titleComponent, index );
+                    titleComponent.addElementAt(child.titleComponent, index);
             }
 
             if (_timeline)
             {
-                var event : TimelineEvent = new TimelineEvent( TimelineEvent.LAYOUT_NODE_ADDED );
+                var event: TimelineEvent = new TimelineEvent(TimelineEvent.LAYOUT_NODE_ADDED);
                 event.value = child;
-                _timeline.dispatchEvent( event );
+                _timeline.dispatchEvent(event);
             }
         }
 
-        public function moveTraceline(child: LayoutNode, index: int = -1 ): void
+        public function moveTraceline(child: LayoutNode, index: int = -1): void
         {
             addChildAndTitle(child, index);
             if (_timeline.activity !== null)
@@ -86,11 +86,11 @@ package com.ithaca.timeline
          *
          * @return the tracelinegroup containing this node
          */
-        public function getTraceLineGroup() : TraceLineGroup
+        public function getTraceLineGroup(): TraceLineGroup
         {
-            var nodeCursor : LayoutNode = this;
+            var nodeCursor: LayoutNode = this;
 
-            while ( nodeCursor && !(nodeCursor is TraceLineGroup) )
+            while (nodeCursor && !(nodeCursor is TraceLineGroup))
                 nodeCursor = nodeCursor.parentNode;
 
             if (nodeCursor)
@@ -104,16 +104,16 @@ package com.ithaca.timeline
          * @param name
          * @return the first element with a given 'name' in the children of this node
          */
-        public function getElementByName( name : String) : LayoutNode
+        public function getElementByName(name: String): LayoutNode
         {
-            for ( var childIndex : uint = 0; childIndex < this.numElements; childIndex++ )
+            for (var childIndex: uint = 0; childIndex < this.numElements; childIndex++)
             {
-                var child : LayoutNode = this.getElementAt( childIndex ) as LayoutNode;
-                if ( child is TraceLine  && (child as TraceLine).title == name )
+                var child: LayoutNode = this.getElementAt(childIndex) as LayoutNode;
+                if (child is TraceLine  && (child as TraceLine).title == name)
                     return child;
 
-                var recursiveChild : LayoutNode= child.getElementByName( name );
-                if ( recursiveChild != null )
+                var recursiveChild: LayoutNode= child.getElementByName(name);
+                if (recursiveChild != null)
                     return recursiveChild;
             }
             return null;
@@ -123,26 +123,26 @@ package com.ithaca.timeline
          * Remove a child (mostly Traceline)
          * @param child
          */
-        public function removeChildAndTitle( child : LayoutNode ) : void
+        public function removeChildAndTitle(child: LayoutNode): void
         {
-            removeElement( child  );
-            titleComponent.removeElement( child.titleComponent );
+            removeElement(child );
+            titleComponent.removeElement(child.titleComponent);
             if (child is TraceLine)
             {
                 if (_timeline.activity !== null)
                     _timeline.activity.trace("DeleteTraceline", { traceline: (child as TraceLine).title,
-                                                            new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
+                                                                  new_layout: _timeline.timelineLayout.getCurrentXmlLayout().toXMLString() });
             }
         }
 
         /**
          * @param event
          */
-        public function onSourceChange( event : CollectionEvent ) : void { };
+        public function onSourceChange(event: CollectionEvent): void { };
         /**
          *
          * @param obselsCollection
          */
-        public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void { };
+        public function resetObselCollection (obselsCollection: ArrayCollection = null): void { };
     }
 }

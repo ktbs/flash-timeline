@@ -22,52 +22,52 @@
             import spark.components.BorderContainer;
             import spark.components.supportClasses.SkinnableComponent;
 
-            protected     var currentCenterDragingPoint:Point;
-            private     var draggedPart : UIComponent = null;
-            public        var minX  :Number;
-            public        var maxX  : Number;
+            protected var currentCenterDragingPoint: Point;
+            private var draggedPart: UIComponent = null;
+            public var minX: Number;
+            public var maxX: Number;
 
-            protected function zcStartDrag(e:MouseEvent):void
+            protected function zcStartDrag(e: MouseEvent): void
             {
                 draggedPart = (e.currentTarget as UIComponent);
-                stage.addEventListener( MouseEvent.MOUSE_MOVE,     zcDragging);
-                stage.addEventListener( MouseEvent.MOUSE_UP,    zcStopDrag);
+                stage.addEventListener( MouseEvent.MOUSE_MOVE, zcDragging);
+                stage.addEventListener( MouseEvent.MOUSE_UP, zcStopDrag);
 
                 currentCenterDragingPoint = new Point(e.localX, e.localY);
             }
 
-            protected function zcDragging(e:MouseEvent):void
+            protected function zcDragging(e: MouseEvent): void
             {
-                dispatchEvent( new TimelineEvent(TimelineEvent.ZOOM_CONTEXT_MANUAL_CHANGE ));
+                dispatchEvent(new TimelineEvent(TimelineEvent.ZOOM_CONTEXT_MANUAL_CHANGE));
 
-                var parentMouse:Point = parent.globalToLocal(new Point(e.stageX, e.stageY));
-                var newPos : Number   = parentMouse.x - currentCenterDragingPoint.x;
+                var parentMouse: Point = parent.globalToLocal(new Point(e.stageX, e.stageY));
+                var newPos: Number = parentMouse.x - currentCenterDragingPoint.x;
 
-                if (draggedPart == minRange )
+                if (draggedPart == minRange)
                 {
-                    var oldPos : Number = x;
-                    if ( newPos < minX  )
+                    var oldPos: Number = x;
+                    if (newPos < minX )
                         x = minX ;
-                    else if ( newPos + minRange.width > x + maxRange.x - 1 )
+                    else if (newPos + minRange.width > x + maxRange.x - 1)
                         x =  x + maxRange.x - 1;
                     else
                         x = newPos + minRange.width;
-                    width     -= x - oldPos ;
+                    width -= x - oldPos ;
                 }
-                else if (draggedPart == cursor )
+                else if (draggedPart == cursor)
                 {
-                    if ( newPos < minX)
+                    if (newPos < minX)
                         x  = minX;
-                    else if ( newPos > maxX - width )
+                    else if (newPos > maxX - width)
                         x = maxX - width;
                     else
                         x = newPos;
                 }
-                else if (draggedPart == maxRange )
+                else if (draggedPart == maxRange)
                 {
-                    if ( newPos < x + 1 )
+                    if (newPos < x + 1)
                         maxRange.x =  1;
-                    else if (newPos > maxX )
+                    else if (newPos > maxX)
                         maxRange.x = maxX - x;
                     else
                         maxRange.x = newPos - x;
@@ -76,7 +76,7 @@
                 }
             }
 
-            protected function zcStopDrag(e:MouseEvent):void
+            protected function zcStopDrag(e: MouseEvent): void
             {
                 CursorIcons.SetDefaultCursor(e);
                 draggedPart = null;

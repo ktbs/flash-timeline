@@ -23,8 +23,8 @@ package com.ithaca.timeline
      *
      * <p> There are two steps to assign a skin to an obsel:
      * <ol>
-     *         <li> Create an obselSelector in the <code>obselsSelector</code> section of the xml descriptor. Example : <code> &lt;obselSelector id='Document'        selector="SelectorRegexp" selectorParams="type,Document" /&gt;</code> </li>
-     *         <li> Use the id in the CSS file to assign the skin : <code> timeline|ObselSkin.Document { .... } </code> </li>
+     *         <li> Create an obselSelector in the <code>obselsSelector</code> section of the xml descriptor. Example: <code> &lt;obselSelector id='Document'        selector="SelectorRegexp" selectorParams="type,Document" /&gt;</code> </li>
+     *         <li> Use the id in the CSS file to assign the skin: <code> timeline|ObselSkin.Document { .... } </code> </li>
      * </ol>
      * </p>
      *
@@ -37,41 +37,41 @@ package com.ithaca.timeline
          * The leftGrip property is defined here to allow its management when two duratives overlap
          * This is probably not the best solution.....
          */
-        public  var leftGrip        : UIComponent;
+        public  var leftGrip: UIComponent;
         [SkinPart]
         /*
          * The rightGrip property is defined here to allow its management when two duratives overlap
          * This is probably not the best solution.....
          */
-        public  var rightGrip        : UIComponent;
+        public  var rightGrip: UIComponent;
 
         /**
          * The traceline that contains the obsel
          */
-        public var traceline : TraceLine;
+        public var traceline: TraceLine;
 
         /**
          * The obsel represented by the ObselSkin
          */
-        private var _obsel : Obsel;
+        private var _obsel: Obsel;
 
         /**
          * Specifies if the obsel is editable or not.
          */
-        public var editable : Boolean;
+        public var editable: Boolean;
 
         /**
-         * TODO : comment
+         * TODO: comment
          */
-        private var _dragArea:UIComponent = null;
-        private var dragAreaChange:Boolean;
+        private var _dragArea: UIComponent = null;
+        private var dragAreaChange: Boolean;
 
         /**
          *
          * @param o The obsel represented by the ObselSkin
          * @param tl The traceline that contains the obsel
          */
-        public function ObselSkin( o : Obsel, tl : TraceLine )
+        public function ObselSkin(o: Obsel, tl: TraceLine)
         {
             super();
             editable = false;
@@ -100,7 +100,7 @@ package com.ithaca.timeline
         /**
          * @return The obsel
          */
-        public function get obsel () : Obsel
+        public function get obsel(): Obsel
         {
             return _obsel;
         }
@@ -108,13 +108,13 @@ package com.ithaca.timeline
         /**
          * set drag area of the obsels
          */
-        public function set dragArea(value:UIComponent):void
+        public function set dragArea(value: UIComponent): void
         {
             dragAreaChange = true;
             _dragArea = value;
             invalidateProperties();
         }
-        public function get dragArea():UIComponent
+        public function get dragArea(): UIComponent
         {
             return _dragArea;
         }
@@ -123,15 +123,15 @@ package com.ithaca.timeline
          * Popup a generic edit dialog.
          * @param event
          */
-        public function editObsel ( event : Event ) : void
+        public function editObsel (event: Event): void
         {
-            var editDialog:ObselGenericEditDialog = new ObselGenericEditDialog(  );
+            var editDialog:ObselGenericEditDialog = new ObselGenericEditDialog();
             editDialog.obsel = this;
             PopUpManager.addPopUp(editDialog, this, true);
             PopUpManager.centerPopUp(editDialog);
         };
 
-        private function onMouseDown(event:MouseEvent):void
+        private function onMouseDown(event: MouseEvent): void
         {
             // Dispatcher
             var moveObselEvent:ObselEvent = new ObselEvent(ObselEvent.MOUSE_DOWN_OBSEL);
@@ -149,13 +149,13 @@ package com.ithaca.timeline
         //
         //_____________________________________________________________________
 
-        override protected function commitProperties():void
+        override protected function commitProperties(): void
         {
             super.commitProperties();
-            if(dragAreaChange)
+            if (dragAreaChange)
             {
                 dragAreaChange = false;
-                if(dragArea)
+                if (dragArea)
                 {
                     dragArea.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
                 }

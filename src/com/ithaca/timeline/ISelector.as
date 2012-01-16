@@ -3,7 +3,7 @@ package com.ithaca.timeline
     import com.ithaca.traces.Obsel;
 
     /**
-     * <p>The ISelector interface is implemented by classes that are used to select obsels ( Tracelines have an ISelector properties for example ).</p>
+     * <p>The ISelector interface is implemented by classes that are used to select obsels (Tracelines have an ISelector properties for example).</p>
      *
      * @see SelectorRegexp
      */
@@ -14,14 +14,14 @@ package com.ithaca.timeline
          * @param  obsel The obsel to test
          * @return true if the obsel is matching, false otherwise.
          */
-        function isObselMatching( obsel : Obsel ) : Boolean ;
+        function isObselMatching(obsel: Obsel): Boolean ;
 
         /**
          * Select the matching set of obsels from an array of obsels
          * @param    obselsArray the array of obsels to test
          * @return    the array of matching obsels
          */
-        function getMatchingObsels ( obselsArray : Array ) : Array ;
+        function getMatchingObsels (obselsArray: Array): Array ;
 
         /**
          * Test if another ISelector is the same as this one.
@@ -32,7 +32,7 @@ package com.ithaca.timeline
          * @param selector the selector to test
          * @return true if equal, else return false
          */
-        function isEqual (selector : ISelector  ) : Boolean ;
+        function isEqual (selector: ISelector ): Boolean ;
 
 
         /**
@@ -44,7 +44,7 @@ package com.ithaca.timeline
          *
          * @see #setParameters
          */
-        function getParameters() : String;
+        function getParameters(): String;
 
         /**
          * Change the parameters of the selector.
@@ -53,6 +53,6 @@ package com.ithaca.timeline
          *
          * @see #getParameters
          */
-        function setParameters(parameters : String) : void;
+        function setParameters(parameters: String): void;
     }
 }

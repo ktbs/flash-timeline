@@ -20,47 +20,47 @@
 
     <fx:Script><![CDATA[
         [Bindable]
-        public var bodyText:String = "";
+        public var bodyText: String = "";
 
          [Bindable]
-        public var showTopArrow:Boolean = true;
+        public var showTopArrow: Boolean = true;
+
          [Bindable]
-        public var showBottomArrow:Boolean = true;
+        public var showBottomArrow: Boolean = true;
 
         //  Implement required methods of the IToolTip interface; these
         //  methods are not used in this example, though.
-        public var _text:String;
+        public var _text: String;
 
         [Bindable]
-        public function get text():String
+        public function get text(): String
         {
             return _text;
         }
 
-        public function set text( value : String ) : void
+        public function set text(value: String): void
         {
             bodyText = _text = value;
         }
 
-            override public function styleChanged(styleProp:String):void
+        override public function styleChanged(styleProp: String): void
+        {
+            super.styleChanged(styleProp);
+
+            if (!styleProp || styleProp=="showTopArrow")
             {
-                super.styleChanged(styleProp);
-
-                if (!styleProp || styleProp=="showTopArrow" )
-                {
-                    if ( getStyle("showTopArrow") != null )
-                        showTopArrow = getStyle("showTopArrow") ;
-                    invalidateDisplayList();
-                }
-
-                if (!styleProp || styleProp=="showBottomArrow" )
-                {
-                    if ( getStyle("showBottomArrow") !=null )
-                        showBottomArrow = getStyle("showBottomArrow") ;
-                    invalidateDisplayList();
-                }
+                if (getStyle("showTopArrow") != null)
+                    showTopArrow = getStyle("showTopArrow") ;
+                invalidateDisplayList();
             }
 
+            if (!styleProp || styleProp=="showBottomArrow")
+            {
+                if (getStyle("showBottomArrow") !=null)
+                    showBottomArrow = getStyle("showBottomArrow") ;
+                invalidateDisplayList();
+            }
+        }
 
 
     ]]></fx:Script>

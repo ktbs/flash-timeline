@@ -26,59 +26,60 @@
             import gnu.as3.gettext._FxGettext;
             import gnu.as3.gettext.FxGettext;
             [Bindable]
-            private var fxgt:_FxGettext;
+            private var fxgt: _FxGettext;
 
-            private var _obsel : ObselSkin;
+            private var _obsel: ObselSkin;
 
             [Bindable]
-            public var tracelineTitle : String;
+            public var tracelineTitle: String;
             [Bindable]
-            public var tracelineSource : Number = 0;
+            public var tracelineSource: Number = 0;
             [Bindable]
-            public var selectorField : String = "type";
+            public var selectorField: String = "type";
             [Bindable]
-            public var selectorRegexp : String;
+            public var selectorRegexp: String;
 
-            public var traceline : TraceLine;
+            public var traceline: TraceLine;
 
-            private function onCreationComplete(event:Event):void
+            private function onCreationComplete(event: Event): void
             {
                 fxgt = FxGettext;
                 this.title = fxgt.gettext("Edit obsel");
 
-                addEditProperty( "type", _obsel.obsel );
-                addEditProperty( "begin", _obsel.obsel);
-                addEditProperty( "end", _obsel.obsel);
-                addEditProperty( "uid", _obsel.obsel);
+                addEditProperty("type", _obsel.obsel);
+                addEditProperty("begin", _obsel.obsel);
+                addEditProperty("end", _obsel.obsel);
+                addEditProperty("uid", _obsel.obsel);
                 for (var prop: String in _obsel.obsel.props)
-                    addEditProperty( prop, _obsel.obsel.props );
+                    addEditProperty(prop, _obsel.obsel.props);
             }
 
-            public function set obsel ( value : ObselSkin ):void
+            public function set obsel (value: ObselSkin): void
             {
                 _obsel = value;
             }
 
-            private function addEditProperty( str : String, obj : Object ) : void
+            private function addEditProperty(str: String, obj: Object): void
             {
-                var hgroup     : HGroup     = new HGroup();
-                var label      : Label        = new Label();
-                var ti         : TextInput    = new TextInput();
+                var hgroup: HGroup = new HGroup();
+                var label: Label = new Label();
+                var ti: TextInput = new TextInput();
+
                 label.text = str + " : ";
-                ti.id     = str;
+                ti.id = str;
                 ti.text = obj[str];
                 ti.editable =  _obsel.editable;
                 label.height = ti.height =22;
-                labelPropGroup.addElement( label ) ;
-                tiPropGroup.addElement( ti );
+                labelPropGroup.addElement(label) ;
+                tiPropGroup.addElement(ti);
             }
 
-            private function onCancel(event:Event):void
+            private function onCancel(event: Event): void
             {
                 PopUpManager.removePopUp(this);
             }
 
-            private function onValid(event:Event):void
+            private function onValid(event: Event): void
             {
                 if (traceline._timeline.activity !== null)
                     traceline._timeline.activity.trace("ObselModify", { uri: _obsel.obsel.uri });

@@ -22,18 +22,18 @@ package  com.ithaca.timeline
         /**
          * Name of the obsel property used to split the obsels source
          */
-        public var     _splitter     : String = null ;
+        public var _splitter: String = null ;
 
         /**
          * @see LayoutNode
          */
-        public var     source        : String;
+        public var source: String;
         /**
          * @see LayoutNode
          */
-        public var    autohide    : Boolean = false;
+        public var autohide: Boolean = false;
 
-        public function LayoutModifier( tl : Timeline )
+        public function LayoutModifier(tl: Timeline)
         {
             _timeline = tl;
         }
@@ -41,20 +41,23 @@ package  com.ithaca.timeline
         /**
          * @return the property used to split the trace
          */
-        public function splitBy ( ) : String     { return _splitter; }
+        public function splitBy(): String
+        {
+         return _splitter;
+        }
 
         /**
          * Create a RegexpSelector from a given obsel and the  _splitter property
          * @param obsel
          * @return a RegexpSelector
          */
-        private function createSelector (obsel : Obsel) : ISelector
+        private function createSelector(obsel: Obsel): ISelector
         {
-            var selector : ISelector = new SelectorRegexp();
+            var selector: ISelector = new SelectorRegexp();
 
-            if ( obsel.hasOwnProperty(_splitter) )
+            if (obsel.hasOwnProperty(_splitter))
                 selector.setParameters(_splitter + "," + "^" + obsel[_splitter] +"$");
-            else if ( obsel.props.hasOwnProperty(_splitter) )
+            else if (obsel.props.hasOwnProperty(_splitter))
                 selector.setParameters(_splitter + "," + "^" + obsel.props[_splitter] +"$");
             else
                 return null
@@ -62,15 +65,15 @@ package  com.ithaca.timeline
             return selector;
         }
 
-        private function isSelectorAlreadyExist ( obsel : Obsel ) : ISelector
+        private function isSelectorAlreadyExist (obsel: Obsel): ISelector
         {
-            var selector : ISelector = createSelector ( obsel );
+            var selector: ISelector = createSelector (obsel);
 
-            if (selector && parentNode )
-                for ( var brotherIndex : uint = 0; brotherIndex < parentNode.numElements; brotherIndex++ )
+            if (selector && parentNode)
+                for (var brotherIndex: uint = 0; brotherIndex < parentNode.numElements; brotherIndex++)
                 {
-                    var brother : LayoutNode = parentNode.getElementAt( brotherIndex ) as LayoutNode;
-                    if ( brother is TraceLine  && (brother as TraceLine).selector && (brother as TraceLine).selector.isEqual( selector) )
+                    var brother: LayoutNode = parentNode.getElementAt(brotherIndex) as LayoutNode;
+                    if (brother is TraceLine  && (brother as TraceLine).selector && (brother as TraceLine).selector.isEqual(selector))
                         return null;
                 }
 
@@ -80,47 +83,47 @@ package  com.ithaca.timeline
         /**
          * (Re)Check every obsel of the source.
          */
-        override public function resetObselCollection ( obselsCollection : ArrayCollection = null) : void
+        override public function resetObselCollection (obselsCollection: ArrayCollection = null): void
         {
-            for each ( var item : Obsel in obselsCollection)
-                newObsel( item );
+            for each (var item: Obsel in obselsCollection)
+                newObsel(item);
         }
 
         /**
          * Check if an obsel can be added to a traceline and if can't, create the traceline.
          */
-        private function newObsel( obsel : Obsel ) : void
+        private function newObsel(obsel: Obsel): void
         {
-            var selector : ISelector = isSelectorAlreadyExist ( obsel )
-            if ( selector )
+            var selector: ISelector = isSelectorAlreadyExist (obsel)
+            if (selector)
             {
-                var trac : Trace = obsel.trace ;
-                var newTree : LayoutNode = _timeline.timelineLayout.createTree( layoutXML, trac );
-                var title : String;
+                var trac: Trace = obsel.trace;
+                var newTree: LayoutNode = _timeline.timelineLayout.createTree(layoutXML, trac);
+                var title: String;
 
-                if ( obsel.hasOwnProperty(_splitter) )
-                    title =  obsel[_splitter] ;
-                else if ( obsel.props.hasOwnProperty(_splitter) )
-                    title =  obsel.props[_splitter] ;
+                if (obsel.hasOwnProperty(_splitter))
+                    title = obsel[_splitter];
+                else if (obsel.props.hasOwnProperty(_splitter))
+                    title = obsel.props[_splitter];
 
-                newTree = new TraceLine( _timeline, title, selector , source );
-                if (  source == "parent"  && parentNode is TraceLine)
+                newTree = new TraceLine(_timeline, title, selector, source);
+                if ( source == "parent"  && parentNode is TraceLine)
                 {
-                    (parentNode as TraceLine)._obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree as TraceLine).onSourceChange );
-                    (newTree as TraceLine ).resetObselCollection( (parentNode as TraceLine)._obsels );
+                    (parentNode as TraceLine)._obsels.addEventListener(CollectionEvent.COLLECTION_CHANGE, (newTree as TraceLine).onSourceChange);
+                    (newTree as TraceLine).resetObselCollection((parentNode as TraceLine)._obsels);
                 }
                 else
                 {
                     if (trac)
                     {
-                        trac.obsels.addEventListener( CollectionEvent.COLLECTION_CHANGE , (newTree as TraceLine).onSourceChange );
-                        (newTree as TraceLine ).resetObselCollection( trac.obsels );
+                        trac.obsels.addEventListener(CollectionEvent.COLLECTION_CHANGE, (newTree as TraceLine).onSourceChange);
+                        (newTree as TraceLine).resetObselCollection(trac.obsels);
                     }
                 }
 
-                var event : TimelineEvent = new TimelineEvent( TimelineEvent.GENERATE_NEW_TRACELINE );
-                event.value = { generator : this, obsel : obsel, traceline : newTree };
-                _timeline.dispatchEvent( event );
+                var event: TimelineEvent = new TimelineEvent(TimelineEvent.GENERATE_NEW_TRACELINE);
+                event.value = { generator: this, obsel: obsel, traceline: newTree };
+                _timeline.dispatchEvent(event);
 
                 (newTree as TraceLine).autohide = autohide;
                 newTree.styleName = styleName;
@@ -129,24 +132,24 @@ package  com.ithaca.timeline
             }
         }
 
-        override public function onSourceChange( event : CollectionEvent ) : void
+        override public function onSourceChange(event: CollectionEvent): void
         {
             switch (event.kind)
             {
-                case CollectionEventKind.ADD :
+                case CollectionEventKind.ADD:
                 {
-                    for each ( var item : Obsel in event.items)
-                        newObsel( item );
+                    for each (var item: Obsel in event.items)
+                        newObsel(item);
 
                     break;
                 }
-                case CollectionEventKind.REMOVE :
+                case CollectionEventKind.REMOVE:
                 break;
 
-                case CollectionEventKind.REPLACE :
+                case CollectionEventKind.REPLACE:
                 break;
 
-                case CollectionEventKind.RESET :
+                case CollectionEventKind.RESET:
                 break;
 
                 default:

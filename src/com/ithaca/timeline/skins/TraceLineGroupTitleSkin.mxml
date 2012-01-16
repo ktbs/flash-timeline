@@ -46,28 +46,28 @@
             import gnu.as3.gettext._FxGettext;
             import gnu.as3.gettext.FxGettext;
             [Bindable]
-            private var fxgt:_FxGettext;
+            private var fxgt: _FxGettext;
 
             [Bindable]
             private var backgroundColor: uint;
             private var popupMenu: Menu;
             public var timeline: Timeline = null;
 
-            private function mouseDownHandler( event:MouseEvent ) : void
+            private function mouseDownHandler(event: MouseEvent): void
             {
-                var dragInitiator:TraceLineGroupTitle = hostComponent ;
-                var ds:DragSource = new DragSource();
+                var dragInitiator: TraceLineGroupTitle = hostComponent ;
+                var ds: DragSource = new DragSource();
                 ds.addData(dragInitiator, "traceLineGroup");
                 DragManager.doDrag(dragInitiator, ds, event);
             }
 
-            protected function zcStopDrag(e:MouseEvent):void
+            protected function zcStopDrag(e: MouseEvent): void
             {
                 CursorIcons.SetDefaultCursor(e);
             }
 
             // The dragEnter event handler for the Canvas container enables dropping.
-            private function dragEnterHandler( event:DragEvent ) : void
+            private function dragEnterHandler(event: DragEvent): void
             {
                 if (event.dragSource.hasFormat("traceLineGroup"))
                 {
@@ -76,10 +76,10 @@
             }
 
             // The dragDrop event handler for the Canvas container sets the Image control's position by "dropping" it in its new location.
-            private function dragDropHandler( event:DragEvent ) : void
+            private function dragDropHandler(event: DragEvent): void
             {
-                if ( event.dragInitiator is TraceLineGroupTitle )
-                    timeline.moveTraceLineGroup( timeline.getElementIndex( (event.dragInitiator as TraceLineGroupTitle).tlg), timeline.getElementIndex(hostComponent.tlg));
+                if (event.dragInitiator is TraceLineGroupTitle)
+                    timeline.moveTraceLineGroup(timeline.getElementIndex((event.dragInitiator as TraceLineGroupTitle).tlg), timeline.getElementIndex(hostComponent.tlg));
             }
 
             protected function creationCompleteHandler(event: FlexEvent): void
@@ -87,10 +87,10 @@
                 timeline = hostComponent.tlg._timeline;
                 fxgt = FxGettext;
                 hostComponent.percentWidth = 100;
-                contentGroup.top     = hostComponent.tlg.getStyle("headerHeight");
+                contentGroup.top = hostComponent.tlg.getStyle("headerHeight");
                 contentGroup.bottom = hostComponent.tlg.getStyle("bottom");
                 backgroundColor = hostComponent.tlg.backgroundColor;
-                stage.addEventListener( MouseEvent.MOUSE_UP,    zcStopDrag);
+                stage.addEventListener(MouseEvent.MOUSE_UP, zcStopDrag);
 
                 popupMenu = new Menu();
                 popupMenu.variableRowHeight = true;
@@ -101,29 +101,29 @@
                 closeButton.setStyle("visible", timeline.getStyle("adminMode"));
             }
 
-            protected function closeTracelineGroup( ) : void
+            protected function closeTracelineGroup(): void
             {
-                timeline.removeTraceLineGroup( hostComponent.tlg );
+                timeline.removeTraceLineGroup(hostComponent.tlg);
             }
 
-            override public function styleChanged(styleProp:String):void
+            override public function styleChanged(styleProp: String): void
             {
                 super.styleChanged(styleProp);
 
                 switch(styleProp)
                 {
                     case "headerHeight":
-                        if ( contentGroup )
-                            contentGroup.top     = getStyle("headerHeight");
+                        if (contentGroup)
+                            contentGroup.top = getStyle("headerHeight");
                         invalidateDisplayList();
                         break;
                     case "bottom":
-                        if ( contentGroup )
-                            contentGroup.bottom    = getStyle("bottom");
+                        if (contentGroup)
+                            contentGroup.bottom = getStyle("bottom");
                         invalidateDisplayList();
                         break;
                     case "bgColor":
-                        tlgContainer.backgroundFill = new SolidColor( getStyle("bgColor") )    ;
+                        tlgContainer.backgroundFill = new SolidColor(getStyle("bgColor"))    ;
                         invalidateDisplayList();
                         break;
                     case "icon":
@@ -136,44 +136,44 @@
                         break;
                 }
 
-                if (  !styleProp )
+                if (!styleProp)
                 {
-                    if (contentGroup )
+                    if (contentGroup)
                     {
-                        contentGroup.top     = getStyle("headerHeight");
-                        contentGroup.bottom    = getStyle("bottom");
+                        contentGroup.top = getStyle("headerHeight");
+                        contentGroup.bottom = getStyle("bottom");
                     }
-                    backgroundColor        = getStyle("bgColor");
-                    if (traceLineGroupTitle )
+                    backgroundColor = getStyle("bgColor");
+                    if (traceLineGroupTitle)
                         traceLineGroupTitle.text = getStyle("title");
-                    if ( tlgContainer )
-                        tlgContainer.backgroundFill = new SolidColor( getStyle("bgColor") )    ;
+                    if (tlgContainer)
+                        tlgContainer.backgroundFill = new SolidColor(getStyle("bgColor"));
                     invalidateDisplayList();
                 }
             }
 
-            private function popupMenuChange(evt:MenuEvent):void
+            private function popupMenuChange(evt: MenuEvent): void
             {
-                var selector:String = "##################";
-                for each( var filter:Object in popupMenuArray)
+                var selector: String = "##################";
+                for each (var filter: Object in popupMenuArray)
                 {
-                    if ( filter.toggled )
+                    if (filter.toggled)
                     {
-                        if ( selector == "##################" )
+                        if (selector == "##################")
                             selector = filter.regexpFilter;
                         else
                             selector += "|" + filter.regexpFilter;
                     }
                 }
-                (hostComponent.tlg.getElementAt(0) as TraceLine).selector = new SelectorRegexp( "type," + selector );
+                (hostComponent.tlg.getElementAt(0) as TraceLine).selector = new SelectorRegexp("type," + selector);
             }
 
-            private function filterTreeChange(evt:MenuEvent):void
+            private function filterTreeChange(evt: MenuEvent): void
             {
-                var traceLine:TraceLine             = ((hostComponent.tlg.getElementAt(0) as LayoutNode).getElementByName( ( evt.item as Object ).name ) as TraceLine );
-                if ( traceLine )
+                var traceLine: TraceLine = ((hostComponent.tlg.getElementAt(0) as LayoutNode).getElementByName((evt.item as Object).name) as TraceLine);
+                if (traceLine)
                 {
-                    traceLine.setToVisible( (evt.item as Object ).toggled );
+                    traceLine.setToVisible((evt.item as Object).toggled);
                 }
             }
 

@@ -19,21 +19,21 @@
             import gnu.as3.gettext._FxGettext;
             import gnu.as3.gettext.FxGettext;
             [Bindable]
-            private var fxgt:_FxGettext;
+            private var fxgt: _FxGettext;
 
-            public var confirm : Boolean = false;
+            public var confirm: Boolean = false;
 
-            protected function creationCompleteHandler(event:FlexEvent):void
+            protected function creationCompleteHandler(event: FlexEvent): void
             {
                 fxgt = FxGettext;
             }
 
-            private function onCancel(event:Event):void
+            private function onCancel(event: Event): void
             {
                 PopUpManager.removePopUp(this);
             }
 
-            private function onValid(event:Event):void
+            private function onValid(event: Event): void
             {
                 confirm = true;
                 PopUpManager.removePopUp(this);

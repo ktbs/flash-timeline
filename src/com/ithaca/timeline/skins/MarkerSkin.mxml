@@ -28,9 +28,9 @@
             [Bindable]
             private var fxgt:_FxGettext;
 
-            public var obsel : Obsel;
+            public var obsel: Obsel;
 
-            protected function creationCompleteHandler(event: Event):void
+            protected function creationCompleteHandler(event: Event): void
             {
                 fxgt = FxGettext;
                 obsel = hostComponent.obsel;
@@ -40,13 +40,13 @@
                 // Update icon source and tooltip
                 onObselChange();
 
-                //if ( hostComponent.editable )
+                //if (hostComponent.editable)
                 {
                     currentState = 'editable';
                 }
             }
 
-            protected function EditComment( e:MouseEvent ):void
+            protected function EditComment(e: MouseEvent): void
             {
                 this.enabled = false;
 
@@ -66,18 +66,18 @@
                 PopUpManager.addPopUp(markerEdit, this);
                 PopUpManager.centerPopUp(markerEdit);
                 markerEdit.y -= markerEdit.height;
-                markerEdit.addEventListener( Event.REMOVED_FROM_STAGE, onRemoveEditDialog );
+                markerEdit.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveEditDialog);
             }
 
-            private function onRemoveEditDialog(event:Event):void
+            private function onRemoveEditDialog(event: Event): void
             {
                 if (event.currentTarget.confirm)
                 {
                     if (hostComponent.getStyle("tooltipProp"))
                     {
-                        obsel.props[hostComponent.getStyle( "tooltipProp")] = event.currentTarget.commentTextInput.text;
+                        obsel.props[hostComponent.getStyle("tooltipProp")] = event.currentTarget.commentTextInput.text;
 
-                        var propChange : PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
+                        var propChange: PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
                         propChange.property = "props";
                         obsel.dispatchEvent(propChange);
                         icon.toolTip = event.currentTarget.commentTextInput.text;
@@ -98,7 +98,7 @@
                 }
                 else if (hostComponent.getStyle("icon"))
                 {
-                    icon.source = hostComponent.getStyle( "icon" );
+                    icon.source = hostComponent.getStyle("icon");
                 }
 
                 if (hostComponent.getStyle("tooltipExpression"))
@@ -114,9 +114,9 @@
                 }
             }
 
-            protected function onToolTipShow( event : ToolTipEvent ) : void
+            protected function onToolTipShow(event: ToolTipEvent): void
             {
-                event.toolTip.text     =  icon.toolTip;
+                event.toolTip.text =  icon.toolTip;
             }
         ]]>
     </fx:Script>

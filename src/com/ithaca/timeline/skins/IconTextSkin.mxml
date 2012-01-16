@@ -21,14 +21,14 @@
             import flash.geom.ColorTransform;
             import mx.graphics.SolidColor;
 
-            public var obsel : Obsel;
+            public var obsel: Obsel;
 
             protected function creationCompleteHandler(event: Event):void
             {
                 obsel = hostComponent.obsel;
-                container.backgroundFill = new SolidColor( hostComponent.getStyle( "backgroundColor" ) );
+                container.backgroundFill = new SolidColor(hostComponent.getStyle("backgroundColor"));
                 obselText.editable = hostComponent.editable;
-                obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);                
+                obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
                 onObselChange();
             }
 
@@ -47,7 +47,7 @@
                 }
                 else if (hostComponent.getStyle("textProp"))
                 {
-                    obselText.text     = obsel.props[ hostComponent.getStyle( "textProp" ) ];
+                    obselText.text = obsel.props[hostComponent.getStyle("textProp")];
                 }
 
                 if (hostComponent.getStyle("iconExpression"))
@@ -61,7 +61,7 @@
                 }
                 else if (hostComponent.getStyle("icon"))
                 {
-                    icon.source = hostComponent.getStyle( "icon" );
+                    icon.source = hostComponent.getStyle("icon");
                 }
 
                 if (hostComponent.getStyle("tooltipExpression"))
@@ -78,10 +78,10 @@
                     icon.toolTip =  obsel.props[hostComponent.getStyle("tooltipProp")];
                 }
             }
-            
-            protected function onTextChange(event:Event):void
+
+            protected function onTextChange(event: Event): void
             {
-                if ( hostComponent.getStyle("textProp"))
+                if (hostComponent.getStyle("textProp"))
                 {
                     obsel.props[hostComponent.getStyle("textProp")] = obselText.text;
                     onObselChange();

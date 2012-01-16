@@ -32,85 +32,85 @@
             import mx.core.UIComponent;
 
             [Bindable]
-            private var backgroundColor : uint;
+            private var backgroundColor: uint;
 
-            private function mouseMoveHandler( event:MouseEvent ) : void
+            private function mouseMoveHandler(event: MouseEvent): void
             {
-                var dragInitiator:TraceLineGroupTitle = hostComponent ;
-                var ds:DragSource = new DragSource();
+                var dragInitiator: TraceLineGroupTitle = hostComponent ;
+                var ds: DragSource = new DragSource();
                 ds.addData(dragInitiator, "traceLineGroup");
                 DragManager.doDrag(dragInitiator, ds, event);
                 stage.removeEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);
             }
 
             // The dragEnter event handler for the Canvas container enables dropping.
-            private function dragEnterHandler( event:DragEvent ) : void
+            private function dragEnterHandler(event: DragEvent): void
             {
                 if (event.dragSource.hasFormat("traceLineGroup"))
                 {
-                    DragManager.acceptDragDrop( UIComponent(event.currentTarget));
+                    DragManager.acceptDragDrop(UIComponent(event.currentTarget));
                 }
             }
 
             // The dragDrop event handler for the Canvas container sets the Image control's position by "dropping" it in its new location.
-            private function dragDropHandler( event:DragEvent ) : void
+            private function dragDropHandler(event: DragEvent): void
             {
-                var tl : Timeline = hostComponent.tlg._timeline as Timeline;
-                if ( event.dragInitiator is TraceLineGroupTitle )
-                    tl.moveTraceLineGroup( tl.getElementIndex( (event.dragInitiator as TraceLineGroupTitle).tlg), tl.getElementIndex(hostComponent.tlg));
+                var tl: Timeline = hostComponent.tlg._timeline as Timeline;
+                if (event.dragInitiator is TraceLineGroupTitle)
+                    tl.moveTraceLineGroup(tl.getElementIndex((event.dragInitiator as TraceLineGroupTitle).tlg), tl.getElementIndex(hostComponent.tlg));
 
                 stage.addEventListener(MouseEvent.MOUSE_OUT, CursorIcons.SetDefaultCursor);
             }
 
-            protected function creationCompleteHandler(event:FlexEvent):void
+            protected function creationCompleteHandler(event: FlexEvent): void
             {
                 hostComponent.percentWidth = 100;
-                contentGroup.top     = hostComponent.tlg.getStyle("headerHeight");
+                contentGroup.top = hostComponent.tlg.getStyle("headerHeight");
                 contentGroup.bottom = hostComponent.tlg.getStyle("bottom");
                 traceLineGroupTitle.text = hostComponent.tlg.title;
                 backgroundColor = hostComponent.tlg.backgroundColor;
             }
 
-            protected function closeTracelineGroup( ) : void
+            protected function closeTracelineGroup(): void
             {
-                (hostComponent.tlg._timeline as Timeline).removeTraceLineGroup( hostComponent.tlg );
+                (hostComponent.tlg._timeline as Timeline).removeTraceLineGroup(hostComponent.tlg);
             }
 
-            override public function styleChanged(styleProp:String):void
+            override public function styleChanged(styleProp: String): void
             {
                 super.styleChanged(styleProp);
 
-                if (  !styleProp  || styleProp == "headerHeight" )
+                if (!styleProp || styleProp == "headerHeight")
                 {
-                    if ( contentGroup )
-                        contentGroup.top     = getStyle("headerHeight");
+                    if (contentGroup)
+                        contentGroup.top = getStyle("headerHeight");
                 }
-                if (  !styleProp  || styleProp == "bottom" )
+                if (!styleProp || styleProp == "bottom")
                 {
-                    if ( contentGroup )
-                        contentGroup.top     = getStyle("bottom");
+                    if (contentGroup)
+                        contentGroup.top = getStyle("bottom");
                 }
-                if (  !styleProp  || styleProp == "bgColor" )
+                if (!styleProp || styleProp == "bgColor")
                 {
-                    tlgContainer.backgroundFill = new SolidColor( getStyle("bgColor") )    ;
+                    tlgContainer.backgroundFill = new SolidColor(getStyle("bgColor"))    ;
                 }
-                if (  !styleProp  || styleProp == "icon" )
+                if (!styleProp  || styleProp == "icon")
                 {
-                    if ( traceLineGroupTitleIcon )
+                    if (traceLineGroupTitleIcon)
                         traceLineGroupTitleIcon.source = getStyle("icon");
                 }
-                if (  !styleProp  || styleProp == "title" )
+                if (!styleProp  || styleProp == "title")
                 {
-                    if ( traceLineGroupTitle )
+                    if (traceLineGroupTitle)
                         traceLineGroupTitle.text = getStyle("title");
                 }
 
                 invalidateDisplayList();
             }
 
-            protected function addCommentObsel() : void
+            protected function addCommentObsel(): void
             {
-				dispatchEvent(new TimelineEvent(TimelineEvent.PRE_ADD_COMMENT_OBSEL));
+                dispatchEvent(new TimelineEvent(TimelineEvent.PRE_ADD_COMMENT_OBSEL));
             }
 
         ]]>
