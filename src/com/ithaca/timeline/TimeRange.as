@@ -132,7 +132,7 @@ package com.ithaca.timeline
             var usableWidth:Number =  width - timeHoleWidth * (numIntervals - 1);
 
             var time: Number = 0;
-            var currentPostion: Number = 0;
+            var currentPosition: Number = 0;
             if (positionValue <= 0)
                 time = begin;
             else if (positionValue >= width)
@@ -142,13 +142,13 @@ package com.ithaca.timeline
                 {
                     var rangeStart: Number = Math.max(begin, _ranges[i - 1]);
                     var intervalWidth: Number = (i % 2 == 0) ? timeHoleWidth: (_ranges[i] - rangeStart) * usableWidth / duration;
-                    if (positionValue < currentPostion + intervalWidth)
+                    if (positionValue < currentPosition + intervalWidth)
                     {
-                        time = rangeStart + (positionValue - currentPostion)  * duration / usableWidth;
+                        time = rangeStart + (positionValue - currentPosition)  * duration / usableWidth;
                         break;
                     }
                     else
-                        currentPostion += intervalWidth;
+                        currentPosition += intervalWidth;
                 }
 
             return time;
