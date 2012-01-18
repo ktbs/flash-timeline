@@ -40,6 +40,8 @@
                         ctx.locals['obsel'] = obsel;
                         ctx.locals['trace'] = obsel.trace;
                     }
+                    // Resize icon if it is obtained through a TALES expression.
+                    icon.height = hostComponent.traceline.height;
                     icon.source = ctx.evaluate("string:" + hostComponent.getStyle("iconExpression"));
                 }
                 else if (hostComponent.getStyle("icon"))
@@ -65,6 +67,6 @@
         ]]>
     </fx:Script>
 
-    <mx:Image id="icon" />
+    <s:Image id="icon" />
 
 </s:Skin>

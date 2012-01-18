@@ -94,6 +94,7 @@
                     ctx = new Context(obsel);
                     ctx.locals['obsel'] = obsel;
                     ctx.locals['trace'] = obsel.trace;
+                    icon.height = hostComponent.traceline.height;
                     icon.source = ctx.evaluate("string:" + hostComponent.getStyle("iconExpression"));
                 }
                 else if (hostComponent.getStyle("icon"))
@@ -126,6 +127,6 @@
         <s:State name="editable" />
     </s:states>
 
-    <mx:Image id="icon" />
+    <s:Image id="icon" />
 
 </s:Skin>

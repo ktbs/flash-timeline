@@ -57,6 +57,7 @@
                         ctx.locals['obsel'] = obsel;
                         ctx.locals['trace'] = obsel.trace;
                     }
+                    icon.height = hostComponent.traceline.height;
                     icon.source = ctx.evaluate("string:" + hostComponent.getStyle("iconExpression"));
                 }
                 else if (hostComponent.getStyle("icon"))
@@ -92,7 +93,7 @@
 
     <s:BorderContainer id="container" cornerRadius="4"  height="25" >
         <s:layout><s:HorizontalLayout gap="2" /> </s:layout>
-        <mx:Image id="icon" />
+        <s:Image id="icon" />
         <s:TextInput id="obselText" maxWidth="80"  fontSize="11" contentBackgroundAlpha="0" focusOut="onTextChange(event)" />
     </s:BorderContainer>
 </s:Skin>
