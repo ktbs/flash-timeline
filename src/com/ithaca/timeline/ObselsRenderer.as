@@ -17,7 +17,7 @@ package com.ithaca.timeline
      */
     public class ObselsRenderer extends BaseObselsRenderer
     {
-        protected var  obselsSkinsCollection: ArrayCollection;
+        public var  obselsSkinsCollection: ArrayCollection;
 
         public function ObselsRenderer(tr: TimeRange, tl: TraceLine)
         {
