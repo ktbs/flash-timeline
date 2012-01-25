@@ -2,6 +2,7 @@ package com.ithaca.timeline
 {
     import com.ithaca.timeline.events.TimelineEvent;
     import com.ithaca.timeline.PlayPauseButton;
+    import com.ithaca.timeline.skins.TraceLineSkin;
     import com.ithaca.traces.Trace;
     import flash.events.Event;
     import flash.events.TimerEvent;
@@ -11,8 +12,15 @@ package com.ithaca.timeline
     import mx.core.UIComponent;
     import spark.components.Group;
     import spark.components.supportClasses.SkinnableComponent;
+    import spark.components.supportClasses.Skin;
     import spark.events.ElementExistenceEvent;
     import mx.events.ResizeEvent;
+    import mx.events.PropertyChangeEvent;
+
+    import com.flashartofwar.fcss.stylesheets.IStyleSheet;
+    import com.flashartofwar.fcss.stylesheets.FStyleSheet;
+    import com.flashartofwar.fcss.styles.IStyle;
+    import com.flashartofwar.fcss.applicators.IApplicator;
 
     /**
      * This style changes the zoomContext cursor behavior.
@@ -82,6 +90,8 @@ package com.ithaca.timeline
     {
         private var _styleSheet: Stylesheet;
         private var _layout: Layout;
+
+        public var debug: Object
 
         public  var range: TimeRange;
         /**
@@ -155,6 +165,7 @@ package com.ithaca.timeline
                     activity.trace("RulerClick", { position: (event as TimelineEvent).value });
             });
             range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; });
+            debug = new Object();
         }
 
         /**
@@ -188,6 +199,7 @@ package com.ithaca.timeline
         {
             super.styleChanged(styleProp);
 
+            /* FIXME: should propagate other style changes: adminMode */
             if (zoomContext)
                 if (!styleProp || styleProp == 'cursorMode')
                 {
@@ -543,6 +555,80 @@ package com.ithaca.timeline
                 current.push(tlg.trace);
             }
             return current;
+        }
+
+        /*
+         * Try to apply the given stylesheet to the TraceLine and its descendants.
+         */
+        public function applyStylesheetToTraceline(applicator: IApplicator, stylesheet: IStyleSheet, traceline: TraceLine): void
+        {
+            if (traceline === null)
+            {
+                /* 
+                 * FIXME: this catches a case that should be properly
+                 * solved: there is no good reason that a NULL tl is
+                 * present in the TLG children.
+                 */
+                trace("Skipping null tl");
+                return;
+            }
+            applicator.applyStyle(traceline.skin, stylesheet.getStyle("TraceLine", traceline.name));
+
+            this.debug['traceline'] = traceline;
+            if (traceline.skin !== null)
+            {
+                /* Apply stylesheet to traceline obsels */
+                for each (var os: ObselSkin in (traceline.skin as TraceLineSkin).obselsRenderer.obselsSkinsCollection)
+                {
+                    /* FIXME: how to handle skin change if skin-class is defined ? */
+                    if (os.skin !== null)
+                    {
+                        this.debug['os'] = os;
+                        applicator.applyStyle(os,
+                                              stylesheet.getStyle("Obsel", os.obsel.type, traceline.name + ".Obsels"));
+                    }
+                }
+            }
+
+            /* Recursively apply to children tracelines */
+            for (var tlIndex: uint = 0; tlIndex < traceline.numElements; tlIndex++)
+            {
+                var tl: TraceLine = traceline.getElementAt(tlIndex) as TraceLine;
+                applyStylesheetToTraceline(applicator, stylesheet, tl);
+            }
+        }
+
+        /*
+         * Apply the given CSS specification to the Timeline elements.
+         */
+        public function applyCSS(cssData: String): void
+        {
+            var stylesheet: IStyleSheet = new FStyleSheet();
+            var applicator: IApplicator = new TimelineStyleApplicator();
+            var st: IStyle;
+
+            stylesheet.parseCSS(cssData);
+            
+            this.debug['stylesheet'] = stylesheet;
+
+            /* Apply properties to Timeline: adminMode, cursorMode, timeMode */
+            applicator.applyStyle(this.skin, stylesheet.getStyle("Timeline"));
+
+            /* Walk through the timelinegroup/traceline/obsels
+             * elements and try to apply the new stylesheet */
+            for (var tlgIndex: uint = 0; tlgIndex < this.numElements; tlgIndex++)
+            {
+                var tlg: TraceLineGroup = this.getElementAt(tlgIndex) as TraceLineGroup;
+                
+                applicator.applyStyle(tlg.skin,
+                                      stylesheet.getStyle("TraceLineGroup", tlg.name));
+
+                for (var tlIndex: uint = 0; tlIndex < tlg.numElements; tlIndex++)
+                {
+                    var tl: TraceLine = tlg.getElementAt(tlIndex) as TraceLine;
+                    applyStylesheetToTraceline(applicator, stylesheet, tl);
+                }
+            }
         }
 
     }

@@ -32,9 +32,18 @@
                 onObselChange();
             }
 
+            override public function styleChanged(styleProp: String): void
+            {
+                super.styleChanged(styleProp);
+                onObselChange();
+            }
+
             protected function onObselChange(event: PropertyChangeEvent = null): void
             {
                 var ctx: Context = null;
+
+                if (obsel == null)
+                    return;
 
                 if (hostComponent.getStyle("textExpression"))
                 {

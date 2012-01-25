@@ -86,9 +86,19 @@
                 this.enabled = true;
             }
 
+            override public function styleChanged(styleProp: String): void
+            {
+                super.styleChanged(styleProp);
+                onObselChange();
+            }
+
             protected function onObselChange(event: PropertyChangeEvent = null): void
             {
                 var ctx: Context;
+
+                if (obsel == null)
+                    return;
+
                 if (hostComponent.getStyle("iconExpression"))
                 {
                     ctx = new Context(obsel);
