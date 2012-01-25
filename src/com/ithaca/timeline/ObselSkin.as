@@ -16,6 +16,9 @@ package com.ithaca.timeline
     import spark.components.supportClasses.SkinnableComponent;
 
     [Style(name = "icon", type = "Class", inherit = "no")]
+    [Style(name = "iconExpression", type = "String", inherit = "no")]
+    [Style(name = "tooltipProp", type = "String", inherit = "no")]
+    [Style(name = "tooltipExpression", type = "String", inherit = "no")]
     [Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
 
     /**
