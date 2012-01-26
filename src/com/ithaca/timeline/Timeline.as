@@ -600,6 +600,10 @@ package com.ithaca.timeline
 
         /*
          * Apply the given CSS specification to the Timeline elements.
+         *
+         * FIXME: properly register the new styles in the Flex
+         * stylemanager, so that new created elements get the
+         * appropriate styles too.
          */
         public function applyCSS(cssData: String): void
         {
