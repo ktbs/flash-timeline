@@ -70,6 +70,12 @@
 
         public var activityTimeline: Timeline = null;
 
+        /* Last selected event in the table view */
+        public var currentObsel: Obsel = null;
+        /* Last selected tlg/tl */
+        public var currentTLG: TraceLineGroup = null;
+        public var currentTraceLine: TraceLine = null;
+
         [Embed(source="images/unknown.jpg")]
         public var tlgIcon: Class;
 
@@ -158,11 +164,15 @@
             {
                 dg_label.text = (e.currentTarget as TraceLineTitle).tl.title + " : " + (e.currentTarget as TraceLineTitle).tl._obsels.length + " obsels";
                 obselList_dg.dataProvider = (e.currentTarget as TraceLineTitle).tl._obsels;
+                this.currentTraceLine = (e.currentTarget as TraceLineTitle).tl;
+                this.currentTLG = this.currentTraceLine.getTraceLineGroup();
             }
             else if (e.currentTarget is TraceLineGroupTitle)
             {
                 dg_label.text = (e.currentTarget as TraceLineGroupTitle).tlg.title + " : " + (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels.length + " obsels";
                 obselList_dg.dataProvider = (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels;
+                this.currentTLG = (e.currentTarget as TraceLineGroupTitle).tlg;
+                this.currentTraceLine = null;
             }
         }
 
@@ -418,6 +428,7 @@
         }
 
         private function obselSelectEvent(event: ListEvent): void {
+            this.currentObsel = event.target.selectedItem;
             preview_ta.text = event.target.selectedItem.toString();
         }
 
@@ -441,6 +452,9 @@
         {
             var res: String;
             var ctx: Context = new Context(this);
+            ctx.locals['obsel'] = this.currentObsel;
+            ctx.locals['tl'] = this.currentTraceLine;
+            ctx.locals['tlg'] = this.currentTLG;
             try
             {
                 res = ctx.evaluate(expr);
@@ -455,8 +469,12 @@
 
         private function onTALESTextInput(event: TextEvent): void
         {
-            TALESUtil.onTALESTextInput(event, this, function (msg: String): void
-                                  { preview_ta.text = msg; });
+            TALESUtil.onTALESTextInput(event, { 'this': this,
+                                                'obsel': this.currentObsel,
+                                                'tl': this.currentTraceLine,
+                                                'tlg': this.currentTLG
+                                              },
+                                       function (msg: String): void { preview_ta.text = msg; });
         }
 
         public function debug(): void
