@@ -505,6 +505,12 @@
 
         public function debug(): void
         {
+            trace("Debugging CSS");
+            timeline.applyCSS(preview_ta.text);
+        }
+
+        public function oldDebug(): void
+        {
             /* Create a timeline, add it to stage. Then load a layout
              * and on layout load complete, use it. */
             var content: spark.components.NavigatorContent = new spark.components.NavigatorContent();
@@ -595,9 +601,7 @@
                 </s:HGroup>
 
                 <!-- Obsel preview -->
-                <mx:Label text="Obsel preview" />
-                <s:TextArea id="preview_ta" width="100%" height="100%" bottom="0" editable="true">
-                </s:TextArea>
+    <s:TextArea id="preview_ta" width="100%" height="100%" bottom="0" editable="true"></s:TextArea>
             </s:VGroup>
 
             <!-- Obsels DataGrid -->
