@@ -354,6 +354,32 @@
             loading.visible = false;
         }
 
+        /* Load a CSS file */
+        private function loadCSS(cssFilename: String): void
+        {
+            // Load CSS file and in success handler:
+            var loader: URLLoader = new URLLoader();
+
+            loader.addEventListener(Event.COMPLETE, onLoadCSSComplete);
+            loader.addEventListener(IOErrorEvent.IO_ERROR, onLoadCSSError);
+            loader.load(new URLRequest(cssFilename));
+
+            loading.visible = true;
+            loading.label = "Loading CSS...";
+        }
+
+        private function onLoadCSSComplete(event: Event): void
+        {
+            loading.visible = false;
+            timeline.applyCSS((event.target as URLLoader).data);
+        }
+
+        private function onLoadCSSError(event: IOErrorEvent): void
+        {
+            loading.visible = false;
+            statusMessage("Error when loading CSS: " + event.text, "#ffcccc");
+        }
+
         private function activityObselsToDurative(theTrace: Trace): void
         {
             var activityStart: Obsel = null;
@@ -555,7 +581,14 @@
                     <s:Button label="Save" click="saveLayout()"/>
                 </s:HGroup>
 
-                <!-- Loading Layout-->
+                <!-- Loading CSS -->
+                <s:HGroup width="100%" >
+                    <mx:Label text="CSS :"/>
+                    <mx:TextInput id="css_ti" width="100%"  enter="{loadCSS(css_ti.text)}" enabled="true" text="advene.css" />
+                    <mx:Button label="Load" id="loadCSS_btn"  click="{loadCSS(css_ti.text)}" />
+                </s:HGroup>
+
+                <!-- TALES evaluation -->
                 <s:HGroup width="100%" >
                     <mx:Label text="TALES expr:" />
                     <s:TextInput id="tales_ti" width="100%"  enter="{evaluateTales(tales_ti.text)}" textInput="onTALESTextInput(event)" enabled="true" text="this"/>
