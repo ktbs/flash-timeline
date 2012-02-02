@@ -467,7 +467,10 @@ package com.ithaca.timeline
          */
         public function get currrentRelativeTime(): Number
         {
-            return currentTime - range._ranges[0];
+            if (range.isEmpty())
+                return currentTime;
+            else
+                return currentTime - range._ranges[0];
         }
 
         /**
@@ -481,26 +484,27 @@ package com.ithaca.timeline
          */
         public function set currentTime( timeValue: Number): void
         {
-            var timerangeEnd: Number = range._ranges[ range._ranges.length -1 ];
-            var timerangeBegin: Number = range._ranges[ 0 ];
+            if (! range.isEmpty()) {
+                var timerangeEnd: Number = range._ranges[ range._ranges.length -1 ];
+                var timerangeBegin: Number = range._ranges[0];
 
-            if (timeValue > timerangeEnd)
-            {
-                dispatchEvent(new TimelineEvent(TimelineEvent.END_REACHED));
-                timeValue = timerangeEnd;
-            }
-
-            if (timeValue >= timerangeEnd - endAlertBeforeTime)
-            {
-                if (!endAlertEventDispatched)
+                if (timeValue > timerangeEnd)
                 {
-                    endAlertEventDispatched = true;
-                    dispatchEvent(new TimelineEvent(TimelineEvent.END_ALERT));
+                    dispatchEvent(new TimelineEvent(TimelineEvent.END_REACHED));
+                    timeValue = timerangeEnd;
                 }
-            }
-            else
-                endAlertEventDispatched = false;
 
+                if (timeValue >= timerangeEnd - endAlertBeforeTime)
+                {
+                    if (!endAlertEventDispatched)
+                    {
+                        endAlertEventDispatched = true;
+                        dispatchEvent(new TimelineEvent(TimelineEvent.END_ALERT));
+                    }
+                }
+                else
+                    endAlertEventDispatched = false;
+            }
             _currentTime = timeValue;
             dispatchEvent(new TimelineEvent(TimelineEvent.CURRENT_TIME_CHANGE, true))
         }
@@ -564,7 +568,7 @@ package com.ithaca.timeline
         {
             if (traceline === null)
             {
-                /* 
+                /*
                  * FIXME: this catches a case that should be properly
                  * solved: there is no good reason that a NULL tl is
                  * present in the TLG children.
@@ -612,7 +616,7 @@ package com.ithaca.timeline
             var st: IStyle;
 
             stylesheet.parseCSS(cssData);
-            
+
             this.debug['stylesheet'] = stylesheet;
 
             /* Apply properties to Timeline: adminMode, cursorMode, timeMode */
@@ -623,7 +627,7 @@ package com.ithaca.timeline
             for (var tlgIndex: uint = 0; tlgIndex < this.numElements; tlgIndex++)
             {
                 var tlg: TraceLineGroup = this.getElementAt(tlgIndex) as TraceLineGroup;
-                
+
                 applicator.applyStyle(tlg.skin,
                                       stylesheet.getStyle("TraceLineGroup", tlg.name));
 
