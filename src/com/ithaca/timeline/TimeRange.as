@@ -175,7 +175,7 @@ package com.ithaca.timeline
          * @param    endValue end of the new inteval
          * @param    fillHole if true the interval between the current list and the new interval is considered as valid and usable; otherwise this time hole is preseved
          */
-        public function addTime(beginValue: Number, endValue: Number,  fillHole: Boolean = true): void
+        public function addTime(beginValue: Number, endValue: Number,  fillHole: Boolean = false): void
         {
             var beginIndex: Number = _ranges.length;
             var endIndex: Number = _ranges.length;
