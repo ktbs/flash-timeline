@@ -84,7 +84,7 @@
             fxgt = FxGettext;
             // we set the locale for the messages category to fr_FR
             //setlocale(Locale.LC_MESSAGES, mklocale(ISO_639_1.FR,ISO_3166.FR));
-            var service: IGettextService = new URLLoaderService("..");
+            var service: IGettextService = new URLLoaderService(".");
             //service.addEventListener(Event.COMPLETE, onServiceComplete);
             service.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
             // You can listen to this event, but it is not required in
