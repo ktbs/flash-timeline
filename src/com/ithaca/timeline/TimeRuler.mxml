@@ -67,7 +67,7 @@
 
         public var minLabelsGap: Number = 80;
         public var maxLabelsGap: Number = 30;
-        public var minMarksGap: Number = 4;;
+        public var minMarksGap: Number = 4;
         public var maxMarksGap: Number = 20;
         public var minorMarkHeight: Number = 4;
         public var majorMarkHeight: Number = 7;
@@ -84,7 +84,7 @@
         {
             dateFormater.formatString = "JJ:NN:SS";
             ruler.addChild(new Shape);
-              ToolTipManager.showDelay = 0;
+            ToolTipManager.showDelay = 0;
             ruler.height = limitMarkHeight;
             if (labelsOnTop)
             {
@@ -137,7 +137,7 @@
                 if (tBegin < timeRange._ranges[i + 1] && tEnd > timeRange._ranges[i])
                 {
                     var xStep: Number = timeRange.timeToPosition(tBegin+interval.mark, rulerWidth ) - timeRange.timeToPosition(tBegin, rulerWidth );
-                    if (lastLabel==null)
+                    if (lastLabel == null)
                     {
                         drawMark(shape,  startPosition,  limitMarkHeight);
                         lastLabel = addLabel(tBegin,  startPosition);
@@ -151,9 +151,9 @@
                     lastLabel.setStyle('fontSize', '11');
 
                     x = startPosition + timeRange.timeToPosition(Math.ceil(tBegin / interval.mark) * interval.mark, rulerWidth);
-                    for (var t: Number  = Math.ceil(tBegin /interval.mark)*interval.mark; t < tEnd; t += interval.mark)
+                    for (var t: Number = Math.ceil(tBegin / interval.mark) * interval.mark; t < tEnd; t += interval.mark)
                     {
-                        drawMark(shape, x,  (t % interval.major)? minorMarkHeight: majorMarkHeight);
+                        drawMark(shape, x, (t % interval.major) ? minorMarkHeight : majorMarkHeight);
 
                         if (t % interval.label == 0 && t % interval.major == 0)
                         {
@@ -169,7 +169,7 @@
                         timeLabels.removeElement(lastLabel);
                     drawMark(shape, Math.min(x, startPosition + rulerWidth), limitMarkHeight);
                     if (i < timeRange._ranges.length - 2)
-                        lastLabel = addLabel(tEnd, Math.min(x, startPosition + rulerWidth), labelsOnTop? -8:-2);
+                        lastLabel = addLabel(tEnd, Math.min(x, startPosition + rulerWidth), labelsOnTop ? -8 : -2);
                     else
                         lastLabel = addLabel(tEnd, Math.min(x, startPosition + rulerWidth));
                     lastLabel.setStyle('fontSize', '11');
@@ -215,7 +215,7 @@
 
         public function redraw(event: ResizeEvent = null): void
         {
-            if (timeRange  && timeRange.duration > 0)
+            if (timeRange && timeRange.duration > 0)
             {
                 if (timeLabels.numElements > 0)
                     timeLabels.removeAllElements();
@@ -264,7 +264,7 @@
                 else
                     tt.y = 18;
 
-                var date: Date  = new Date( timeRange.positionToTime(point.x - startPosition, rulerWidth) - timeOffset);
+                var date: Date  = new Date(timeRange.positionToTime(point.x - startPosition, rulerWidth) - timeOffset);
 
                 if (useLocaleTime)
                     tt.text = dateFormater.format(date);
@@ -279,8 +279,8 @@
     </fx:Script>
 
     <s:Group  width="100%">
-        <s:BorderContainer id="TimeRulerContainer" backgroundColor="{backgroundColor}"  width="100%"  minHeight="10" borderAlpha="0"  horizontalCenter="true" click="onClick(event)">
-                <s:SpriteVisualElement  id="ruler" width="100%"  />
+        <s:BorderContainer id="TimeRulerContainer" backgroundColor="{backgroundColor}" width="100%" minHeight="10" borderAlpha="0" horizontalCenter="true" click="onClick(event)">
+                <s:SpriteVisualElement id="ruler" width="100%"  />
                 <s:Group id="timeLabels" height="11" />
         </s:BorderContainer>
     </s:Group>
