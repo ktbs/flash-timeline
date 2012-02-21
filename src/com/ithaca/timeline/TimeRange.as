@@ -241,10 +241,10 @@ package com.ithaca.timeline
         }
 
         /**
-         * Clones another TimeRange
-         * @param    tr the TimeRange to clone
+         * Update values from another TimeRange
+         * @param tr the TimeRange to update from
          */
-        public function clone(tr: TimeRange): void
+        public function update(tr: TimeRange): void
         {
             _ranges.removeAll();
             for each(var value: Number in tr._ranges)

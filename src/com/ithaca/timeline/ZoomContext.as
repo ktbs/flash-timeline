@@ -210,7 +210,7 @@ package com.ithaca.timeline
                 duration = Math.min(cursorRange.end, _timelineRange.end) - begin;
             }
 
-            cursorRange.clone(_timelineRange);
+            cursorRange.update(_timelineRange);
             setRange(begin, begin + duration);
         }
 
@@ -222,7 +222,7 @@ package com.ithaca.timeline
             var begin: Number = _timelineRange.begin;
             var duration: Number = (_timelineRange.end - _timelineRange.begin) * Stylesheet.ZoomContextInitPercentWidth / 100;
 
-            cursorRange.clone(_timelineRange);
+            cursorRange.update(_timelineRange);
             setRange(begin, begin + duration);
         }
 
