@@ -55,19 +55,23 @@
 
             protected function horizontalScroll(event: MouseEvent): void
             {
-                zoomContext.shiftContext( -event.delta * zoomContext.cursorRange.duration / 5);
+                if (event.shiftKey) {
+                    zoomContext.shiftContext( -event.delta * zoomContext.cursorRange.duration / 5);
+                }
             }
 
+            protected function noVerticalScroll(event: MouseEvent): void
+            {
+                if (event.shiftKey) {
+                    event.preventDefault();
+                }
+            }
             protected function onCursorLinkClick(event: MouseEvent): void
             {
                 timeline.contextFollowCursor = linkCursor.selected;
                 timeline.zoomContext.cursorEditable = !linkCursor.selected || (timeline.getStyle('cursorMode') == 'auto');
             }
 
-            protected function noVerticalScroll(event: MouseEvent): void
-            {
-                event.preventDefault();
-            }
         ]]>
     </fx:Script>
 
