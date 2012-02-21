@@ -164,7 +164,7 @@ package com.ithaca.timeline
                 if (activity !== null)
                     activity.trace("RulerClick", { position: (event as TimelineEvent).value });
             });
-            range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function():void { endAlertEventDispatched = false; });
+            range.addEventListener(TimelineEvent.TIMERANGES_CHANGE, function(): void { endAlertEventDispatched = false; });
             debug = new Object();
         }
 
@@ -195,7 +195,7 @@ package com.ithaca.timeline
             return activity;
         }
 
-        override public function styleChanged( styleProp:String): void
+        override public function styleChanged(styleProp: String): void
         {
             super.styleChanged(styleProp);
 
@@ -275,7 +275,7 @@ package com.ithaca.timeline
          * @param style the style name of the tracelinegroup to create.
          * @return the TraceLineGroup if the creation succeeded otherwise return null.
          */
-        public function addTrace ( pTrace: Trace, index: int = -1, style: String = null ): TraceLineGroup
+        public function addTrace (pTrace: Trace, index: int = -1, style: String = null): TraceLineGroup
         {
             var tlg: TraceLineGroup  =  timelineLayout.createTracelineGroupTree(pTrace, style);
 
@@ -397,7 +397,7 @@ package com.ithaca.timeline
 
             if (activity !== null)
             activity.trace("LayoutUpdate", { layout: timelineLayout.getCurrentXmlLayout().toXMLString() });
-            dispatchEvent(new TimelineEvent(TimelineEvent.LAYOUT_CHANGE ));
+            dispatchEvent(new TimelineEvent(TimelineEvent.LAYOUT_CHANGE));
         }
 
         /**
@@ -422,7 +422,7 @@ package com.ithaca.timeline
         /**
          * @param value
          */
-        public function set styleSheet(value:Stylesheet):void { _styleSheet = value; }
+        public function set styleSheet(value: Stylesheet): void { _styleSheet = value; }
 
         /**
          * Change the time range limits. It's used to make a zoom for example.
@@ -482,7 +482,7 @@ package com.ithaca.timeline
          *
          * @param timeValue the new time value in milliseconds
          */
-        public function set currentTime( timeValue: Number): void
+        public function set currentTime(timeValue: Number): void
         {
             if (! range.isEmpty()) {
                 var timerangeEnd: Number = range._ranges[ range._ranges.length -1 ];
@@ -523,9 +523,9 @@ package com.ithaca.timeline
 
 
             var minPosition: Number = zoomContext.cursorRange.begin;
-            var maxPosition: Number = zoomContext.cursorRange.end      - zoomContext.cursorRange.duration*0.15;
+            var maxPosition: Number = zoomContext.cursorRange.end - zoomContext.cursorRange.duration * 0.15;
 
-            if (contextFollowCursor && !contextCursor.isDragging && (timeValue > maxPosition || timeValue < minPosition ))
+            if (contextFollowCursor && !contextCursor.isDragging && (timeValue > maxPosition || timeValue < minPosition))
                 zoomContext.shiftContext(timeValue - zoomContext.cursorRange.begin);
 
 
