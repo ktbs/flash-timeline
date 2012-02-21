@@ -191,19 +191,6 @@
             timeline.currentTime = timeValue;
         }
 
-        protected function browse(event: MouseEvent): void
-        {
-            var myFileReference: FileReference = new FileReference();
-
-            myFileReference.addEventListener(Event.SELECT, selectHandler);
-            myFileReference.browse();
-        }
-        private function selectHandler(event: Event): void {
-            var file: FileReference = FileReference(event.target);
-
-            urlTTL_ti.text = "trace/" + file.name;
-        }
-
         protected function loadLayout(layoutFilename: String): void
         {
             var loader: URLLoader=new URLLoader();
@@ -229,6 +216,7 @@
 
             //we init the trace object
             var loader: URLLoader=event.target as URLLoader;
+            // FIXME: catch exception in case of malformed XML
             timeline.layoutXML         = new XML(loader.data);
             timeline.timelineLayout = new Layout(timeline);
 
