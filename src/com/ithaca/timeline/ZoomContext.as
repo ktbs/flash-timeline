@@ -208,6 +208,8 @@ package com.ithaca.timeline
             {
                 begin = Math.max(cursorRange.begin, _timelineRange.begin);
                 duration = Math.min(cursorRange.end, _timelineRange.end) - begin;
+                if (duration < 10)
+                    duration = (_timelineRange.end - _timelineRange.begin) * Stylesheet.ZoomContextInitPercentWidth / 100;
             }
 
             cursorRange.update(_timelineRange);
@@ -219,11 +221,14 @@ package com.ithaca.timeline
          */
         public function reset(): void
         {
+            /*
             var begin: Number = _timelineRange.begin;
             var duration: Number = (_timelineRange.end - _timelineRange.begin) * Stylesheet.ZoomContextInitPercentWidth / 100;
 
             cursorRange.update(_timelineRange);
+            trace("reset!!!");
             setRange(begin, begin + duration);
+            */
         }
 
         /**
