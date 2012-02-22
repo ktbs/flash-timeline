@@ -25,9 +25,9 @@ package com.ithaca.timeline
                         continue;
                     oldValue = target.getStyle(prop);
                     trace("Applying prop", prop, "to target", target, "(from:", oldValue, "to:", style[prop], ")");
-                    if (oldValue !== undefined && oldValue != style[prop])
+                    if (oldValue != style[prop])
                     {
-                        /* The style exists in the target and is different. Update it. */
+                        /* The style is different. Update it. */
 
                         /* FIXME: check against the type (String, Number, Class...) */
 
