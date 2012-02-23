@@ -10,7 +10,7 @@ all: $(SWC)
 
 swc: $(SWC)
 
-$(SWC): $(DEPFILES)
+$(SWC): $(DEPFILES) src/default.css
 	"${SDKBIN}compc" -swf-version 11 -as3 -external-library-path+=$(SDKFRAMEWORK)/framework.swc -external-library-path+=$(SDKFRAMEWORK)/spark.swc -external-library-path+=$(SDKFRAMEWORK)/mx/mx.swc -output $@ -source-path src -strict=true -incremental -use-network="true" -compiler.include-libraries lib -compiler.locale="en_US" -show-unused-type-selector-warnings=false $(shell find src/images -type f | sed 's/\(src.\)\(.*\)/ -include-file \2 \1\2/') -include-file default.css src/default.css $(CLASSES)
 
 clean:
