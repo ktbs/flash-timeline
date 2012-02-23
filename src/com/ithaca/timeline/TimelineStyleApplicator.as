@@ -24,7 +24,7 @@ package com.ithaca.timeline
                     if (prop == 'styleName')
                         continue;
                     oldValue = target.getStyle(prop);
-                    trace("Applying prop", prop, "to target", target, "(from:", oldValue, "to:", style[prop], ")");
+                    //trace("Applying prop", prop, "to target", target, "(from:", oldValue, "to:", style[prop], ")");
                     if (oldValue != style[prop])
                     {
                         /* The style is different. Update it. */
