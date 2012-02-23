@@ -564,7 +564,7 @@ package com.ithaca.timeline
         /*
          * Try to apply the given stylesheet to the TraceLine and its descendants.
          */
-        public function applyStylesheetToTraceline(applicator: IApplicator, stylesheet: IStyleSheet, traceline: TraceLine): void
+        public function applyStylesheetToTraceline(applicator: IApplicator, stylesheet: IStyleSheet, traceline: TraceLine, selector: ISelector = null): void
         {
             if (traceline === null)
             {
@@ -588,8 +588,15 @@ package com.ithaca.timeline
                     if (os.skin !== null)
                     {
                         this.debug['os'] = os;
+
                         applicator.applyStyle(os,
                                               stylesheet.getStyle("Obsel", os.obsel.type, traceline.name + ".Obsels"));
+                        if (selector !== null) {
+                            if (selector.isObselMatching(os.obsel))
+                                applicator.applyStyle(os, stylesheet.getStyle("Obsel:match", os.obsel.type + ":match"))
+                            else
+                                applicator.applyStyle(os, stylesheet.getStyle("Obsel:nonmatch", os.obsel.type + ":nonmatch"));
+                        }
                     }
                 }
             }
@@ -598,7 +605,7 @@ package com.ithaca.timeline
             for (var tlIndex: uint = 0; tlIndex < traceline.numElements; tlIndex++)
             {
                 var tl: TraceLine = traceline.getElementAt(tlIndex) as TraceLine;
-                applyStylesheetToTraceline(applicator, stylesheet, tl);
+                applyStylesheetToTraceline(applicator, stylesheet, tl, selector);
             }
         }
 
@@ -608,8 +615,16 @@ package com.ithaca.timeline
          * FIXME: properly register the new styles in the Flex
          * stylemanager, so that new created elements get the
          * appropriate styles too.
+         *
+         * If selector is not null, it must define a selector that will be applied to obsels.
+         * If the obsel matches, then the Obsel:match rule from stylesheet is applied.
+         * It the obsel does not match, the Obsel:nonmatch rule from stylesheet is applied.
+         *
+         * A typical use is to provide the following CSS:
+         * Obsel:nonmatch { visible: false; }
+         * to hide obsels that do not match the selector.
          */
-        public function applyCSS(cssData: String): void
+        public function applyCSS(cssData: String, selector: ISelector = null): void
         {
             var stylesheet: IStyleSheet = new FStyleSheet();
             var applicator: IApplicator = new TimelineStyleApplicator();
@@ -634,10 +649,37 @@ package com.ithaca.timeline
                 for (var tlIndex: uint = 0; tlIndex < tlg.numElements; tlIndex++)
                 {
                     var tl: TraceLine = tlg.getElementAt(tlIndex) as TraceLine;
-                    applyStylesheetToTraceline(applicator, stylesheet, tl);
+                    applyStylesheetToTraceline(applicator, stylesheet, tl, selector);
                 }
             }
         }
 
+        /*
+         * Filter the display of obsels.
+         *
+         * Display only obsels matching a given string. If the string is in the form
+         * key,regexp (cf SelectorRegexp parameter syntax)
+         * then the "key" property will be matched against regexp.
+         * If the string contains no comma, then the whole TTL representation is matched (fulltext search).
+         *
+         * Calling with no parameter resets the filter (all obsels are shown).
+         */
+        public function filterDisplay(expr: String = null): void
+        {
+            var selector: ISelector = null;
+
+            if (expr == null)
+            {
+                this.applyCSS('Obsel { visible: true; }');
+            }
+            else
+            {
+                if (expr.indexOf(',') > -1)
+                    selector = new SelectorRegexp(expr)
+                else
+                    selector = new SelectorRegexp("rdf," + expr);
+                this.applyCSS('Obsel:nonmatch { visible: false; }', selector);
+            }
+        }
     }
 }
