@@ -42,9 +42,13 @@
 
             import com.ithaca.timeline.Timeline;
             import flash.events.MouseEvent;
+            import gnu.as3.gettext._FxGettext;
+            import gnu.as3.gettext.FxGettext;
 
             [Bindable]
             public var timeline: Timeline;
+            [Bindable]
+            private var fxgt: _FxGettext = FxGettext;
 
             protected function creationCompleteHandler(event: Event): void
             {
@@ -91,8 +95,13 @@
                     </s:VGroup>
                 </s:HGroup>
 
+                <s:HGroup x="5" y="50" width="100%">
+                   <s:TextInput toolTip="{fxgt.gettext('Enter a filter expression to restrict display to matching obsels')}" prompt="{fxgt.gettext('Filter expression')}" id="search_ti" width="100%"  enter="{timeline.filterDisplay(search_ti.text)}" enabled="true" text=""/>
+                   <mx:Button id="searchResetButton" toolTip="{fxgt.gettext('Reset search filter')}" width="20" click="{timeline.filterDisplay()}" icon="@Embed(source='../images/BlackCross.png')" />
+                </s:HGroup>
+
             <s:Scroller id="scroller" y="{zoomContext.height}" width="100%" verticalScrollPolicy="off" height="{hdb.height-zoomContext.height}" >
-    <s:VGroup id="titleGroup" gap="5" width="100%" verticalScrollPosition="{contentGroup.verticalScrollPosition}" />
+                <s:VGroup id="titleGroup" gap="5" width="100%" verticalScrollPosition="{contentGroup.verticalScrollPosition}" />
             </s:Scroller>
         </s:Group>
         <s:Group id="renderGroup" width="100%" height="100%">
