@@ -249,7 +249,7 @@ package com.ithaca.timeline
             _ranges.removeAll();
             for each(var value: Number in tr._ranges)
                 _ranges.addItem(value);
-            _start = tr._start;
+            _start = tr.begin;
             _end = tr.end;
             _duration = tr.duration;
             dispatchEvent(new TimelineEvent(TimelineEvent.TIMERANGES_CHANGE, true));
