@@ -123,6 +123,14 @@
                 {
                     icon.toolTip =  obsel.props[hostComponent.getStyle("tooltipProp")];
                 }
+
+                if (hostComponent.getStyle("visible") == 'false')
+                {
+                    icon.visible = false;
+                }
+                else
+                    icon.visible = true;
+
             }
 
             protected function onToolTipShow(event: ToolTipEvent): void
