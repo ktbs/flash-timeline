@@ -43,6 +43,6 @@
 
     <mx:VBox paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
         <mx:Spacer height="10"/>
-        <s:HGroup > <mx:Spacer width="80"/> <s:Button label='{fxgt.gettext("Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.gettext("Cancel")}' click="onCancel(event)" /> </s:HGroup>
+        <s:HGroup > <mx:Spacer width="80"/> <s:Button label='{fxgt.dgettext("timeline", "Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.dgettext("timeline", "Cancel")}' click="onCancel(event)" /> </s:HGroup>
     </mx:VBox>
 </s:TitleWindow>

@@ -37,7 +37,7 @@
             protected function creationCompleteHandler(event: FlexEvent): void
             {
                 fxgt = FxGettext;
-                this.title = fxgt.gettext("Create / Edit TraceLine");
+                this.title = fxgt.dgettext("timeline", "Create / Edit TraceLine");
             }
 
             public function setTraceLine(tl: TraceLine): void
@@ -74,11 +74,11 @@
     </fx:Script>
 
     <mx:VBox paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
-        <s:HGroup verticalAlign="bottom" >  <s:Label text='{fxgt.gettext("Title :")}'/> <s:TextInput id="titleIT" text="{tracelineTitle}"/> </s:HGroup>
+        <s:HGroup verticalAlign="bottom" >  <s:Label text='{fxgt.dgettext("timeline", "Title :")}'/> <s:TextInput id="titleIT" text="{tracelineTitle}"/> </s:HGroup>
 
         <mx:Spacer height="10"/>
         <s:HGroup verticalAlign="bottom">
-            <s:Label text='{fxgt.gettext("Source :")}' />
+            <s:Label text='{fxgt.dgettext("timeline", "Source :")}' />
             <s:DropDownList id="sourceDDL" selectedIndex="{tracelineSource}" width="90">
                 <mx:ArrayCollection>
                     <fx:String>trace</fx:String>
@@ -88,10 +88,10 @@
         </s:HGroup>
 
         <mx:Spacer height="10"/>
-        <s:Label text='{fxgt.gettext("Field / Regexp :")}' />
+        <s:Label text='{fxgt.dgettext("timeline", "Field / Regexp :")}' />
         <s:HGroup > <s:TextInput text="{selectorField}" width="60" id="fieldIT"/> <s:TextInput text="{selectorRegexp}"  id="regexpIT"/> </s:HGroup>
 
         <mx:Spacer height="10"/>
-        <s:HGroup > <mx:Spacer width="80"/> <s:Button label='{fxgt.gettext("Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.gettext("Cancel")}' click="onCancel(event)" /> </s:HGroup>
+        <s:HGroup > <mx:Spacer width="80"/> <s:Button label='{fxgt.dgettext("timeline", "Ok")}' click="onValid(event)" /> <s:Button label='{fxgt.dgettext("timeline", "Cancel")}' click="onCancel(event)" /> </s:HGroup>
     </mx:VBox>
 </s:TitleWindow>

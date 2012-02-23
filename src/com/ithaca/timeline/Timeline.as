@@ -7,6 +7,8 @@ package com.ithaca.timeline
     import flash.events.Event;
     import flash.events.TimerEvent;
     import flash.utils.Timer;
+    import gnu.as3.gettext._FxGettext;
+    import gnu.as3.gettext.FxGettext;
     import mx.collections.ArrayCollection;
     import mx.controls.Label;
     import mx.core.UIComponent;
@@ -92,6 +94,9 @@ package com.ithaca.timeline
         private var _layout: Layout;
 
         public var debug: Object
+
+        [Bindable]
+        private var fxgt: _FxGettext = FxGettext;
 
         public  var range: TimeRange;
         /**

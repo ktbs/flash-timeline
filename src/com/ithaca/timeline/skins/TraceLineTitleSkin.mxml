@@ -16,12 +16,12 @@
     <fx:Declarations>
         <fx:XML id="menuContent">
             <root>
-                <menuitem label='{fxgt.gettext("addTraceLine")}'
+                <menuitem label='{fxgt.dgettext("timeline", "addTraceLine")}'
                           eventName="newTraceLine" />
                 <menuitem type="separator" />
-                <menuitem label='{fxgt.gettext("editTraceLine")}'
+                <menuitem label='{fxgt.dgettext("timeline", "editTraceLine")}'
                           eventName="editTraceLine" />
-                <menuitem label='{fxgt.gettext("removeTraceLine")}'
+                <menuitem label='{fxgt.dgettext("timeline", "removeTraceLine")}'
                           eventName="removeTraceLine" />
             </root>
         </fx:XML>

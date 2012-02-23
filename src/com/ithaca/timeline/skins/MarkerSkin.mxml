@@ -61,7 +61,7 @@
                 {
                     markerEdit.commentText = obsel.props[hostComponent.getStyle("tooltipProp")];
                 }
-                markerEdit.title = fxgt.gettext("Comment Edit");
+                markerEdit.title = fxgt.dgettext("timeline", "Comment Edit");
 
                 PopUpManager.addPopUp(markerEdit, this);
                 PopUpManager.centerPopUp(markerEdit);

@@ -54,7 +54,7 @@
                 fxgt = FxGettext;
                 obsel = hostComponent.obsel;
                 y = hostComponent.traceline.getStyle('rendererHeight') - cursor.height - 2;
-                commentLabel.text = fxgt.gettext("Write your comment");
+                commentLabel.text = fxgt.dgettext("timeline", "Write your comment");
                 toolTip = commentLabel.text;
                 UpdateResizeGripHeight();
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);

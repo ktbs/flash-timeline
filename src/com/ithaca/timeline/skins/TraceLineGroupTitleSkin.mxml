@@ -10,11 +10,11 @@
     <fx:Declarations>
         <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
             <fx:Array id="popupMenuArray">
-                <fx:Object label='{fxgt.gettext("Message")}' type="check" toggled="true" regexpFilter="Message"/>
-                <fx:Object label='{fxgt.gettext("Document")}' type="check" toggled="true" regexpFilter="Document"/>
-                <fx:Object label='{fxgt.gettext("Instructions")}' type="check" toggled="true" regexpFilter="Instructions"/>
-                <fx:Object label='{fxgt.gettext("Keyword")}' type="check" toggled="true" regexpFilter="Keyword"/>
-                <fx:Object label='{fxgt.gettext("Marker")}' type="check" toggled="true" regexpFilter="Marker"/>
+                <fx:Object label='{fxgt.dgettext("timeline", "Message")}' type="check" toggled="true" regexpFilter="Message"/>
+                <fx:Object label='{fxgt.dgettext("timeline", "Document")}' type="check" toggled="true" regexpFilter="Document"/>
+                <fx:Object label='{fxgt.dgettext("timeline", "Instructions")}' type="check" toggled="true" regexpFilter="Instructions"/>
+                <fx:Object label='{fxgt.dgettext("timeline", "Keyword")}' type="check" toggled="true" regexpFilter="Keyword"/>
+                <fx:Object label='{fxgt.dgettext("timeline", "Marker")}' type="check" toggled="true" regexpFilter="Marker"/>
             </fx:Array>
     </fx:Declarations>
 
