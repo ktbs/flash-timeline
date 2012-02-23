@@ -657,6 +657,17 @@ package com.ithaca.timeline
                     applyStylesheetToTraceline(applicator, stylesheet, tl, selector);
                 }
             }
+
+            /* Apply selector to contextPreviewTraceLine */
+            /* FIXME: this is an interim implementation. Ideally,
+               SimpleObselsRenderer should handle some form of CSS.
+            */
+            for (var i: int = 0; i < this.zoomContext.timelinePreview.numElements; i++)
+            {
+                var renderer: BaseObselsRenderer = this.zoomContext.timelinePreview.getElementAt(i) as BaseObselsRenderer;
+                if (renderer != null)
+                    renderer.filterDisplay(selector);
+            }
         }
 
         /*

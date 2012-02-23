@@ -15,10 +15,18 @@ package com.ithaca.timeline
         public var _markerColor: uint = 0x000000;
         public var _durativeColor: uint = 0xC9C9C9;
         public var _backgroundColor: uint = 0xF5F5F5;
+        public var _filter: ISelector;
 
         public function SimpleObselsRenderer(tr: TimeRange, tl: Timeline)
         {
             super(tr, null, tl);
+        }
+
+        override public function filterDisplay(selector: ISelector = null): void
+        {
+            trace("SimpleOR filterDisplay", selector);
+            _filter = selector;
+            redraw();
         }
 
         /**
@@ -58,6 +66,11 @@ package com.ithaca.timeline
                 //drawing obsels
                 for each (var obsel: Obsel in _obsels)
                 {
+                    if (_filter && ! _filter.isObselMatching(obsel))
+                    {
+                        trace("Skipping display");
+                        continue;
+                    }
                     if (obsel.end >= intervalStart  && obsel.begin <= intervalEnd)
                     {
                         // durative

@@ -136,5 +136,16 @@ package com.ithaca.timeline
         public function redraw(event: Event = null): void
         {
         }
+
+        /**
+         * Filter the display of Obsels.
+         *
+         * Actually, it is used only in SimpleObselsRenderer since the
+         * display filtering method modifies the Obsel skins in
+         * standard ObselsRenderer.
+         */
+        public function filterDisplay(selector: ISelector = null): void
+        {
+        }
     }
 }
