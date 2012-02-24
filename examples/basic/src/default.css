@@ -72,7 +72,7 @@ timeline|ZoomContext
 timeline|ObselSkin
 {
 	skin-class		: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon 			: Embed("images/iconInfo_16x16.png");	
+	icon 			: Embed("images/obsel.png");
 }
 
 timeline|ObselSkin.Comment
@@ -85,24 +85,24 @@ timeline|ObselSkin.Marker
 {
 	skin-class	: ClassReference("com.ithaca.timeline.skins.MarkerSkin");	
 	icon 		: Embed("images/marqueurBlanc-bas-20px.png");
-	tooltipProp : 'text';	
+	tooltip: '$(this/props/text)';
 }
 
 timeline|ObselSkin.Durative
 {
 	skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");
     backgroundColor : #aaaaff;
-	tooltipExpression : "Duratif: ${this/props/text}";
+	tooltip: "Duratif: ${this/props/text}";
 }
 
 timeline|ObselSkin.Message
 {
-	tooltipExpression: "Message: ${this/props/content}";
+	tooltip: "Message: ${this/props/content}";
     icon: "images/message.png";
 }
 
 timeline|ObselSkin.Document
 {
-	tooltipExpression: "Document ${this/props/url}";
-    iconExpression: "${this/props/url}";
+	tooltip: "Document ${this/props/url}";
+    icon: "${this/props/url}";
 }

@@ -1,11 +1,11 @@
 /* CSS file */
 @namespace s            "library://ns.adobe.com/flex/spark";
 @namespace mx           "library://ns.adobe.com/flex/mx";
-@namespace timeline     "com.ithaca.timeline.*"; 
+@namespace timeline     "com.ithaca.timeline.*";
 
 timeline|Timeline
 {
-    skin-class: ClassReference("com.ithaca.timeline.skins.TimelineSkin");  
+    skin-class: ClassReference("com.ithaca.timeline.skins.TimelineSkin");
 }
 
 timeline|TraceLineGroup
@@ -31,7 +31,7 @@ timeline|TraceLineGroup.comments
 timeline|TraceLineGroupTitle.comments
 {
     skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsSkin");
-    icon: Embed("images/CommentAddVer1.png");   
+    icon: Embed("images/CommentAddVer1.png");
     bgColor: #FFA6A8;
     title: "";
 }
@@ -40,7 +40,7 @@ timeline|TraceLine.comments
 {
     rendererHeight: 45;
     rendererGap: 0;
-    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");  
+    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
 }
 
 timeline|TraceLine
@@ -78,26 +78,26 @@ timeline|ObselSkin
 
 timeline|ObselSkin.Activity
 {
-    skin-class: ClassReference("com.ithaca.timeline.skins.ActivitySkin");   
+    skin-class: ClassReference("com.ithaca.timeline.skins.ActivitySkin");
     backgroundColors: #F4FA29, #3355F7, #D134E2, #1CFD81 ;
 }
 
 timeline|ObselSkin.Comment
 {
-    skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");    
+    skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");
     icon: Embed("images/CommentVer4.png");
 }
 
 timeline|ObselSkin.Marker
 {
-    skin-class: ClassReference("com.ithaca.timeline.skins.MarkerSkin");   
+    skin-class: ClassReference("com.ithaca.timeline.skins.MarkerSkin");
     icon: Embed("images/marqueurBlanc-bas-20px.png");
-    tooltipProp: 'text';    
+    tooltip: '$(this/props/text)';
 }
 
 timeline|ObselSkin.Durative
 {
     skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");
     bgColor: #FFA6A8;
-    tooltipProp: 'text';
+    tooltip: '$(this/props/text)';
 }
