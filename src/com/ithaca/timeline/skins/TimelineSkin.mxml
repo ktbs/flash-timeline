@@ -100,8 +100,9 @@
                     </s:VGroup>
                 </s:HGroup>
 
-                <s:HGroup x="5" y="50" width="100%">
+                <s:HGroup id="searchBox" gap="0" x="5" y="50" width="100%">
                    <s:TextInput toolTip="{fxgt.dgettext('timeline', 'Enter a filter expression to restrict display to matching obsels')}" prompt="{fxgt.dgettext('timeline', 'Filter expression')}" id="search_ti" width="100%"  enter="{timeline.filterDisplay(search_ti.text)}" enabled="true" text=""/>
+                   <mx:Button id="searchButton" toolTip="{fxgt.dgettext('timeline', 'Filter display')}" width="20" click="{timeline.filterDisplay(search_ti.text)}" icon="@Embed(source='../images/search.png')" />
                    <mx:Button id="searchResetButton" toolTip="{fxgt.dgettext('timeline', 'Reset search filter')}" width="20" click="{onFilterClear(event)}" icon="@Embed(source='../images/BlackCross.png')" />
                 </s:HGroup>
 
