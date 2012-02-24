@@ -120,6 +120,8 @@ package com.ithaca.timeline
          */
         public function addObsel(obsel: Obsel): void
         {
+            // FIXME: apply live CSS styles
+            // FIXME: apply filterDisplay? Or integrate it in live CSS styles.
             if (acceptObsel(obsel))
                 _obsels.addItem(obsel);
         }
