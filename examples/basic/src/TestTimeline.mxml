@@ -216,8 +216,15 @@
 
             //we init the trace object
             var loader: URLLoader=event.target as URLLoader;
-            // FIXME: catch exception in case of malformed XML
-            timeline.layoutXML         = new XML(loader.data);
+            try
+            {
+                timeline.layoutXML         = new XML(loader.data);
+            }
+            catch (e: TypeError)
+            {
+                // Malformed XML probably
+                statusMessage("Invalid layout XML: " + e.message, "#ffcccc");
+            }
             timeline.timelineLayout = new Layout(timeline);
 
             if (firstload)
