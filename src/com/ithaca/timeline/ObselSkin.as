@@ -15,11 +15,19 @@ package com.ithaca.timeline
 
     import spark.components.supportClasses.SkinnableComponent;
 
+    /* TALES-interpreted means that the style value can contain $() or
+     * ${} TALES expressions, which will be evaluated to generate the
+     * actual value. */
+
+    /* TALES-interpreted: */
     [Style(name = "icon", type = "Class", inherit = "no")]
-    [Style(name = "iconExpression", type = "String", inherit = "no")]
-    [Style(name = "tooltipProp", type = "String", inherit = "no")]
-    [Style(name = "tooltipExpression", type = "String", inherit = "no")]
+    /* TALES-interpreted: */
+    [Style(name = "tooltip", type = "String", inherit = "no")]
+    /* Used in activity/durative skins: */
+    /* TALES-interpreted: */
     [Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
+
+    [Style(name = "visible", type = "Boolean", inherit = "no")]
 
     /**
      * The ObselSkin class is a skinnable component that represents a com.ithaca.traces.Obsel.
