@@ -12,7 +12,8 @@
     <fx:Script>
         <![CDATA[
             import com.ithaca.traces.Obsel;
-            import com.ithaca.tales.Context;
+            import com.ithaca.timeline.util.SkinUtil;
+
             import mx.events.PropertyChangeEvent;
             import flash.events.Event;
             import flash.filters.BlurFilter;
@@ -40,68 +41,55 @@
 
             protected function onObselChange(event: PropertyChangeEvent = null): void
             {
-                var ctx: Context = null;
+                var st: *;
 
                 if (obsel == null)
                     return;
 
-                if (hostComponent.getStyle("textExpression"))
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle("text"));
+                if (st)
+                    obselText.text     = st;
+
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle("icon"));
+                if (st)
                 {
-                    if (ctx === null) {
-                        ctx = new Context(obsel);
-                        ctx.locals['obsel'] = obsel;
-                        ctx.locals['trace'] = obsel.trace;
-                    }
-                    obselText.text     = ctx.evaluate('string:' + hostComponent.getStyle("textExpression"));
-                }
-                else if (hostComponent.getStyle("textProp"))
-                {
-                    obselText.text = obsel.props[hostComponent.getStyle("textProp")];
+                    icon.source = st;
+                    // Resize icon if it is obtained through a TALES expression.
+                    if (st is String && st.indexOf('http') > -1)
+                        icon.height = hostComponent.traceline.height;
                 }
 
-                if (hostComponent.getStyle("iconExpression"))
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle("tooltip"));
+                if (st)
                 {
-                    if (ctx === null) {
-                        ctx = new Context(obsel);
-                        ctx.locals['obsel'] = obsel;
-                        ctx.locals['trace'] = obsel.trace;
-                    }
-                    icon.height = hostComponent.traceline.height;
-                    icon.source = ctx.evaluate("string:" + hostComponent.getStyle("iconExpression"));
-                }
-                else if (hostComponent.getStyle("icon"))
-                {
-                    icon.source = hostComponent.getStyle("icon");
+                    icon.toolTip = st;
                 }
 
-                if (hostComponent.getStyle("tooltipExpression"))
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle("backgroundColor"));
+                if (st)
                 {
-                    if (ctx === null) {
-                        ctx = new Context(obsel);
-                        ctx.locals['obsel'] = obsel;
-                        ctx.locals['trace'] = obsel.trace;
-                    }
-                    icon.toolTip = ctx.evaluate("string:" + hostComponent.getStyle("tooltipExpression"));
-                }
-                else if (hostComponent.getStyle("tooltipProp"))
-                {
-                    icon.toolTip =  obsel.props[hostComponent.getStyle("tooltipProp")];
+                    container.backgroundFill = new SolidColor(st);
                 }
 
                 if (hostComponent.getStyle("visible") == 'false')
                 {
-                    icon.visible = false;
+                    container.visible = false;
                 }
                 else
-                    icon.visible = true;
-
+                    container.visible = true;
             }
 
             protected function onTextChange(event: Event): void
             {
-                if (hostComponent.getStyle("textProp"))
+                var a: Array;
+
+                /* Does the tooltip expression look like
+                 * ${this/props/foo} or ${obsel/props/foo} (or
+                 * with $() syntax) ? */
+                a = hostComponent.getStyle("tooltip").match(/^\$[\{\(](this|obsel)\/props\/(.+)[\}\)]$/);
+                if (a)
                 {
-                    obsel.props[hostComponent.getStyle("textProp")] = obselText.text;
+                    obsel.props[a[2]] = obselText.text;
                     onObselChange();
                 }
             }

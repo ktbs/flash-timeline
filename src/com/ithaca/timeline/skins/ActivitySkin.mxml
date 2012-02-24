@@ -15,8 +15,11 @@
             import com.ithaca.timeline.events.TimelineEvent;
             import com.ithaca.timeline.TimeRange;
             import com.ithaca.timeline.TraceLine;
+            import com.ithaca.timeline.util.SkinUtil;
             import com.ithaca.traces.Obsel;
+
             import flash.events.Event;
+            import mx.events.PropertyChangeEvent;
             import mx.graphics.SolidColor;
 
             public var obsel: Obsel;
@@ -31,11 +34,9 @@
                 hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
                 updateWidth(null);
 
-                toolTip = "";
-                durative.backgroundFill =  new SolidColor(0xF0F9FF);
-
                 hostComponent.percentHeight = 100;
                 hostComponent.bottom = hostComponent.traceline.getStyle("rendererGap");
+                onObselChange();
             }
 
             public function updateWidth(event: Event): void
@@ -46,6 +47,41 @@
                 var startPosition: Number = timeRange.timeToPosition(obsel.begin, traceline._timeline.zoomContext.timelinePreview.width);
                 var endPosition: Number = timeRange.timeToPosition(obsel.end, traceline._timeline.zoomContext.timelinePreview.width);
                 width = (endPosition - startPosition);
+            }
+
+            override public function styleChanged(styleProp: String): void
+            {
+                super.styleChanged(styleProp);
+                onObselChange();
+            }
+
+            protected function onObselChange(event: PropertyChangeEvent = null): void
+            {
+                var st: * = null;
+
+                if (obsel == null)
+                    return;
+
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle('backgroundColor'));
+                if (st)
+                {
+                    durative.backgroundFill =  new SolidColor(st);
+                }
+
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle("tooltip"));
+                if (st)
+                {
+                    durative.toolTip = st;
+                }
+
+                if (hostComponent.getStyle("visible") == 'false')
+                {
+                    durative.visible = false;
+                }
+                else
+                {
+                    durative.visible = true;
+                }
             }
 
         ]]>
