@@ -1,34 +1,101 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: timeline 0.1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-18 09:38+0100\n"
-"PO-Revision-Date: 2011-11-18 09:39+0100\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2012-02-23 13:53+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:46
+#: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:47
 msgid "Edit obsel"
 msgstr ""
 
-#: src/com/ithaca/timeline/skins/CommentSkin.mxml:58
+#: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:95 ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:95
+#: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:46 ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:76
+msgid "Ok"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:95 ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:95
+#: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:46 ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:77
+msgid "Cancel"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:13
+msgid "Message"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:14
+msgid "Document"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:15
+msgid "Instructions"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:16
+msgid "Keyword"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:17
+msgid "Marker"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:99
+msgid "Enter a filter expression to restrict display to matching obsels"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:99
+msgid "Filter expression"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:100
+msgid "Reset search filter"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/CommentSkin.mxml:57
 msgid "Write your comment"
 msgstr ""
 
-#: src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:40
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleCommentsSkin.mxml:133
+msgid "Add a comment"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:40
 msgid "Create / Edit TraceLine"
 msgstr ""
 
-#: src/com/ithaca/timeline/skins/MarkerSkin.mxml:54
-#: src/com/ithaca/timeline/skins/CommentEditDialog.mxml:39
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:77
+msgid "Title :"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:81
+msgid "Source :"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:91
+msgid "Field / Regexp :"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/MarkerSkin.mxml:64 ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:39
 msgid "Comment Edit"
 msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:19
+msgid "addTraceLine"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:22
+msgid "editTraceLine"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:24
+msgid "removeTraceLine"
+msgstr ""
+

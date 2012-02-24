@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timeline 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-18 09:37+0100\n"
-"PO-Revision-Date: 2011-11-18 09:40+0100\n"
+"POT-Creation-Date: 2012-02-23 12:24+0100\n"
+"PO-Revision-Date: 2012-02-24 22:44+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -17,49 +17,98 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:46
+#: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:47
 msgid "Edit obsel"
 msgstr "Édition de l'obsel"
 
-#: src/com/ithaca/timeline/skins/CommentSkin.mxml:58
+#: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:95
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:95
+#: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:46
+#: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:76
+msgid "Ok"
+msgstr "OK"
+
+#: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:95
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:95
+#: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:46
+#: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:77
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:13
+msgid "Message"
+msgstr "Message"
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:14
+msgid "Document"
+msgstr "Document"
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:15
+msgid "Instructions"
+msgstr "Instructions"
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:16
+msgid "Keyword"
+msgstr "Mot clé"
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:17
+msgid "Marker"
+msgstr "Marqueur"
+
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:99
+msgid "Enter a filter expression to restrict display to matching obsels"
+msgstr ""
+"Entrer une expression de filtrage pour restreindre l'affichage aux\n"
+"obsels qui correspondent."
+
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:99
+msgid "Filter expression"
+msgstr "Expression de filtrage"
+
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:100
+msgid "Reset search filter"
+msgstr "Annuler le filtrage"
+
+#: ../src/com/ithaca/timeline/skins/CommentSkin.mxml:57
 msgid "Write your comment"
 msgstr "Écrivez votre commentaire"
 
-#: src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:40
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleCommentsSkin.mxml:133
+msgid "Add a comment"
+msgstr "Ajouter une commentaire"
+
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:40
 msgid "Create / Edit TraceLine"
 msgstr "Création / Édition d'une traceline"
 
-#: src/com/ithaca/timeline/skins/MarkerSkin.mxml:54
-#: src/com/ithaca/timeline/skins/CommentEditDialog.mxml:39
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:77
+msgid "Title :"
+msgstr "Titre :"
+
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:81
+msgid "Source :"
+msgstr "Source :"
+
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:91
+msgid "Field / Regexp :"
+msgstr "Champ / Expression régulière :"
+
+#: ../src/com/ithaca/timeline/skins/MarkerSkin.mxml:64
+#: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:39
 msgid "Comment Edit"
 msgstr "Édition du commentaire"
 
-#~ msgid "addTraceLine"
-#~ msgstr "Ajouter une traceline"
+#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:19
+msgid "addTraceLine"
+msgstr "Ajouter une traceline"
 
-#~ msgid "editTraceLine"
-#~ msgstr "Modifier cette traceline"
+#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:22
+msgid "editTraceLine"
+msgstr "Modifier cette traceline"
 
-#~ msgid "removeTraceLine"
-#~ msgstr "Supprimer cette traceline"
+#: ../src/com/ithaca/timeline/skins/TraceLineTitleSkin.mxml:24
+msgid "removeTraceLine"
+msgstr "Supprimer cette traceline"
 
 #~ msgid "removeTraceLineDialog"
 #~ msgstr "Êtes vous sûr de vouloir supprimer cette traceline ?"
-
-#~ msgid "Cancel"
-#~ msgstr "Annuler"
-
-#~ msgid "Title :"
-#~ msgstr "Titre :"
-
-#~ msgid "Source :"
-#~ msgstr "Source :"
-
-#~ msgid "Field / Regexp :"
-#~ msgstr "Champ / Expression régulière :"
-
-#~ msgid "Keyword"
-#~ msgstr "Mot clé"
-
-#~ msgid "Marker"
-#~ msgstr "Marqueur"
