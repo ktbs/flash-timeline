@@ -10,7 +10,8 @@ package com.ithaca.timeline
     import mx.events.ResizeEvent;
     import spark.components.Group;
     import com.ithaca.timeline.events.TimelineEvent;
-
+    import com.ithaca.timeline.TimelineStyleApplicator;
+    import com.flashartofwar.fcss.applicators.IApplicator;
 
     /**
      * The ObselsRenderer class extends BaseOselsRenderer to render obsels with skinned ObselsSkins.
@@ -104,9 +105,9 @@ package com.ithaca.timeline
                         intervalGroup.addElement(obselSkin);
                     }
                 }
-                
+
                 addElement(intervalGroup);
-                
+
             }
         }
 
@@ -217,6 +218,7 @@ package com.ithaca.timeline
             var obsel: Obsel;
             var obselSkin: ObselSkin;
             var obselIndex: int;
+            var applicator: IApplicator = new TimelineStyleApplicator();
 
             switch (event.kind)
             {
@@ -227,7 +229,14 @@ package com.ithaca.timeline
                     {
                         obselSkin = _timeline.styleSheet.getParameteredSkin(obsel, _traceline);
                         if (obselSkin)
+                        {
                             obselsSkinsCollection.addItem(obselSkin);
+                            // Apply dynamic CSS:
+                            applicator.applyStyle(obselSkin,
+                                                  _timeline.cssStyleSheetCollection.getStyle("Obsel",
+                                                                                             obsel.type,
+                                                                                             _traceline.name + ".Obsels"));
+                        }
                     }
                     obselsSkinsCollection.enableAutoUpdate();
                     redraw();
@@ -257,7 +266,14 @@ package com.ithaca.timeline
                     {
                         obselSkin = _timeline.styleSheet.getParameteredSkin(obsel, _traceline);
                         if (obselSkin)
+                        {
                             obselsSkinsCollection.addItem(obselSkin);
+                            // Apply dynamic CSS:
+                            applicator.applyStyle(obselSkin,
+                                                  _timeline.cssStyleSheetCollection.getStyle("Obsel",
+                                                                                             obsel.type,
+                                                                                             _traceline.name + ".Obsels"));
+                        }
                     }
                     obselsSkinsCollection.enableAutoUpdate();
                     redraw();

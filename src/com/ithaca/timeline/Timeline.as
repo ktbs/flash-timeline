@@ -20,7 +20,9 @@ package com.ithaca.timeline
     import mx.events.PropertyChangeEvent;
 
     import com.flashartofwar.fcss.stylesheets.IStyleSheet;
+    import com.flashartofwar.fcss.stylesheets.IStyleSheetCollection;
     import com.flashartofwar.fcss.stylesheets.FStyleSheet;
+    import com.flashartofwar.fcss.stylesheets.StyleSheetCollection;
     import com.flashartofwar.fcss.styles.IStyle;
     import com.flashartofwar.fcss.applicators.IApplicator;
 
@@ -91,7 +93,10 @@ package com.ithaca.timeline
     public class Timeline  extends LayoutNode
     {
         private var _styleSheet: Stylesheet;
+
         private var _layout: Layout;
+
+        public var cssStyleSheetCollection: IStyleSheetCollection;
 
         public var debug: Object
 
@@ -163,6 +168,8 @@ package com.ithaca.timeline
 
             timelineLayout = new Layout(this) ;
             _styleSheet = new Stylesheet();
+            cssStyleSheetCollection = new StyleSheetCollection();
+
             range = new TimeRange();
             addEventListener(TimelineEvent.CURRENT_TIME_CHANGE, changeCursorValue);
             addEventListener(TimelineEvent.TIMERULER_CLICK, function(event: Event): void {
@@ -639,8 +646,15 @@ package com.ithaca.timeline
 
             this.debug['stylesheet'] = stylesheet;
 
+            /* Add the loaded stylesheet to the timeline cssStylesheetCollection.
+             * FIXME: should we generate a different name with
+             * "css" + cssStylesheetCollection.totalStyleSheets());
+             * ?
+             */
+            cssStyleSheetCollection.addStyleSheet(stylesheet);
+
             /* Apply properties to Timeline: adminMode, cursorMode, timeMode */
-            applicator.applyStyle(this.skin, stylesheet.getStyle("Timeline"));
+            applicator.applyStyle(this.skin, cssStyleSheetCollection.getStyle("Timeline"));
 
             /* Walk through the timelinegroup/traceline/obsels
              * elements and try to apply the new stylesheet */
@@ -649,12 +663,12 @@ package com.ithaca.timeline
                 var tlg: TraceLineGroup = this.getElementAt(tlgIndex) as TraceLineGroup;
 
                 applicator.applyStyle(tlg.skin,
-                                      stylesheet.getStyle("TraceLineGroup", tlg.name));
+                                      cssStyleSheetCollection.getStyle("TraceLineGroup", tlg.name));
 
                 for (var tlIndex: uint = 0; tlIndex < tlg.numElements; tlIndex++)
                 {
                     var tl: TraceLine = tlg.getElementAt(tlIndex) as TraceLine;
-                    applyStylesheetToTraceline(applicator, stylesheet, tl, selector);
+                    applyStylesheetToTraceline(applicator, cssStyleSheetCollection, tl, selector);
                 }
             }
 
