@@ -145,6 +145,11 @@
                 urlTTL_ti.text = this.parameters["ttl"];
                 loadTTL(this.parameters["ttl"]);
             }
+            if ("css" in this.parameters)
+            {
+                css_ti.text = this.parameters["css"];
+                loadCSS(this.parameters["css"]);
+            }
             allTestLayout.enabled = true;
             timeline.addEventListener(TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
         }
