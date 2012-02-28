@@ -237,7 +237,6 @@
                 var traceline: TraceLine = (event.dragInitiator as TraceLineTitle).tl;
                 if (traceline != hostComponent.tl)
                 {
-                    trace(timeline.getStyle("adminMode"));
                     if (event.ctrlKey && timeline.getStyle("adminMode") == true)
                     {
                         timeline.timelineLayout.addTraceline((event.dragInitiator as TraceLineTitle).tl, hostComponent.tl);
