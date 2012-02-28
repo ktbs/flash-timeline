@@ -14,9 +14,9 @@
     </fx:Metadata>
 
     <fx:Declarations>
-        <mx:Button id="zoomButton" skin="@Embed(source='../images/magnifier.png')" downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits(hostComponent.cursorRange.begin,hostComponent.cursorRange.end )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-        <mx:Button id="cutButton" skin="@Embed(source='../images/scissors.png')" downSkin="@Embed(source='../images/scissorsClick.png')" click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin,hostComponent.cursorRange.end)" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
-        <mx:Button id="resetButton" skin="@Embed(source='../images/reset.png')" downSkin="@Embed(source='../images/resetClick.png')" click="hostComponent.timeline.resetTimeRangeLimits()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+        <mx:Button toolTip="{fxgt.gettext('Display whole timeline')}" id="zoomButton" skin="@Embed(source='../images/magnifier.png')" downSkin="@Embed(source='../images/magnifierClick.png')" click="hostComponent.timeline.setTimeRangeLimits(hostComponent.cursorRange.begin,hostComponent.cursorRange.end )" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+        <mx:Button toolTip="{fxgt.gettext('Create timehole')}" id="cutButton" skin="@Embed(source='../images/scissors.png')" downSkin="@Embed(source='../images/scissorsClick.png')" click="hostComponent.timeline.makeTimeHole (hostComponent.cursorRange.begin,hostComponent.cursorRange.end)" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
+        <mx:Button toolTip="{fxgt.gettext('Cancel timeholes')}" id="resetButton" skin="@Embed(source='../images/reset.png')" downSkin="@Embed(source='../images/resetClick.png')" click="hostComponent.timeline.resetTimeRangeLimits()" mouseOver="CursorIcons.SetButtonCursor(event)" mouseOut="CursorIcons.SetDefaultCursor(event)"/>
     </fx:Declarations>
 
     <fx:Script>
@@ -33,6 +33,11 @@
             import com.ithaca.timeline.Stylesheet;
             import com.ithaca.timeline.events.TimelineEvent;
             import spark.events.ElementExistenceEvent;
+            import gnu.as3.gettext.FxGettext;
+            import gnu.as3.gettext._FxGettext;
+
+            [Bindable]
+            private var fxgt: _FxGettext = FxGettext;
 
             protected var currentCenterDraggingPoint: Point;
             private var draggedPart: Object = null;
