@@ -42,7 +42,6 @@ package com.ithaca.timeline
      */
     public class ObselSkin extends SkinnableComponent
     {
-
         [SkinPart]
         /*
          * The leftGrip property is defined here to allow its management when two duratives overlap
@@ -89,12 +88,23 @@ package com.ithaca.timeline
             traceline = tl;
             _obsel = o;
             doubleClickEnabled = true;
-            toolTip = _obsel.toString();
+            toolTip = obselTooltip(_obsel);
 
             this.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, handle_tooltip_event);
             this.addEventListener(DragEvent.DRAG_START, handle_drag_start_event);
             this.setStyle("dragEnabled", "true");
             this.setStyle("dragMoveEnabled", "true");
+        }
+        
+        public function obselTooltip(o: Obsel): String
+        {
+            var result: String;
+
+            result = o.type + " " + traceline._timeline.formatTime(o.begin) + (o.begin != o.end ? " - " + traceline._timeline.formatTime(o.end) : "");
+            for (var p: String in o.props)
+                result = result + "\n " + p + "=" + o.props[p].toString().replace("\r", "\\r").replace("\n", "\\n");
+
+            return result;
         }
 
         private function handle_tooltip_event(event: ToolTipEvent): void
