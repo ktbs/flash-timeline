@@ -55,10 +55,6 @@
         private const LABEL_SIZE: Number = 200;
 
         public var timeRange: TimeRange;
-        public var dateFormater: DateFormatter = new DateFormatter();
-
-        public    var timeOffset: Number = 0;
-        public    var useLocaleTime: Boolean = true;
 
         [Bindable]
         public var startPosition: Number     = 0;
@@ -79,10 +75,11 @@
         public var labelsOnTop: Boolean = false;
         [Bindable]
         public var backgroundColor: Number = 0xF5F5F5;
+        [Bindable]
+        public var timeline: Timeline;
 
         protected function creationCompleteHandler(): void
         {
-            dateFormater.formatString = "JJ:NN:SS";
             ruler.addChild(new Shape);
             ToolTipManager.showDelay = 0;
             ruler.height = limitMarkHeight;
@@ -196,12 +193,9 @@
         private function addLabel(time: Number, position: Number, y: Number = 0): Label
         {
             var label: Label = new Label();
-            var date: Date  = new Date(time - timeOffset);
 
-            if (useLocaleTime)
-                label.text = dateFormater.format(date);
-            else
-                label.text = dateFormater.format(date.toUTCString());
+            if (timeline)
+                label.text = timeline.formatTime(time);
             label.x = position - LABEL_SIZE / 2;
             label.y = y;
             label.width = LABEL_SIZE;
@@ -250,9 +244,6 @@
 
         protected function onToolTipShow(event: MouseEvent): void
         {
-            var dateFormatter: DateFormatter = new DateFormatter();
-            dateFormatter.formatString = "JJ:NN:SS";
-
             var point: Point = TimeRulerContainer.globalToLocal(new Point(event.stageX, event.stageY));
 
             if (point.x >= startPosition && point.x <= startPosition + rulerWidth)
@@ -263,13 +254,8 @@
                     tt.y = -5;
                 else
                     tt.y = 18;
-
-                var date: Date  = new Date(timeRange.positionToTime(point.x - startPosition, rulerWidth) - timeOffset);
-
-                if (useLocaleTime)
-                    tt.text = dateFormater.format(date);
-                else
-                    tt.text = dateFormater.format(date.toUTCString());
+                if (timeline)
+                    tt.text = timeline.formatTime(timeRange.positionToTime(point.x - startPosition, rulerWidth));
             }
             else
                 tt.visible = false;

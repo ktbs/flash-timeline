@@ -63,6 +63,9 @@ package com.ithaca.timeline
 
             _timeline = value;
             _timelineRange = _timeline.range;
+            inputTimeRuler.timeline = _timeline;
+            outputTimeRuler.timeline = _timeline;
+
             cursorRange = new TimeRange();
 
             timelinePreview.addEventListener(Event.RESIZE, updateSkinPositionFromValues);
@@ -184,16 +187,6 @@ package com.ithaca.timeline
         private function onTimelineTimesChange(e: TimelineEvent): void
         {
             _timelineRange = e.currentTarget as TimeRange;
-            if (_timeline.isRelativeTimeMode)
-            {
-                outputTimeRuler.timeOffset = inputTimeRuler.timeOffset = _timelineRange._ranges[0];
-                outputTimeRuler.useLocaleTime = inputTimeRuler.useLocaleTime = false;
-            }
-            else
-            {
-                outputTimeRuler.timeOffset = inputTimeRuler.timeOffset = 0;
-                outputTimeRuler.useLocaleTime = inputTimeRuler.useLocaleTime = true;
-            }
 
             var begin: Number;
             var duration: Number;
