@@ -18,6 +18,7 @@ package com.ithaca.timeline
     import spark.events.ElementExistenceEvent;
     import mx.events.ResizeEvent;
     import mx.events.PropertyChangeEvent;
+    import mx.formatters.DateFormatter;
 
     import com.flashartofwar.fcss.stylesheets.IStyleSheet;
     import com.flashartofwar.fcss.stylesheets.IStyleSheetCollection;
@@ -144,6 +145,8 @@ package com.ithaca.timeline
         [Bindable]
         public var contextFollowCursor: Boolean = false;
 
+        public var dateFormatter: DateFormatter = new DateFormatter();
+        
         /**
          * Timeline constructor
          * @param xmlLayout an xml definition of the timeline layout
@@ -151,6 +154,9 @@ package com.ithaca.timeline
         public function Timeline(xmlLayout: XML = null)
         {
             super();
+
+            dateFormatter.formatString = "JJ:NN:SS";
+
             if (xmlLayout)
                 layoutXML = xmlLayout;
             else
@@ -709,6 +715,28 @@ package com.ithaca.timeline
                 else
                     selector = new SelectorRegexp("rdf," + expr);
                 this.applyCSS('Obsel:nonmatch { visible: false; }', selector);
+            }
+        }
+
+        /**
+         * Return a formatted representation of t (in ms)
+         *
+         * It takes into account the isRelativeTimeMode of the
+         * timeline.
+         */
+        public function formatTime(time: Number): String
+        {
+            var date: Date;
+
+            if (isRelativeTimeMode)
+            {
+                date = new Date(time - range._ranges[0]);
+                return dateFormatter.format(date.toUTCString());
+            }
+            else
+            {
+                date = new Date(time);
+                return dateFormatter.format(date);
             }
         }
     }
