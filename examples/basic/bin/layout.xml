@@ -10,7 +10,6 @@
 	<layout>
 		<!-- Default and only traceLineGroup definition. Each Trace will use this definition -->
 		<tlg >
-         <tl title="Messages" selectorID="Message" />
          <tl preview="true" title="All obsels" selector="SelectorRegexp" selectorParams="type,.*">
             <modifier splitter="type" />
           </tl>
