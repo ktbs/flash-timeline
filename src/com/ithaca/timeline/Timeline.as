@@ -594,7 +594,7 @@ package com.ithaca.timeline
                 trace("Skipping null tl");
                 return;
             }
-            applicator.applyStyle(traceline.skin, stylesheet.getStyle("TraceLine", traceline.name));
+            applicator.applyStyle(traceline.skin, stylesheet.getStyle("TraceLine", traceline.name, "TraceLine." + traceline.styleName));
 
             this.debug['traceline'] = traceline;
             if (traceline.skin !== null)
@@ -608,7 +608,10 @@ package com.ithaca.timeline
                         this.debug['os'] = os;
 
                         applicator.applyStyle(os,
-                                              stylesheet.getStyle("Obsel", os.obsel.type, traceline.name + ".Obsels"));
+                                              stylesheet.getStyle("Obsel",
+                                                                  os.obsel.type,
+                                                                  traceline.name + ".Obsels",
+                                                                  "Traceline." + traceline.styleName + ".Obsels"));
                         if (selector !== null) {
                             if (selector.isObselMatching(os.obsel))
                                 applicator.applyStyle(os, stylesheet.getStyle("Obsel:match", os.obsel.type + ":match"))
@@ -669,7 +672,7 @@ package com.ithaca.timeline
                 var tlg: TraceLineGroup = this.getElementAt(tlgIndex) as TraceLineGroup;
 
                 applicator.applyStyle(tlg.skin,
-                                      cssStyleSheetCollection.getStyle("TraceLineGroup", tlg.name));
+                                      cssStyleSheetCollection.getStyle("TraceLineGroup", "TraceLineGroup." + tlg.styleName, tlg.name));
 
                 for (var tlIndex: uint = 0; tlIndex < tlg.numElements; tlIndex++)
                 {
