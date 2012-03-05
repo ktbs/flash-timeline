@@ -60,6 +60,7 @@
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
                 hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
+                hostComponent.dragArea = cursor;
 
                 updateWidth(null);
                 hostComponent.obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);

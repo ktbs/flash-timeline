@@ -33,6 +33,7 @@
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
                 hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
                 updateWidth(null);
+                hostComponent.dragArea = durative;
 
                 hostComponent.percentHeight = 100;
                 hostComponent.bottom = hostComponent.traceline.getStyle("rendererGap");

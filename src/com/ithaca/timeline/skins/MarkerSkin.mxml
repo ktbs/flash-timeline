@@ -38,6 +38,7 @@
                 obsel = hostComponent.obsel;
                 obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
                 icon.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, onToolTipShow);
+                hostComponent.dragArea = icon;
 
                 // Update icon source and tooltip
                 onObselChange();

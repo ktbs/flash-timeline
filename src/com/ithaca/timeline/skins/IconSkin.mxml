@@ -26,6 +26,7 @@
             {
                 obsel = hostComponent.obsel;
                 obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
+                hostComponent.dragArea = icon;
                 // Update icon source and tooltip
                 onObselChange();
             }

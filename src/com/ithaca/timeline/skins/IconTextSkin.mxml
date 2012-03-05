@@ -29,6 +29,8 @@
                 obsel = hostComponent.obsel;
                 container.backgroundFill = new SolidColor(hostComponent.getStyle("backgroundColor"));
                 obselText.editable = hostComponent.editable;
+                hostComponent.dragArea = container;
+
                 obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
                 onObselChange();
             }
