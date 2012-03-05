@@ -7,6 +7,7 @@ package com.ithaca.timeline
     import flash.events.Event;
     import flash.events.TimerEvent;
     import flash.utils.Timer;
+    import flash.net.FileReference;
     import gnu.as3.gettext._FxGettext;
     import gnu.as3.gettext.FxGettext;
     import mx.collections.ArrayCollection;
@@ -741,6 +742,38 @@ package com.ithaca.timeline
                 date = new Date(time);
                 return dateFormatter.format(date);
             }
+        }
+
+        /**
+         * Save the displayed traces.
+         */
+        public function saveTraceTo(format: String = "tsv"): void
+        {
+            var traces: Array = getCurrentTraces();
+            if (traces.length == 0)
+                return;
+
+            var fr: FileReference = new FileReference();
+            /* We build a temporary trace */
+            var temp: Trace = new Trace();
+
+            if (traces.length == 1)
+            {
+                /* Only 1 trace, reuse the obsels attribute */
+                temp.obsels = traces[0].obsels;
+            }
+            else
+            {
+                /* We have to concatenate obsels from all traces */
+                for each (var tr: Trace in traces)
+                {
+                    temp.obsels.addAll(tr.obsels);
+                }
+            }
+            if (format == "ttl")
+                fr.save(temp.toTTL(), 'trace.ttl');
+            else
+                fr.save(temp.toTSV(), 'trace.tsv');
         }
     }
 }
