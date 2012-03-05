@@ -93,7 +93,7 @@
         <s:Group height="100%" width="200" >
                 <s:HGroup horizontalAlign="right" width="100%" >
                     <mx:Spacer height="30" width="20" />
-                    <tl:PlayPauseButton id="playButton" timeline="{hostComponent}" visible="{timeline.showPlayButton}" />
+                    <tl:PlayPauseButton id="playButton" timeline="{hostComponent}" visible="false" />
                     <s:VGroup  height="100%" horizontalAlign="right" width="100%" >
                         <mx:Button visible="false" id="exportButton" height="16" width="16" toolTip="{fxgt.dgettext('timeline', 'Export obsels as tab-separated-values')}" icon="@Embed(source='../images/export.png')" click="{timeline.saveTraceTo('tsv')}" />
                         <mx:Spacer height="4" width="1" />
