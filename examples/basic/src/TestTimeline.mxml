@@ -384,7 +384,7 @@
                 theTrace.removeEventListener(TraceEvent.PARSING_DONE, TTLParsingDone);
             }
         }
-        
+
         private function TTLParsingProgress(event: TraceEvent): void
         {
             trace("Parsing progress ", event.value, " ", event.message);
@@ -584,7 +584,7 @@
             tl.addEventListener(TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
             content.addElement(tl);
             tabnavigator.addElement(content);
-            
+
             var loader: URLLoader=new URLLoader();
             loader.addEventListener(Event.COMPLETE, function (event: Event): void
                                     {
@@ -592,11 +592,11 @@
                                     });
             loader.load(new URLRequest(layout_ti.text));
         }
-        
+
         private function onDebugLoadLayoutComplete(event: Event, tl: Timeline = null): void
         {
             var loader: URLLoader = event.target as URLLoader;
-           
+
             tl.layoutXML      = new XML(loader.data);
             tl.timelineLayout = new Layout(tl);
 
@@ -606,20 +606,20 @@
                 tl.makeTracelineGroupVisible(tlg, false);
             }
         }
-        
+
         protected function addTimeHolesButton_clickHandler(event:MouseEvent):void
         {
-            
+
             var th1Start : Number = timeline.range.begin + (timeline.range.duration * .3);
             var th1End : Number = timeline.range.begin + (timeline.range.duration * .4);
-            
+
             var th2Start : Number = timeline.range.begin + (timeline.range.duration * .6);
             var th2End : Number = timeline.range.begin + (timeline.range.duration * .8);
-            
+
             timeline.makeTimeHole(th1Start, th1End);
             timeline.makeTimeHole(th2Start, th2End);
-            
-            
+
+
         }
 
     ]]> </fx:Script>
