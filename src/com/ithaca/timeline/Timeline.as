@@ -663,7 +663,7 @@ package com.ithaca.timeline
             cssStyleSheetCollection.addStyleSheet(stylesheet);
 
             /* Apply properties to Timeline: adminMode, cursorMode, timeMode */
-            applicator.applyStyle(this.skin, cssStyleSheetCollection.getStyle("Timeline"));
+            applicator.applyStyle(this, cssStyleSheetCollection.getStyle("Timeline"));
 
             /* Walk through the timelinegroup/traceline/obsels
              * elements and try to apply the new stylesheet */
