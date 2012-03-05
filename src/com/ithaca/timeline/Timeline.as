@@ -228,8 +228,8 @@ package com.ithaca.timeline
                             contextFollowCursor = true;
                             break;
                         case 'follow':
-                            contextFollowCursor = true;
                             zoomContext.cursorEditable = false;
+                            contextFollowCursor = true;
                             break;
                         case 'manual':
                             zoomContext.cursorEditable = true;
