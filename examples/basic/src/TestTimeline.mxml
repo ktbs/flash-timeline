@@ -23,6 +23,7 @@
         import com.ithaca.timeline.SelectorRegexp;
         import com.ithaca.timeline.Stylesheet;
         import com.ithaca.timeline.events.TimelineEvent;
+        import com.ithaca.traces.events.ObselEvent;
         import com.ithaca.timeline.TraceLineGroupTitle;
         import com.ithaca.timeline.TraceLineTitle;
         import com.ithaca.traces.Obsel;
@@ -152,6 +153,7 @@
             }
             allTestLayout.enabled = true;
             timeline.addEventListener(TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
+            timeline.skin.addEventListener(ObselEvent.MOUSE_DOWN_OBSEL, onObselClicked, false);
         }
 
         public function onAddLayoutNode(e: TimelineEvent): void
@@ -162,22 +164,52 @@
                 (e.value as TraceLineGroup).titleComponent.addEventListener(MouseEvent.MOUSE_DOWN, onSelect,true);
         }
 
+        public function onObselClicked(event: ObselEvent): void
+        {
+            var os: ObselSkin = event.value as ObselSkin;
+            this.currentObsel = os.obsel;
+            preview_ta.text = os.obselTooltip();
+            setTableSource(os);
+        }
+
+        /* Set the source of information for the table: it can be
+         * either a TraceLine, a TraceLineGroup or an ObselSkin */
+        public function setTableSource(source: *): void
+        {
+            if (source is ObselSkin)
+            {
+                source = (source as ObselSkin).traceline;
+            }
+
+            if (source is TraceLine)
+            {
+                var tl: TraceLine = source as TraceLine;
+
+                dg_label.text = tl.title + " : " + tl._obsels.length + " obsels";
+                obselList_dg.dataProvider = tl._obsels;
+                this.currentTraceLine = tl;
+                this.currentTLG = tl.getTraceLineGroup();
+            }
+            else if (source is TraceLineGroup)
+            {
+                var tlg: TraceLineGroup = source as TraceLineGroup;
+
+                dg_label.text = tlg.title + " : " + tlg.trace.obsels.length + " obsels";
+                obselList_dg.dataProvider = tlg.trace.obsels;
+                this.currentTLG = tlg;
+                this.currentTraceLine = null;
+            }
+        }
 
         public function onSelect(e: MouseEvent): void
         {
             if (e.currentTarget is TraceLineTitle)
             {
-                dg_label.text = (e.currentTarget as TraceLineTitle).tl.title + " : " + (e.currentTarget as TraceLineTitle).tl._obsels.length + " obsels";
-                obselList_dg.dataProvider = (e.currentTarget as TraceLineTitle).tl._obsels;
-                this.currentTraceLine = (e.currentTarget as TraceLineTitle).tl;
-                this.currentTLG = this.currentTraceLine.getTraceLineGroup();
+                setTableSource((e.currentTarget as TraceLineTitle).tl);
             }
             else if (e.currentTarget is TraceLineGroupTitle)
             {
-                dg_label.text = (e.currentTarget as TraceLineGroupTitle).tlg.title + " : " + (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels.length + " obsels";
-                obselList_dg.dataProvider = (e.currentTarget as TraceLineGroupTitle).tlg.trace.obsels;
-                this.currentTLG = (e.currentTarget as TraceLineGroupTitle).tlg;
-                this.currentTraceLine = null;
+                setTableSource((e.currentTarget as TraceLineGroupTitle).tlg);
             }
         }
 
