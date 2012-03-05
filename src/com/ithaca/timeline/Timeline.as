@@ -3,6 +3,7 @@ package com.ithaca.timeline
     import com.ithaca.timeline.events.TimelineEvent;
     import com.ithaca.timeline.PlayPauseButton;
     import com.ithaca.timeline.skins.TraceLineSkin;
+    import com.ithaca.timeline.skins.TimelineSkin;
     import com.ithaca.traces.Trace;
     import flash.events.Event;
     import flash.events.TimerEvent;
@@ -50,6 +51,11 @@ package com.ithaca.timeline
      * This event is dispatched when the current time change (with 'set currentTime').
      * The current time of the timeline never changes internaly, it must be changed by the setter of currentTime.
      */
+
+    [Style(name = "showPlayButton", type = "Boolean", inherit = "no")]
+    [Style(name = "showExportButton", type = "Boolean", inherit = "no")]
+    [Style(name = "showSearchBox", type = "Boolean", inherit = "no")]
+
     [Event(name = "currentTimeChange", type = "com.ithaca.timeline.events.TimelineEvent")]
     /**
      * This event is dispatched when one of the two time rulers is clicked.
@@ -140,14 +146,12 @@ package com.ithaca.timeline
 
         [Bindable]
         public var    isPlaying: Boolean = false;
-        [Bindable]
-        public var    showPlayButton: Boolean = false;
 
         [Bindable]
         public var contextFollowCursor: Boolean = false;
 
         public var dateFormatter: DateFormatter = new DateFormatter();
-        
+
         /**
          * Timeline constructor
          * @param xmlLayout an xml definition of the timeline layout
@@ -217,6 +221,21 @@ package com.ithaca.timeline
         override public function styleChanged(styleProp: String): void
         {
             super.styleChanged(styleProp);
+            //trace("styleChanged", styleProp, getStyle(styleProp));
+            if (this.skin === null)
+                return;
+
+            var showableWidgets: Object = {
+                'showSearchBox': (this.skin as TimelineSkin).searchBox,
+                'showExportButton': (this.skin as TimelineSkin).exportButton,
+                'showPlayButton': (this.skin as TimelineSkin).playButton
+            };
+
+            /* Display widget from tunableWidgets is CSS value is true */
+            if (showableWidgets.hasOwnProperty(styleProp))
+            {
+                showableWidgets[styleProp].setVisible(getStyle(styleProp) == 'true');
+            }
 
             /* FIXME: should propagate other style changes: adminMode */
             if (zoomContext)
