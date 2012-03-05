@@ -157,13 +157,13 @@ package com.ithaca.timeline
         private function onMouseDown(event: MouseEvent): void
         {
             // Dispatcher
-            var moveObselEvent:ObselEvent = new ObselEvent(ObselEvent.MOUSE_DOWN_OBSEL);
-            moveObselEvent.value = this;
-            moveObselEvent.event = event;
+            var e: ObselEvent = new ObselEvent(ObselEvent.MOUSE_DOWN_OBSEL);
+            e.value = this;
+            e.event = event;
 
             if (traceline._timeline.activity !== null)
                 traceline._timeline.activity.trace("ObselClick",  { uri: _obsel.uri });
-            this.dispatchEvent(moveObselEvent);
+            this.dispatchEvent(e);
         }
 
         //_____________________________________________________________________
