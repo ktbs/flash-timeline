@@ -14,6 +14,9 @@ package com.ithaca.timeline
             super(this);
         }
 
+        /*
+         * Apply the given style object (IStyleSheet) to the specified target.
+         */
         override public function applyStyle(target: Object, style: Object): void
         {
             if (style['styleName'] != 'EmptyStyle') {
@@ -25,7 +28,7 @@ package com.ithaca.timeline
                         continue;
                     oldValue = target.getStyle(prop);
                     //trace("Applying prop", prop, "to target", target, "(from:", oldValue, "to:", style[prop], ")");
-                    if (oldValue != style[prop])
+                    if (style[prop] !== undefined && (oldValue != style[prop]))
                     {
                         /* The style is different. Update it. */
 
