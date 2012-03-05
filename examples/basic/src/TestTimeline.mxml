@@ -523,6 +523,7 @@
         {
             var res: String;
             var ctx: Context = new Context(this);
+            ctx.canAssign = true;
             ctx.locals['obsel'] = this.currentObsel;
             ctx.locals['tl'] = this.currentTraceLine;
             ctx.locals['tlg'] = this.currentTLG;
