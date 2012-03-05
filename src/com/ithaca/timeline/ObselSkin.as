@@ -96,10 +96,12 @@ package com.ithaca.timeline
             this.setStyle("dragMoveEnabled", "true");
         }
         
-        public function obselTooltip(o: Obsel): String
+        public function obselTooltip(o: Obsel = null): String
         {
             var result: String;
 
+            if (o === null)
+                o = this._obsel;
             result = o.type + " " + traceline._timeline.formatTime(o.begin) + (o.begin != o.end ? " - " + traceline._timeline.formatTime(o.end) : "");
             for (var p: String in o.props)
                 result = result + "\n " + p + "=" + o.props[p].toString().replace("\r", "\\r").replace("\n", "\\n");
