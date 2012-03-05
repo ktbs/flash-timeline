@@ -164,6 +164,19 @@
                 (e.value as TraceLineGroup).titleComponent.addEventListener(MouseEvent.MOUSE_DOWN, onSelect,true);
         }
 
+        public function formatObsel(o: Obsel): String
+        {
+            var result: String;
+
+            if (o === null)
+                return "[null]";
+
+            result = o.type + " " + timeline.formatTime(o.begin) + (o.begin != o.end ? " - " + timeline.formatTime(o.end) : "");
+            for (var p: String in o.props)
+                result = result + "\n " + p + "=" + o.props[p].toString().replace("\r", "\\r").replace("\n", "\\n");
+            return result;
+        }
+
         public function onObselClicked(event: ObselEvent): void
         {
             var os: ObselSkin = event.value as ObselSkin;
@@ -500,7 +513,7 @@
 
         private function obselSelectEvent(event: ListEvent): void {
             this.currentObsel = event.target.selectedItem;
-            preview_ta.text = event.target.selectedItem.toString();
+            preview_ta.text = formatObsel(event.target.selectedItem);
         }
 
         /**
