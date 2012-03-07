@@ -93,15 +93,15 @@
         <s:Group height="100%" width="200" >
                 <s:HGroup horizontalAlign="right" width="100%" >
                     <mx:Spacer height="30" width="20" />
-                    <tl:PlayPauseButton id="playButton" timeline="{hostComponent}" visible="false" />
+                    <tl:PlayPauseButton id="playButton" timeline="{hostComponent}" visible="{timeline.getStyle('showPlayButton')}" />
                     <s:VGroup  height="100%" horizontalAlign="right" width="100%" >
-                        <mx:Button visible="false" id="exportButton" height="16" width="16" toolTip="{fxgt.dgettext('timeline', 'Export obsels as tab-separated-values')}" icon="@Embed(source='../images/export.png')" click="{timeline.saveTraceTo('tsv')}" />
+                        <mx:Button visible="{timeline.getStyle('showExportButton')}" id="exportButton" height="16" width="16" toolTip="{fxgt.dgettext('timeline', 'Export obsels as tab-separated-values')}" icon="@Embed(source='../images/export.png')" click="{timeline.saveTraceTo('tsv')}" />
                         <mx:Spacer height="4" width="1" />
                         <mx:CheckBox   id="linkCursor"  selected="{timeline.contextFollowCursor}" click="{onCursorLinkClick(event)}" />
                     </s:VGroup>
                 </s:HGroup>
 
-                <s:HGroup visible="false" id="searchBox" gap="0" x="5" y="50" width="100%">
+                <s:HGroup visible="{timeline.getStyle('showSearchBox')}" id="searchBox" gap="0" x="5" y="50" width="100%">
                    <s:TextInput toolTip="{fxgt.dgettext('timeline', 'Enter a filter expression to restrict display to matching obsels')}" prompt="{fxgt.dgettext('timeline', 'Filter expression')}" id="search_ti" width="100%"  enter="{timeline.filterDisplay(search_ti.text)}" enabled="true" text=""/>
                    <mx:Button id="searchButton" toolTip="{fxgt.dgettext('timeline', 'Filter display')}" width="20" click="{timeline.filterDisplay(search_ti.text)}" icon="@Embed(source='../images/search.png')" />
                    <mx:Button id="searchResetButton" toolTip="{fxgt.dgettext('timeline', 'Reset search filter')}" width="20" click="{onFilterClear(event)}" icon="@Embed(source='../images/BlackCross.png')" />
