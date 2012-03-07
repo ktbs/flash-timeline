@@ -24,11 +24,24 @@ package com.ithaca.timeline
                 for (var prop: String in style)
                 {
                     var oldValue: *;
+                    var value: * = style[prop];
+
                     if (prop == 'styleName')
                         continue;
                     oldValue = target.getStyle(prop);
+                    /* Hard-coded string conversion.
+                     * FIXME: to do things properly, we should use 
+                     * fcss TypeCheckerUtil.getType
+                     */
+                    if (value === "true")
+                        value = true;
+                    else if (value === "false")
+                        value = false;
+                    else if (value === "undefined")
+                        value = undefined;
+
                     //trace("Applying prop", prop, "to target", target, "(from:", oldValue, "to:", style[prop], ")");
-                    if (style[prop] !== undefined && (oldValue != style[prop]))
+                    if (value !== undefined && (oldValue != value))
                     {
                         /* The style is different. Update it. */
 
@@ -41,7 +54,7 @@ package com.ithaca.timeline
                          * should try to accomodate both here
                          * (automatically strip ").
                          */
-                        target.setStyle(prop, style[prop]);
+                        target.setStyle(prop, value);
                     }
                 }
             }
