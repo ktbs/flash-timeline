@@ -41,21 +41,25 @@ package com.ithaca.timeline
     [Style(name = "cursorMode", type = "String", inherit = "no")]
     /**
      * This style is used in skins to allow layout editing for example.
+     * DEPRECATED.
      */
     [Style(name = "adminMode", type = "Boolean", inherit = "no")]
     /**
      * if 'relative', the time labels starts from 0 otherwise the time labels display absolute times.
      */
     [Style(name = "timeMode", type = "String", inherit = "no")]
-    /**
-     * This event is dispatched when the current time change (with 'set currentTime').
-     * The current time of the timeline never changes internaly, it must be changed by the setter of currentTime.
-     */
 
+    /*
+     * Optional widgets visibility
+     */
     [Style(name = "showPlayButton", type = "Boolean", inherit = "no")]
     [Style(name = "showExportButton", type = "Boolean", inherit = "no")]
     [Style(name = "showSearchBox", type = "Boolean", inherit = "no")]
 
+    /**
+     * This event is dispatched when the current time change (with 'set currentTime').
+     * The current time of the timeline never changes internaly, it must be changed by the setter of currentTime.
+     */
     [Event(name = "currentTimeChange", type = "com.ithaca.timeline.events.TimelineEvent")]
     /**
      * This event is dispatched when one of the two time rulers is clicked.
@@ -221,7 +225,6 @@ package com.ithaca.timeline
         override public function styleChanged(styleProp: String): void
         {
             super.styleChanged(styleProp);
-            //trace("styleChanged", styleProp, getStyle(styleProp));
             if (this.skin === null)
                 return;
 
