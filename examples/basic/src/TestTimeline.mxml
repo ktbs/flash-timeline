@@ -333,7 +333,7 @@
                 activityTimeline.percentHeight = 100;
                 activityTimeline.setStyle("timeMode", "relative");
                 activityTimeline.setStyle("cursorMode", "manual");
-                activityTimeline.setStyle("adminMode", true);
+                activityTimeline.setStyle("showSearchBox", true);
                 activityTimeline.setStyle("showPlayButton", false);
                 activityTimeline.addEventListener(TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
                 content.addElement(activityTimeline);
@@ -691,8 +691,8 @@
                          pauseButtonClick="stopTimer(event)" timeMode="relative" timeRulerClick="onRulerClick(event)"
                          cursorMode="manual"
                          endAlertBeforeTime="30000"
-                         adminMode="true"
-                         showPlayButton="true"
+                         showSearchBox="true"
+                         showExportButton="false"
                          endAlert="onEndAlert(event)"
                          endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
           </s:NavigatorContent>

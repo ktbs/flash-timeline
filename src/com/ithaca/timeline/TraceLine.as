@@ -232,18 +232,15 @@ package com.ithaca.timeline
             if (this.visible == visible)
                 return;
 
-            if (_timeline.getStyle("adminMode") != true)
-            {
-                this.visible                         = visible;
-                titleComponent.visible                = visible;
-                if ((titleComponent as TraceLineTitle).OpenButton)
-                    (titleComponent as TraceLineTitle).OpenButton.visible = visible && (getVisibleChildrenNumber() > 0);
+            this.visible                         = visible;
+            titleComponent.visible                = visible;
+            if ((titleComponent as TraceLineTitle).OpenButton)
+                (titleComponent as TraceLineTitle).OpenButton.visible = visible && (getVisibleChildrenNumber() > 0);
 
-                if (parentNode is TraceLine && parentNode.visible && parentNode.titleComponent && ((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton)
-                    ((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton.visible = ((parentNode as TraceLine).getVisibleChildrenNumber() > 0);
+            if (parentNode is TraceLine && parentNode.visible && parentNode.titleComponent && ((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton)
+                ((parentNode as TraceLine).titleComponent as TraceLineTitle).OpenButton.visible = ((parentNode as TraceLine).getVisibleChildrenNumber() > 0);
 
-                setStyle('hide', !visible)
-            }
+            setStyle('hide', !visible)
         }
     }
 }

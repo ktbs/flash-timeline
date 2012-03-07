@@ -40,11 +40,6 @@ package com.ithaca.timeline
      */
     [Style(name = "cursorMode", type = "String", inherit = "no")]
     /**
-     * This style is used in skins to allow layout editing for example.
-     * DEPRECATED.
-     */
-    [Style(name = "adminMode", type = "Boolean", inherit = "no")]
-    /**
      * if 'relative', the time labels starts from 0 otherwise the time labels display absolute times.
      */
     [Style(name = "timeMode", type = "String", inherit = "no")]
@@ -55,6 +50,8 @@ package com.ithaca.timeline
     [Style(name = "showPlayButton", type = "Boolean", inherit = "no")]
     [Style(name = "showExportButton", type = "Boolean", inherit = "no")]
     [Style(name = "showSearchBox", type = "Boolean", inherit = "no")]
+    [Style(name = "showTraceLineGroupControls", type = "Boolean", inherit = "no")]
+    [Style(name = "showTraceLineControls", type = "Boolean", inherit = "no")]
 
     /**
      * This event is dispatched when the current time change (with 'set currentTime').
@@ -239,8 +236,6 @@ package com.ithaca.timeline
             {
                 showableWidgets[styleProp].setVisible(getStyle(styleProp) == 'true' || getStyle(styleProp) === true);
             }
-
-            /* FIXME: should propagate other style changes: adminMode */
             if (zoomContext)
                 if (!styleProp || styleProp == 'cursorMode')
                 {
@@ -685,7 +680,7 @@ package com.ithaca.timeline
              */
             cssStyleSheetCollection.addStyleSheet(stylesheet);
 
-            /* Apply properties to Timeline: adminMode, cursorMode, timeMode */
+            /* Apply properties to Timeline: cursorMode, timeMode, widgets visibility... */
             applicator.applyStyle(this, cssStyleSheetCollection.getStyle("Timeline"));
 
             /* Walk through the timelinegroup/traceline/obsels
