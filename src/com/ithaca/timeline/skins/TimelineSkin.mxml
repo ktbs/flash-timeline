@@ -113,7 +113,7 @@
         </s:Group>
         <s:Group id="renderGroup" width="100%" height="100%">
             <s:Scroller id="scroller2" y="{zoomContext.height}" width="100%" height="{hdb.height-zoomContext.height}" >
-                <s:VGroup id="contentGroup" y="{zoomContext.height}" maxHeight="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />
+               <tls:ControlledScrollVGroup id="contentGroup" stepSize="10" y="{zoomContext.height}" maxHeight="{titleGroup.height}" gap="5" width="100%" clipAndEnableScrolling="true" verticalScrollPosition="{titleGroup.verticalScrollPosition}" />
             </s:Scroller>
             <tl:ZoomContext id="zoomContext" width="100%" minWidth="200"  />
             <tl:Cursor id="contextCursor" timeRuler="{zoomContext.outputTimeRuler}" timeline="{hostComponent}"    y="{scroller2.y }"     height="{contentGroup.height}" visible="false"  withToolTip="true" />
