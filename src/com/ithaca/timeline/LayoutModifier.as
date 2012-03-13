@@ -1,11 +1,13 @@
 package  com.ithaca.timeline
 {
     /**
-     * The LayoutModifier is a layout node which dynamicaly creates Tracelines when needed. Tracelines are created at the same layout level as the layoutModifier.
+     * The LayoutModifier is a layout node which dynamicaly creates
+     * Tracelines when needed. Tracelines are created at the same
+     * layout level as the layoutModifier.
      *
-     * <p> The only implemented layout modifier splits creates
-     * Tracelines according to a given obsel property. It is commonly
-     * used with the <code>type</code> property for instance.  </p>
+     * <p> The only implemented layout modifier creates Tracelines
+     * according to a given obsel property. It is commonly used with
+     * the <code>type</code> property for instance.  </p>
      *
      * @see Layout
      */
@@ -19,6 +21,7 @@ package  com.ithaca.timeline
         import mx.collections.errors.CollectionViewError;
         import mx.events.CollectionEvent;
         import mx.events.CollectionEventKind;
+
         /**
          * Name of the obsel property used to split the obsels source
          */
@@ -27,7 +30,7 @@ package  com.ithaca.timeline
         /**
          * @see LayoutNode
          */
-        public var source: String;
+        public var source: String = "parent";
         /**
          * @see LayoutNode
          */
@@ -43,7 +46,7 @@ package  com.ithaca.timeline
          */
         public function splitBy(): String
         {
-         return _splitter;
+            return _splitter;
         }
 
         /**
@@ -60,14 +63,14 @@ package  com.ithaca.timeline
             else if (obsel.props.hasOwnProperty(_splitter))
                 selector.setParameters(_splitter + "," + "^" + obsel.props[_splitter] +"$");
             else
-                return null
+                return null;
 
             return selector;
         }
 
-        private function isSelectorAlreadyExist (obsel: Obsel): ISelector
+        private function isSelectorAlreadyExist(obsel: Obsel): ISelector
         {
-            var selector: ISelector = createSelector (obsel);
+            var selector: ISelector = createSelector(obsel);
 
             if (selector && parentNode)
                 for (var brotherIndex: uint = 0; brotherIndex < parentNode.numElements; brotherIndex++)
@@ -81,20 +84,21 @@ package  com.ithaca.timeline
         }
 
         /**
-         * (Re)Check every obsel of the source.
+         * (Re)check every obsel of the source.
          */
-        override public function resetObselCollection (obselsCollection: ArrayCollection = null): void
+        override public function resetObselCollection(obselsCollection: ArrayCollection = null): void
         {
             for each (var item: Obsel in obselsCollection)
                 newObsel(item);
         }
 
         /**
-         * Check if an obsel can be added to a traceline and if can't, create the traceline.
+         * Check if an obsel can be added to a traceline and if not, create the traceline.
          */
         private function newObsel(obsel: Obsel): void
         {
-            var selector: ISelector = isSelectorAlreadyExist (obsel)
+            var selector: ISelector = isSelectorAlreadyExist(obsel);
+
             if (selector)
             {
                 var trac: Trace = obsel.trace;
@@ -140,7 +144,6 @@ package  com.ithaca.timeline
                 {
                     for each (var item: Obsel in event.items)
                         newObsel(item);
-
                     break;
                 }
                 case CollectionEventKind.REMOVE:
