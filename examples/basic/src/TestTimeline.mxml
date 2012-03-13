@@ -7,7 +7,7 @@
                xmlns:kapit="fr.kapit.*"
                width="100%"  height="100%"
                preinitialize="onPreinitialize()"
-               creationComplete="init()" >
+               applicationComplete="init()" >
 
     <fx:Script>
     <![CDATA[
@@ -76,6 +76,8 @@
         /* Last selected tlg/tl */
         public var currentTLG: TraceLineGroup = null;
         public var currentTraceLine: TraceLine = null;
+
+        public var commentTrace: Trace = null;
 
         [Embed(source="images/unknown.jpg")]
         public var tlgIcon: Class;
@@ -154,6 +156,8 @@
             allTestLayout.enabled = true;
             timeline.addEventListener(TimelineEvent.LAYOUT_NODE_ADDED, onAddLayoutNode);
             timeline.skin.addEventListener(ObselEvent.MOUSE_DOWN_OBSEL, onObselClicked, false);
+            timeline.addEventListener(TimelineEvent.PRE_ADD_COMMENT_OBSEL, onPreAddComment, true);
+            
         }
 
         public function onAddLayoutNode(e: TimelineEvent): void
@@ -164,6 +168,17 @@
                 (e.value as TraceLineGroup).titleComponent.addEventListener(MouseEvent.MOUSE_DOWN, onSelect,true);
         }
 
+        /* Add a comment about the selected obsel */
+		protected function onPreAddComment(event: TimelineEvent): void
+		{
+            if (currentObsel != null && commentTrace != null)
+			{
+                commentTrace.trace("Comment", null,
+                                   currentObsel.begin,
+                                   (currentObsel.begin == currentObsel.end) ? currentObsel.begin + 2000 : currentObsel.end);
+			}
+		}
+        
         public function formatObsel(o: Obsel): String
         {
             var result: String;
@@ -181,6 +196,7 @@
         {
             var os: ObselSkin = event.value as ObselSkin;
             this.currentObsel = os.obsel;
+            os.obsel.props.skin = os;
             preview_ta.text = os.obselTooltip();
             setTableSource(os);
         }
@@ -279,13 +295,22 @@
 
             if (firstload)
             {
+                var tlg: TraceLineGroup;
+
                 if (timeline.activity !== null)
                 {
-                    var tlg: TraceLineGroup = timeline.addTrace(timeline.activity, 0, "timeline");
+                    tlg = timeline.addTrace(timeline.activity, 0, "timeline");
                     tlg.setStyle("title", "Timeline");
                     /* Assume a default session time of n minutes, so that the initial display is meaningful */
                     timeline.range.addTime(tlg.traceBegin, tlg.traceEnd + 5 * 60 * 1000);
                 }
+                /* Add comment trace */
+                commentTrace = new Trace();
+                commentTrace.autosync = false;
+                
+                tlg = timeline.addTrace(commentTrace, 0, "comments");
+                timeline.makeTracelineGroupVisible(tlg, false);
+
                 firstload = false;
             }
         }
@@ -562,10 +587,14 @@
                                        function (msg: String): void { preview_ta.text = msg; });
         }
 
+        public function applyCSS(): void
+        {
+            timeline.applyCSS(preview_ta.text);
+        }
+
         public function debug(): void
         {
-            trace("Debugging CSS");
-            timeline.applyCSS(preview_ta.text);
+            applyCSS();
         }
 
         public function oldDebug(): void
@@ -679,6 +708,7 @@
                 <s:HGroup>
                    <mx:Button label="Save trace to TSV" click="{saveTraceTo('tsv')}" />
                    <mx:Button label="Save trace to TTL" click="{saveTraceTo('ttl')}" />
+                   <mx:Button label="Apply CSS" click="{applyCSS()}" />
                    <mx:Button label="Debug" click="{debug()}" />
                     <mx:Button label="Create TimeHoles" id="addTimeHolesButton"  click="addTimeHolesButton_clickHandler(event)"/>
                 </s:HGroup>
