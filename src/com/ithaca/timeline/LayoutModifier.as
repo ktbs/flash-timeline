@@ -68,7 +68,11 @@ package  com.ithaca.timeline
             return selector;
         }
 
-        private function isSelectorAlreadyExist(obsel: Obsel): ISelector
+        /**
+         * Return a Selector if it did not previously exist in the Timeline.
+         * Else return null
+         */
+        private function getSelectorIfNew(obsel: Obsel): ISelector
         {
             var selector: ISelector = createSelector(obsel);
 
@@ -97,7 +101,7 @@ package  com.ithaca.timeline
          */
         private function newObsel(obsel: Obsel): void
         {
-            var selector: ISelector = isSelectorAlreadyExist(obsel);
+            var selector: ISelector = getSelectorIfNew(obsel);
 
             if (selector)
             {
