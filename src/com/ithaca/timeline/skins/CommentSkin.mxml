@@ -54,13 +54,13 @@
                 fxgt = FxGettext;
                 obsel = hostComponent.obsel;
                 y = hostComponent.traceline.getStyle('rendererHeight') - cursor.height - 2;
-                commentLabel.text = fxgt.dgettext("timeline", "Write your comment");
+                commentLabel.text = obsel.props.text;
                 toolTip = commentLabel.text;
                 UpdateResizeGripHeight();
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
                 hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
-                hostComponent.dragArea = cursor;
+                hostComponent.dragArea = icon;
 
                 updateWidth(null);
                 hostComponent.obsel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onObselChange);
@@ -210,6 +210,19 @@
                 this.enabled = true;
             }
 
+            private function updateObsel(event: Event): void
+            {
+                if (commentLabel.text != hostComponent.obsel.props.text)
+                {
+                    hostComponent.obsel.props.text = commentLabel.text;
+                    var propChange: PropertyChangeEvent= new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
+                    propChange.property = "props";
+                    hostComponent.obsel.dispatchEvent(propChange);
+                }
+                toolTip = commentLabel.text;
+                commentLabel.drawFocus(false);
+            }
+
             private function onSelect(event: Event): void
             {
                 (hostComponent.parent as Group).addElementAt(hostComponent, (hostComponent.parent as Group).numElements -1);
@@ -256,7 +269,7 @@
 
     <s:BorderContainer id="cursor" borderWeight="1"   backgroundColor="#FEFDD6" minWidth="1" minHeight="1" width="100%" >
         <mx:Image id="icon" source="{getStyle('icon')}" height="100%" top="2" left="2" mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetHandCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)"/>
-        <s:Label id="commentLabel" width="100%" height="10" fontSize="10" x="{icon.width+5}"  y="3"  mouseOver.editable="CursorIcons.SetIBeamCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)"    />
+        <s:TextInput prompt="{fxgt.dgettext('timeline', 'Write your comment')}" borderVisible="false" enter="updateObsel(event)" focusOut="updateObsel(event)" id="commentLabel" width="100%" height="16" fontSize="10" x="{icon.width+5}"  y="3"  mouseOver.editable="CursorIcons.SetIBeamCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)" />
     </s:BorderContainer>
 
 </s:Skin>
