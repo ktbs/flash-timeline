@@ -4,8 +4,8 @@ MO_DIR = ../locale
 PO_DIR = po
 DOMAIN = timeline
 
-pot: POT
-	python xgettext.py $(DOMAIN).pot $(find ../src -iname '*.as' -o -iname '*.mxml')
+pot:
+	python xgettext.py $(DOMAIN).pot $(shell find ../src -iname '*.as' -o -iname '*.mxml')
 
 update-po:
 	for po in *.po; do \

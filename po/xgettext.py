@@ -27,7 +27,8 @@ if __name__ == '__main__':
                     print "Error: bad quotes for line %d:\n%s" % (n, line)
                     continue
                 if label in col:
-                    col[label] += '#: %s:%d\n' % (fname, n + 1)
+                    if col[label][-1] == "\n":
+                        col[label] += '#: %s:%d\n' % (fname, n + 1)
                     else:
                         col[label] += ' %s:%s\n' % (fname, n + 1)
                 else:
