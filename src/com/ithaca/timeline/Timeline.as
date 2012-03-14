@@ -234,7 +234,7 @@ package com.ithaca.timeline
             /* Display widget from tunableWidgets is CSS value is true */
             if (showableWidgets.hasOwnProperty(styleProp))
             {
-                showableWidgets[styleProp].setVisible(getStyle(styleProp) == 'true' || getStyle(styleProp) === true);
+                showableWidgets[styleProp].setVisible(getStyle(styleProp) === true);
             }
             if (zoomContext)
                 if (!styleProp || styleProp == 'cursorMode')
