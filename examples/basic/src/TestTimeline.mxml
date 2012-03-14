@@ -723,6 +723,7 @@
                          endAlertBeforeTime="30000"
                          showSearchBox="true"
                          showExportButton="false"
+                         showTraceLineGroupControls="true"
                          endAlert="onEndAlert(event)"
                          endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
           </s:NavigatorContent>
