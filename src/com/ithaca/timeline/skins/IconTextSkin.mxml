@@ -73,7 +73,7 @@
                     container.backgroundFill = new SolidColor(st);
                 }
 
-                if (hostComponent.getStyle("visible") == 'false')
+                if (hostComponent.getStyle("visible") === false)
                 {
                     container.visible = false;
                 }

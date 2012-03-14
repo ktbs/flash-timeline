@@ -121,7 +121,7 @@
                     icon.toolTip = st;
                 }
 
-                if (hostComponent.getStyle("visible") == 'false')
+                if (hostComponent.getStyle("visible") === false)
                 {
                     icon.visible = false;
                 }

@@ -92,8 +92,8 @@ package com.ithaca.timeline
 
             this.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, handle_tooltip_event);
             this.addEventListener(DragEvent.DRAG_START, handle_drag_start_event);
-            this.setStyle("dragEnabled", "true");
-            this.setStyle("dragMoveEnabled", "true");
+            this.setStyle("dragEnabled", true);
+            this.setStyle("dragMoveEnabled", true);
         }
         
         public function obselTooltip(o: Obsel = null): String

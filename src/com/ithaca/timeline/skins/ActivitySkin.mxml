@@ -75,7 +75,7 @@
                     durative.toolTip = st;
                 }
 
-                if (hostComponent.getStyle("visible") == 'false')
+                if (hostComponent.getStyle("visible") === false)
                 {
                     durative.visible = false;
                 }
