@@ -13,7 +13,7 @@ package com.ithaca.timeline
     public class SimpleObselsRenderer extends BaseObselsRenderer
     {
         public var _markerColor: uint = 0x000000;
-        public var _durativeColor: uint = 0xC9C9C9;
+        public var _durativeColor: uint = 0x2222C9;
         public var _backgroundColor: uint = 0xF5F5F5;
         public var _filter: ISelector;
 
