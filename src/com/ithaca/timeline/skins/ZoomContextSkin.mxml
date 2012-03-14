@@ -30,6 +30,7 @@
             import spark.components.BorderContainer;
             import spark.components.supportClasses.SkinnableComponent;
             import com.ithaca.timeline.CursorIcons;
+            import com.ithaca.timeline.Timeline;
             import com.ithaca.timeline.Stylesheet;
             import com.ithaca.timeline.events.TimelineEvent;
             import spark.events.ElementExistenceEvent;
@@ -51,8 +52,12 @@
             [Bindable]
             protected var  timeRulerSidePadding: Number ;
 
+            [Bindable]
+            public var timeline: Timeline;
+
             protected function creationCompleteHandler(event: Event): void
             {
+                timeline = hostComponent.timeline;
                 timeRulerSidePadding = Stylesheet.renderersSidePadding;
                 hostComponent.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, outputTimeRuler.onTimeRangeChange);
                 hostComponent.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, outputTimeRuler.onTimeRangeChange);
@@ -124,7 +129,7 @@
     </s:states>
 
     <s:BorderContainer id="zoomContextGroup" width="100%"  backgroundColor="{hostComponent.getStyle('backgroundColor')}"  borderVisible="false" minHeight="1">
-            <timeline:TimeRuler id="inputTimeRuler" timeline="{hostComponent._timeline}" width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" labelsOnTop="true" />
+            <timeline:TimeRuler id="inputTimeRuler" timeline="{timeline}" width="100%" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" labelsOnTop="true" />
 
             <s:Group id="timelinePreview" y="{cursor.y+3}" x="{timeRulerSidePadding}"  minHeight="20"   width="{width-timeRulerSidePadding*2}"   resize="inputTimeRuler.redraw(event)">
                 <s:layout ><s:VerticalLayout paddingLeft="1" gap="0" ></s:VerticalLayout></s:layout>
@@ -132,7 +137,7 @@
 
             <s:Group id="funnel" height="15" minHeight="1" y="{cursor.y+cursor.height}" />
 
-            <timeline:TimeRuler id="outputTimeRuler" timeline="{hostComponent._timeline}" width="100%" y="{funnel.y+funnel.height}" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />
+            <timeline:TimeRuler id="outputTimeRuler" timeline="{timeline}" width="100%" y="{funnel.y+funnel.height}" startPosition="{timelinePreview.x}" rulerWidth="{timelinePreview.width}" />
 
             <s:VGroup x="4" id="actionsGroup" y="20" gap="4" height="100%" verticalCenter="true" />
                 <skins:ZoomContextCursor id="cursor"  minX="{timelinePreview.x}" maxX="{timelinePreview.x + timelinePreview.width}"  x="40" width="30" y="{inputTimeRuler.y+inputTimeRuler.height}"  height="{timelinePreview.height+6}" />
