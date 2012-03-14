@@ -22,56 +22,72 @@ msgid "Edit obsel"
 msgstr ""
 
 #: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:95
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:95
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:96
 #: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:46
 #: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:76
 msgid "Ok"
 msgstr ""
 
 #: ../src/com/ithaca/timeline/skins/ObselGenericEditDialog.mxml:95
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:95
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:96
 #: ../src/com/ithaca/timeline/skins/ConfirmationDialog.mxml:46
 #: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:77
 msgid "Cancel"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:13
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:14
 msgid "Message"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:14
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:15
 msgid "Document"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:15
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:16
 msgid "Instructions"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:16
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:17
 msgid "Keyword"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:17
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleSkin.mxml:18
 msgid "Marker"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:99
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:98
+msgid "Export obsels as tab-separated-values"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:105
 msgid "Enter a filter expression to restrict display to matching obsels"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:99
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:105
 msgid "Filter expression"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:100
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:106
+msgid "Filter display"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TimelineSkin.mxml:107
 msgid "Reset search filter"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/CommentSkin.mxml:57
+#: ../src/com/ithaca/timeline/skins/CommentSkin.mxml:272
 msgid "Write your comment"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleCommentsSkin.mxml:133
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleCommentsSkin.mxml:14
+msgid "Load trace"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleCommentsSkin.mxml:16
+msgid "Save trace"
+msgstr ""
+
+#: ../src/com/ithaca/timeline/skins/TraceLineGroupTitleCommentsSkin.mxml:198
 msgid "Add a comment"
 msgstr ""
 
@@ -79,19 +95,19 @@ msgstr ""
 msgid "Create / Edit TraceLine"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:77
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:78
 msgid "Title :"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:81
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:82
 msgid "Source :"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:91
+#: ../src/com/ithaca/timeline/skins/TraceLineEditDialog.mxml:92
 msgid "Field / Regexp :"
 msgstr ""
 
-#: ../src/com/ithaca/timeline/skins/MarkerSkin.mxml:64
+#: ../src/com/ithaca/timeline/skins/MarkerSkin.mxml:65
 #: ../src/com/ithaca/timeline/skins/CommentEditDialog.mxml:39
 msgid "Comment Edit"
 msgstr ""
