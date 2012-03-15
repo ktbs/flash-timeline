@@ -722,7 +722,7 @@
                          cursorMode="manual"
                          endAlertBeforeTime="30000"
                          showSearchBox="true"
-                         showExportButton="false"
+                         showExportButton="true"
                          showTraceLineGroupControls="true"
                          endAlert="onEndAlert(event)"
                          endReached="onEndReached(event)" generateNewTraceline="onNewTl(event)" />
