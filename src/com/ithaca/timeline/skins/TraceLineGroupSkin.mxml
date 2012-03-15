@@ -22,6 +22,7 @@
             import com.ithaca.timeline.Timeline;
             import com.ithaca.timeline.TraceLine;
             import mx.events.FlexEvent;
+            import mx.events.ResizeEvent;
             import com.ithaca.timeline.Stylesheet;
             import com.ithaca.timeline.ObselsRenderer;
             import mx.graphics.SolidColor;
@@ -43,6 +44,11 @@
                 {
                     hostComponent.backgroundTraceLine.percentHeight = 100;
                     backgroundGroup.addElement(hostComponent.backgroundTraceLine);
+                    this.addEventListener(ResizeEvent.RESIZE, function (e: ResizeEvent): void {
+                        // Reset to 100%
+                        if (hostComponent.backgroundTraceLine.height != this.height)
+                            hostComponent.backgroundTraceLine.percentHeight = 100;
+                    });
                 }
                 styleChanged(null);
             }

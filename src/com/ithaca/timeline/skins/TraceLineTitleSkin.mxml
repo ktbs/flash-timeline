@@ -208,6 +208,12 @@
                 }
                 else
                 {
+                    var tlg: TraceLineGroup = hostComponent.tl.getTraceLineGroup();
+
+                    // To avoid that backgroundTraceLine keeps the
+                    // previous height, set it to 0 here, and restore it afterwards.
+                    if (tlg.backgroundTraceLine)
+                        tlg.backgroundTraceLine.height = 0;
                     hostComponent.tl.skin.setCurrentState("normal");
                     setCurrentState("normal");
                     if (timeline.activity !== null)
