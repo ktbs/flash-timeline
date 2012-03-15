@@ -79,9 +79,6 @@
 
         public var commentTrace: Trace = null;
 
-        [Embed(source="images/unknown.jpg")]
-        public var tlgIcon: Class;
-
         private function onPreinitialize(): void
         {
             fxgt = FxGettext;
@@ -429,7 +426,6 @@
             timeline.makeTracelineGroupVisible(tlg, false);
             tlg.setStyle("title", theTrace.uri.toUpperCase());
             tlg.setStyle("bgColor", Stylesheet.getTracelineGroupColor(tlg));
-            tlg.setStyle("icon", tlgIcon);
 
             timeline.zoomContext.reset();
             statusMessage("Loaded trace with " + theTrace.obsels.length + " obsels");

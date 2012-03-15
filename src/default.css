@@ -31,7 +31,7 @@ timeline|TraceLineGroup.comments
 timeline|TraceLineGroupTitle.comments
 {
     skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsSkin");
-    icon: Embed("images/CommentAddVer1.png");
+    icon: Embed("images/button_add_comment.png");
     bgColor: #FFA6A8;
     title: "";
 }
@@ -73,7 +73,7 @@ timeline|ZoomContext
 timeline|ObselSkin
 {
     skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-    icon: Embed("images/obsel.png");
+    icon: Embed("images/icon_obsel.png");
 }
 
 timeline|ObselSkin.Activity
@@ -85,13 +85,13 @@ timeline|ObselSkin.Activity
 timeline|ObselSkin.Comment
 {
     skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");
-    icon: Embed("images/CommentVer4.png");
+    icon: Embed("images/icon_comment.png");
 }
 
 timeline|ObselSkin.Marker
 {
     skin-class: ClassReference("com.ithaca.timeline.skins.MarkerSkin");
-    icon: Embed("images/marqueurBlanc-bas-20px.png");
+    icon: Embed("images/icon_marker.png");
     tooltip: '$(this/props/text)';
 }
 

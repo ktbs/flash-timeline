@@ -1,130 +1,103 @@
 /* CSS file */
-@namespace s 			"library://ns.adobe.com/flex/spark";
-@namespace mx 			"library://ns.adobe.com/flex/mx";
-@namespace timeline		"com.ithaca.timeline.*"; 
+@namespace s            "library://ns.adobe.com/flex/spark";
+@namespace mx           "library://ns.adobe.com/flex/mx";
+@namespace timeline     "com.ithaca.timeline.*";
 
 timeline|Timeline
 {
-	skin-class	: ClassReference("com.ithaca.timeline.skins.TimelineSkin");	 
+    skin-class: ClassReference("com.ithaca.timeline.skins.TimelineSkin");
 }
 
 timeline|TraceLineGroup
 {
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
-	fillColors : #FFA6A8, #C6FFC9, #AED7FF, #FAFFB7, #FFDFB0, #E1B7F9 ;
-	headerHeight : 15;
-	bottom 		 : 1;
-	bgColor		:#FFA6A8;
+    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineGroupSkin");
+    fillColors: #FFA6A8, #C6FFC9, #AED7FF, #FAFFB7, #FFDFB0, #E1B7F9 ;
+    headerHeight: 15;
+    bottom: 1;
+    bgColor: #FFA6A8;
 }
 
 timeline|TraceLineGroupTitle
 {
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleSkin");
-	bgColor		:#FFA6A8;
+    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleSkin");
+    bgColor: #FFA6A8;
 }
 
 timeline|TraceLineGroup.comments
 {
-	headerHeight : 1;
+    headerHeight: 1;
 }
 
 timeline|TraceLineGroupTitle.comments
 {
-	skin-class : ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsSkin");
-	icon 		: Embed("images/CommentAddVer1.png");	
-	bgColor		:#FFA6A8;
+    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineGroupTitleCommentsSkin");
+    icon: Embed("images/button_add_comment.png");
+    bgColor: #FFA6A8;
+    title: "";
 }
 
 timeline|TraceLine.comments
 {
-	rendererHeight : 45;
-	rendererGap	   : 0;
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");	
+    rendererHeight: 45;
+    rendererGap: 0;
+    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
 }
 
 timeline|TraceLine
 {
-	borderVisible  : false;
-	rendererHeight : 25;
-	rendererGap	   : 0;
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
+    borderVisible: false;
+    rendererHeight: 25;
+    rendererGap: 0;
+    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineSkin");
 }
 
 
 timeline|TraceLine.background
 {
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineBackgroundSkin");
+    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineBackgroundSkin");
 }
 
 timeline|TraceLineTitle
 {
-	skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineTitleSkin");
+    skin-class: ClassReference("com.ithaca.timeline.skins.TraceLineTitleSkin");
 }
 
 timeline|ZoomContext
 {
-	skin-class			: ClassReference("com.ithaca.timeline.skins.ZoomContextSkin");
-	backgroundColor 	: #F5F5F5;
-	allowZoom			: true;
-	allowCut			: false;
+    skin-class: ClassReference("com.ithaca.timeline.skins.ZoomContextSkin");
+    backgroundColor: #F5F5F5;
+    allowZoom: true;
+    allowCut: false;
 }
 
 timeline|ObselSkin
 {
-	skin-class		: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon 			: Embed("images/iconInfo_16x16.png");	
-}
-
-timeline|ObselSkin.Message
-{
-	skin-class		: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon 			: Embed("images/chatMessageVisu1.png");	
-	tooltipProp 	: 'content';
-}
-
-timeline|ObselSkin.Document
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon : Embed("images/fichierVisu1.png");
-	tooltipProp : 'text';
-}
-
-timeline|ObselSkin.PlayDocumentVideo
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon : Embed("images/chatMessageVisu1.png");
-	tooltipProp : 'text';
-}
-
-timeline|ObselSkin.Instructions
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon :Embed("images/consigneVisu1.png");
-	tooltipProp : 'instructions';
-}
-
-timeline|ObselSkin.Keyword
-{
-	skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
-	icon : Embed("images/motCleVisu1.png");
-	tooltipProp : 'keyword';
+    skin-class: ClassReference("com.ithaca.timeline.skins.IconSkin");
+    icon: Embed("images/icon_obsel.png");
 }
 
 timeline|ObselSkin.Activity
 {
-	skin-class: ClassReference("com.ithaca.timeline.skins.ActivitySkin");	
-	backgroundColors : #F4FA29, #3355F7, #D134E2, #1CFD81 ;
+    skin-class: ClassReference("com.ithaca.timeline.skins.ActivitySkin");
+    backgroundColors: #F4FA29, #3355F7, #D134E2, #1CFD81 ;
 }
 
 timeline|ObselSkin.Comment
 {
-	skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");	
-	icon :Embed("images/CommentVer4.png");
+    skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");
+    icon: Embed("images/icon_comment.png");
 }
 
 timeline|ObselSkin.Marker
 {
-	skin-class	: ClassReference("com.ithaca.timeline.skins.MarkerSkin");	
-	icon 		: Embed("images/marqueurBlanc-bas-20px.png");
-	tooltipProp : 'text';	
+    skin-class: ClassReference("com.ithaca.timeline.skins.MarkerSkin");
+    icon: Embed("images/icon_marker.png");
+    tooltip: '$(this/props/text)';
+}
+
+timeline|ObselSkin.Durative
+{
+    skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");
+    bgColor: #FFA6A8;
+    tooltip: '$(this/props/text)';
 }
