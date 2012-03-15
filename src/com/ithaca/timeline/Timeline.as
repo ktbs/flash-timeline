@@ -697,6 +697,8 @@ package com.ithaca.timeline
                     var tl: TraceLine = tlg.getElementAt(tlIndex) as TraceLine;
                     applyStylesheetToTraceline(applicator, cssStyleSheetCollection, tl, selector);
                 }
+                if (tlg.backgroundTraceLine)
+                    applyStylesheetToTraceline(applicator, cssStyleSheetCollection, tlg.backgroundTraceLine, selector);
             }
 
             /* Apply selector to contextPreviewTraceLine */
