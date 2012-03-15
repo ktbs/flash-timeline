@@ -95,6 +95,13 @@ timeline|ObselSkin.Durative
 	tooltip: "Duratif: ${this/props/text}";
 }
 
+timeline|ObselSkin.Background
+{
+	skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");
+    backgroundColor : #ffaaaa;
+	tooltip: "Duratif: ${this/props/text}";
+}
+
 timeline|ObselSkin.Message
 {
 	tooltip: "Message: ${this/props/content}";
