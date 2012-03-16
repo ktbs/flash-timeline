@@ -44,9 +44,6 @@
             import mx.managers.PopUpManager;
 
             [Bindable]
-            public var forme: Shape = new Shape();
-
-            [Bindable]
             public var displayLevel: Number = 0;
             [Bindable]
             public var timeline: Timeline;
