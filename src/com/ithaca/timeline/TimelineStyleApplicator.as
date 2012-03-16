@@ -40,6 +40,9 @@ package com.ithaca.timeline
                     else if (value === "undefined")
                         value = undefined;
 
+                    if (prop == 'skinName')
+                        prop = 'styleName';
+
                     //trace("Applying prop", prop, "to target", target, "(from:", oldValue, "to:", style[prop], ")");
                     if (value !== undefined && (oldValue != value))
                     {
