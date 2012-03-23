@@ -612,11 +612,10 @@ package com.ithaca.timeline
                 trace("Skipping null tl");
                 return;
             }
-            applicator.applyStyle(traceline.skin, stylesheet.getStyle("TraceLine", traceline.name, "TraceLine." + traceline.styleName));
-
             this.debug['traceline'] = traceline;
             if (traceline.skin !== null)
             {
+                applicator.applyStyle(traceline.skin, stylesheet.getStyle("TraceLine", traceline.name, "TraceLine." + traceline.styleName));
                 /* Apply stylesheet to traceline obsels */
                 for each (var os: ObselSkin in (traceline.skin as TraceLineSkin).obselsRenderer.obselsSkinsCollection)
                 {
