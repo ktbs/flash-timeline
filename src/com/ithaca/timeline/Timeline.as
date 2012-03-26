@@ -5,6 +5,7 @@ package com.ithaca.timeline
     import com.ithaca.timeline.skins.TraceLineSkin;
     import com.ithaca.timeline.skins.TimelineSkin;
     import com.ithaca.traces.Trace;
+    import com.ithaca.traces.Obsel;
     import flash.events.Event;
     import flash.events.TimerEvent;
     import flash.utils.Timer;
@@ -335,6 +336,38 @@ package com.ithaca.timeline
         {
             if (!isNaN(tlg.traceBegin) && !isNaN(tlg.traceEnd))
                 range.addTime(tlg.traceBegin, tlg.traceEnd, fillHole);
+        }
+
+        /**
+         * Automatically create holes for the given TraceLineGroup, for a given minimum hole width.
+         * @return the number of created holes
+         */
+        public function automaticHolemaker(tlg: TraceLineGroup, minSize: Number = 0): int
+        {
+            var count: int = 0;
+            var begin: Number;
+            var end: Number;
+
+            // 12 hours seems a good default value
+            if (minSize == 0)
+                minSize = 1000 * 60 * 60 * 12;
+
+            if (tlg.trace.obsels.length < 3)
+                return count;
+            end = tlg.trace.obsels[0].end;
+
+            /* FIXME: we assume that obsels are sorted along begin times */
+            for each (var o: Obsel in tlg.trace.obsels)
+            {
+                if (o.begin - end > minSize)
+                {
+                    trace(o.begin - end, ">", minSize);
+                    range.makeTimeHole(end + 100, o.begin - 100);
+                    count += 1;
+                    end = o.end;
+                }
+            }
+            return count;
         }
 
         /**
