@@ -22,7 +22,7 @@ if __name__ == '__main__':
                 label = label.strip()
                 if label[0] == "'":
                     # replace with double quotes
-                    label = '"' + label[1:-1] + '"'
+                    label = '"' + label[1:-1].replace('"', '\\"') + '"'
                 if label[0] != '"' or label[-1] != '"':
                     print "Error: bad quotes for line %d:\n%s" % (n, line)
                     continue
