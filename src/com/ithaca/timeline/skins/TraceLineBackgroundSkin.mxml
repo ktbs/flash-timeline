@@ -4,6 +4,7 @@
         xmlns:tl="com.ithaca.timeline.*"
         xmlns:mx="library://ns.adobe.com/flex/mx"
         xmlns:skins="com.ithaca.timeline.skins.*"
+        implements="com.ithaca.timeline.skins.ITraceLineSkin"
         creationComplete="creationCompleteHandler(event)"
         resize="onResize(event)"
         width="100%"
@@ -56,6 +57,11 @@
                 obselsRenderer.obselsCollection = hostComponent._obsels;
                 obselsRenderer.styleName = hostComponent.styleName;
                 rendererGroup.addElement(obselsRenderer);
+            }
+
+            public function getObselsRenderer(): ObselsRenderer
+            {
+                return obselsRenderer;
             }
 
             protected function onResize(event: Event): void

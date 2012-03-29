@@ -653,17 +653,9 @@ package com.ithaca.timeline
 
             if (traceline.skin !== null)
             {
-                var renderer: ObselsRenderer = null;
+                var renderer: ObselsRenderer = (traceline.skin as ITraceLineSkin).getObselsRenderer();
 
-                applicator.applyStyle(traceline.skin, stylesheet.getStyle("TraceLine", newParentNames.join(","), traceline.styleName + ".Traceline"));
-
-                // FIXME: this would be simpler is
-                // TraceLineBackgroundSkin inherited from
-                // TraceLineSkin (or from a ITraceLineSkin interface)
-                if (traceline.skin is TraceLineSkin)
-                    renderer = (traceline.skin as TraceLineSkin).obselsRenderer
-                else if (traceline.skin is TraceLineBackgroundSkin)
-                    renderer = (traceline.skin as TraceLineBackgroundSkin).obselsRenderer;
+                applicator.applyStyle(traceline.skin, stylesheet.getStyle(newParentNames.concat(traceline.styleName)));
                     
                 /* Apply stylesheet to traceline obsels */
                 if (renderer !== null)

@@ -5,6 +5,7 @@
         xmlns:mx="library://ns.adobe.com/flex/mx"
         xmlns:skins="com.ithaca.timeline.skins.*"
         creationComplete="creationCompleteHandler(event)"
+        implements="com.ithaca.timeline.skins.ITraceLineSkin"
         resize="onResize(event)"
         width="100%"
         height="100%">
@@ -78,6 +79,11 @@
                     obselsRenderer.left = renderersSidePadding;
                     obselsRenderer.width = hostComponent._timeline.zoomContext.timelinePreview.width;
                 }
+            }
+
+            public function getObselsRenderer(): ObselsRenderer
+            {
+                return obselsRenderer;
             }
 
             override public function styleChanged(styleProp: String): void
