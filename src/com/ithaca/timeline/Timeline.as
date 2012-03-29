@@ -3,6 +3,7 @@ package com.ithaca.timeline
     import com.ithaca.timeline.events.TimelineEvent;
     import com.ithaca.timeline.PlayPauseButton;
     import com.ithaca.timeline.skins.TraceLineSkin;
+    import com.ithaca.timeline.skins.TraceLineBackgroundSkin;
     import com.ithaca.timeline.skins.TimelineSkin;
     import com.ithaca.traces.Trace;
     import com.ithaca.traces.Obsel;
@@ -140,7 +141,7 @@ package com.ithaca.timeline
          */
         public  var contextCursor: Cursor;
 
-        private var _currentTime: Number = 0;
+        private var _currentTime: Number=  0;
 
         public  var endAlertBeforeTime: Number = 30000;
         private var endAlertEventDispatched: Boolean = false;
@@ -633,7 +634,7 @@ package com.ithaca.timeline
         /*
          * Try to apply the given stylesheet to the TraceLine and its descendants.
          */
-        public function applyStylesheetToTraceline(applicator: IApplicator, stylesheet: IStyleSheet, traceline: TraceLine, selector: ISelector = null): void
+        public function applyStylesheetToTraceline(applicator: IApplicator, stylesheet: IStyleSheet, traceline: TraceLine, selector: ISelector = null, parentNames: Array = null): void
         {
             if (traceline === null)
             {
@@ -645,28 +646,45 @@ package com.ithaca.timeline
                 trace("Skipping null tl");
                 return;
             }
+
             this.debug['traceline'] = traceline;
+
+            var newParentNames: Array = (parentNames === null ? new Array() : parentNames.slice(0));
+
             if (traceline.skin !== null)
             {
-                applicator.applyStyle(traceline.skin, stylesheet.getStyle("TraceLine", traceline.name, "TraceLine." + traceline.styleName));
-                /* Apply stylesheet to traceline obsels */
-                for each (var os: ObselSkin in (traceline.skin as TraceLineSkin).obselsRenderer.obselsSkinsCollection)
-                {
-                    /* FIXME: how to handle skin change if skin-class is defined ? */
-                    if (os.skin !== null)
-                    {
-                        this.debug['os'] = os;
+                var renderer: ObselsRenderer = null;
 
-                        applicator.applyStyle(os,
-                                              stylesheet.getStyle("Obsel",
-                                                                  os.obsel.type,
-                                                                  traceline.name + ".Obsels",
-                                                                  "Traceline." + traceline.styleName + ".Obsels"));
-                        if (selector !== null) {
-                            if (selector.isObselMatching(os.obsel))
-                                applicator.applyStyle(os, stylesheet.getStyle("Obsel:match", os.obsel.type + ":match"))
-                            else
-                                applicator.applyStyle(os, stylesheet.getStyle("Obsel:nonmatch", os.obsel.type + ":nonmatch"));
+                applicator.applyStyle(traceline.skin, stylesheet.getStyle("TraceLine", newParentNames.join(","), traceline.styleName + ".Traceline"));
+
+                // FIXME: this would be simpler is
+                // TraceLineBackgroundSkin inherited from
+                // TraceLineSkin (or from a ITraceLineSkin interface)
+                if (traceline.skin is TraceLineSkin)
+                    renderer = (traceline.skin as TraceLineSkin).obselsRenderer
+                else if (traceline.skin is TraceLineBackgroundSkin)
+                    renderer = (traceline.skin as TraceLineBackgroundSkin).obselsRenderer;
+                    
+                /* Apply stylesheet to traceline obsels */
+                if (renderer !== null)
+                {
+                    for each (var os: ObselSkin in renderer.obselsSkinsCollection)
+                    {
+                        if (os.skin !== null)
+                        {
+                            this.debug['os'] = os;
+
+                            applicator.applyStyle(os,
+                                                  stylesheet.getStyle("Obsel",
+                                                                      os.obsel.type,
+                                                                      newParentNames.map( function(s: String): String { return s + ".Obsels"; }),
+                                                                      traceline.styleName + ".Obsels"));
+                            if (selector !== null) {
+                                if (selector.isObselMatching(os.obsel))
+                                    applicator.applyStyle(os, stylesheet.getStyle("Obsel:match", os.obsel.type + ":match"))
+                                else
+                                    applicator.applyStyle(os, stylesheet.getStyle("Obsel:nonmatch", os.obsel.type + ":nonmatch"));
+                            }
                         }
                     }
                 }
@@ -676,7 +694,7 @@ package com.ithaca.timeline
             for (var tlIndex: uint = 0; tlIndex < traceline.numElements; tlIndex++)
             {
                 var tl: TraceLine = traceline.getElementAt(tlIndex) as TraceLine;
-                applyStylesheetToTraceline(applicator, stylesheet, tl, selector);
+                applyStylesheetToTraceline(applicator, stylesheet, tl, selector, newParentNames);
             }
         }
 
@@ -729,6 +747,7 @@ package com.ithaca.timeline
                     var tl: TraceLine = tlg.getElementAt(tlIndex) as TraceLine;
                     applyStylesheetToTraceline(applicator, cssStyleSheetCollection, tl, selector);
                 }
+
                 if (tlg.backgroundTraceLine)
                     applyStylesheetToTraceline(applicator, cssStyleSheetCollection, tlg.backgroundTraceLine, selector);
             }
