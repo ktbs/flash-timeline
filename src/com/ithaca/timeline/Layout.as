@@ -540,6 +540,7 @@ package com.ithaca.timeline
         {
             var newNode: TraceLine;
             var tlTitle: String;
+            var tlName: String;
             var tlClass: String;
             var tlSelector: ISelector;
             var tlSource: String;
@@ -564,12 +565,14 @@ package com.ithaca.timeline
 
             if (xmlLayout.hasOwnProperty('@title'))
                 tlTitle = xmlLayout.@title;
+            if (xmlLayout.hasOwnProperty('@name'))
+                tlTitle = xmlLayout.@name;
             if (xmlLayout.hasOwnProperty('@style'))
                 tlClass = xmlLayout.@style;
             if (xmlLayout.hasOwnProperty('@source'))
                 tlSource = xmlLayout.@source;
 
-            newNode = new TraceLine(_timeline, tlTitle, tlSelector, tlSource, tlClass );
+            newNode = new TraceLine(_timeline, tlTitle, tlName, tlSelector, tlSource, tlClass );
 
             if (xmlLayout.hasOwnProperty('@autohide') &&  xmlLayout.@autohide =='true')
                 newNode.autohide = true;

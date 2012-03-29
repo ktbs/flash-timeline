@@ -40,13 +40,12 @@ package com.ithaca.timeline
          * @param tlSource: the traceline obsel source
          * @param tlSkinClass: FIXME
          */
-        public function TraceLine(tl: Timeline, tlTitle: String = null, tlSelector: ISelector = null, tlSource: String = null, tlSkinClass: String = null)
+        public function TraceLine(tl: Timeline, tlTitle: String = null, tlName: String = null, tlSelector: ISelector = null, tlSource: String = null, tlSkinClass: String = null)
         {
             _timeline = tl;
             titleComponent = new TraceLineTitle(this);
             title = tlTitle;
-            if (title)
-                this.name = title;
+            this.name = (tlName !== null ? tlName : title.replace(' ', '_'));
             _selector = tlSelector;
             sourceStr = tlSource;
             styleName = tlSkinClass;
@@ -58,6 +57,8 @@ package com.ithaca.timeline
         public function set title(value: String): void
         {
             setStyle('title', value);
+            if (this.name == "")
+                this.name = title.replace(' ', '_');
         }
 
         public function get title(): String

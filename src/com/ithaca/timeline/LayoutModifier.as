@@ -114,7 +114,7 @@ package  com.ithaca.timeline
                 else if (obsel.props.hasOwnProperty(_splitter))
                     title = obsel.props[_splitter];
 
-                newTree = new TraceLine(_timeline, title, selector, source);
+                newTree = new TraceLine(_timeline, title, null, selector, source);
                 if ( source == "parent"  && parentNode is TraceLine)
                 {
                     (parentNode as TraceLine)._obsels.addEventListener(CollectionEvent.COLLECTION_CHANGE, (newTree as TraceLine).onSourceChange);
