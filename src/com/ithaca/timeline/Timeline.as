@@ -2,8 +2,7 @@ package com.ithaca.timeline
 {
     import com.ithaca.timeline.events.TimelineEvent;
     import com.ithaca.timeline.PlayPauseButton;
-    import com.ithaca.timeline.skins.TraceLineSkin;
-    import com.ithaca.timeline.skins.TraceLineBackgroundSkin;
+    import com.ithaca.timeline.skins.ITraceLineSkin;
     import com.ithaca.timeline.skins.TimelineSkin;
     import com.ithaca.traces.Trace;
     import com.ithaca.traces.Obsel;
@@ -649,17 +648,24 @@ package com.ithaca.timeline
 
             this.debug['traceline'] = traceline;
 
-            var newParentNames: Array = (parentNames === null ? new Array() : parentNames.slice(0));
+            var newParentNames: Array = (parentNames === null ? [ "TraceLine" ] : parentNames.slice(0));
+            newParentNames.push(traceline.name);
 
             if (traceline.skin !== null)
             {
                 var renderer: ObselsRenderer = (traceline.skin as ITraceLineSkin).getObselsRenderer();
 
                 applicator.applyStyle(traceline.skin, stylesheet.getStyle(newParentNames.concat(traceline.styleName)));
-                    
+
                 /* Apply stylesheet to traceline obsels */
                 if (renderer !== null)
                 {
+                    var styleNames: Array = newParentNames.map( function(s: String, i: int, source: Array): String { return "Obsel." + s; });
+                    // Put most generic "Obsel" stylename at the beginning
+                    styleNames.unshift("Obsel");
+                    if (traceline.styleName !== null)
+                        styleNames.push("Obsel." + traceline.styleName);
+
                     for each (var os: ObselSkin in renderer.obselsSkinsCollection)
                     {
                         if (os.skin !== null)
@@ -667,15 +673,12 @@ package com.ithaca.timeline
                             this.debug['os'] = os;
 
                             applicator.applyStyle(os,
-                                                  stylesheet.getStyle("Obsel",
-                                                                      os.obsel.type,
-                                                                      newParentNames.map( function(s: String): String { return s + ".Obsels"; }),
-                                                                      traceline.styleName + ".Obsels"));
+                                                  stylesheet.getStyle(styleNames.concat(os.obsel.type)));
                             if (selector !== null) {
                                 if (selector.isObselMatching(os.obsel))
-                                    applicator.applyStyle(os, stylesheet.getStyle("Obsel:match", os.obsel.type + ":match"))
+                                    applicator.applyStyle(os, stylesheet.getStyle(["Obsel:match", os.obsel.type + ":match"]))
                                 else
-                                    applicator.applyStyle(os, stylesheet.getStyle("Obsel:nonmatch", os.obsel.type + ":nonmatch"));
+                                    applicator.applyStyle(os, stylesheet.getStyle(["Obsel:nonmatch", os.obsel.type + ":nonmatch"]));
                             }
                         }
                     }
@@ -723,7 +726,7 @@ package com.ithaca.timeline
             cssStyleSheetCollection.addStyleSheet(stylesheet);
 
             /* Apply properties to Timeline: cursorMode, timeMode, widgets visibility... */
-            applicator.applyStyle(this, cssStyleSheetCollection.getStyle("Timeline"));
+            applicator.applyStyle(this, cssStyleSheetCollection.getStyle(["Timeline"]));
 
             /* Walk through the timelinegroup/traceline/obsels
              * elements and try to apply the new stylesheet */
@@ -732,7 +735,7 @@ package com.ithaca.timeline
                 var tlg: TraceLineGroup = this.getElementAt(tlgIndex) as TraceLineGroup;
 
                 applicator.applyStyle(tlg.skin,
-                                      cssStyleSheetCollection.getStyle("TraceLineGroup", "TraceLineGroup." + tlg.styleName, tlg.name));
+                                      cssStyleSheetCollection.getStyle(["TraceLineGroup", "TraceLineGroup." + tlg.styleName, tlg.title]));
 
                 for (var tlIndex: uint = 0; tlIndex < tlg.numElements; tlIndex++)
                 {

@@ -243,5 +243,27 @@ package com.ithaca.timeline
 
             setStyle('hide', !visible)
         }
+
+        /**
+         * Return an Array containing the parent tracelines
+         */
+        public function getParentTraceLines(): Array
+        {
+            if (parentNode is TraceLine)
+                return (parentNode as TraceLine).getParentTraceLines().concat(parentNode);
+            else
+                return [];
+        }
+
+        /**
+         * Return an Array containing the path to the traceline.
+         *
+         * It is formed by the concatenation of the traceline parents
+         * with the traceline itself.
+         */
+        public function getTraceLinePath(): Array
+        {
+            return this.getParentTraceLines().concat(this);
+        }
     }
 }

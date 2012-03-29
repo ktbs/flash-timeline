@@ -219,6 +219,22 @@ package com.ithaca.timeline
             var obselSkin: ObselSkin;
             var obselIndex: int;
             var applicator: IApplicator = new TimelineStyleApplicator();
+            var styleNames: Array = null;
+
+            function getTraceLineStyleNames(): Array
+            {
+                if (styleNames === null)
+                {
+                    styleNames = _traceline.getTraceLinePath().map( function(tl: TraceLine, i: int, source: Array): String {
+                        return "Obsel." + tl.name; });
+                    styleNames.unshift("Obsel");
+                    if (_traceline.styleName !== null)
+                        styleNames.push("Obsel." + _traceline.styleName);
+                    trace("TL styleNames:", styleNames);
+                }
+                return styleNames;
+            }
+
 
             switch (event.kind)
             {
@@ -233,9 +249,7 @@ package com.ithaca.timeline
                             obselsSkinsCollection.addItem(obselSkin);
                             // Apply dynamic CSS:
                             applicator.applyStyle(obselSkin,
-                                                  _timeline.cssStyleSheetCollection.getStyle("Obsel",
-                                                                                             obsel.type,
-                                                                                             _traceline.name + ".Obsels"));
+                                                  _timeline.cssStyleSheetCollection.getStyle(getTraceLineStyleNames().concat(obsel.type)));
                         }
                     }
                     obselsSkinsCollection.enableAutoUpdate();
@@ -270,9 +284,7 @@ package com.ithaca.timeline
                             obselsSkinsCollection.addItem(obselSkin);
                             // Apply dynamic CSS:
                             applicator.applyStyle(obselSkin,
-                                                  _timeline.cssStyleSheetCollection.getStyle("Obsel",
-                                                                                             obsel.type,
-                                                                                             _traceline.name + ".Obsels"));
+                                                  _timeline.cssStyleSheetCollection.getStyle(getTraceLineStyleNames().concat(obsel.type)));
                         }
                     }
                     obselsSkinsCollection.enableAutoUpdate();

@@ -7,6 +7,12 @@ It depends on the following packages:
 component).
 * com.ithaca.tales which can be obtained from the http://github.com/oaubert/tales4as repository (TALES.swc
 component).
+* F*CSS 1.1.1 for CSS parsing. 
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! The custom https://github.com/oaubert/fcss/ version must be used. !!!
+!!! Version is at least 1.1.1                                         !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 For each package, the swc file must be placed (or linked) in the lib/
 directory for compilation of the Timeline.swc component.
