@@ -15,38 +15,79 @@
             import com.ithaca.timeline.events.TimelineEvent;
             import com.ithaca.timeline.TimeRange;
             import com.ithaca.timeline.TraceLine;
+            import com.ithaca.timeline.util.SkinUtil;
             import com.ithaca.traces.Obsel;
+
             import flash.events.Event;
+            import mx.events.PropertyChangeEvent;
             import mx.graphics.SolidColor;
 
-            public var obsel : Obsel;
+            public var obsel: Obsel;
+
+            private static var bgColorIndex: uint = 0;
 
             protected function creationCompleteHandler(event: Event): void
             {
                 obsel = hostComponent.obsel;
                 hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_CHANGE, updateWidth);
+                hostComponent.traceline._timeline.zoomContext.cursorRange.addEventListener(TimelineEvent.TIMERANGES_SHIFT, updateWidth);
                 hostComponent.traceline.addEventListener(Event.RESIZE, updateWidth);
                 updateWidth(null);
-                var bgColor: uint = getStyle("bgColor");
-                durative.backgroundFill =  new SolidColor(bgColor);
+                hostComponent.dragArea = durative;
+
                 hostComponent.percentHeight = 100;
                 hostComponent.bottom = hostComponent.traceline.getStyle("rendererGap");
+                onObselChange();
             }
 
             public function updateWidth(event: Event): void
             {
                 var traceline: TraceLine = hostComponent.traceline;
                 var timeRange: TimeRange = traceline._timeline.zoomContext.cursorRange;
-                var  timeToPositionRatio: Number = (traceline.width - timeRange.timeHoleWidth*(timeRange.numIntervals-1)) / timeRange.duration ;
-                var startPosition: Number = timeRange.timeToPosition(Math.max(obsel.begin , timeRange.begin), traceline.width);
-                var endPosition: Number = timeRange.timeToPosition(Math.min(obsel.end , timeRange.end), traceline.width);
 
-                durative.width = (obsel.end - obsel.begin) * timeToPositionRatio;
+                var startPosition: Number = timeRange.timeToPosition(obsel.begin, traceline._timeline.zoomContext.timelinePreview.width);
+                var endPosition: Number = timeRange.timeToPosition(obsel.end, traceline._timeline.zoomContext.timelinePreview.width);
+                width = (endPosition - startPosition);
+            }
+
+            override public function styleChanged(styleProp: String): void
+            {
+                super.styleChanged(styleProp);
+                onObselChange();
+            }
+
+            protected function onObselChange(event: PropertyChangeEvent = null): void
+            {
+                var st: * = null;
+
+                if (obsel == null)
+                    return;
+
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle('backgroundColor'));
+                if (st)
+                {
+                    durative.backgroundFill =  new SolidColor(st);
+                }
+
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle("tooltip"));
+                if (st)
+                {
+                    durative.toolTip = st;
+                }
+
+                if (hostComponent.getStyle("visible") === false)
+                {
+                    durative.visible = false;
+                }
+                else
+                {
+                    durative.visible = true;
+                }
             }
 
         ]]>
     </fx:Script>
 
-    <s:BorderContainer id="durative" minWidth="1" borderVisible="false" height="100%" />
+    <s:BorderContainer id="durative" minWidth="1" width="100%" borderVisible="false" height="100%" />
 
 </s:Skin>

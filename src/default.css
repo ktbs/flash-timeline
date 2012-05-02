@@ -76,12 +76,6 @@ timeline|ObselSkin
     icon: Embed("images/icon_obsel.png");
 }
 
-timeline|ObselSkin.Activity
-{
-    skin-class: ClassReference("com.ithaca.timeline.skins.ActivitySkin");
-    backgroundColors: #F4FA29, #3355F7, #D134E2, #1CFD81 ;
-}
-
 timeline|ObselSkin.Comment
 {
     skin-class: ClassReference("com.ithaca.timeline.skins.CommentSkin");
@@ -98,6 +92,6 @@ timeline|ObselSkin.Marker
 timeline|ObselSkin.Durative
 {
     skin-class: ClassReference("com.ithaca.timeline.skins.DurativeSkin");
-    bgColor: #FFA6A8;
+    backgroundColor: #FFA6A8;
     tooltip: '$(this/props/text)';
 }
