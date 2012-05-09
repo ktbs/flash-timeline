@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!---
+This skin displays an Obsel as a marker. It can be customized through the "icon" and the "tooltip" styles, which can both contain TALES expressions.
+
+A marker skin can contain an associated comment, stored as one of its properties. To specify the property name, the tooltip style must have a value of the form "$(this/props/name_of_the_property)".
+-->
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
                  xmlns:s="library://ns.adobe.com/flex/spark"
                  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:skins="com.ithaca.timeline.skins.*"
