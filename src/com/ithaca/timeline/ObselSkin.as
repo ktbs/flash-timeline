@@ -26,6 +26,8 @@ package com.ithaca.timeline
     /* Used in activity/durative skins: */
     /* TALES-interpreted: */
     [Style(name = "backgroundColor", type = "Number", format="Color", inherit = "no")]
+    /* TALES-interpreted: */
+    [Style(name = "label", type = "String", inherit = "no")]
 
     [Style(name = "visible", type = "Boolean", inherit = "no")]
 
