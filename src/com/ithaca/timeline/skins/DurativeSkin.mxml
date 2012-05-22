@@ -78,6 +78,20 @@ This skin displays an Obsel as a durative obsel in the form of a colored rectang
                     durative.toolTip = st;
                 }
 
+                st = SkinUtil.interpretStyle(obsel, hostComponent.getStyle("icon"));
+                if (st)
+                {
+                    icon.source = st;
+                    icon.visible = true;
+                    // Resize icon if it is obtained through a TALES expression.
+                    if (hostComponent.getStyle("icon").indexOf("$") > -1)
+                        icon.height = hostComponent.traceline.height;
+                }
+                else
+                {
+                    icon.visible = false;
+                }
+
                 if (hostComponent.getStyle("visible") === false)
                 {
                     durative.visible = false;
@@ -91,6 +105,8 @@ This skin displays an Obsel as a durative obsel in the form of a colored rectang
         ]]>
     </fx:Script>
 
-    <s:BorderContainer id="durative" minWidth="1" width="100%" borderVisible="false" height="100%" />
+    <s:BorderContainer id="durative" top="2" minWidth="1" width="100%" height="{hostComponent.traceline.height}" borderWeight="1">
+        <s:Image id="icon" height="100%" top="2" left="2" visible="false" />
+    </s:BorderContainer>
 
 </s:Skin>
