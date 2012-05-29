@@ -60,6 +60,7 @@ package com.ithaca.timeline
         /**
          * The traceline that contains the obsel
          */
+        [Binding]
         public var traceline: TraceLine;
 
         /**
@@ -78,6 +79,8 @@ package com.ithaca.timeline
         private var _dragArea: UIComponent = null;
         private var dragAreaChange: Boolean;
 
+        private var lastTooltipDisplayDate: Number = 0;
+
         /**
          *
          * @param o The obsel represented by the ObselSkin
@@ -92,7 +95,8 @@ package com.ithaca.timeline
             doubleClickEnabled = true;
             toolTip = obselTooltip(_obsel);
 
-            this.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, handle_tooltip_event);
+            this.addEventListener(ToolTipEvent.TOOL_TIP_SHOW, handle_tooltip_show_event);
+            this.addEventListener(ToolTipEvent.TOOL_TIP_HIDE, handle_tooltip_hide_event);
             this.addEventListener(DragEvent.DRAG_START, handle_drag_start_event);
             this.setStyle("dragEnabled", true);
             this.setStyle("dragMoveEnabled", true);
@@ -111,10 +115,21 @@ package com.ithaca.timeline
             return result;
         }
 
-        private function handle_tooltip_event(event: ToolTipEvent): void
+        private function handle_tooltip_show_event(event: ToolTipEvent): void
+        {
+            lastTooltipDisplayDate = new Date().time;
+        }
+        private function handle_tooltip_hide_event(event: ToolTipEvent): void
         {
             if (traceline._timeline.activity !== null)
-                traceline._timeline.activity.trace("ObselMouseOver", { uri: obsel.uri, tooltip: event.toolTip.text });            
+            {
+                var end: Number = new Date().time;
+                // Should not happen, but let's put a coherent timestamp in this case.
+                if (lastTooltipDisplayDate == 0)
+                    lastTooltipDisplayDate = end;
+                traceline._timeline.activity.trace("ObselMouseOver", { uri: obsel.uri, tooltip: event.toolTip.text },
+                                                   lastTooltipDisplayDate, end);
+            }
         }
         private function handle_drag_start_event(event: DragEvent): void
         {
