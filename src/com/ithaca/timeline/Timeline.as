@@ -335,7 +335,8 @@ package com.ithaca.timeline
         public function makeTracelineGroupVisible(tlg: TraceLineGroup, fillHole: Boolean = true): void
         {
             if (!isNaN(tlg.traceBegin) && !isNaN(tlg.traceEnd))
-                range.addTime(tlg.traceBegin, tlg.traceEnd, fillHole);
+                // We add 10 seconds at the end, to make sure that the last obsel is visible.
+                range.addTime(tlg.traceBegin, tlg.traceEnd + 10000, fillHole);
         }
 
         /**
