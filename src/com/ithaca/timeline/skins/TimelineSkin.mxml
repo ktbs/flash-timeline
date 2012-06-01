@@ -97,7 +97,7 @@
                     <s:VGroup  height="100%" horizontalAlign="right" width="100%" >
                         <mx:Button visible="{timeline.getStyle('showExportButton')}" id="exportButton" height="16" width="16" toolTip="{fxgt.dgettext('timeline', 'Export obsels as tab-separated-values')}" icon="@Embed(source='../images/export.png')" click="{timeline.saveTraceTo('tsv')}" />
                         <mx:Spacer height="4" width="1" />
-                        <mx:CheckBox   id="linkCursor"  selected="{timeline.contextFollowCursor}" click="{onCursorLinkClick(event)}" />
+                        <mx:CheckBox toolTip="{fxgt.dgettext('timeline', 'Cursor follows player')}"  id="linkCursor"  selected="{timeline.contextFollowCursor}" click="{onCursorLinkClick(event)}" />
                     </s:VGroup>
                 </s:HGroup>
 
