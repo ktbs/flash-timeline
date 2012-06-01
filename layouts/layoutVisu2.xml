@@ -18,11 +18,11 @@
 		<!-- This TracelineGroup definition is used when the stylename of the TracelineGroup is 'comments'
 			( the stylename of TracelineGroup can be set when calling the timeline.addTrace(..) function. ) -->
 		<!-- the stylename is used to create CSS selectors -->
-		<tlg style="comments" > 				
-			<tl title="" style="comments" preview="true" >		
+		<tlg stylename="comments" > 				
+			<tl title="" stylename="comments" preview="true" >		
 				<!-- a layoutModifier is used to create one traceline by document (split when an obsel with new value obsel.props['commentforuserid'] is added -->
 				<!-- the autohide attribute will set for each traceline created -->
-				<modifier name="commentsGenerator" style="comments" splitter="commentforuserid" source="parent" autohide="true" />
+				<modifier name="commentsGenerator" stylename="comments" splitter="commentforuserid" source="parent" autohide="true" />
 			</tl>						
 		</tlg> 	
 		
@@ -33,7 +33,7 @@
 		<tlg> 				
 			<!-- definition of the traceline in the background of the tracelinegroup -->
 			<!-- the selector is already defined in the obselsSelectors setion -->
-			<tl style="background" 	selectorID="Activity" />
+			<tl stylename="background" 	selectorID="Activity" />
 
 			<!-- autohide='true' is used to automaticaly hide or show the traceline when it is empty or not -->
 			<tl title="Marqueurs" selectorID="Marker" autohide="true" />		

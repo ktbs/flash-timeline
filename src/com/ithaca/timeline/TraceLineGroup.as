@@ -38,7 +38,7 @@ package com.ithaca.timeline
         public var contextPreviewTraceLine: TraceLine;
 
         /**
-         * The traceline displayed in the background of the TraceLineGroup. In the XML descriptor, this traceline has the attribute: style="background".
+         * The traceline displayed in the background of the TraceLineGroup. In the XML descriptor, this traceline has the attribute: stylename="background".
          */
         public var backgroundTraceLine: TraceLine;
 

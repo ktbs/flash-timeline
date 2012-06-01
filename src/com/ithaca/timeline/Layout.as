@@ -27,13 +27,13 @@ package com.ithaca.timeline
      *  <li><strong>tlg:</strong>             a tracelinegroup node. Attributes:</li>
      *                 <ul>
      *                     <li><em>title: </em> the title and the <code>name</code> of the tracelinegroup  </li>
-     *                     <li><em>style: </em> the stylename of the tracelinegroup. It is used to select a specific layout (see examples) </li>
+     *                     <li><em>stylename: </em> the stylename of the tracelinegroup. It is used to select a specific layout (see examples) </li>
      *                    <li><em>source: </em> layout selector with the URI of the trace</li>
      *                 </ul>
      *  <li><strong>tl:</strong>             a traceline node. Attributes:
      *                 <ul>
      *                     <li><em>title: </em> the title and the <code>name</code> of the traceline  </li>
-     *                     <li><em>style: </em> the stylename of the traceline. There are two specials stylenames: 'background' to define the traceline in the background of the tracelinegroup and 'contextPreview' to define a preview traceline not in the layout</li>
+     *                     <li><em>stylename: </em> the stylename of the traceline. There are two specials stylenames: 'background' to define the traceline in the background of the tracelinegroup and 'contextPreview' to define a preview traceline not in the layout</li>
      *                     <li><em>selectorID: </em> a selector defined in the obselsSelectors section</li>
      *                     <li><em>selector: </em>a selector class name (should be followed by a selectorParams attribute)</li>
      *                     <li><em>selectorParams: </em>the selector parameters </li>
@@ -46,7 +46,7 @@ package com.ithaca.timeline
     *             <ul>
     *                     <li><em>splitter: </em> the obsel property along which we want to split the obsels </li>
      *                     <li><em>name: </em> the name of the layout modifier, in order to know by whom the tracelines are created (when listening to the TimelineEvent: GENERATE_NEW_TRACELINE) </li>
-     *                     <li><em>style: </em> the stylename of the created traceline. // FIXME: this should be renamed (stylename, or stylename->style)</li>
+     *                     <li><em>stylename: </em> the stylename of the created traceline.
      *                     <li><em>autohide: </em> the value of the <code>autohide</code> property for the created tracelines </li>
      *                    <li><em>source: </em>if "parent", the obsels source of the modifier is the parent layoutNode otherwise it is the whole trace</li>
      *                 </ul>
@@ -282,24 +282,24 @@ package com.ithaca.timeline
      *                    ... special tree structure...<br />
      *                &lt;/tlg&gt;            <br />
      *        --&gt;    <br />
-     *        &lt;tlg style=&quot;comments&quot; &gt;    <br />
-     *            &lt;!-- A &quot;style&quot; attribute in a TraceLine definition is also used to set the stylename and then to create a CSS selector. --&gt;<br />
-     *            &lt;tl title=&quot;&quot; style=&quot;comments&quot;&gt;                        <br />
+     *        &lt;tlg stylename=&quot;comments&quot; &gt;    <br />
+     *            &lt;!-- A &quot;stylename&quot; attribute in a TraceLine definition is also used to set the stylename and then to create a CSS selector. --&gt;<br />
+     *            &lt;tl title=&quot;&quot; stylename=&quot;comments&quot;&gt;                        <br />
      *            &lt;/tl&gt;                        <br />
      *        &lt;/tlg&gt;    <br />
      *       <br />
      *        &lt;!-- This is the default TraceLineGroup definition because this is the last TraceLineGroup definition --&gt;<br />
      *        &lt;tlg&gt;<br />
      *            &lt;!--<br />
-     *            The &#39;style=&quot;background&quot;&#39; attribute is used to define the traceline to be shown in the background of the traceLineGroup.<br />
+     *            The &#39;stylename=&quot;background&quot;&#39; attribute is used to define the traceline to be shown in the background of the traceLineGroup.<br />
      *            --&gt;<br />
-     *            &lt;tl style=&quot;background&quot;    selectorID=&quot;Activity&quot; /&gt;<br />
+     *            &lt;tl stylename=&quot;background&quot;    selectorID=&quot;Activity&quot; /&gt;<br />
      *           <br />
      *            &lt;!--<br />
      *            The &#39;preview=true&#39; attribute is used to define the previewed traceline in the zoomContext.<br />
      *            Note: if more than one traceline has a &#39;preview=true&#39; attribute, only the last one will be taken into account.<br />
-     *            Note 2: if the wanted traceline does not exist in the tree structure, it can be created with a &#39;style=&quot;contextPreview&quot;&#39; attribute (in the same way of the background traceline)<br />
-     *                example: &lt;tl style=&quot;contextPreview&quot; selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message|Document|Marker|Instructions|Keyword|Activity&quot; /&gt;<br />
+     *            Note 2: if the wanted traceline does not exist in the tree structure, it can be created with a &#39;stylename=&quot;contextPreview&quot;&#39; attribute (in the same way of the background traceline)<br />
+     *                example: &lt;tl stylename=&quot;contextPreview&quot; selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message|Document|Marker|Instructions|Keyword|Activity&quot; /&gt;<br />
      *            --&gt;            <br />
      *            &lt;tl title=&quot;Synthesis&quot;  selector=&quot;SelectorRegexp&quot; selectorParams=&quot;type,Message|Document|Marker|Instructions|Keyword&quot; &gt;                <br />
      *                &lt;!--<br />
@@ -336,11 +336,11 @@ package com.ithaca.timeline
      *        &lt;!-- This TracelineGroup definition is used when the stylename of the TracelineGroup is &#39;comments&#39;<br />
      *            (the stylename of TracelineGroup can be set when calling the timeline.addTrace(..) function.) --&gt;<br />
      *        &lt;!-- the stylename is used to create CSS selectors --&gt;<br />
-     *        &lt;tlg style=&quot;comments&quot; &gt;                <br />
-     *            &lt;tl title=&quot;&quot; style=&quot;comments&quot; preview=&quot;true&quot; &gt;        <br />
+     *        &lt;tlg stylename=&quot;comments&quot; &gt;                <br />
+     *            &lt;tl title=&quot;&quot; stylename=&quot;comments&quot; preview=&quot;true&quot; &gt;        <br />
      *                &lt;!-- a layoutModifier is used to create one traceline by document (split when an obsel with new value obsel.props[&#39;commentforuserid&#39;] is added --&gt;<br />
      *                &lt;!-- the autohide attribute will set for each traceline created --&gt;<br />
-     *                &lt;modifier name=&quot;commentsGenerator&quot; style=&quot;comments&quot; splitter=&quot;commentforuserid&quot; source=&quot;parent&quot; autohide=&quot;true&quot; /&gt;<br />
+     *                &lt;modifier name=&quot;commentsGenerator&quot; stylename=&quot;comments&quot; splitter=&quot;commentforuserid&quot; source=&quot;parent&quot; autohide=&quot;true&quot; /&gt;<br />
      *            &lt;/tl&gt;                        <br />
      *        &lt;/tlg&gt;    <br />
      *       <br />
@@ -351,7 +351,7 @@ package com.ithaca.timeline
      *        &lt;tlg&gt;                <br />
      *            &lt;!-- definition of the traceline in the background of the tracelinegroup --&gt;<br />
      *            &lt;!-- the selector is already defined in the obselsSelectors setion --&gt;<br />
-     *            &lt;tl style=&quot;background&quot;    selectorID=&quot;Activity&quot; /&gt;<br />
+     *            &lt;tl stylename=&quot;background&quot;    selectorID=&quot;Activity&quot; /&gt;<br />
      * <br />
      *            &lt;!-- autohide=&#39;true&#39; is used to automaticaly hide or show the traceline when it is empty or not --&gt;<br />
      *            &lt;tl title=&quot;Marqueurs&quot; selectorID=&quot;Marker&quot; autohide=&quot;true&quot; /&gt;        <br />
@@ -409,11 +409,11 @@ package com.ithaca.timeline
          */
         public static const OBSELS_SELECTOR: String = "obselsSelector";
         /**
-         * the stylename ('style' property) to indcate that a Traceline must be used as a TracelineGroup background traceline
+         * the stylename ('stylename' property) to indicate that a Traceline must be used as a TracelineGroup background traceline
          */
         public static const BACKGROUND_TRACELINE: String = "background";
         /**
-         * the stylename ('style' property) to indcate that a Traceline must be used as a preview (in the zoomContext preview zone)
+         * the stylename ('stylename' property) to indicate that a Traceline must be used as a preview (in the zoomContext preview zone)
          */
         public static const CONTEXT_PREVIEW_TRACELINE: String = "contextPreview";
 
@@ -440,23 +440,23 @@ package com.ithaca.timeline
          *
          * Select the first TraceLineGroup descriptor whose
          * property 'source' is equal to the URI of <code>trac</code>
-         * or whose 'style' property is equal to the (optional)
-         * <code>style</code> parameter.
+         * or whose 'stylename' property is equal to the (optional)
+         * <code>stylename</code> parameter.
          *
          * If no such descriptor exists, the last descriptor of the
          * list is used by default. // FIXME: or should we create a generic one?
          *
          * @param trac the Trace for which the tree is created
-         * @param style an optional stylename used to select the TraceLineGroup definition in the xml descriptor.
+         * @param stylename an optional stylename used to select the TraceLineGroup definition in the xml descriptor.
          * @return the created TraceLineGroup tree
          */
-        public function createTracelineGroupTree (trac: Trace, style: String = null): TraceLineGroup
+        public function createTracelineGroupTree (trac: Trace, stylename: String = null): TraceLineGroup
         {
             var treeLayout: XML = new XML(TRACELINEGROUP);
 
             for each (var child: XML in _timeline.layoutXML[LAYOUT].children())
             {
-                if ((child.hasOwnProperty('@style') && child.@style == style)
+                if ((child.hasOwnProperty('@stylename') && child.@stylename == stylename)
                     || (child.hasOwnProperty('@source') && child.@source == trac.uri))
                 {
                     treeLayout = child;
@@ -479,7 +479,8 @@ package com.ithaca.timeline
          */
         public function createTraceLineGroupNode(xmlLayout: XML, trac: Trace): TraceLineGroup
         {
-            var newNode: TraceLineGroup = new TraceLineGroup (_timeline, trac, xmlLayout.@title, xmlLayout.hasOwnProperty('@style')?xmlLayout.@style:null);
+            var newNode: TraceLineGroup = new TraceLineGroup (_timeline, trac, xmlLayout.@title,
+                                                              xmlLayout.hasOwnProperty('@stylename') ? xmlLayout.@stylename : null);
             newNode.layoutXML = xmlLayout;
 
             return newNode;
@@ -567,8 +568,8 @@ package com.ithaca.timeline
                 tlTitle = xmlLayout.@title;
             if (xmlLayout.hasOwnProperty('@name'))
                 tlTitle = xmlLayout.@name;
-            if (xmlLayout.hasOwnProperty('@style'))
-                tlClass = xmlLayout.@style;
+            if (xmlLayout.hasOwnProperty('@stylename'))
+                tlClass = xmlLayout.@stylename;
             if (xmlLayout.hasOwnProperty('@source'))
                 tlSource = xmlLayout.@source;
 
@@ -599,10 +600,10 @@ package com.ithaca.timeline
                 newNode.source = xmlLayout.@source;
             if (xmlLayout.hasOwnProperty('@autohide') &&  xmlLayout.@autohide =='true')
                 newNode.autohide = true;
-            if (xmlLayout.hasOwnProperty('@style'))
+            if (xmlLayout.hasOwnProperty('@stylename'))
             {
-                var style: String = xmlLayout.@style;
-                newNode.styleName = style;
+                var stylename: String = xmlLayout.@stylename;
+                newNode.styleName = stylename;
             }
 
             if (xmlLayout.hasOwnProperty('@name'))
@@ -652,14 +653,14 @@ package com.ithaca.timeline
             {
                 var childTree: LayoutNode = createTree(child, trac);
 
-                if (child.hasOwnProperty('@style') && child.@style == BACKGROUND_TRACELINE)
+                if (child.hasOwnProperty('@stylename') && child.@stylename == BACKGROUND_TRACELINE)
                 {
                     if (newNode is TraceLineGroup)
                         (newNode as TraceLineGroup).backgroundTraceLine = childTree as TraceLine;
                 }
                 else
                 {
-                    if ((child.hasOwnProperty('@style') && child.@style == CONTEXT_PREVIEW_TRACELINE)
+                    if ((child.hasOwnProperty('@stylename') && child.@stylename == CONTEXT_PREVIEW_TRACELINE)
                         || (child.hasOwnProperty('@preview') && child.@preview == 'true' && newNode is TraceLineGroup))
                         (newNode as TraceLineGroup).contextPreviewTraceLine = childTree as TraceLine;
 
@@ -765,7 +766,7 @@ package com.ithaca.timeline
                     var xmlTlg: XML = < {TRACELINEGROUP} />;
                     xmlTlg.@['source'] = tlg.trace.uri;
                     if (tlg.styleName)
-                        xmlTlg.@['style'] = tlg.styleName;
+                        xmlTlg.@['stylename'] = tlg.styleName;
 
                     if (tlg.title)
                         xmlTlg.@['title'] = tlg.title;
@@ -805,7 +806,7 @@ package com.ithaca.timeline
             if (tl.sourceStr)
                 xmlTl.@['source'] = tl.sourceStr;
             if (tl.styleName)
-                xmlTl.@['style'] = tl.styleName;
+                xmlTl.@['stylename'] = tl.styleName;
             if (tl.title)
                 xmlTl.@['title'] = tl.title;
             if (tl.autohide)
@@ -843,7 +844,7 @@ package com.ithaca.timeline
             if (modifier.source)
                 xmlModifier.@['source'] = modifier.source;
             if (modifier.styleName)
-                xmlModifier.@['style'] = modifier.styleName;
+                xmlModifier.@['stylename'] = modifier.styleName;
             if (modifier.name)
                 xmlModifier.@['name'] = modifier.name;
             if (modifier._splitter)

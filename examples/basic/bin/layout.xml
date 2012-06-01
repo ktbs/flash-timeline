@@ -9,13 +9,14 @@
 
 	<!-- the layout definition -->
 	<layout>
-        <tlg style="comments" >
-          <tl title="Comment" style="comments" preview="true" selectorID="Comment">
-            <modifier name="Comments" style="comments" splitter="subject" source="parent" autohide="true" />
+        <tlg stylename="comments" >
+          <tl title="Comment" stylename="comments" preview="true" selectorID="Comment">
+            <modifier name="Comments" stylename="comments" splitter="subject" source="parent" autohide="true" />
           </tl>
         </tlg>
 		<tlg >
-         <tl preview="true" title="All obsels" selector="SelectorRegexp" selectorParams="type,.*">
+          <tl name="Background" stylename="background" selector="SelectorRegexp" selectorParams="type,ActivityStop" />
+          <tl preview="true" title="All obsels" selector="SelectorRegexp" selectorParams="type,.*">
             <modifier splitter="type" />
           </tl>
 		</tlg >
