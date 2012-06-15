@@ -254,7 +254,7 @@ It displays the content of the "text" property from the Obsel, and updates it up
     </s:states>
 
     <s:Group id="leftGrip"    x="{-(gripRadius/2+2)}" y="{-8}"  mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)">
-        <s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="1">
+        <s:Rect  height="{gripRadius}" width="{gripRadius/2+2}" bottomLeftRadiusX="{gripRadius}" bottomLeftRadiusY="{gripRadius}" topLeftRadiusX="{gripRadius}" topLeftRadiusY="{gripRadius}" x="1">
             <s:stroke> <s:SolidColorStroke color="{gripColor}" weight="2"/> </s:stroke>
             <s:fill > <s:SolidColor alpha=".1" color="{gripColor}" /> </s:fill>
          </s:Rect>
@@ -264,7 +264,7 @@ It displays the content of the "text" property from the Obsel, and updates it up
     </s:Group>
 
     <s:Group id="rightGrip"    x="{width}" y="{-8}" mouseDown.editable="zcStartDrag(event);" mouseOver.editable="CursorIcons.SetResizeCursor(event)" mouseOut.editable="CursorIcons.SetDefaultCursor(event)">
-        <s:Rect  height="{gripRadius}" width="{gripRadius}" radiusX="{gripRadius}" radiusY="{gripRadius}" x="-2">
+        <s:Rect  height="{gripRadius}" width="{gripRadius/2+3}" bottomRightRadiusX="{gripRadius}" bottomRightRadiusY="{gripRadius}" topRightRadiusX="{gripRadius}" topRightRadiusY="{gripRadius}" x="-2">
             <s:stroke> <s:SolidColorStroke color="{gripColor}" weight="2"/> </s:stroke>
             <s:fill > <s:SolidColor alpha=".1" color="{gripColor}" /> </s:fill>
          </s:Rect>
