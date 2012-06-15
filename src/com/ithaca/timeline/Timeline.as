@@ -639,11 +639,10 @@ package com.ithaca.timeline
             if (traceline === null)
             {
                 /*
-                 * FIXME: this catches a case that should be properly
-                 * solved: there is no good reason that a NULL tl is
-                 * present in the TLG children.
+                 * traceline can be null in case of a LayoutModifier.
+                 * This function should not be called in this case,
+                 * but keep this as a security measure.
                  */
-                trace("Skipping null tl");
                 return;
             }
 
@@ -689,8 +688,11 @@ package com.ithaca.timeline
             /* Recursively apply to children tracelines */
             for (var tlIndex: uint = 0; tlIndex < traceline.numElements; tlIndex++)
             {
-                var tl: TraceLine = traceline.getElementAt(tlIndex) as TraceLine;
-                applyStylesheetToTraceline(applicator, stylesheet, tl, selector, newParentNames);
+                var tl: * = traceline.getElementAt(tlIndex);
+              
+                // It may also be a LayoutModifier
+                if (tl is TraceLine)
+                    applyStylesheetToTraceline(applicator, stylesheet, tl as TraceLine, selector, newParentNames);
             }
         }
 
@@ -740,8 +742,10 @@ package com.ithaca.timeline
 
                 for (var tlIndex: uint = 0; tlIndex < tlg.numElements; tlIndex++)
                 {
-                    var tl: TraceLine = tlg.getElementAt(tlIndex) as TraceLine;
-                    applyStylesheetToTraceline(applicator, cssStyleSheetCollection, tl, selector);
+                    var tl: * = tlg.getElementAt(tlIndex);
+
+                    if (tl is TraceLine)
+                        applyStylesheetToTraceline(applicator, cssStyleSheetCollection, tl as TraceLine, selector);
                 }
 
                 if (tlg.backgroundTraceLine)
