@@ -76,6 +76,8 @@ package com.ithaca.timeline
                         // durative
                         if (obsel.begin < obsel.end)
                         {
+                            // FIXME: use obsel backgroundColor if present, else fallback on a default color
+                            // Kind of hard, since getStyle should apply to an ObselSkin that is not present.
                             shape.graphics.beginFill(_durativeColor, 0.5);
                             shape.graphics.lineStyle();
                             var beginDurative: Number = Math.max(obsel.begin, intervalStart);
@@ -86,6 +88,7 @@ package com.ithaca.timeline
                         // non durative
                         else if (obsel.begin == obsel.end)
                         {
+                            // FIXME: use obsel backgroundColor if present, else fallback on a default color
                             shape.graphics.lineStyle(0, _markerColor);
                             var x: Number = _timeRange.timeToPosition(obsel.begin, width) - shapeStart;
                             shape.graphics.moveTo(x, 0);
