@@ -1,0 +1,93 @@
+Timeline {
+    adminMode: true;
+}
+
+Traceline { 
+    bgColor: #ff0000;
+}
+
+Obsel.Messages {
+    icon: images/set.png ;
+    tooltipExpression: TEST $(this/trace/uri); 
+}
+
+Messages {
+    bgColor: #00ff00;
+}
+
+TraceLine.Activity {
+    backgroundColor: #ffaaaa;
+}
+
+Obsel.Activity {
+    skinName: Durative;
+    icon: images/takeoff.png;
+    backgroundColor: #33b;
+    label: $(obsel/props/activityname);
+    tooltipExpression: $(obsel/props/activityname);
+}
+
+Obsel.Applications {
+    icon: images/pc.png;
+}
+
+Obsel.Active_app {
+    icon: assets/16/$(this/props/app).png;
+}
+
+Obsel.External_app {
+    icon: images/newwindow.png;
+}
+
+Obsel.Ressource {
+    icon: images/page2.png;
+}
+
+Obsel.Move {
+    icon: images/palm.png;
+}
+
+Obsel.Rack {
+    icon: images/lab.png;
+}
+
+Obsel.Machine {
+    icon: images/fullcube.png;
+}
+
+Obsel.Create_machine {
+    icon: images/fullcube.png;
+}
+Obsel.Load_machine {
+    icon: images/fullcube.png;
+}
+
+Obsel.Note {
+    icon: images/notebook.png;
+}
+Obsel.Load_note {
+    icon: images/notebook.png;
+}
+Obsel.Unload_note {
+    icon: images/notebook.png;
+}
+
+
+Obsel.Object {
+    icon: images/cube.png;
+}
+Obsel.Object_move {
+    icon: images/palm.png;
+}
+
+Obsel.Stack {
+    icon: images/folder.png;
+}
+
+Obsel.Archive {
+    icon: images/export.png;
+}
+
+Obsel.Unarchive {
+    icon: images/import.png;
+}

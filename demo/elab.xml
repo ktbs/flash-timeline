@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<obselsSelectors>
+		<obselSelector id='Activity'  	  selector="SelectorRegexp" selectorParams="type,Status" />
+        <obselSelector id='Notes'  selector="SelectorRegexp" selectorParams="type,.*note.*" />
+		<obselSelector id='Comment'  	  selector="SelectorRegexp" selectorParams="type,Comment" />
+	</obselsSelectors>
+
+	<!-- the layout definition -->
+	<layout>
+
+        <tlg stylename="comments" >
+          <tl title="Comment" stylename="comments" preview="true" selectorID="Comment">
+            <modifier name="Comments" stylename="comments" splitter="subject" source="parent" autohide="true" />
+          </tl>
+        </tlg>
+
+		<!-- Default traceLineGroup definition. Each Trace will use this definition except if specified -->
+		<tlg >
+          <tl preview="true" title='All' selectorID="All" />
+          <tl title='All' selector="SelectorRegexp" selectorParams=".*" />
+        </tlg>
+
+		<tlg >
+          <tl preview="true" title='Activity' selectorID="Activity" />
+          <tl preview="true" title='Applications' selector="SelectorRegexp" selectorParams="type,.*app.*" >
+            <tl title='Active_app' source="parent" selector="SelectorRegexp" selectorParams="type,Activeapp">
+              <modifier source="parent" splitter="app" />
+            </tl>
+            <tl title='External_app' source="parent" selector="SelectorRegexp" selectorParams="type,External_application_called">
+              <modifier source="parent" splitter="application" />
+            </tl>
+          </tl>
+          <tl title='Note' selectorID='Notes'>
+            <modifier source="parent" splitter="type" />
+          </tl>
+		</tlg >
+	</layout>
+</root>
